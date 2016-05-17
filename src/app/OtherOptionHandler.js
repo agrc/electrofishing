@@ -1,37 +1,29 @@
 define([
-    'dojo/_base/declare',
-    'dojo/_base/array',
-    'dojo/_base/lang',
-
-    'dojo/text!./templates/OtherOptionHandler.html',
-
-    'dijit/_WidgetBase',
+    'dijit/registry',
     'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
 
-    'dijit/registry',
-
     'dojo/dom-construct',
-    'dojo/Deferred'
-], function(
-    declare,
-    array,
-    lang,
-
-    template,
-
-    _WidgetBase,
+    'dojo/text!./templates/OtherOptionHandler.html',
+    'dojo/_base/array',
+    'dojo/_base/declare',
+    'dojo/_base/lang'
+], function (
+    registry,
     _TemplatedMixin,
+    _WidgetBase,
     _WidgetsInTemplateMixin,
 
-    registry,
-
     domConstruct,
-    Deferred
+    template,
+    array,
+    declare,
+    lang
 ) {
     // summary:
     //      A dialog that shows when a user selects the "other" option in a dropdown.
-    //      It shows existing options and give the user the ability to create a new one. 
+    //      It shows existing options and give the user the ability to create a new one.
     //      It then updates the corresponding combobox.
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         widgetsInTemplate: true,
@@ -53,7 +45,7 @@ define([
             // summary:
             //      description
             console.log('app/OtherOptionHandler:constructor', arguments);
-        
+
             var parentWidget = registry.getEnclosingWidget(params.select);
             if (parentWidget) {
                 parentWidget.def = this.def;
@@ -63,7 +55,7 @@ define([
             // summary:
             //      set up widget
             console.log('app/OtherOptionHandler:postCreate', arguments);
-        
+
             var that = this;
 
             array.forEach(this.select.children, function (option) {
@@ -103,15 +95,14 @@ define([
             // summary:
             //      sets the disabled state of the submit button
             console.log('app/OtherOptionHandler:onTxtChange', arguments);
-        
-            this.submitBtn.disabled = 
-                !(this.codeTxt.value.length > 0 && this.descTxt.value.length > 0);
+
+            this.submitBtn.disabled = !(this.codeTxt.value.length > 0 && this.descTxt.value.length > 0);
         },
         destroyRecursive: function () {
             // summary:
             //      clean up
             console.log('app/OtherOptionHandler:destroyRecursive', arguments);
-        
+
             domConstruct.destroy(this.modal);
 
             this.inherited(arguments);

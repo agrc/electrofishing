@@ -28,5 +28,5 @@ function (_GeoDefMixin) {
                 expect(defs[1].clear).toHaveBeenCalled();
             });
         });
-    }); 
+    });
 });

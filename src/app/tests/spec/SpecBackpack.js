@@ -8,7 +8,6 @@ function (
     Backpack,
     domConstruct
     ) {
-    "use strict";
     describe('app/method/Backpack', function () {
         var testWidget;
         beforeEach(function () {
@@ -21,10 +20,10 @@ function (
             expect(testWidget).toEqual(jasmine.any(Backpack));
         });
         describe('getData', function () {
-            it("returns a data object", function () {
+            it('returns a data object', function () {
                 var model = 'blah';
                 var shape = 'blah2';
-                AGRC['app'] = {newEvent: {eventId: 'blah'}};
+                AGRC.app = {newEvent: {eventId: 'blah'}};
 
                 function populateSelect(select, value) {
                     domConstruct.create('option', {value: value}, select);
@@ -39,7 +38,7 @@ function (
 
                 expect(data[fn.EVENT_ID]).toEqual(AGRC.eventId);
             });
-            it("returns null if all fields are blank", function () {
+            it('returns null if all fields are blank', function () {
                 expect(testWidget.getData()).toBeNull();
             });
         });

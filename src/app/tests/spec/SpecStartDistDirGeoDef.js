@@ -8,8 +8,8 @@ require([
 ],
 
 function (
-    StartDistDirGeoDef, 
-    Deferred, 
+    StartDistDirGeoDef,
+    Deferred,
     domClass,
     topic,
     json,
@@ -18,7 +18,7 @@ function (
     describe('app/location/StartDistDirGeoDef', function () {
         var testWidget;
         beforeEach(function () {
-            AGRC.app = {map: {addLayer: function (){}}};
+            AGRC.app = {map: {addLayer: function () {}}};
             testWidget = new StartDistDirGeoDef();
         });
         afterEach(function () {
@@ -31,12 +31,12 @@ function (
             });
         });
         describe('postCreate', function () {
-            it("sets the defs property", function () {
+            it('sets the defs property', function () {
                 expect(testWidget.defs[0]).toBe(testWidget.startPointDef);
             });
         });
         describe('wireEvents', function () {
-            it("wires the onInvalidate method to point defs", function () {
+            it('wires the onInvalidate method to point defs', function () {
                 spyOn(testWidget, 'onInvalidate');
                 spyOn(testWidget.startPointDef, 'updateMarkerPosition');
 
@@ -45,7 +45,7 @@ function (
 
                 expect(testWidget.onInvalidate).toHaveBeenCalled();
             });
-            it("subscribes to the mapInit topic and creates a feature group", function () {
+            it('subscribes to the mapInit topic and creates a feature group', function () {
                 spyOn(testWidget.startPointDef, 'setMap');
 
                 topic.publish(AGRC.topics.mapInit);
@@ -53,7 +53,7 @@ function (
                 expect(testWidget.featureGroup).toBeDefined();
                 expect(testWidget.startPointDef.setMap).toHaveBeenCalled();
             });
-            it("wires onInvalidate to direction buttons", function () {
+            it('wires onInvalidate to direction buttons', function () {
                 spyOn(testWidget, 'onInvalidate');
                 spyOn(testWidget.startPointDef, 'updateMarkerPosition');
 
@@ -62,7 +62,7 @@ function (
 
                 expect(testWidget.onInvalidate.calls.length).toEqual(2);
             });
-            it("wires onInvalidate to distanceBox on change", function () {
+            it('wires onInvalidate to distanceBox on change', function () {
                 spyOn(testWidget, 'onInvalidate');
                 spyOn(testWidget.startPointDef, 'updateMarkerPosition');
 
@@ -86,7 +86,7 @@ function (
 
                 expect(testWidget.getGeometry()).toBe(testWidget.invalidDistanceMsg);
             });
-            it("calls getXHRParams", function () {
+            it('calls getXHRParams', function () {
                 spyOn(testWidget, 'getXHRParams');
                 spyOn(testWidget.startPointDef, 'getPoint').andReturn({});
                 spyOn(testWidget, 'getDistance').andReturn(123);
@@ -95,7 +95,7 @@ function (
 
                 expect(testWidget.getXHRParams).toHaveBeenCalledWith({}, 123, 'up');
             });
-            it("sets the geoDef property", function () {
+            it('sets the geoDef property', function () {
                 var start = {x: 1, y: 2};
                 spyOn(testWidget.startPointDef, 'getPoint').andReturn(start);
                 var dist = 3;
@@ -118,7 +118,7 @@ function (
             it('returns null if the text box is empty', function () {
                 expect(testWidget.getDistance()).toBeNull();
             });
-            it("publishes the streamDistance topic", function () {
+            it('publishes the streamDistance topic', function () {
                 var value = '500';
                 var publishedValue;
                 topic.subscribe(AGRC.topics.startDistDirGeoDef_onDistanceChange, function (dist) {
@@ -149,7 +149,7 @@ function (
             });
         });
         describe('getXHRParams', function () {
-            it("sets the appropriate values", function () {
+            it('sets the appropriate values', function () {
                 var distance = 123;
                 var direction = 'up';
                 var value = testWidget.getXHRParams({x: 1.1, y: 2.2}, distance, direction);

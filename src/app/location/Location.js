@@ -1,7 +1,7 @@
 define([
-    'dojo/_base/declare', 
-    'dijit/_WidgetBase', 
-    'dijit/_TemplatedMixin', 
+    'dojo/_base/declare',
+    'dijit/_WidgetBase',
+    'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin',
     'dojo/text!app/location/templates/Location.html',
     'dojo/query',
@@ -15,11 +15,11 @@ define([
 ],
 
 function (
-    declare, 
-    _WidgetBase, 
-    _TemplatedMixin, 
-    _WidgetsInTemplateMixin, 
-    template, 
+    declare,
+    _WidgetBase,
+    _TemplatedMixin,
+    _WidgetsInTemplateMixin,
+    template,
     query,
     topic
     ) {
@@ -32,7 +32,7 @@ function (
         //      the currently selected geometry definition tab
         currentGeoDef: null,
 
-        // geometry: 
+        // geometry:
         //      L.Polyline
         geometry: null,
 
@@ -64,25 +64,25 @@ function (
         //      the geometry of the stream segment in utm
         utmGeo: null,
 
-        // geoDef: The value that will go into 
+        // geoDef: The value that will go into
         //      description
         geoDef: null,
 
         constructor: function () {
             // summary:
             //    description
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/location/Location:constructor', arguments);
         },
         postCreate: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-        
+            console.log('app/location/Location:postCreate', arguments);
+
             this.wireEvents();
 
             // default to start end
             this.currentGeoDef = this.startEndGeoDef;
-            this.invalidateConnectHandle = 
+            this.invalidateConnectHandle =
                 this.connect(this.currentGeoDef, 'onInvalidate', 'clearValidation');
 
             this.station.mainMap = this.verifyMap;
@@ -90,8 +90,8 @@ function (
         wireEvents: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-            
+            console.log('app/location/Location:wireEvents', arguments);
+
             var that = this;
 
             this.own(
@@ -115,25 +115,25 @@ function (
             // summary:
             //      fires when the user clicks on the geo def tab pills
             // evt: OnclickEventObject
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/location/Location:onGeoDefChange', arguments);
 
             var geoDefID;
-        
+
             this.currentGeoDef.clearGeometry();
             geoDefID = evt.target.id.slice(0, -3) + 'GeoDef';
             this.currentGeoDef = this[geoDefID];
             this.disconnect(this.invalidateConnectHandle);
-            this.invalidateConnectHandle = 
+            this.invalidateConnectHandle =
                 this.connect(this.currentGeoDef, 'onInvalidate', 'clearValidation');
             this.clearValidation();
         },
         validateGeometry: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-        
-            var returnedValue,
-                that = this;
+            console.log('app/location/Location:validateGeometry', arguments);
+
+            var returnedValue;
+            var that = this;
 
             if (this.geometry) {
                 AGRC.app.map.removeLayer(this.geometry);
@@ -167,15 +167,15 @@ function (
             // summary:
             //      shows a red error message
             // txt: String
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-        
+            console.log('app/location/Location:setValidateMsg', arguments);
+
             this.validateMsg.innerHTML = txt;
         },
         clearValidation: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-        
+            console.log('app/location/Location:clearValidation', arguments);
+
             $(this.verifyMapBtn).button('reset');
             this.validateMsg.innerHTML = '';
             this.clearGeometry();
@@ -183,8 +183,8 @@ function (
         clearGeometry: function () {
             // summary:
             //      removes the polyline from the map if one exists
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-        
+            console.log('app/location/Location:clearGeometry', arguments);
+
             if (this.geometry) {
                 AGRC.app.map.removeLayer(this.geometry);
                 this.geometry = null;
@@ -193,8 +193,8 @@ function (
         hasValidLocation: function () {
             // summary:
             //      returns a string if not valid otherwise true
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-        
+            console.log('app/location/Location:hasValidLocation', arguments);
+
             if (!this.geometry) {
                 return this.invalidLocationMsg;
             } else if (this.station.stationTxt.value.length === 0) {
@@ -210,8 +210,8 @@ function (
         clear: function () {
             // summary:
             //        clears the location portion of the report
-            console.log(this.declaredClass + "::clear", arguments);
-        
+            console.log('app/location/Location:clear', arguments);
+
             this.clearValidation();
             this.station.clear();
             this.currentGeoDef.clearGeometry();
@@ -223,7 +223,7 @@ function (
             // summary:
             //      description
             console.log(this.declaredClass + '::destroy', arguments);
-        
+
             this.startEndGeoDef.destroy();
             this.inherited(arguments);
         }

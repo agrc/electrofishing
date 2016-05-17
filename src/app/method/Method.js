@@ -1,7 +1,7 @@
 define([
-    'dojo/_base/declare', 
-    'dijit/_WidgetBase', 
-    'dijit/_TemplatedMixin', 
+    'dojo/_base/declare',
+    'dijit/_WidgetBase',
+    'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin',
     'dojo/text!app/method/templates/Method.html',
     'dojo/string',
@@ -18,10 +18,10 @@ define([
 ],
 
 function (
-    declare, 
-    _WidgetBase, 
-    _TemplatedMixin, 
-    _WidgetsInTemplateMixin, 
+    declare,
+    _WidgetBase,
+    _TemplatedMixin,
+    _WidgetsInTemplateMixin,
     template,
     string,
     array,
@@ -31,9 +31,7 @@ function (
     lang,
     _ClearValuesMixin
     ) {
-    "use strict";
-    return declare('app.method.Method', 
-        [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _ClearValuesMixin], {
+    return declare('app.method.Method', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _ClearValuesMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'method',
@@ -43,7 +41,7 @@ function (
         requiredFields: [
             ['voltsTxt', 'Voltage']
         ],
-        
+
         // eventId: String (GUID)
         //      set by NewCollectionEvent
         eventId: null,
@@ -52,10 +50,10 @@ function (
         postCreate: function () {
             // summary:
             //      dom is ready
-            console.log(this.declaredClass + "::postCreate", arguments);
-        
+            console.log(this.declaredClass + '::postCreate', arguments);
+
             var that = this;
-            
+
             Domains.populateSelectWithDomainValues(this.waveformSelect,
                 AGRC.urls.samplingEventsFeatureService,
                 AGRC.fieldNames.samplingEvents.WAVEFORM).then(function () {
@@ -67,16 +65,16 @@ function (
         wireEvents: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::wireEvents", arguments);
-        
+            console.log(this.declaredClass + '::wireEvents', arguments);
+
             topic.subscribe(AGRC.topics.onCathodeTypeChange, lang.hitch(this, this.onCathodeTypeChange));
         },
         isValid: function () {
             // summary:
             //      checks all required values
             // returns: String (error message) | Boolean (true if valid)
-            console.log(this.declaredClass + "::isValid", arguments);
-        
+            console.log(this.declaredClass + '::isValid', arguments);
+
             function requireField(input, name) {
                 if (input.value === '') {
                     return string.substitute(AGRC.missingRequiredFieldTxt, [name]);
@@ -97,14 +95,14 @@ function (
         clear: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::clear", arguments);
-        
+            console.log(this.declaredClass + '::clear', arguments);
+
             this.backpacksContainer.clear();
             this.canoeBargesContainer.clear();
             this.raftBoatsContainer.clear();
 
             this.clearValues();
-            
+
             this.numberTxt.value = 1;
         },
         onCathodeTypeChange: function (value) {
@@ -112,8 +110,8 @@ function (
             //      in charge of enabling or disabling the cathode diameter text box
             // value: String
             //      The new value of the cathode type select
-            console.log(this.declaredClass + "::onCathodeTypeChange", arguments);
-        
+            console.log(this.declaredClass + '::onCathodeTypeChange', arguments);
+
             if (value === 'b') {
                 this.cathodeDiameterTxt.disabled = true;
                 this.cathodeDiameterTxt.value = '';

@@ -1,7 +1,7 @@
 define([
-    'dojo/_base/declare', 
-    'dijit/_WidgetBase', 
-    'dijit/_TemplatedMixin', 
+    'dojo/_base/declare',
+    'dijit/_WidgetBase',
+    'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin',
     'dojo/text!app/location/templates/PointDef.html',
     'dojo/topic',
@@ -9,13 +9,13 @@ define([
     'dojo/dom-class'
 
 ], function (
-    declare, 
-    _WidgetBase, 
-    _TemplatedMixin, 
-    _WidgetsInTemplateMixin, 
-    template, 
-    topic, 
-    lang, 
+    declare,
+    _WidgetBase,
+    _TemplatedMixin,
+    _WidgetsInTemplateMixin,
+    template,
+    topic,
+    lang,
     domClass
     ) {
     return declare('app.location.PointDef', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
@@ -113,9 +113,9 @@ define([
         constructor: function () {
             // summary:
             //    description
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/location/PointDef:constructor', arguments);
 
-            this.utm27crs = L.CRS.proj4js('EPSG:26712', 
+            this.utm27crs = L.CRS.proj4js('EPSG:26712',
                 '+proj=utm +zone=12 +ellps=clrk66 +datum=NAD27 +units=m +no_defs',
                 new L.Transformation(1, 5682968.14599198, -1, 10997674.9165387));
 
@@ -124,8 +124,8 @@ define([
         buildRendering: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-        
+            console.log('app/location/PointDef:buildRendering', arguments);
+
             this.inherited(arguments);
 
             if (!localStorage.coordType) {
@@ -137,8 +137,8 @@ define([
         postCreate: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-        
+            console.log('app/location/PointDef:postCreate', arguments);
+
             var url = (this.label === 'Start') ? AGRC.urls.startIcon : AGRC.urls.endIcon;
 
             this.icon = new L.Icon({
@@ -156,8 +156,8 @@ define([
         wireEvents: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-            
+            console.log('app/location/PointDef:wireEvents', arguments);
+
             this.own(
                 topic.subscribe(AGRC.topics.coordTypeToggle_onChange, lang.hitch(this, this.onCoordTypeChange)),
                 topic.subscribe(AGRC.topics.pointDef_onBtnClick, lang.hitch(this, this.onOtherMapBtnClicked))
@@ -173,10 +173,10 @@ define([
             //      Fires when the user changes the coordinate type through
             //      the CoordTypeToggle widget.
             // type: String (AGRC.coordTypes)
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-        
+            console.log('app/location/PointDef:onCoordTypeChange', arguments);
+
             this.clear();
-            
+
             if (type === AGRC.coordTypes.ll) {
                 this.set('yLabelTxt', this.labels.ll.y);
                 this.set('yPlaceHolder', this.labels.ll.placeY);
@@ -194,8 +194,8 @@ define([
             // summary:
             //      Validates the passed in text box for number of dijits for
             //      only for utm values
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-            
+            console.log('app/location/PointDef:validate', arguments);
+
             var numDigits;                  // the number of dijits that the box should have
             var value = box.value;          // the value of the text box
             var message;                    // the invalid message to be displayed
@@ -244,12 +244,12 @@ define([
         onMapBtnClicked: function (evt) {
             // summary:
             //      fires when the user clicks the map btn
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/location/PointDef:onMapBtnClicked', arguments);
 
             var disabled;
 
             evt.preventDefault();
-            
+
             if (domClass.contains(this.mapBtn, 'active')) {
                 // button is being de-selected
                 this.map.off('click', this.onMapClicked, this);
@@ -269,8 +269,8 @@ define([
         onOtherMapBtnClicked: function (widget) {
             // summary:
             //      fires when any PointDef widget's map button is clicked
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-        
+            console.log('app/location/PointDef:onOtherMapBtnClicked', arguments);
+
             if (widget !== this && this.map) {
                 this.map.off('click', this.onMapClicked, this);
                 domClass.remove(this.mapBtn, 'active');
@@ -281,7 +281,7 @@ define([
         onMapClicked: function (evt) {
             // summary:
             //      description
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/location/PointDef:onMapClicked', arguments);
 
             var projection;
             var pnt;
@@ -289,8 +289,8 @@ define([
             this.updateMarkerPosition(evt.latlng);
 
             if (this.currentType === AGRC.coordTypes.ll) {
-                this.yBox.value = Math.round(evt.latlng.lat * 1000000)/1000000;
-                this.xBox.value = Math.round(evt.latlng.lng * 1000000)/1000000;
+                this.yBox.value = Math.round(evt.latlng.lat * 1000000) / 1000000;
+                this.xBox.value = Math.round(evt.latlng.lng * 1000000) / 1000000;
             } else if (this.currentType === AGRC.coordTypes.utm83) {
                 projection = this.map.options.crs.projection;
                 pnt = projection.project(evt.latlng);
@@ -307,11 +307,11 @@ define([
         updateMarkerPosition: function (ll) {
             // summary:
             //      description
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/location/PointDef:updateMarkerPosition', arguments);
 
-            var x,
-                y;
-            
+            var x;
+            var y;
+
             if (!ll) {
                 y = this.yBox.value;
                 x = this.xBox.value;
@@ -341,8 +341,8 @@ define([
         clear: function () {
             // summary:
             //      removes text box values and marker
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-        
+            console.log('app/location/PointDef:clear', arguments);
+
             this.yBox.value = '';
             this.xBox.value = '';
 
@@ -364,8 +364,8 @@ define([
             // returns: false || {x,y}
             //      returns false if there is not point defined.
             //      otherwise returns a point object in utm
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-        
+            console.log('app/location/PointDef:getPoint', arguments);
+
             if (this.marker === null || !this.marker) {
                 return false;
             } else {
@@ -376,18 +376,18 @@ define([
             // summary:
             //      sets the local pointer to the fGroup.
             //      Called by *GeoDef parent class
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-            
+            console.log('app/location/PointDef:setMap', arguments);
+
             this.map = map;
             this.fGroup = group;
         },
         onTextBoxFocusOut: function () {
             // summary:
             //      fires when a text box looses focus
-            console.log(this.declaredClass + "::onTextBoxFocusOut", arguments);
-        
-            var yValid = this.validate(this.yBox),
-                xValid = this.validate(this.xBox);
+            console.log('app/location/PointDef:onTextBoxFocusOut', arguments);
+
+            var yValid = this.validate(this.yBox);
+            var xValid = this.validate(this.xBox);
 
             if (yValid && xValid) {
                 this.updateMarkerPosition();

@@ -60,12 +60,12 @@ function (
         constructor: function () {
             // summary:
             //    description
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/location/VerifyMap:constructor', arguments);
         },
         postCreate: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/location/VerifyMap:postCreate', arguments);
 
             if (!this.isMainMap) {
                 this.initMap();
@@ -85,7 +85,7 @@ function (
         initMap: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/location/VerifyMap:initMap', arguments);
 
             var crs = new L.Proj.CRS('EPSG:26912',
                 '+proj=utm +zone=12 +ellps=GRS80 +datum=NAD83 +units=m +no_defs',
@@ -128,8 +128,7 @@ function (
                 autoPan: false
             });
             var that = this;
-            this.stationsLyr = L.esri.featureLayer(AGRC.urls.stationsFeatureService,
-            {
+            this.stationsLyr = L.esri.featureLayer(AGRC.urls.stationsFeatureService, {
                 onEachFeature: function (geojson, layer) {
                     console.log('each feature');
                     if (geojson.properties[AGRC.fieldNames.stations.STATION_ID] === that.startSelectedId) {
@@ -174,7 +173,7 @@ function (
         destroy: function () {
             // summary:
             //      destroys the widget
-            console.log(this.declaredClass + '::destroy', arguments);
+            console.log('app/location/VerifyMap:destroy', arguments);
 
             if (this.map) {
                 this.map.remove();
@@ -186,15 +185,15 @@ function (
             //      selects the station on the map
             // guid: String
             //      The id of the station to be selected
-            console.log(this.declaredClass + '::selectStation', arguments);
-            
+            console.log('app/location/VerifyMap:selectStation', arguments);
+
             this.startSelectedId = guid;
         },
         clearSelection: function () {
             // summary:
             //      clears any selected station on the map
-            console.log(this.declaredClass + '::clearSelection', arguments);
-        
+            console.log('app/location/VerifyMap:clearSelection', arguments);
+
             delete this.startSelectedId;
 
             this.stationsLyr.eachLayer(function (l) {

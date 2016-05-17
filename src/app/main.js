@@ -1,12 +1,12 @@
 require({async: 0}); // need sync to make sure that proj4leaflet gets loaded last
 define([
-    'dojo/parser', 
+    'dojo/parser',
     'ijit/modules/ErrorLogger',
 
     'jquery',
     'bootstrap',
     'app/App'
-], 
+],
 
 function (
     parser,
@@ -116,11 +116,11 @@ function (
             canoesbarges: {
                 EVENT_ID: 'EVENT_ID',
                 MODEL: 'MODEL',
-                ANODE_SHAPE: 'ANODE_SHAPE'               
+                ANODE_SHAPE: 'ANODE_SHAPE'
             },
             raftsboats: {
                 EVENT_ID: 'EVENT_ID',
-                MODEL: 'MODEL',           
+                MODEL: 'MODEL',
                 ARRAY_TYPE: 'ARRAY_TYPE',
                 NUM_NETTERS: 'NUM_NETTERS',
                 CATHODE_TYPE: 'CATHODE_TYPE'

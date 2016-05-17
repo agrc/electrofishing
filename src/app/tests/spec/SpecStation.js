@@ -17,26 +17,12 @@ function (
     ) {
     describe('app/location/Station', function () {
         var testWidget;
-        var features;
         var point;
         beforeEach(function () {
             AGRC.app = {map: {
-                options: {crs: {projection: {unproject: function(){}}}},
+                options: {crs: {projection: {unproject: function () {}}}},
                 setView: function () {}
             }};
-            features = [
-                {
-                    attributes: {
-                        NAME: 'name1',
-                        STATION_ID: 'GUID123123123'
-                    }
-                },
-                {
-                    attributes: {
-                        NAME: 'name2'
-                    }
-                }
-            ];
             point = {x: 428861, y: 4496470};
             testWidget = new Station();
             testWidget.mainMap = {
@@ -61,7 +47,7 @@ function (
             });
         });
         describe('postCreate', function () {
-            it("fires wireEvents", function () {
+            it('fires wireEvents', function () {
                 spyOn(testWidget, 'wireEvents');
 
                 testWidget.postCreate();
@@ -70,14 +56,14 @@ function (
             });
         });
         describe('wireEvents', function () {
-            it("wires onDialogShown", function () {
+            it('wires onDialogShown', function () {
                 spyOn(testWidget, 'onDialogShown');
 
                 $(testWidget.stationDialog).trigger('shown');
 
                 expect(testWidget.onDialogShown).toHaveBeenCalled();
             });
-            it("wires the onSubmit function", function () {
+            it('wires the onSubmit function', function () {
                 spyOn(testWidget, 'onSubmit');
 
                 testWidget.submitBtn.click();
@@ -95,7 +81,7 @@ function (
         });
         // broken somewhere in stub module
         xdescribe('onDialogShown', function () {
-            it("inits the map if it hasn't been done already", function () {
+            it('inits the map if it hasn\'t been done already', function () {
                 var VerifyMapSpy = jasmine.createSpy('VerifyMapSpy').andReturn({
                     map: {
                         addLayer: function () {}
@@ -141,14 +127,14 @@ function (
             beforeEach(function () {
                 feature = {attributes: {}};
             });
-            it("checks for required values", function () {
+            it('checks for required values', function () {
                 spyOn(testWidget, 'validate');
 
                 testWidget.onSubmit();
 
                 expect(testWidget.validate).toHaveBeenCalled();
             });
-            it("submits the data only if validate returns true", function () {
+            it('submits the data only if validate returns true', function () {
                 spyOn(testWidget, 'submitJob');
                 spyOn(testWidget, 'getGUID').andReturn('blah');
 
@@ -163,7 +149,7 @@ function (
                 expect(testWidget.submitJob.calls.length).toEqual(1);
                 expect(testWidget.getGUID.calls.length).toEqual(1);
             });
-            it("disabled the submit button", function () {
+            it('disabled the submit button', function () {
                 runs(function () {
                     spyOn(testWidget, 'validate').andReturn(feature);
 
@@ -174,7 +160,7 @@ function (
                     return domClass.contains(testWidget.submitBtn, 'disabled');
                 }, 'button to be disabled', 200);
             });
-            it("stores the station in newStation property", function () {
+            it('stores the station in newStation property', function () {
                 var value = 'blah';
                 spyOn(testWidget, 'getGUID').andReturn(value);
                 spyOn(testWidget, 'validate').andReturn(feature);
@@ -196,14 +182,14 @@ function (
                 name = 'A Great Station Name';
                 testWidget.streamTypeSelect.add(option);
             });
-            it("displays an invalid message if there is no Name value", function () {
+            it('displays an invalid message if there is no Name value', function () {
                 testWidget.stationNameTxt.value = '';
 
                 expect(testWidget.validateMsgs.name).toBeDefined();
                 expect(testWidget.validate()).toBe(false);
                 expect(testWidget.validateMsg.innerHTML).toBe(testWidget.validateMsgs.name);
             });
-            it("clears out any existing validate messages", function () {
+            it('clears out any existing validate messages', function () {
                 testWidget.validateMsg.innerHTML = 'blah';
                 setToValid();
                 spyOn(testWidget.pointDef, 'getPoint').andReturn(point);
@@ -211,7 +197,7 @@ function (
                 expect(testWidget.validate()).toBeDefined();
                 expect(testWidget.validateMsg.innerHTML).toEqual('');
             });
-            it("displays on invalid message if there is no Stream type value", function () {
+            it('displays on invalid message if there is no Stream type value', function () {
                 setToValid();
                 testWidget.streamTypeSelect.value = '';
                 spyOn(testWidget.pointDef, 'getPoint').andReturn(point);
@@ -220,7 +206,7 @@ function (
                 expect(testWidget.validate()).toBe(false);
                 expect(testWidget.validateMsg.innerHTML).toBe(testWidget.validateMsgs.type);
             });
-            it("displays an invalid message if there is no locaiton defined", function () {
+            it('displays an invalid message if there is no locaiton defined', function () {
                 setToValid();
                 spyOn(testWidget.pointDef, 'getPoint').andReturn(false);
 
@@ -228,7 +214,7 @@ function (
                 expect(testWidget.validate()).toBe(false);
                 expect(testWidget.validateMsg.innerHTML).toBe(testWidget.validateMsgs.point);
             });
-            it("returns an object appropriate for submitting data to the new station service", function () {
+            it('returns an object appropriate for submitting data to the new station service', function () {
                 setToValid();
                 spyOn(testWidget.pointDef, 'getPoint').andReturn(point);
 
@@ -258,7 +244,7 @@ function (
                 testWidget.newStation = obj;
                 name = obj.attributes[AGRC.fieldNames.stations.NAME];
             });
-            it("re-enables the submit button", function () {
+            it('re-enables the submit button', function () {
                 runs(function () {
                     domClass.add(testWidget.submitBtn, 'disabled');
 
@@ -269,7 +255,7 @@ function (
                     return !domClass.contains(testWidget.submitBtn, 'disabled');
                 }, 'button to be enabled');
             });
-            it("clears the form values", function () {
+            it('clears the form values', function () {
                 spyOn(testWidget.pointDef, 'clear');
                 testWidget.stationNameTxt.value = 'blah';
                 testWidget.streamTypeSelect.selectedIndex = 1;
@@ -280,14 +266,14 @@ function (
                 expect(testWidget.streamTypeSelect.value).toEqual('');
                 expect(testWidget.pointDef.clear).toHaveBeenCalled();
             });
-            xit("closes the dialog", function () {
+            xit('closes the dialog', function () {
                 spyOn($(testWidget.stationDialog), 'modal');
 
                 testWidget.onSuccessfulSubmit();
 
                 expect($(testWidget.stationDialog).modal).toHaveBeenCalledWith('hide');
             });
-            it("sets the station text box in the main form", function () {
+            it('sets the station text box in the main form', function () {
                 testWidget.stationNameTxt.value = name;
 
                 testWidget.onSuccessfulSubmit();
@@ -308,23 +294,23 @@ function (
             });
         });
         describe('getGUID', function () {
-            it("return a 36 length string", function () {
+            it('return a 36 length string', function () {
                 expect(testWidget.getGUID().length).toBe(38);
             });
         });
         describe('onError', function () {
-            it("clears out the newStation property", function () {
+            it('clears out the newStation property', function () {
                 testWidget.newStation = 'blah';
 
                 testWidget.onError({});
 
                 expect(testWidget.newStation).toBeNull();
             });
-            it("sets the error message", function () {
+            it('sets the error message', function () {
                 testWidget.onError({});
 
                 expect(testWidget.validateMsg.innerHTML).toEqual(testWidget.newStationErrMsg);
-            }); 
+            });
         });
     });
 });

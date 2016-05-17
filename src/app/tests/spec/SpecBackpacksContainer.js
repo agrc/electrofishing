@@ -5,7 +5,6 @@ require([
 function (
     BackpacksContainer
     ) {
-    "use strict";
     describe('app/method/BackpacksContainer', function () {
         var testWidget;
         beforeEach(function () {

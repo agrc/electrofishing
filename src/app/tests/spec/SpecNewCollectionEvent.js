@@ -2,7 +2,7 @@ require([
     'app/NewCollectionEvent',
     'dojo/dom-class',
     'dojo/dom-construct'
-    
+
 ],
 
 function (
@@ -65,9 +65,9 @@ function (
                     return domClass.contains(AGRC.app.header.submitBtn, 'disabled');
                 }, 'button to be disabled', 10000);
             });
-            it("stores the report in localstorage", function () {
+            it('stores the report in localstorage', function () {
                 spyOn(testWidget, 'validateReport').andReturn(true);
-                
+
                 testWidget.onSubmit();
                 testWidget.onSubmit();
 
@@ -76,14 +76,14 @@ function (
             });
         });
         describe('validateReport', function () {
-            it("return true if everything is valid", function () {
+            it('return true if everything is valid', function () {
                 spyOn(testWidget.locationTb, 'hasValidLocation').andReturn(true);
                 spyOn(testWidget.methodTb, 'isValid').andReturn(true);
                 spyOn(testWidget.catchTb, 'isValid').andReturn(true);
 
                 expect(testWidget.validateReport()).toBe(true);
             });
-            it("returns error message if location isn't valid", function () {
+            it('returns error message if location isn\'t valid', function () {
                 var value = 'blah';
                 spyOn(testWidget.locationTb, 'hasValidLocation').andReturn(value);
                 spyOn(testWidget.methodTb, 'isValid').andReturn(true);
@@ -91,7 +91,7 @@ function (
 
                 expect(testWidget.validateReport()).toEqual(value);
             });
-            it("returns error message if method isn't valid", function () {
+            it('returns error message if method isn\'t valid', function () {
                 var value = 'blah';
                 spyOn(testWidget.locationTb, 'hasValidLocation').andReturn(true);
                 spyOn(testWidget.methodTb, 'isValid').andReturn(value);
@@ -99,7 +99,7 @@ function (
 
                 expect(testWidget.validateReport()).toEqual(value);
             });
-            it("switches to the location tab if not valid", function () {
+            it('switches to the location tab if not valid', function () {
                 spyOn(testWidget.locationTb, 'hasValidLocation').andReturn('blah');
                 spyOn(testWidget.methodTb, 'isValid').andReturn(true);
                 spyOn(testWidget.catchTb, 'isValid').andReturn(true);
@@ -123,7 +123,7 @@ function (
 
                 expect(domClass.contains(testWidget.successMsgContainer, 'hidden')).toBe(false);
             });
-            it("clears all of the widgets", function () {
+            it('clears all of the widgets', function () {
                 spyOn(testWidget.locationTb, 'clear');
                 spyOn(testWidget.catchTb, 'clear');
                 spyOn(testWidget.methodTb, 'clear');
@@ -160,7 +160,7 @@ function (
                 expect(window.confirm).toHaveBeenCalledWith(testWidget.cancelConfirmMsg);
                 expect(testWidget.clearReport).toHaveBeenCalled();
             });
-            it("doesn't call clearReport on confirm cancel", function () {
+            it('doesn\'t call clearReport on confirm cancel', function () {
                 spyOn(window, 'confirm').andReturn(false);
 
                 testWidget.onCancel();
@@ -183,7 +183,7 @@ function (
                 length = '500';
                 testWidget.locationTb.streamLengthTxt.value = length;
             });
-            it("returns an appropriate object with location-related fields", function () {
+            it('returns an appropriate object with location-related fields', function () {
                 var value = testWidget.buildFeatureObject().features[0];
 
                 expect(value.attributes[AGRC.fieldNames.samplingEvents.STATION_ID]).toEqual(stationId);
@@ -193,7 +193,7 @@ function (
                 expect(value.attributes[AGRC.fieldNames.samplingEvents.SEGMENT_LENGTH]).toEqual(length);
                 expect(value.attributes[AGRC.fieldNames.samplingEvents.EVENT_ID].length).toBe(38);
             });
-            it("returns the additional location notes field", function () {
+            it('returns the additional location notes field', function () {
                 var txt = 'blah';
 
                 var value = testWidget.buildFeatureObject().features[0];
@@ -208,7 +208,7 @@ function (
             });
         });
         describe('showTab', function () {
-            it("shows the passed in tab", function () {
+            it('shows the passed in tab', function () {
                 var tab = 'methodTab';
                 spyOn(window, '$').andReturn({tab: function () {}});
 

@@ -6,7 +6,7 @@ define([
     'dojo/dom-construct',
 
     'app/OtherOptionHandler'
-], function(
+], function (
     win,
 
     agrcDomains,
@@ -51,7 +51,7 @@ define([
             // summary:
             //      fires when a select is changed to the "other" option
             console.log('app/Domains:onOtherSelected', arguments);
-        
+
             var ooh = new OtherOptionHandler({
                 select: select,
                 otherTxt: this.otherTxt

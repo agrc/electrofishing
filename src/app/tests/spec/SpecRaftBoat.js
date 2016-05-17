@@ -20,7 +20,7 @@ function (
             expect(testWidget).toEqual(jasmine.any(RaftBoat));
         });
         describe('wireEvents', function () {
-            it("wires the cathode type change topic", function () {
+            it('wires the cathode type change topic', function () {
                 var fired = false;
                 topic.subscribe(AGRC.topics.onCathodeTypeChange, function () {
                     fired = true;

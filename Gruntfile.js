@@ -7,8 +7,7 @@ module.exports = function (grunt) {
     ];
     var gruntFile = 'GruntFile.js';
     var internFile = 'ui-tests/intern.js';
-    var packageFile = 'package.json';
-    var eslintFiles = [jsFiles, gruntFile, internFile, packageFile];
+    var eslintFiles = [jsFiles, gruntFile, internFile];
 
     // Project configuration.
     grunt.initConfig({
@@ -45,11 +44,11 @@ module.exports = function (grunt) {
                 options: {
                     livereload: true
                 }
-            },
-            intern: {
-                files: ['ui-tests/**/*.js'],
-                tasks: ['intern:dev']
             }
+            // intern: {
+            //     files: ['ui-tests/**/*.js'],
+            //     tasks: ['intern:dev']
+            // }
         },
         connect: {
             uses_defaults: {}
@@ -71,7 +70,7 @@ module.exports = function (grunt) {
     // Default task.
     grunt.registerTask('default', [
         'jasmine:app:build',
-        // 'eslint',
+        'eslint',
         'connect',
         'watch'
     ]);

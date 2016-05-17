@@ -32,8 +32,7 @@ function (
                 },
                 put: function () {}
             };
-            testWidget = new MoreInfoDialog({store: store}, 
-                domConstruct.create('div', {}, win.body()));
+            testWidget = new MoreInfoDialog({store: store}, domConstruct.create('div', {}, win.body()));
             testWidget.startup();
         });
         afterEach(function () {
@@ -46,13 +45,13 @@ function (
             afterEach(function () {
                 testWidget.onCancel(); // hide the dialog
             });
-            it("sets the fish and pass id's in the dialog title", function () {
+            it('sets the fish and pass id\'s in the dialog title', function () {
                 testWidget.show(guid, 'Diet');
 
                 expect(testWidget.catchId.innerHTML).toBe('3');
                 expect(testWidget.passId.innerHTML).toBe('1');
             });
-            it("sets the current fish id", function () {
+            it('sets the current fish id', function () {
                 testWidget.show(guid, 'Diet');
 
                 expect(testWidget.currentFishId).toEqual(guid);
@@ -64,19 +63,19 @@ function (
                     .toEqual('Tag_tab');
                 expect(query('.nav-tabs li.active a', testWidget.domNode)[0].hash)
                     .toEqual('#Tag_tab');
-                
+
                 testWidget.show(guid, 'Health');
 
                 expect(query('.tab-pane.in.active', testWidget.domNode)[0].id)
                     .toEqual('Health_tab');
                 expect(query('.nav-tabs li.active a', testWidget.domNode)[0].hash)
-                    .toEqual('#Health_tab'); 
+                    .toEqual('#Health_tab');
             });
         });
         describe('onSubmitClick', function () {
             var fn = AGRC.fieldNames.diet;
             var value = 'blah';
-            it("gathers the diet grid data", function () {
+            it('gathers the diet grid data', function () {
                 testWidget.addRow();
                 testWidget.addRow();
                 testWidget.addRow();
@@ -96,7 +95,7 @@ function (
                 expect(testWidget.getData('diet').features[2].attributes[fn.MEASUREMENT]).toEqual(msr);
                 expect(testWidget.getData('diet').displayFieldName).toEqual('');
             });
-            it("gathers the tags data", function () {
+            it('gathers the tags data', function () {
                 spyOn(testWidget.tagsContainer, 'getData').andReturn([value, value]);
 
                 testWidget.onSubmitClick();
@@ -106,7 +105,7 @@ function (
 
                 expect(testWidget.getData('tags').features.length).toEqual(2);
             });
-            it("gathers the health data", function () {
+            it('gathers the health data', function () {
                 spyOn(testWidget.health, 'getData').andReturn(value);
 
                 testWidget.onSubmitClick();
@@ -119,7 +118,7 @@ function (
 
                 expect(testWidget.getData('health').features.length).toEqual(3);
             });
-            it("clears the dialog", function () {
+            it('clears the dialog', function () {
                 spyOn(testWidget, 'clearValues');
 
                 testWidget.onSubmitClick();
@@ -129,7 +128,7 @@ function (
         });
         describe('clearValues', function () {
             var fn = AGRC.fieldNames.diet;
-            it("clears diet grid", function () {
+            it('clears diet grid', function () {
                 testWidget.addRow();
                 testWidget.grid.store.data[0][fn.CLASS] = 'blah';
                 testWidget.addRow();
@@ -138,7 +137,7 @@ function (
 
                 expect(testWidget.grid.store.data.length).toBe(0);
             });
-            it("clears any tags", function () {
+            it('clears any tags', function () {
                 spyOn(testWidget.tagsContainer.AddBtnWidgets[0], 'clearValues');
                 testWidget.tagsContainer.addAddBtnWidget();
 
@@ -146,7 +145,7 @@ function (
 
                 expect(testWidget.tagsContainer.AddBtnWidgets.length).toBe(1);
             });
-            it("clears health values", function () {
+            it('clears health values', function () {
                 spyOn(testWidget.health, 'clearValues');
 
                 testWidget.clearValues();

@@ -1,4 +1,4 @@
-/*jshint unused:false, loopfunc:true*/
+/* eslint-disable no-unused-vars */
 var dojoConfig = {
     isDebug: false,
     isJasmineTestRunner: true, // prevents parser in main.js from running

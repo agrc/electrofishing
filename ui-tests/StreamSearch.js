@@ -16,7 +16,7 @@ define([
             return Common.loadApp(this);
         },
         'returns matches': function () {
-                return this.remote
+            return this.remote
                 .elementByCssSelector('.location>.verify-map input[data-dojo-attach-point="textBox"]')
                     .type('fish')
                     .end()

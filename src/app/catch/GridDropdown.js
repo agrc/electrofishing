@@ -1,7 +1,7 @@
 define([
-    'dojo/_base/declare', 
-    'dijit/_WidgetBase', 
-    'dijit/_TemplatedMixin', 
+    'dojo/_base/declare',
+    'dijit/_WidgetBase',
+    'dijit/_TemplatedMixin',
     'dojo/text!app/catch/templates/GridDropdown.html',
     'dojo/on',
     'dojo/_base/lang',
@@ -10,14 +10,14 @@ define([
     'dijit/_FocusMixin',
     'dijit/focus',
     'app/Domains',
-    
+
     'bootstrap-combobox/js/bootstrap-combobox'
 ],
 
 function (
-    declare, 
-    _WidgetBase, 
-    _TemplatedMixin, 
+    declare,
+    _WidgetBase,
+    _TemplatedMixin,
     template,
     on,
     lang,
@@ -29,14 +29,13 @@ function (
     ) {
     // summary:
     //      Dijit wrapper for bootstrap's GridDropdown so that it can be used in dgrid.
-    return declare('app/catch/GridDropdown', 
-        [_WidgetBase, _TemplatedMixin], {
+    return declare('app/catch/GridDropdown', [_WidgetBase, _TemplatedMixin], {
         templateString: template,
         baseClass: 'griddropdown-wrapper',
 
         // textBox: input Element
         //      text box created by the combobox plugin
-        //      this needs to be queried for dynamically after the 
+        //      this needs to be queried for dynamically after the
         //      combobox has been initialized since it's not part
         //      of the template
         textBox: null,
@@ -60,10 +59,10 @@ function (
         postCreate: function () {
             // summary:
             //      dom is ready
-            console.log(this.declaredClass + "::postCreate", arguments);
+            console.log(this.declaredClass + '::postCreate', arguments);
 
             var that = this;
-            var def = Domains.populateSelectWithDomainValues(this.select, 
+            var def = Domains.populateSelectWithDomainValues(this.select,
                 this.domainLayerUrl, this.domainFieldName);
 
             def.then(function (values) {
@@ -87,7 +86,7 @@ function (
                             } else {
                                 // tab out of box
                                 that.delayBlur();
-                            } 
+                            }
                         }
                     })
                 );
@@ -100,7 +99,7 @@ function (
             //      delay the onBlur until the OtherOptionHandler widget is done
             //      doing it's thing
             console.log('app/GridDropdown:delayBlur', arguments);
-        
+
             if (this.textBox.value !== Domains.otherTxt) {
                 this._onBlur();
             }
@@ -108,8 +107,8 @@ function (
         focus: function () {
             // summary:
             //      dgrid/editor calls this
-            console.log(this.declaredClass + "::focus::" + this.id, arguments);
-            
+            console.log(this.declaredClass + '::focus::' + this.id, arguments);
+
             // manually focus the textbox
             // this is called when the user clicks in the dgrid cell
             if (this.textBox) {
@@ -119,16 +118,16 @@ function (
         isValid: function () {
             // summary:
             //      another method that it is called by dgrid/editor
-            console.log(this.declaredClass + "::isValid::" + this.id, arguments);
-        
+            console.log(this.declaredClass + '::isValid::' + this.id, arguments);
+
             return true;
         },
         _getValueAttr: function () {
             // summary:
             //      another method that it is called by dgrid/editor
-            console.log(this.declaredClass + "::getValueAttr::" + this.id, arguments);
-            
-            // return value of 
+            console.log(this.declaredClass + '::getValueAttr::' + this.id, arguments);
+
+            // return value of
             return this.textBox.value;
         },
         _setValueAttr: function (newValue) {
@@ -136,10 +135,10 @@ function (
             //      another method that is called by dgrid/editor
             // newValue: String
             console.log(this.declaredClass + '::_setValueAttr', arguments);
-        
+
             if (newValue) {
                 this.textBox.value = newValue;
-            } 
+            }
         }
     });
 });

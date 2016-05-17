@@ -9,12 +9,12 @@ define([
 ],
 
 function (
-    declare, 
-    _WidgetBase, 
-    _TemplatedMixin, 
-    _WidgetsInTemplateMixin, 
-    template, 
-    query, 
+    declare,
+    _WidgetBase,
+    _TemplatedMixin,
+    _WidgetsInTemplateMixin,
+    template,
+    query,
     topic) {
     return declare('app.location.CoordTypeToggle', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         widgetsInTemplate: false,
@@ -25,12 +25,12 @@ function (
         currentType: null,
 
         constructor: function () {
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/location/CoordTypeToggle:constructor', arguments);
         },
         postCreate: function () {
             // summary:
             //      dom is ready
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/location/CoordTypeToggle:postCreate', arguments);
 
             this.wireEvents(topic);
 
@@ -45,8 +45,8 @@ function (
         wireEvents: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-            
+            console.log('app/location/CoordTypeToggle:wireEvents', arguments);
+
             var that = this;
 
             query('.btn', this.domNode).on('click', function (evt) {
@@ -58,7 +58,7 @@ function (
             //      Fires when one of the buttons has been selected
             // type: String (AGRC.coordTypes)
             // topic: dojo/topic
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/location/CoordTypeToggle:onChange', arguments);
 
             this.currentType = type;
 

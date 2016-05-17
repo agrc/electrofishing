@@ -16,8 +16,8 @@ function (
         clearValues: function () {
             // summary:
             //      clears the input values for this widget
-            console.log(this.declaredClass + "::clearValues", arguments);
-        
+            console.log(this.declaredClass + '::clearValues', arguments);
+
             query('select', this.domNode).forEach(function (node) {
                 $(node).combobox('clear');
             });

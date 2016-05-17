@@ -6,7 +6,7 @@ require([
     'dojo/dom-construct',
 
     'app/Domains'
-], function(
+], function (
     OtherOptionHandler,
 
     win,
@@ -15,9 +15,9 @@ require([
 
     Domains
 ) {
-    describe('app/OtherOptionHandler', function() {
+    describe('app/OtherOptionHandler', function () {
         var testWidget;
-        var destroy = function(widget) {
+        var destroy = function (widget) {
             widget.destroyRecursive();
             widget = null;
         };
@@ -32,7 +32,7 @@ require([
             code: 'code3',
             name: 'value3'
         }];
-        beforeEach(function() {
+        beforeEach(function () {
             select = domConstruct.create('select', {}, win.body());
             Domains.buildOptions(options, select);
             testWidget = new OtherOptionHandler({
@@ -41,11 +41,11 @@ require([
             }, domConstruct.create('div', {}, win.body()));
             testWidget.startup();
         });
-        afterEach(function() {
+        afterEach(function () {
             destroy(testWidget);
             domConstruct.destroy(select);
         });
-        it('create a valid object', function() {
+        it('create a valid object', function () {
             expect(testWidget).toEqual(jasmine.any(OtherOptionHandler));
         });
         describe('postCreate', function () {

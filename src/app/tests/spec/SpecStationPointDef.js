@@ -5,7 +5,6 @@ require([
 function (
     StationPointDef
     ) {
-    "use strict";
     describe('app/location/StationPointDef', function () {
         var testWidget;
         beforeEach(function () {

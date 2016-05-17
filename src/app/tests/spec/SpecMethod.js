@@ -6,7 +6,6 @@ require([
 function (
     Method
     ) {
-    "use strict";
     describe('app/method/Method', function () {
         var testWidget;
         beforeEach(function () {
@@ -19,13 +18,13 @@ function (
             expect(testWidget).toEqual(jasmine.any(Method));
         });
         describe('isValid', function () {
-            it("check all required fields", function () {
+            it('check all required fields', function () {
                 expect(testWidget.isValid())
                     .toEqual('Missing value for Voltage!');
             });
         });
         describe('clear', function () {
-            it("clears all of the controls", function () {
+            it('clears all of the controls', function () {
                 spyOn(testWidget.backpacksContainer, 'clear');
                 spyOn(testWidget.canoeBargesContainer, 'clear');
                 spyOn(testWidget.raftBoatsContainer, 'clear');
@@ -44,7 +43,7 @@ function (
             });
         });
         describe('onCathodeTypeChange', function () {
-            it("disables cathode diameter if boat", function () {
+            it('disables cathode diameter if boat', function () {
                 testWidget.onCathodeTypeChange('nb');
                 testWidget.onCathodeTypeChange('');
 
@@ -58,7 +57,7 @@ function (
 
                 expect(testWidget.cathodeDiameterTxt.disabled).toBe(false);
             });
-            it("clears the value in the cathode diameter text box", function () {
+            it('clears the value in the cathode diameter text box', function () {
                 testWidget.cathodeDiameterTxt.value = '2';
 
                 testWidget.onCathodeTypeChange('somethingelse');

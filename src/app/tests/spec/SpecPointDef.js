@@ -1,18 +1,24 @@
 require([
-    'dojo/topic', 
-    'app/location/PointDef', 
+    'dojo/topic',
+    'app/location/PointDef',
     'dojo/dom-class',
     'dojo/dom-construct'
-], 
+],
 
 function (
-    topic, 
-    PointDef, 
+    topic,
+    PointDef,
     domClass,
     domConstruct
     ) {
     describe('app/location/PointDef', function () {
-        var testWidget, ll, ll2, utm83, utm27, fGroup, map;
+        var testWidget;
+        var ll;
+        var ll2;
+        var utm83;
+        var utm27;
+        var fGroup;
+        var map;
         beforeEach(function () {
             ll = new L.LatLng(40.616, -111.841);
             ll2 = new L.LatLng(40.1, -111.7);
@@ -20,9 +26,9 @@ function (
             utm27 = {x: 428861, y: 4496494};
 
             testWidget = new PointDef();
-            var crs = new L.Proj.CRS('EPSG:26912', 
+            var crs = new L.Proj.CRS('EPSG:26912',
                 '+proj=utm +zone=12 +ellps=GRS80 +datum=NAD83 +units=m +no_defs',
-                { 
+                {
                     transformation: new L.Transformation(1, 5120900, -1, 9998100),
                     resolutions: [4891.96999883583,
                             2445.98499994708,
@@ -167,7 +173,7 @@ function (
             it('should show validate msg and add css class for utm too short', function () {
                 var box = testWidget.yBox;
                 box.value = '44350';
-                
+
                 var result = testWidget.validate(box);
 
                 expect(result).toBe(false);
@@ -278,7 +284,7 @@ function (
                 expect(testWidget.yBox.disabled).toBe(false);
                 expect(testWidget.xBox.disabled).toBe(false);
             });
-            it("call preventDefault on the evt", function () {
+            it('call preventDefault on the evt', function () {
                 testWidget.onMapBtnClicked(evt);
 
                 expect(evt.preventDefault).toHaveBeenCalled();
@@ -425,16 +431,16 @@ function (
             });
         });
         describe('onTextBoxFocusOut', function () {
-            it("fires validate on xBox change even if there is no value in yBox", function () {
+            it('fires validate on xBox change even if there is no value in yBox', function () {
                 spyOn(testWidget, 'validate');
-                
+
                 testWidget.onTextBoxFocusOut();
 
                 expect(testWidget.validate.calls.length).toEqual(2);
             });
         });
         describe('setMap', function () {
-            it("sets the map and fGroup properties", function () {
+            it('sets the map and fGroup properties', function () {
                 var map = {};
                 var group = {};
 

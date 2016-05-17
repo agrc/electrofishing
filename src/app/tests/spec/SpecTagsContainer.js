@@ -27,7 +27,7 @@ function (
             expect(testWidget).toEqual(jasmine.any(TagsContainer));
         });
         describe('getData', function () {
-            it("should get data from all tags", function () {
+            it('should get data from all tags', function () {
                 testWidget.addAddBtnWidget();
 
                 spyOn(testWidget.AddBtnWidgets[0], 'getData').andReturn({});

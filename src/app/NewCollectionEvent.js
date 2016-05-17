@@ -1,7 +1,7 @@
 define([
-    'dojo/_base/declare', 
-    'dijit/_WidgetBase', 
-    'dijit/_TemplatedMixin', 
+    'dojo/_base/declare',
+    'dijit/_WidgetBase',
+    'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin',
     'dojo/text!app/templates/NewCollectionEvent.html',
     'dojo/request/xhr',
@@ -22,10 +22,10 @@ define([
 ],
 
 function (
-    declare, 
-    _WidgetBase, 
-    _TemplatedMixin, 
-    _WidgetsInTemplateMixin, 
+    declare,
+    _WidgetBase,
+    _TemplatedMixin,
+    _WidgetsInTemplateMixin,
     template,
     xhr,
     json,
@@ -38,8 +38,7 @@ function (
     _SubmitJobMixin,
     NumericInputValidator
     ) {
-    return declare('app.NewCollectionEvent', 
-        [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _SubmitJobMixin], {
+    return declare('app.NewCollectionEvent', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _SubmitJobMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'new-collection-event',
@@ -53,12 +52,12 @@ function (
 
 
         constructor: function () {
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/NewCollectionEvent:constructor', arguments);
         },
         postCreate: function () {
             // summary:
             //      dom is ready
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/NewCollectionEvent:postCreate', arguments);
 
             this.wireEvents();
 
@@ -70,8 +69,8 @@ function (
         wireEvents: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-        
+            console.log('app/NewCollectionEvent:wireEvents', arguments);
+
             this.own(
                 topic.subscribe(AGRC.topics.onSubmitReportClick, lang.hitch(this, 'onSubmit')),
                 topic.subscribe(AGRC.topics.onCancelReportClick, lang.hitch(this, 'onCancel'))
@@ -80,7 +79,7 @@ function (
         onCancel: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/NewCollectionEvent:onCancel', arguments);
 
             if (window.confirm(this.cancelConfirmMsg)) {
                 this.clearReport();
@@ -89,10 +88,10 @@ function (
         onSubmit: function () {
             // summary:
             //      fires when the user clicks the submit button
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/NewCollectionEvent:onSubmit', arguments);
 
             domClass.add(this.successMsgContainer, 'hidden');
-            
+
             var valid = this.validateReport();
 
             if (valid !== true) {
@@ -131,8 +130,8 @@ function (
         onSuccessfulSubmit: function () {
             // summary:
             //        description
-            console.log(this.declaredClass + "::onSuccessfulSubmit", arguments);
-            
+            console.log('app/NewCollectionEvent:onSuccessfulSubmit', arguments);
+
             this.clearReport();
 
             domClass.remove(this.successMsgContainer, 'hidden');
@@ -144,8 +143,8 @@ function (
             // summary:
             //      validates all of the values neccessary to submit the report to the server
             // returns: String (if invalid) || true (if valid)
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-            
+            console.log('app/NewCollectionEvent:validateReport', arguments);
+
             var valid;
             var validationMethods = [
                 // [method, scope, tabID]
@@ -157,7 +156,7 @@ function (
             var validationReturn;
             var that = this;
 
-            valid = array.every(validationMethods, function(a) {
+            valid = array.every(validationMethods, function (a) {
                 validationReturn = a[0].apply(a[1]);
                 if (validationReturn !== true) {
                     that.showTab(a[2]);
@@ -166,7 +165,7 @@ function (
                     return true;
                 }
             });
-            
+
             if (valid) {
                 return true;
             } else {
@@ -176,8 +175,8 @@ function (
         clearReport: function () {
             // summary:
             //        clears all of the values in the report
-            console.log(this.declaredClass + "::clearReport", arguments);
-        
+            console.log('app/NewCollectionEvent:clearReport', arguments);
+
             AGRC.eventId = GUID.uuid();
             this.locationTb.clear();
             this.methodTb.clear();
@@ -189,8 +188,8 @@ function (
         buildFeatureObject: function () {
             // summary:
             //      builds a json object suitable for submitting to the add features service
-            console.log(this.declaredClass + "::buildFeatureObject", arguments);
-            
+            console.log('app/NewCollectionEvent:buildFeatureObject', arguments);
+
             var fn = AGRC.fieldNames.samplingEvents;
             var atts = {};
 
@@ -215,8 +214,8 @@ function (
             atts[fn.MACHINE_RES] = this.methodTb.machineResistenceTxt.value;
 
             return {
-                displayFieldName: "",
-                geometryType: "esriGeometryPolyline",
+                displayFieldName: '',
+                geometryType: 'esriGeometryPolyline',
                 spatialReference: {
                     wkid: 26912,
                     latestWkid: 26912
@@ -231,16 +230,16 @@ function (
             // summary:
             //      shows the pass in tab
             // tabID: String
-            console.log(this.declaredClass + "::showTab", arguments);
-        
+            console.log('app/NewCollectionEvent:showTab', arguments);
+
             $('.nav-tabs a[href=#' + tabID + ']').tab('show');
         },
         onError: function (err) {
             // summary:
             //      displayes an error message when the submit service fails
             // err: error object
-            console.log(this.declaredClass + "::onError", arguments);
-        
+            console.log('app/NewCollectionEvent:onError', arguments);
+
             this.validateMsg.innerHTML = this.submitErrMsg;
             domClass.remove(this.validateMsg, 'hidden');
             window.scrollTo(0,0);

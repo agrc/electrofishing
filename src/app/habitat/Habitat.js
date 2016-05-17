@@ -15,7 +15,7 @@ define([
 
     'app/_ClearValuesMixin'
 
-], function(
+], function (
     declare,
 
     DeferredList,
@@ -34,8 +34,7 @@ define([
 ) {
     // summary:
     //      Habitat tab
-    return declare('app/habitat/Habitat', 
-        [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _ClearValuesMixin], {
+    return declare('app/habitat/Habitat', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _ClearValuesMixin], {
         widgetsInTemplate: false,
         templateString: template,
         baseClass: 'habitat',
@@ -45,7 +44,7 @@ define([
         badSedClassesErrMsg: 'Sediment Class Percentages must add up to 100!',
 
 
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //      dom is ready
             console.log(this.declaredClass + '::postCreate', arguments);
@@ -70,7 +69,7 @@ define([
             // summary:
             //      resets all controls
             console.log(this.declaredClass + '::clear', arguments);
-        
+
             this.clearValues();
 
             this.onSedimentClassChange();
@@ -91,10 +90,10 @@ define([
         },
         getData: function () {
             // summary:
-            //      Builds a record set object suitable for submitting to the 
+            //      Builds a record set object suitable for submitting to the
             //      NewCollectionEvent service
             console.log(this.declaredClass + '::getData', arguments);
-        
+
             var f = {};
             var fn = AGRC.fieldNames.habitat;
 
@@ -137,7 +136,7 @@ define([
             //      sediment classes
             //      Adds up the classes and applies the appropriate color to the total
             console.log(this.declaredClass + '::onSedimentClassChange', arguments);
-        
+
             var total = 0;
             query('.panel-body .form-group input', this.domNode).forEach(function (node) {
                 if (node.value !== '') {
@@ -150,7 +149,7 @@ define([
             var parentDiv = this.sedTotalSpan.parentElement;
             if (total === 100) {
                 domClass.add(parentDiv, 'text-success');
-                domClass.remove(parentDiv, 'text-danger'); 
+                domClass.remove(parentDiv, 'text-danger');
             } else if (total === 0) {
                 domClass.remove(parentDiv, 'text-danger');
                 domClass.remove(parentDiv, 'text-success');

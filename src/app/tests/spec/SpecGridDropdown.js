@@ -13,7 +13,7 @@ function (
     domConstruct,
     win,
     domStyle,
-    StubModule,
+    stubModule,
     Deferred
     ) {
     describe('app/catch/GridDropdown', function () {
@@ -25,7 +25,7 @@ function (
         var width = 50;
         beforeEach(function () {
             var def = new Deferred();
-            var Stubbed = StubModule('app/catch/GridDropdown', {
+            var Stubbed = stubModule('app/catch/GridDropdown', {
                 'app/Domains': {
                     populateSelectWithDomainValues: jasmine.createSpy('pop').andReturn(def)
                 }

@@ -1,7 +1,7 @@
 define([
-    'dojo/_base/declare', 
-    'dijit/_WidgetBase', 
-    'dijit/_TemplatedMixin', 
+    'dojo/_base/declare',
+    'dijit/_WidgetBase',
+    'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin',
     'dojo/text!app/catch/templates/Health.html',
     'app/Domains',
@@ -13,10 +13,10 @@ define([
 ],
 
 function (
-    declare, 
-    _WidgetBase, 
-    _TemplatedMixin, 
-    _WidgetsInTemplateMixin, 
+    declare,
+    _WidgetBase,
+    _TemplatedMixin,
+    _WidgetsInTemplateMixin,
     template,
     Domains,
     all,
@@ -26,8 +26,7 @@ function (
     ) {
     // summary:
     //      Health fields in more info dialog.
-    return declare('app/catch/Health', 
-        [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _ClearValuesMixin], {
+    return declare('app/catch/Health', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _ClearValuesMixin], {
         widgetsInTemplate: false,
         templateString: template,
         baseClass: 'health',
@@ -43,7 +42,7 @@ function (
         postCreate: function () {
             // summary:
             //      dom is ready
-            console.log(this.declaredClass + "::postCreate", arguments);
+            console.log(this.declaredClass + '::postCreate', arguments);
 
             var fn = AGRC.fieldNames.health;
 
@@ -85,9 +84,9 @@ function (
         },
         getData: function () {
             // summary:
-            //      builds a record set 
-            console.log(this.declaredClass + "::getData", arguments);
-        
+            //      builds a record set
+            console.log(this.declaredClass + '::getData', arguments);
+
             var f = {};
 
             array.forEach(this.controlMappings, function (map) {
@@ -97,7 +96,7 @@ function (
             var empty = true;
             for (var prop in f) {
                 if (f.hasOwnProperty(prop)) {
-                    if (f[prop] != null && f[prop] !== '') {
+                    if (f[prop] !== null && f[prop] !== '') {
                         empty = false;
                         break;
                     }
@@ -116,14 +115,14 @@ function (
             //      prepopulates the controls with existing data
             // feature: {attributes:{...}}
             console.log('app.catch.Health:setData', arguments);
-        
+
             var f = feature.attributes;
 
             array.forEach(this.controlMappings, function (map) {
                 map[0].value = f[map[1]];
                 if (map[0].type === 'select-one') {
                     $(map[0]).combobox('refresh');
-                } 
+                }
             });
         }
     });

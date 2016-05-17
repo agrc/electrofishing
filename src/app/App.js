@@ -1,31 +1,35 @@
 define([
-    'dojo/_base/declare',
-    'dijit/_WidgetBase', 
-    'dijit/_TemplatedMixin', 
-    'dijit/_WidgetsInTemplateMixin',
-    'dojo/text!app/templates/App.html',
-    'app/NewCollectionEvent',
     'agrc/modules/GUID',
-    'dojo/topic',
 
-    'dijit/layout/StackContainer',
-    'dijit/layout/StackController',
+    'app/NewCollectionEvent',
+
+    'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
+    'dijit/_WidgetsInTemplateMixin',
+
+    'dojo/text!app/templates/App.html',
+    'dojo/_base/declare',
+
     'app/Header',
+    'app/SettingsDialog',
     'dijit/layout/ContentPane',
-    'app/SettingsDialog'
+    'dijit/layout/StackContainer',
+    'dijit/layout/StackController'
 ],
 
 function (
-    declare, 
-    _WidgetBase, 
-    _TemplatedMixin, 
-    _WidgetsInTemplateMixin, 
-    template,
-    NewCollectionEvent,
     GUID,
-    topic
-    ) {
-    return declare("app.App", [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+
+    NewCollectionEvent,
+
+    _TemplatedMixin,
+    _WidgetBase,
+    _WidgetsInTemplateMixin,
+
+    template,
+    declare
+) {
+    return declare('app.App', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         // summary:
         //      The main widget for the app
 
@@ -38,32 +42,24 @@ function (
 
         // fGroup: L.FeatureGroup
         fGroup: null,
-        
+
         constructor: function () {
             // summary:
             //      first function to fire after page loads
-            console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
-            
+            console.log('app/App:constructor', arguments);
+
             AGRC.app = this;
         },
         postCreate: function () {
             // summary:
-            //      Fires when 
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-            
-            AGRC.eventId = GUID.uuid();
+            //      Fires when
+            console.log('app/App:postCreate', arguments);
 
-            this.wireEvents();
+            AGRC.eventId = GUID.uuid();
 
             this.newEvent = new NewCollectionEvent({}, this.newEventDiv);
 
             document.body.className += ' loaded';
-        },
-        wireEvents: function () {
-            // summary:
-            //      Wires the events for this widget
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-
         }
     });
 });

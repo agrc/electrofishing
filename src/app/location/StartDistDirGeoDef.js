@@ -1,7 +1,7 @@
 define([
-    'dojo/_base/declare', 
-    'dijit/_WidgetBase', 
-    'dijit/_TemplatedMixin', 
+    'dojo/_base/declare',
+    'dijit/_WidgetBase',
+    'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin',
     'app/location/_GeoDefMixin',
     'dojo/text!app/location/templates/StartDistDirGeoDef.html',
@@ -15,20 +15,19 @@ define([
 ],
 
 function (
-    declare, 
-    _WidgetBase, 
-    _TemplatedMixin, 
-    _WidgetsInTemplateMixin, 
-    _GeoDefMixin, 
-    template, 
-    Deferred, 
+    declare,
+    _WidgetBase,
+    _TemplatedMixin,
+    _WidgetsInTemplateMixin,
+    _GeoDefMixin,
+    template,
+    Deferred,
     query,
     topic,
     json,
     xhr
     ) {
-    return declare('app.location.StartDistDirGeoDef', 
-        [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GeoDefMixin], {
+    return declare('app.location.StartDistDirGeoDef', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GeoDefMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'start-dist-dir',
@@ -49,25 +48,25 @@ function (
         constructor: function () {
             // summary:
             //    description
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/location/StartDistDirGeoDef:constructor', arguments);
 
             this.gpServiceUrl = AGRC.urls.getSegmentFromStartDistDir;
         },
         postCreate: function () {
             // summary:
             //        dom is ready
-            console.log(this.declaredClass + "::postCreate", arguments);
-        
+            console.log('app/location/StartDistDirGeoDef:postCreate', arguments);
+
             this.wireEvents();
             this.defs = [this.startPointDef];
         },
         wireEvents: function () {
             // summary:
             //        wires the events for the widget
-            console.log(this.declaredClass + "::wireEvents", arguments);
+            console.log('app/location/StartDistDirGeoDef:wireEvents', arguments);
 
             var that = this;
-        
+
             this.own(
                 topic.subscribe(AGRC.topics.mapInit, function () {
                     that.featureGroup = new L.FeatureGroup().addTo(AGRC.app.map);
@@ -85,12 +84,12 @@ function (
             //      Returns the distance if it's valid. Otherwise it sets the error message
             //      and returns null.
             // returns: String || null
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-            
+            console.log('app/location/StartDistDirGeoDef:getDistance', arguments);
+
             var dist = this.distanceBox.value;
 
             topic.publish(AGRC.topics.startDistDirGeoDef_onDistanceChange, dist);
-            
+
             if (dist === '') {
                 return null;
             } else {
@@ -101,24 +100,23 @@ function (
             // summary:
             //      Returns up or down depending on what button is selected
             // returns: String (up || down)
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-        
+            console.log('app/location/StartDistDirGeoDef:getDirection', arguments);
+
             return query('.btn-group .btn.active', this.domNode)[0].children[0].value;
         },
         getGeometry: function () {
             // summary:
-            //      Returns a deferred if the geometries are valid, returns and invalid 
+            //      Returns a deferred if the geometries are valid, returns and invalid
             //      message if the geometries are not valid
             // returns: Deferred || String
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-        
-            var def       = new Deferred(),
-                startPnt  = this.startPointDef.getPoint(),
-                distance  = this.getDistance(),
-                direction = this.getDirection(),
-                params,
-                that = this;
+            console.log('app/location/StartDistDirGeoDef:getGeometry', arguments);
 
+            var def = new Deferred();
+            var startPnt = this.startPointDef.getPoint();
+            var distance = this.getDistance();
+            var direction = this.getDirection();
+            var params;
+            var that = this;
 
             if (!startPnt) {
                 return this.invalidStartMsg;
@@ -130,15 +128,14 @@ function (
 
             params = this.getXHRParams(startPnt, distance, direction);
 
-            xhr(this.gpServiceUrl + '/submitJob?', params)
-                .then(function (data) {
-                    if (!that.onGetSegsCallback(data, def)) {
-                        def.reject('There was an error with the verify service.');
-                    }
-                }, function (err) {
-                    var msg = 'There was an error with the getSegmentFromStartDistDir service: ';
-                    AGRC.errorLogger.log(err, msg);
-                    def.reject(msg + err.message);
+            xhr(this.gpServiceUrl + '/submitJob?', params).then(function (data) {
+                if (!that.onGetSegsCallback(data, def)) {
+                    def.reject('There was an error with the verify service.');
+                }
+            }, function (err) {
+                var msg = 'There was an error with the getSegmentFromStartDistDir service: ';
+                AGRC.errorLogger.log(err, msg);
+                def.reject(msg + err.message);
             });
 
             return def;
@@ -149,27 +146,29 @@ function (
             // startPnt: point
             // distance: Number
             // direction: String
-            console.log(this.declaredClass + "::getXHRParams", arguments);
-        
+            console.log('app/location/StartDistDirGeoDef:getXHRParams', arguments);
+
             return {
                 query: {
                     f: 'json',
                     point: json.stringify({
-                        "displayFieldName": "",
-                        "geometryType": "esriGeometryPoint",
-                        "spatialReference": {
-                            "wkid": 26912,
-                            "latestWkid": 26912
+                        displayFieldName: '',
+                        geometryType: 'esriGeometryPoint',
+                        spatialReference: {
+                            wkid: 26912,
+                            latestWkid: 26912
                         },
-                        "fields": [{
-                            "name": "OBJECTID",
-                            "type": "esriFieldTypeOID",
-                            "alias": "OBJECTID"
+                        fields: [{
+                            name: 'OBJECTID',
+                            type: 'esriFieldTypeOID',
+                            alias: 'OBJECTID'
                         }],
-                        "features": [
+                        features: [
                             {
-                                geometry: {x: Math.round(startPnt.x), y: Math.round(startPnt.y), 
-                                    "spatialReference" : {"wkid" : 26912}},
+                                geometry: {
+                                    x: Math.round(startPnt.x),
+                                    y: Math.round(startPnt.y),
+                                    spatialReference: {wkid: 26912}},
                                 attributes: {OBJECTID: 1}
                             }
                         ]

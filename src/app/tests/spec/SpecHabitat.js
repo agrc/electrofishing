@@ -6,7 +6,7 @@ require([
     'dojo/dom-construct',
     'dojo/dom-class'
 
-], function(
+], function (
     Habitat,
 
     win,
@@ -14,20 +14,20 @@ require([
     domConstruct,
     domClass
 ) {
-    describe('app/habitat/Habitat', function() {
+    describe('app/habitat/Habitat', function () {
         var testWidget;
-        var destroy = function(widget) {
+        var destroy = function (widget) {
             widget.destroyRecursive();
             widget = null;
         };
-        beforeEach(function() {
+        beforeEach(function () {
             testWidget = new Habitat({}, domConstruct.create('div', {}, win.body()));
             testWidget.startup();
         });
-        afterEach(function() {
+        afterEach(function () {
             destroy(testWidget);
         });
-        it('create a valid object', function() {
+        it('create a valid object', function () {
             expect(testWidget).toEqual(jasmine.any(Habitat));
         });
         describe('clear', function () {

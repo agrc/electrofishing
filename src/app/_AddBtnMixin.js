@@ -1,23 +1,22 @@
 define([
-    'dojo/_base/declare',
-    'dojo/on',
-    'dojo/_base/lang',
-    'dojo/dom-class',
-    'dojo/_base/array',
     'app/Domains',
-    'dojo/promise/all'
 
+    'dojo/dom-class',
+    'dojo/on',
+    'dojo/promise/all',
+    'dojo/_base/array',
+    'dojo/_base/declare'
 ],
 
 function (
-    declare,
-    on,
-    lang,
-    domClass,
-    array,
     Domains,
-    all
-    ) {
+
+    domClass,
+    on,
+    all,
+    array,
+    declare
+) {
     return declare('app/_AddBtnMixin', null, {
         // minusIconClass: String
         //      bootstrap icon class
@@ -49,13 +48,13 @@ function (
         postCreate: function () {
             // summary:
             //      dom is ready
-            console.log("app/_AddBtnMixin::postCreate", arguments);
+            console.log('app/_AddBtnMixin::postCreate', arguments);
 
             var that = this;
             var defs = [];
             array.forEach(this.fields, function (fld) {
                 if (fld.control.type === 'select-one') {
-                    defs.push(Domains.populateSelectWithDomainValues(fld.control, 
+                    defs.push(Domains.populateSelectWithDomainValues(fld.control,
                         that.featureServiceUrl, fld.fieldName));
                 }
             });
@@ -69,7 +68,7 @@ function (
         wireEvents: function () {
             // summary:
             //      wires the events for this widget
-            console.log("app/_AddBtnMixin::wireEvents", arguments);
+            console.log('app/_AddBtnMixin::wireEvents', arguments);
             var that = this;
 
             this.own(
@@ -86,7 +85,7 @@ function (
             // summary:
             //      overridden from _ClearValuesMixin to take care of changing the icon back
             console.log('app._AddBtnMixin:clearValues', arguments);
-        
+
             domClass.remove(this.icon, this.minusIconClass);
             domClass.add(this.icon, this.plusIconClass);
 
@@ -95,7 +94,7 @@ function (
         onAdd: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::onAdd", arguments);
+            console.log(this.declaredClass + '::onAdd', arguments);
 
             domClass.add(this.icon, this.minusIconClass);
             domClass.remove(this.icon, this.plusIconClass);
@@ -103,16 +102,16 @@ function (
         onRemove: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::onRemove", arguments);
-        
+            console.log(this.declaredClass + '::onRemove', arguments);
+
             this.destroyRecursive(false);
         },
         getData: function () {
             // summary:
             //      gathers the data for this widget and returns an object
             //      if all fields are blank, then it returns null
-            console.log(this.declaredClass + "::getData", arguments);
-        
+            console.log(this.declaredClass + '::getData', arguments);
+
             var data = {};
 
             array.forEach(this.fields, function (fld) {
@@ -122,7 +121,7 @@ function (
             var empty = true;
             for (var prop in data) {
                 if (data.hasOwnProperty(prop)) {
-                    if (data[prop] != null && data[prop] !== '') {
+                    if (data[prop] !== null && data[prop] !== '') {
                         empty = false;
                         break;
                     }
@@ -142,7 +141,7 @@ function (
             // lastOne: Boolean
             //      controls whether the plus or minus icons are show
             console.log('app._AddBtnMixin:setData', arguments);
-        
+
             var that = this;
             var getControl = function (fieldName) {
                 var control;
@@ -175,8 +174,8 @@ function (
             // summary:
             //      needs to be implemented in child object
             // data: {}
-            console.log(this.declaredClass + "::addConstantValues", arguments);
-            
+            console.log(this.declaredClass + '::addConstantValues', arguments);
+
         }
     });
 });

@@ -3,12 +3,12 @@ require([
 
     'dojo/dom-construct'
 
-], function(
+], function (
     Domains,
 
     domConstruct
 ) {
-    describe('app/Domains', function() {
+    describe('app/Domains', function () {
         var values = [
             {
                 name: 'blah',
@@ -19,12 +19,14 @@ require([
             }
         ];
         var select;
-        beforeEach(function() {
+        beforeEach(function () {
             select = domConstruct.create('select');
         });
         describe('populateSelectWithDomainValues', function () {
             it('wires up a listener for when the other option is selected', function () {
-                spyOn(Domains, 'getCodedValues').andReturn({then: function (cb) {cb();}});
+                spyOn(Domains, 'getCodedValues').andReturn({then: function (cb) {
+                    cb();
+                }});
                 Domains.populateSelectWithDomainValues(select, 'blah', 'blah');
                 spyOn(Domains, 'onOtherSelected');
 

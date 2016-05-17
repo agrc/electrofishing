@@ -19,7 +19,7 @@ function (
             _TemplatedMixin,
             _AddBtnMixin
         ], {
-            templateString: "<div><button data-dojo-attach-point='btn'><i class='glyphicon glyphicon-plus' data-dojo-attach-point='icon'></i></div>"
+            templateString: '<div><button data-dojo-attach-point="btn"><i class="glyphicon glyphicon-plus" data-dojo-attach-point="icon"></i></div>'
         });
         var testWidget;
         beforeEach(function () {
@@ -36,13 +36,13 @@ function (
                 spyOn(testWidget, 'onAdd').andCallThrough();
                 spyOn(testWidget, 'onRemove');
             });
-            it("fires onAdd when the plus button is clicked", function () {
+            it('fires onAdd when the plus button is clicked', function () {
                 testWidget.btn.click();
 
                 expect(testWidget.onAdd).toHaveBeenCalled();
                 expect(testWidget.onRemove).not.toHaveBeenCalled();
             });
-            it("fires onRemove when the minus button is clicked", function () {
+            it('fires onRemove when the minus button is clicked', function () {
                 testWidget.onAdd();
 
                 testWidget.btn.click();
@@ -52,7 +52,7 @@ function (
             });
         });
         describe('onAdd', function () {
-            it("changes to a minus button", function () {
+            it('changes to a minus button', function () {
                 testWidget.onAdd();
 
                 expect(domClass.contains(testWidget.icon, testWidget.minusIconClass)).toBe(true);
@@ -60,7 +60,7 @@ function (
             });
         });
         describe('onRemove', function () {
-            it("destroys this widget", function () {
+            it('destroys this widget', function () {
                 spyOn(testWidget, 'destroyRecursive');
                 testWidget.onRemove();
 

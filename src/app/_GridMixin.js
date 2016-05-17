@@ -1,31 +1,34 @@
 define([
-    'dojo/_base/declare',
-    'dgrid/OnDemandGrid',
-    'dojo/store/Memory',
-    'dgrid/Keyboard',
-    'dgrid/Selection',
-    'dojo/on',
-    'dojo/keys',
-    'dojo/store/Observable',
-    'dojo/_base/lang',
-    'dojo/_base/array',
-    'app/catch/GridDropdown'
+    'app/catch/GridDropdown',
 
+    'dgrid/Keyboard',
+    'dgrid/OnDemandGrid',
+    'dgrid/Selection',
+
+    'dojo/keys',
+    'dojo/on',
+    'dojo/store/Memory',
+    'dojo/store/Observable',
+    'dojo/_base/array',
+    'dojo/_base/declare',
+    'dojo/_base/lang'
 ],
 
 function (
-    declare,
-    DGrid,
-    Memory,
+    GridDropdown,
+
     Keyboard,
+    DGrid,
     Selection,
-    on,
+
     keys,
+    on,
+    Memory,
     Observable,
-    lang,
     array,
-    GridDropdown
-    ) {
+    declare,
+    lang
+) {
     // summary:
     //      Mixin to add dgrid to a widget.
     return declare('app/_GridMixin', null, {
@@ -46,14 +49,14 @@ function (
             //      creates the grid with the specified columns
             // columns: Object[]
             //      Array of column definition objects
-            console.log(this.declaredClass + "::initGrid", arguments);
-        
+            console.log(this.declaredClass + '::initGrid', arguments);
+
             this.grid = new (declare([DGrid, Keyboard, Selection]))({
                 selectionMode: 'single',
                 columns: columns,
                 deselectOnRefresh: false
             }, this.gridDiv);
-            
+
             on(this.grid, 'keydown', lang.hitch(this, this.onGridKeydown));
             on(this.grid, 'dgrid-select', lang.hitch(this, this.onRowSelected));
             on(this.grid, 'dgrid-deselect', lang.hitch(this, this.onRowDeselected));
@@ -70,33 +73,35 @@ function (
             //      builds a lookup object for converting between descriptions and values
             //      for the fields with GridDropdown editor controls
             console.log('app/_GridMixin:getGridDropdownLookup', arguments);
-        
+
             // CAUTION - This code block takes the domain descriptions (names) from the
             // cells that have GridDropdown editors and converts them to their corresponding
             // codes. I couldn't figure out a great way to test this so there are no unit tests.
             // So touch at your own risk! - scott
             this.gridDropdowns = {};
             for (var i in this.grid.columns) {
-                var col = this.grid.columns[i];
+                if (this.grid.columns.hasOwnProperty(i)) {
+                    var col = this.grid.columns[i];
 
-                if (col.editorInstance && col.editorInstance instanceof GridDropdown) {
-                    var lookup = {};
-                    /*jshint -W083 */
-                    array.forEach(col.editorInstance.values, function (v) {
-                        lookup[v.name] = v.code; // for going from description to code
-                        lookup[v.code] = v.name; // for going from code to description
-                    });
-                    /*jshint +W083 */
-                    this.gridDropdowns[col.field] = lookup;
+                    if (col.editorInstance && col.editorInstance instanceof GridDropdown) {
+                        var lookup = {};
+                        /*jshint -W083 */
+                        array.forEach(col.editorInstance.values, function (v) {
+                            lookup[v.name] = v.code; // for going from description to code
+                            lookup[v.code] = v.name; // for going from code to description
+                        });
+                        /*jshint +W083 */
+                        this.gridDropdowns[col.field] = lookup;
+                    }
                 }
-            }                        
+            }
         },
         onRowSelected: function (evt) {
             // summary:
             //      fires when a row is selected
             // evt: dgrid-select event object
             console.log('app._GridMixin:onRowSelected', arguments);
-        
+
             this.set('selectedRow', evt.rows[0]);
         },
         onRowDeselected: function () {
@@ -104,7 +109,7 @@ function (
             //      fires when a row is deselected
             // evt: dgrid-deselect event object
             console.log('app._GridMixin:onRowDeselected', arguments);
-        
+
             var that = this;
             var selectedId = this.selectedRow;
             setTimeout(function () {
@@ -115,10 +120,10 @@ function (
         },
         _setSelectedRowAttr: function (row) {
             // summary:
-            //      
+            //
             // row: _Row
             console.log('app._GridMixin:_setSelectedRowAttr', arguments);
-        
+
             this._set('selectedRow', row);
         },
         onGridKeydown: function (e) {
@@ -128,7 +133,7 @@ function (
             //      cells.
             //      If we are at the end of the last row, it calls addRow
             // e: Keyboard Event
-            console.log(this.declaredClass + "::onGridKeydown", arguments);
+            console.log(this.declaredClass + '::onGridKeydown', arguments);
 
             var passData;
             var that = this;
@@ -163,10 +168,10 @@ function (
                     Keyboard.moveFocusLeft.call(that.grid, e);
                 }
             };
-        
+
             if (array.indexOf(modifierKeys, e.keyCode) !== -1) {
                 passData = this.grid.store.query(this.grid.query);
-                switch(e.keyCode) {
+                switch (e.keyCode) {
                     case keys.TAB:
                         if (!e.shiftKey) {
                             advance();
@@ -192,10 +197,10 @@ function (
         deleteRow: function () {
             // summary:
             //      Removes the currently selected row from the data store
-            console.log(this.declaredClass + "::deleteRow", arguments);
+            console.log(this.declaredClass + '::deleteRow', arguments);
 
             this.grid.save();
-        
+
             if (this.getSelectedRow()) {
                 this.grid.store.remove(this.getSelectedRow().data[this.idProperty]);
             }
@@ -203,23 +208,25 @@ function (
         getSelectedRow: function () {
             // summary:
             //      gets the currently selected row in the grid
-            console.log(this.declaredClass + "::getSelectedRow", arguments);
-        
+            console.log(this.declaredClass + '::getSelectedRow', arguments);
+
             for (var id in this.grid.selection) {
-                return this.grid.row(id);
+                if (this.grid.selection.hasOwnProperty(id)) {
+                    return this.grid.row(id);
+                }
             }
         },
         addRow: function () {
             // summary:
             //      this needs to be implemented by the child object
-            console.log(this.declaredClass + "::addRow", arguments);
+            console.log(this.declaredClass + '::addRow', arguments);
 
         },
         isGridValid: function () {
             // summary:
             //      Confirms that there is at least one row and that it
             //      has a value in the first visible field
-            console.log(this.declaredClass + "::isGridValid", arguments);
+            console.log(this.declaredClass + '::isGridValid', arguments);
 
             this.grid.save();
             if (this.grid.store.data[0][this.firstColumn] !== null) {
@@ -231,8 +238,8 @@ function (
         getGridData: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::getGridData", arguments);
-        
+            console.log(this.declaredClass + '::getGridData', arguments);
+
             this.grid.save();
 
             if (!this.gridDropdowns) {
@@ -250,7 +257,9 @@ function (
                 return array.map(data, function (item) {
                     // translate descriptions to codes
                     for (var fieldName in that.gridDropdowns) {
-                        item[fieldName] = that.gridDropdowns[fieldName][item[fieldName]];
+                        if (this.gridDropdowns.hasOwnProperty(fieldName)) {
+                            item[fieldName] = that.gridDropdowns[fieldName][item[fieldName]];
+                        }
                     }
                     return {attributes: item};
                 });
@@ -263,13 +272,15 @@ function (
             //      pre-populates the grid with the passed in data
             // data: Array
             console.log('app/_GridMixin:setGridData', arguments);
-        
+
             var that = this;
             var gridData = array.map(data, function (f) {
                 // translate codes to descriptions
                 for (var fieldName in that.gridDropdowns) {
-                    f.attributes[fieldName] = 
-                        that.gridDropdowns[fieldName][f.attributes[fieldName]];
+                    if (this.gridDropdowns.hasOwnProperty(fieldName)) {
+                        f.attributes[fieldName] =
+                            that.gridDropdowns[fieldName][f.attributes[fieldName]];
+                    }
                 }
                 return f.attributes;
             });
@@ -279,8 +290,8 @@ function (
         clearGrid: function () {
             // summary:
             //      clears the grid data
-            console.log(this.declaredClass + "::clearGrid", arguments);
-        
+            console.log(this.declaredClass + '::clearGrid', arguments);
+
             this.grid.store.data = [];
             this.grid.refresh();
             this.addRow();
@@ -289,7 +300,7 @@ function (
             // summary:
             //      destroys the widget and it's children
             console.log(this.declaredClass + '::destroy', arguments);
-        
+
             this.grid.destroy();
             this.inherited(arguments);
         }

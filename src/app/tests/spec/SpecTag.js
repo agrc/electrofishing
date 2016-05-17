@@ -45,7 +45,7 @@ function (
             expect(testWidget).toEqual(jasmine.any(Tag));
         });
         describe('clearValues', function () {
-            it("clears all values", function () {
+            it('clears all values', function () {
                 setData();
 
                 testWidget.clearValues();
@@ -56,7 +56,7 @@ function (
             });
         });
         describe('getData', function () {
-            it("returns a data object", function () {
+            it('returns a data object', function () {
                 setData();
 
                 var data = testWidget.getData().attributes;
@@ -66,7 +66,7 @@ function (
                 expect(data[fn.LOCATION]).toEqual(location);
                 expect(data[fn.FISH_ID]).toEqual(fishId);
             });
-            it("returns null if there is no data", function () {
+            it('returns null if there is no data', function () {
                 expect(testWidget.getData()).toBeNull();
             });
         });
@@ -93,7 +93,7 @@ function (
             });
             it('sets the icon to minus if lastOne is false', function () {
                 setData();
-                
+
                 testWidget.setData(data, false);
 
                 expect(isMinus()).toBe(true);

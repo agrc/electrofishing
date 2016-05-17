@@ -1,7 +1,7 @@
 define([
-    'dojo/_base/declare', 
-    'dijit/_WidgetBase', 
-    'dijit/_TemplatedMixin', 
+    'dojo/_base/declare',
+    'dijit/_WidgetBase',
+    'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin',
     'dojo/text!app/location/templates/Station.html',
     'dojo/request/xhr',
@@ -19,10 +19,10 @@ define([
 ],
 
 function (
-    declare, 
-    _WidgetBase, 
-    _TemplatedMixin, 
-    _WidgetsInTemplateMixin, 
+    declare,
+    _WidgetBase,
+    _TemplatedMixin,
+    _WidgetsInTemplateMixin,
     template,
     xhr,
     array,
@@ -35,8 +35,7 @@ function (
     topic,
     Domains
     ) {
-    return declare('app/location.Station', 
-        [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _SubmitJobMixin], {
+    return declare('app/location.Station', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _SubmitJobMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'station',
@@ -82,7 +81,7 @@ function (
         postCreate: function () {
             // summary:
             //      dom is ready
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/location/Station:postCreate', arguments);
 
             var that = this;
 
@@ -97,8 +96,8 @@ function (
         wireEvents: function () {
             // summary:
             //      wires the events for the widget
-            console.log(this.declaredClass + "::wireEvents", arguments);
-        
+            console.log('app/location/Station:wireEvents', arguments);
+
             var that = this;
             $(this.stationDialog).on('shown.bs.modal', function () {
                 that.onDialogShown();
@@ -114,8 +113,8 @@ function (
         onDialogShown: function () {
             // summary:
             //      fires when the user clicks on the new station button
-            console.log(this.declaredClass + "::onDialogShown", arguments);
-            
+            console.log('app/location/Station:onDialogShown', arguments);
+
             if (!this.vMap) {
                 this.vMap = new VerifyMap({isMainMap: false}, this.mapDiv);
                 this.fGroup = new L.FeatureGroup().addTo(this.vMap.map);
@@ -125,15 +124,15 @@ function (
         getStationId: function () {
             // summary:
             //      returns the currently selected station's guid
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-        
+            console.log('app/location/Station:getStationId', arguments);
+
             return this.currentGuid;
         },
         clear: function () {
             // summary:
             //        clears the textbox value
-            console.log(this.declaredClass + "::clear", arguments);
-        
+            console.log('app/location/Station:clear', arguments);
+
             this.stationTxt.value = '';
 
             this.mainMap.clearSelection();
@@ -142,8 +141,8 @@ function (
             // summary:
             //      displayed an error message when the service fails
             // err: error object
-            console.log(this.declaredClass + "::onError", arguments);
-        
+            console.log('app/location/Station:onError', arguments);
+
             AGRC.errorLogger.log(err || {}, this.newStationErrMsg);
             this.validateMsg.innerHTML = this.newStationErrMsg;
             $(this.submitBtn).button('reset');
@@ -152,8 +151,8 @@ function (
         onSubmit: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::onSubmit", arguments);
-            
+            console.log('app/location/Station:onSubmit', arguments);
+
             var feature = this.validate();
 
             if (feature) {
@@ -166,13 +165,13 @@ function (
                 var data = {
                     f: 'json',
                     point: json.stringify({
-                        "displayFieldName": "",
-                        "geometryType": "esriGeometryPoint",
-                        "spatialReference": {
-                            "wkid": 26912,
-                            "latestWkid": 26912
+                        displayFieldName: '',
+                        geometryType: 'esriGeometryPoint',
+                        spatialReference: {
+                            wkid: 26912,
+                            latestWkid: 26912
                         },
-                        "features": [feature]
+                        features: [feature]
                     })
                 };
 
@@ -182,13 +181,12 @@ function (
         onSuccessfulSubmit: function () {
             // summary:
             //      description
-            // 
-            console.log(this.declaredClass + "::onSuccessfulSubmit", arguments);
+            console.log('app/location/Station:onSuccessfulSubmit', arguments);
 
             domStyle.set(this.successMsg, 'display', 'block');
 
             var that = this;
-        
+
             $(this.submitBtn).button('reset');
 
             // clear form
@@ -219,8 +217,8 @@ function (
             //      if the form does not validate then it shows an error message
             // returns: False || {}
             //      False if invalid, otherwise an object with all of the values
-            console.log(this.declaredClass + "::validate", arguments);
-            
+            console.log('app/location/Station:validate', arguments);
+
             var name = this.stationNameTxt.value.trim();
             var type = this.streamTypeSelect.value;
             var point = this.pointDef.getPoint();
@@ -253,9 +251,9 @@ function (
             // summary:
             //      returns a guid
             // returns: String
-            console.log(this.declaredClass + "::getGUID", arguments);
-        
-            return GUID.uuid(); 
+            console.log('app/location/Station:getGUID', arguments);
+
+            return GUID.uuid();
         }
     });
 });

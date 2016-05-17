@@ -7,8 +7,8 @@ define([
 ],
 
 function (
-    declare, 
-    Deferred, 
+    declare,
+    Deferred,
     array,
     xhr,
     all) {
@@ -31,8 +31,8 @@ function (
         clearGeometry: function () {
             // summary:
             //      should fire when the tab is hidden
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-        
+            console.log('app/location/_GeoDefMixin:clearGeometry', arguments);
+
             array.forEach(this.defs, function (def) {
                 def.clear();
             });
@@ -41,7 +41,7 @@ function (
             // summary:
             //      fires when a point is changed, Location connects to it
             //      to know when to reset the validate button
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/location/_GeoDefMixin:onInvalidate', arguments);
         },
         onGetSegsCallback: function (data, def) {
             // summary:
@@ -50,11 +50,11 @@ function (
             //      The json object as returned by the submit job service
             // def: dojo.Deferred
             //      The original deferred object so that we can pass it on to checkJobStatus
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/location/_GeoDefMixin:onGetSegsCallback', arguments);
 
-            var intId,
-                that = this;
-        
+            var intId;
+            var that = this;
+
             if (data.error) {
                 var msg = 'error with: ' + this.gpServiceUrl;
                 console.error(msg, data.error.message);
@@ -75,12 +75,12 @@ function (
             //      original deferred from checkJobStatus so that we can reject it, if needed
             // intId: Number
             //      The setInterval id for passing into clearInterval
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-            
+            console.log('app/location/_GeoDefMixin:checkJobStatus', arguments);
+
             var that = this;
 
             xhr(this.gpServiceUrl + '/jobs/' + jobId + '?', this.defaultXHRParams).then(function (jobStatus) {
-                // array.forEach(jobStatus.messages, function(m) {
+                // array.forEach(jobStatus.messages, function (m) {
                 //     console.log(m.description);
                 // });
                 if (jobStatus.jobStatus === 'esriJobSucceeded') {
@@ -102,9 +102,9 @@ function (
             //      gets the results from the gp job
             // jobId: String
             // def: dojo.Deferred
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/location/_GeoDefMixin:getJobResults', arguments);
 
-            var promise1; 
+            var promise1;
             var promise2;
             var returnPaths;
             var streamGeo;
@@ -126,7 +126,7 @@ function (
                     }
                 );
             }
-        
+
             promise1 = getResult('segmentWGS', function (feature) {
                 var paths = [];
                 array.forEach(feature.geometry.paths, function (path) {
@@ -143,7 +143,7 @@ function (
 
             all([promise1, promise2]).then(function () {
                 def.resolve({
-                    path: returnPaths, 
+                    path: returnPaths,
                     utm: streamGeo
                 });
             }, function (er) {

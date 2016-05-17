@@ -1,7 +1,7 @@
 define([
-    'dojo/_base/declare', 
-    'dijit/_WidgetBase', 
-    'dijit/_TemplatedMixin', 
+    'dojo/_base/declare',
+    'dijit/_WidgetBase',
+    'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin',
     'dojo/text!app/catch/templates/MoreInfoDialog.html',
     'app/_GridMixin',
@@ -18,10 +18,10 @@ define([
 ],
 
 function (
-    declare, 
-    _WidgetBase, 
-    _TemplatedMixin, 
-    _WidgetsInTemplateMixin, 
+    declare,
+    _WidgetBase,
+    _TemplatedMixin,
+    _WidgetsInTemplateMixin,
     template,
     _GridMixin,
     GUID,
@@ -33,8 +33,7 @@ function (
     ) {
     // summary:
     //      Form for storing diet, tag and other fish stats.
-    return declare('app/catch/MoreInfoDialog', 
-        [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GridMixin], {
+    return declare('app/catch/MoreInfoDialog', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GridMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'more-info-dialog',
@@ -52,7 +51,7 @@ function (
         //      required for _GridMixin
         //      set in constructor
         firstColumn: null,
-        
+
         // idProperty: String
         //      required for _GridMixin
         idProperty: 'ID',
@@ -83,8 +82,8 @@ function (
         constructor: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::constructor", arguments);
-            
+            console.log(this.declaredClass + '::constructor', arguments);
+
             // initialize properties
             this.lastColumn = AGRC.fieldNames.diet.MEASUREMENT;
             this.firstColumn = AGRC.fieldNames.diet.CLASS;
@@ -95,13 +94,13 @@ function (
         postCreate: function () {
             // summary:
             //      dom is ready
-            console.log(this.declaredClass + "::postCreate", arguments);
+            console.log(this.declaredClass + '::postCreate', arguments);
 
             var columns = [
                 {label: 'Catch ID', field: this.idProperty, sortable: false},
                 {label: 'Fish ID', field: AGRC.fieldNames.diet.FISH_ID, sortable: false},
                 editor({
-                    autoSave: true, 
+                    autoSave: true,
                     label: 'Class',
                     field: AGRC.fieldNames.diet.CLASS,
                     editor: GridDropdown,
@@ -125,7 +124,7 @@ function (
                     }
                 }),
                 editor({
-                    autoSave: true, 
+                    autoSave: true,
                     label: 'Type',
                     field: AGRC.fieldNames.diet.MEASUREMENT_TYPE,
                     editor: GridDropdown,
@@ -137,7 +136,7 @@ function (
                     }
                 }),
                 editor({
-                    autoSave: true, 
+                    autoSave: true,
                     label: 'Measurement',
                     field: AGRC.fieldNames.diet.MEASUREMENT,
                     editor: 'text',
@@ -162,7 +161,7 @@ function (
             //      The guid of the currently selected row
             // tabName: String
             //      The name of the tab that you want to show (i.e. 'Diet')
-            console.log(this.declaredClass + "::show", arguments);
+            console.log(this.declaredClass + '::show', arguments);
 
             // pre-populate dialog with existing data, if any
             this.currentFishId = guid;
@@ -178,7 +177,7 @@ function (
                 this.setGridData(this.dietData[guid]);
             } else {
                 this.addRow();
-            } 
+            }
 
             var item = this.store.get(guid);
 
@@ -191,7 +190,7 @@ function (
             query('.nav-tabs li', this.domNode).forEach(function (n) {
                 domClass.remove(n, 'active');
             });
-            var tb = query('a[href="#' + tabName + '_tab"]', this.domNode)[0].parentElement;
+            var tb = query('a[href="#" + tabName + "_tab"]', this.domNode)[0].parentElement;
             domClass.add(tb, 'active');
 
             // tab contents
@@ -200,7 +199,7 @@ function (
             });
             domClass.add(query('#' + tabName + '_tab', this.domNode)[0],
                 'active in');
-        
+
             $(this.dialog).modal('show');
 
             // make sure that dialog is scrolled to the top
@@ -212,8 +211,8 @@ function (
         addRow: function () {
             // summary:
             //      adds a row to the diet grid
-            console.log(this.declaredClass + "::addRow", arguments);
-        
+            console.log(this.declaredClass + '::addRow', arguments);
+
             var data = {};
             var fn = AGRC.fieldNames.diet;
             var guid = GUID.uuid();
@@ -231,8 +230,8 @@ function (
         onSubmitClick: function () {
             // summary:
             //      gathers data and calls submit which Catch is listening for
-            console.log(this.declaredClass + "::onSubmitClick", arguments);
-        
+            console.log(this.declaredClass + '::onSubmitClick', arguments);
+
             this.dietData[this.currentFishId] = this.getGridData();
             this.tagsData[this.currentFishId] = this.tagsContainer.getData().features;
             var healthFeature = this.health.getData();
@@ -250,8 +249,8 @@ function (
         clearValues: function () {
             // summary:
             //      clears everything in the dialog
-            console.log(this.declaredClass + "::clearValues", arguments);
-        
+            console.log(this.declaredClass + '::clearValues', arguments);
+
             this.grid.store.data = [];
             this.grid.refresh();
 
@@ -263,8 +262,8 @@ function (
         onCancel: function () {
             // summary:
             //      cancel button is clicked
-            console.log(this.declaredClass + "::onCancel", arguments);
-        
+            console.log(this.declaredClass + '::onCancel', arguments);
+
             $(this.dialog).modal('hide');
         },
         getData: function (type) {
@@ -272,14 +271,16 @@ function (
             //      formats data suitable for submission to gp service
             // returns: RecordSet (Object)
             console.log('app.catch.MoreInfoDialog:getData', arguments);
-        
+
             var rSet = {
                 displayFieldName: '',
                 features: []
             };
 
             for (var fishId in this[type + 'Data']) {
-                rSet.features = rSet.features.concat(this[type+'Data'][fishId]);
+                if (this[type + 'Data'].hasOwnProperty(fishId)) {
+                    rSet.features = rSet.features.concat(this[type + 'Data'][fishId]);
+                }
             }
 
             return rSet;

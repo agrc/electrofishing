@@ -1,9 +1,8 @@
 require([
-    'app/App',
-    'app/NewCollectionEvent'
-], 
+    'app/App'
+],
 
-function (App, NewCollectionEvent) {
+function (App) {
     describe('app/App', function () {
         var testWidget;
         beforeEach(function () {

@@ -43,7 +43,7 @@ function (
             expect(testWidget).toEqual(jasmine.any(Health));
         });
         describe('clearValues', function () {
-            it("clears all values", function () {
+            it('clears all values', function () {
                 setData();
 
                 testWidget.clearValues();
@@ -55,7 +55,7 @@ function (
             });
         });
         describe('getData', function () {
-            it("builds a record set from values", function () {
+            it('builds a record set from values', function () {
                 setData();
                 testWidget.currentFishId = 'blah';
 
@@ -69,7 +69,7 @@ function (
                 expect(f[fn.PLPRO]).toEqual(plasma);
                 expect(f[fn.FISH_ID]).toEqual('blah');
             });
-            it("returns null if no values are entered", function () {
+            it('returns null if no values are entered', function () {
                 expect(testWidget.getData()).toBeNull();
             });
         });
@@ -79,7 +79,7 @@ function (
             data.attributes[fn.KIDNEY] = kidney;
             data.attributes[fn.FIN] = fin;
             data.attributes[fn.PLPRO] = plasma;
-            it('sets values of comboboxes', function() {
+            it('sets values of comboboxes', function () {
                 setData();
                 var t = testWidget;
                 t.eyeConditionSelect.value = '';

@@ -25,9 +25,9 @@ function (
             _MultipleWidgetsWithAddBtnMixin
         ], {
             widgetsInTemplate: true,
-            templateString: "<div><div data-dojo-attach-point='addBtnWidgetsContainer'></div></div></div>",
+            templateString: '<div><div data-dojo-attach-point="addBtnWidgetsContainer"></div></div></div>',
             constructor: function () {
-                console.log(this.declaredClass + "::constructor", arguments);
+                console.log(this.declaredClass + '::constructor', arguments);
                 if (setClass) {
                     this.AddBtnWidgetClass = CanoeBarge;
                 }
@@ -47,7 +47,7 @@ function (
             expect(testWidget).toEqual(jasmine.any(TestWidget));
         });
         describe('postCreate', function () {
-            it("verifies the presence of AddBtnWidgetClass property", function () {
+            it('verifies the presence of AddBtnWidgetClass property', function () {
                 setClass = false;
                 expect(function () {
                     new TestWidget();
@@ -58,14 +58,14 @@ function (
             beforeEach(function () {
                 spyOn(testWidget, 'addAddBtnWidget');
             });
-            it("fires addAddBtnWidget when the add button is pressed on the first btn widget", function () {
+            it('fires addAddBtnWidget when the add button is pressed on the first btn widget', function () {
                 // testWidget.wireEvents();
 
                 testWidget.AddBtnWidgets[0].btn.click();
 
                 expect(testWidget.addAddBtnWidget).toHaveBeenCalled();
             });
-            it("fires onRemoveAddBtnWidget when the minus button is pressed", function () {
+            it('fires onRemoveAddBtnWidget when the minus button is pressed', function () {
                 spyOn(testWidget, 'onRemoveAddBtnWidget');
                 testWidget.AddBtnWidgets[0].btn.click();
 
@@ -77,12 +77,12 @@ function (
             });
         });
         describe('addAddBtnWidget', function () {
-            it("create a new Backpack widget", function () {
+            it('create a new Backpack widget', function () {
                 testWidget.addAddBtnWidget();
 
                 expect(testWidget.AddBtnWidgets.length).toEqual(2);
             });
-            it("wires onAdd for the newly created widget", function () {
+            it('wires onAdd for the newly created widget', function () {
                 spyOn(testWidget, 'addAddBtnWidget').andCallThrough();
                 testWidget.addAddBtnWidget();
 
@@ -92,7 +92,7 @@ function (
             });
         });
         describe('onRemoveAddBtnWidget', function () {
-            it("removes the widget from AddBtnWidgets array", function () {
+            it('removes the widget from AddBtnWidgets array', function () {
                 testWidget.addAddBtnWidget();
                 var newWidget = testWidget.AddBtnWidgets[1];
                 testWidget.addAddBtnWidget();

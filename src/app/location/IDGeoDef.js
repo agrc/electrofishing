@@ -1,7 +1,7 @@
 define([
-    'dojo/_base/declare', 
-    'dijit/_WidgetBase', 
-    'dijit/_TemplatedMixin', 
+    'dojo/_base/declare',
+    'dijit/_WidgetBase',
+    'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin',
     'app/location/_GeoDefMixin',
     'dojo/text!app/location/templates/IDGeoDef.html',
@@ -12,18 +12,17 @@ define([
 ],
 
 function (
-    declare, 
-    _WidgetBase, 
-    _TemplatedMixin, 
-    _WidgetsInTemplateMixin, 
-    _GeoDefMixin, 
+    declare,
+    _WidgetBase,
+    _TemplatedMixin,
+    _WidgetsInTemplateMixin,
+    _GeoDefMixin,
     template,
     domClass,
     Deferred,
     xhr
     ) {
-    return declare('app.location.IDGeoDef', 
-        [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GeoDefMixin], {
+    return declare('app.location.IDGeoDef', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GeoDefMixin], {
         widgetsInTemplate: false,
         templateString: template,
         baseClass: 'id-geo-def',
@@ -61,7 +60,7 @@ function (
         constructor: function () {
             // summary:
             //    description
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log(this.declaredClass + '::constructor:', arguments);
 
             this.gpServiceUrl = AGRC.urls.getSegmentFromID;
             this.defs = [];
@@ -69,17 +68,17 @@ function (
         postCreate: function () {
             // summary:
             //        dom is ready
-            console.log(this.declaredClass + "::postCreate", arguments);
-        
+            console.log(this.declaredClass + '::postCreate', arguments);
+
             this.wireEvents();
         },
         wireEvents: function () {
             // summary:
             //        wires the events for the widget
-            console.log(this.declaredClass + "::wireEvents", arguments);
+            console.log(this.declaredClass + '::wireEvents', arguments);
 
             var that = this;
-            
+
             // invalidate on textbox value change
             this.connect(this.waterIDBox, 'onchange', function () {
                 that.onInvalidate(that.reachBox);
@@ -96,15 +95,15 @@ function (
             // summary:
             //        fires when a change is made to either text box
             // otherBox: TextBox
-            console.log(this.declaredClass + "::onInvalidate", arguments);
-        
+            console.log(this.declaredClass + '::onInvalidate', arguments);
+
             otherBox.value = '';
         },
         getID: function () {
             // summary:
             //        validates the number of digits in the text box with a value in it
             // returns: Boolean | {id: String, type: String}
-            console.log(this.declaredClass + "::getID", arguments);
+            console.log(this.declaredClass + '::getID', arguments);
 
             function toggleErrorClass(div, add) {
                 var f = (add) ? domClass.add : domClass.remove;
@@ -149,20 +148,20 @@ function (
             // summary:
             //        fires off the validate service and returns the segment
             // returns: Deferred
-            console.log(this.declaredClass + "::getGeometry", arguments);
-        
-            var def,    // the deferred returned if the id is valid
-                idObj,  // the id object (or false) as returned by getID
-                xhrParams,
-                that = this;
+            console.log(this.declaredClass + '::getGeometry', arguments);
+
+            var def;    // the deferred returned if the id is valid
+            var idObj;  // the id object (or false) as returned by getID
+            var xhrParams;
+            var that = this;
 
             idObj = this.getID();
 
             if (idObj !== false) {
                 that.geoDef = 'id:' + idObj.id + '|type:' + idObj.type;
-                
+
                 def = new Deferred();
-                
+
                 xhrParams = this.getXHRParams(idObj.id, idObj.type);
 
                 xhr(this.gpServiceUrl + '/submitJob?', xhrParams)
@@ -183,11 +182,11 @@ function (
         getXHRParams: function (id, type) {
             // summary:
             //        builds the xhr parameter object
-            //      
+            //
             // id: String
             // type: String
-            console.log(this.declaredClass + "::getXHRParams", arguments);
-        
+            console.log(this.declaredClass + '::getXHRParams', arguments);
+
             return {
                 query: {
                     f: 'json',
@@ -198,4 +197,4 @@ function (
             };
         }
     });
-}); 
+});

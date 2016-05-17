@@ -1,4 +1,4 @@
-new require([
+require([
     'app/location/IDGeoDef',
     'dojo/on',
     'dojo/dom-class',
@@ -12,11 +12,11 @@ function (
     Deferred
     ) {
     describe('app/location/IDGeoDef', function () {
-        var testWidget,
-            mockReturn = {
-                id: 123,
-                type: 'blah'
-            };
+        var testWidget;
+        var mockReturn = {
+            id: 123,
+            type: 'blah'
+        };
         beforeEach(function () {
             testWidget = new IDGeoDef();
         });
@@ -28,15 +28,15 @@ function (
             it('creates a valid object', function () {
                 expect(testWidget).toEqual(jasmine.any(IDGeoDef));
             });
-            it("defines a the gpServiceUrl property", function () {
+            it('defines a the gpServiceUrl property', function () {
                 expect(testWidget.gpServiceUrl).toEqual(AGRC.urls.getSegmentFromID);
             });
-            it("sets defs to an empty array", function () {
+            it('sets defs to an empty array', function () {
                 expect(testWidget.defs).toEqual([]);
             });
         });
         describe('onInvalidate', function () {
-            it("clears the other text box when text is entered", function () {
+            it('clears the other text box when text is entered', function () {
                 testWidget.waterIDBox.value = 'blah';
 
                 testWidget.onInvalidate(testWidget.waterIDBox);
@@ -52,7 +52,7 @@ function (
         });
         describe('getID', function () {
             var validReachValue = '12345678901234';
-            it("validates the number of digits for reach codes", function () {
+            it('validates the number of digits for reach codes', function () {
                 testWidget.reachBox.value = '123456';
 
                 expect(testWidget.getID()).toBe(false);
@@ -71,10 +71,10 @@ function (
                 expect(testWidget.reachBoxTxt.innerHTML).toEqual(testWidget.tooManyDigitsMsg);
                 expect(domClass.contains(testWidget.reachGroup, 'error')).toBe(true);
             });
-            it("returns false if there are no values", function () {
+            it('returns false if there are no values', function () {
                 expect(testWidget.getID()).toBe(false);
             });
-            it("clears any existing validate messages", function () {
+            it('clears any existing validate messages', function () {
                 testWidget.reachBoxTxt.innerHTML = 'blah';
                 domClass.add(testWidget.reachGroup, 'error');
                 testWidget.waterIDBoxTxt.innerHTML = 'blah';
@@ -88,7 +88,7 @@ function (
                 expect(testWidget.waterIDBoxTxt.innerHTML).toEqual('');
                 expect(domClass.contains(testWidget.waterIDGroup, 'error')).toBe(false);
             });
-            it("returns the current valid id value and type for reach codes", function () {
+            it('returns the current valid id value and type for reach codes', function () {
                 testWidget.reachBox.value = validReachValue;
 
                 var value = testWidget.getID();
@@ -98,7 +98,7 @@ function (
                     type: AGRC.idTypes.reachcode
                 });
             });
-             it("returns the current valid id value and type for waterbody ids", function () {
+            it('returns the current valid id value and type for waterbody ids', function () {
                 var id = '123';
                 testWidget.waterIDBox.value = id;
 
@@ -111,7 +111,7 @@ function (
             });
         });
         describe('wireEvents', function () {
-            it("wires onInvalidate to textboxes onchange event", function () {
+            it('wires onInvalidate to textboxes onchange event', function () {
                 spyOn(testWidget, 'onInvalidate');
 
                 on.emit(testWidget.waterIDBox, 'change', {bubbles: true});
@@ -119,7 +119,7 @@ function (
 
                 expect(testWidget.onInvalidate.calls.length).toBe(2);
             });
-            it("wire getID to textboxes blur event", function () {
+            it('wire getID to textboxes blur event', function () {
                 spyOn(testWidget, 'getID');
 
                 on.emit(testWidget.waterIDBox, 'blur', {bubbles: true});
@@ -129,17 +129,17 @@ function (
             });
         });
         describe('getGeometry', function () {
-            it("returns a Deferred object if it has a valid id", function () {
+            it('returns a Deferred object if it has a valid id', function () {
                 spyOn(testWidget, 'getID').andReturn(mockReturn);
 
                 expect(testWidget.getGeometry()).toEqual(jasmine.any(Deferred));
             });
-            it("returns an invalid message if it doesn't have a valid id", function () {
+            it('returns an invalid message if it doesn\'t have a valid id', function () {
                 spyOn(testWidget, 'getID').andReturn(false);
 
                 expect(testWidget.getGeometry()).toEqual(testWidget.invalidMsg);
             });
-            it("calls getXHRParams", function () {
+            it('calls getXHRParams', function () {
                 spyOn(testWidget, 'getXHRParams');
                 spyOn(testWidget, 'getID').andReturn(mockReturn);
 
@@ -147,7 +147,7 @@ function (
 
                 expect(testWidget.getXHRParams).toHaveBeenCalledWith(mockReturn.id, mockReturn.type);
             });
-            it("sets the geoDef property", function () {
+            it('sets the geoDef property', function () {
                 spyOn(testWidget, 'getID').andReturn(mockReturn);
 
                 testWidget.getGeometry();
@@ -156,7 +156,7 @@ function (
             });
         });
         describe('getXHRParams', function () {
-            it("sets the appropriate values", function () {
+            it('sets the appropriate values', function () {
                 var value = testWidget.getXHRParams(mockReturn.id, mockReturn.type);
 
                 expect(value.query.id).toEqual(mockReturn.id);

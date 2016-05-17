@@ -3,7 +3,6 @@ define([
     'dojo/dom-construct',
     'dojo/aspect',
     'dojo/_base/array'
-
 ],
 
 function (
@@ -30,7 +29,7 @@ function (
         postCreate: function () {
             // summary:
             //      dom is ready
-            console.log(this.declaredClass + "::postCreate", arguments);
+            console.log(this.declaredClass + '::postCreate', arguments);
 
             if (!this.AddBtnWidgetClass) {
                 throw this.noAddBtnWidgetPropErrMsg;
@@ -45,10 +44,10 @@ function (
         addAddBtnWidget: function () {
             // summary:
             //      Fires when the add button is pressed on the _addBtn widget
-            console.log(this.declaredClass + "::addAddBtnWidget", arguments);
-            
+            console.log(this.declaredClass + '::addAddBtnWidget', arguments);
+
             var widget = new this.AddBtnWidgetClass(
-                {container: this}, 
+                {container: this},
                 domConstruct.create('div', {}, this.addBtnWidgetsContainer)
             );
             widget.startup();
@@ -63,10 +62,10 @@ function (
             // summary:
             //      wires up the onAdd event for the passed in widget
             // widget: Backpack
-            console.log(this.declaredClass + "::wireAddBtnWidgetOnAdd", arguments);
+            console.log(this.declaredClass + '::wireAddBtnWidgetOnAdd', arguments);
 
             var that = this;
-        
+
             this.own(
                 aspect.after(widget, 'onAdd', function () {
                     that.addAddBtnWidget();
@@ -81,14 +80,14 @@ function (
             //      fires when the user clicks on the minus button for the add button widget
             // widget: _AddBtnMixin Widget
             //      the widget that needs to be removed
-            console.log(this.declaredClass + "::onRemoveAddBtnWidget", arguments);
-            
+            console.log(this.declaredClass + '::onRemoveAddBtnWidget', arguments);
+
             this.AddBtnWidgets.splice(array.indexOf(this.AddBtnWidgets, widget), 1);
         },
         clear: function () {
             // summary:
             //      removes all widgets except the first one
-            console.log(this.declaredClass + "::clear", arguments);
+            console.log(this.declaredClass + '::clear', arguments);
 
             array.forEach(this.AddBtnWidgets, function (addBtn) {
                 addBtn.destroyRecursive(false);
@@ -102,8 +101,8 @@ function (
             // summary:
             //      gathers data from all child widgets and returns them as an array
             // returns: Object[]
-            console.log(this.declaredClass + "::getData", arguments);
-        
+            console.log(this.declaredClass + '::getData', arguments);
+
             var data = {
                 displayFieldName: '',
                 features: []
@@ -123,7 +122,7 @@ function (
             //      creates and pre-populates the addBtnWidgets with the features data
             // features: {attributes: {...}}[]
             console.log('app._MultipleWidgetsWithAddBtnMixin:setData', arguments);
-        
+
             // there's already a blank widget so fill that one in first
             if (features[0]) {
                 this.AddBtnWidgets[0].setData(features[0]);

@@ -2,18 +2,18 @@ require([
     'app/location/CoordTypeToggle',
 
     'app/main'
-], 
+],
 
 function (
     CoordTypeToggle
     ) {
     describe('app/location/CoordTypeToggle', function () {
-        var testWidget,
-            topicMock,
-            value = AGRC.coordTypes.utm27;
-            
+        var testWidget;
+        var topicMock;
+        var value = AGRC.coordTypes.utm27;
+
         // this is to prevent global topics from firing in other tests
-        var oldTopic = AGRC.topics.coordTypeToggle_onChange; 
+        var oldTopic = AGRC.topics.coordTypeToggle_onChange;
         beforeEach(function () {
             AGRC.topics.coordTypeToggle_onChange = 'blah';
             testWidget = new CoordTypeToggle();
@@ -97,5 +97,5 @@ function (
                 expect(localStorage.coordType).toEqual(AGRC.coordTypes.utm83);
             });
         });
-    }); 
+    });
 });

@@ -81,7 +81,7 @@ function (
             });
         });
         describe('addRow', function () {
-            it("adds an object to the store", function () {
+            it('adds an object to the store', function () {
                 var dataCount = testWidget.grid.store.data.length;
 
                 testWidget.addRow();
@@ -92,7 +92,7 @@ function (
 
                 expect(addedRow[fn.PASS_NUM]).toEqual(testWidget.currentPass);
             });
-            it("adds the correct id number when multiple passes are present", function () {
+            it('adds the correct id number when multiple passes are present', function () {
                 testWidget.addRow();
                 testWidget.addRow();
                 testWidget.addPass();
@@ -101,7 +101,7 @@ function (
 
                 expect(addedRow[fn.CATCH_ID]).toBe(1);
             });
-            it("adds the correct id if a row is deleted", function () {
+            it('adds the correct id if a row is deleted', function () {
                 testWidget.addRow();
                 testWidget.addRow();
                 testWidget.grid.select(testWidget.grid.row(testWidget.grid.store.data[0][fn.FISH_ID]));
@@ -116,14 +116,14 @@ function (
             });
         });
         describe('addPass', function () {
-            it("saves the store", function () {
+            it('saves the store', function () {
                 spyOn(testWidget.grid, 'save');
 
                 testWidget.addPass();
 
                 expect(testWidget.grid.save).toHaveBeenCalled();
             });
-            it("adds a new pass button", function () {
+            it('adds a new pass button', function () {
                 var origPass = testWidget.currentPass;
 
                 testWidget.addPass();
@@ -131,14 +131,14 @@ function (
                 expect(query('div[data-dojo-attach-point="passBtnContainer"] .btn', testWidget.domNode).length).toBe(2);
                 expect(testWidget.currentPass).toEqual(origPass + 1);
             });
-            it("calls changePass on the newly created button", function () {
+            it('calls changePass on the newly created button', function () {
                 spyOn(testWidget, 'changePass');
 
                 testWidget.addPass();
 
                 expect(testWidget.changePass.mostRecentCall.args[0].srcElement.innerText).toBe('2');
             });
-            it("adds a new row for the new pass", function () {
+            it('adds a new row for the new pass', function () {
                 spyOn(testWidget, 'addRow');
 
                 testWidget.addPass();
@@ -151,7 +151,7 @@ function (
                 testWidget.addPass();
 
                 testWidget.currentPass = 1;
-                
+
                 testWidget.addPass();
 
                 expect(testWidget.changePass.mostRecentCall.args[0].srcElement.innerText).toBe('3');
@@ -161,14 +161,14 @@ function (
             var e = {
                 srcElement: {innerText: '2'}
             };
-            it("saves the store", function () {
+            it('saves the store', function () {
                 spyOn(testWidget.grid, 'save');
 
                 testWidget.changePass(e);
 
                 expect(testWidget.grid.save).toHaveBeenCalled();
             });
-            it("updates the grid store query", function () {
+            it('updates the grid store query', function () {
                 testWidget.changePass(e);
 
                 var query = {};
@@ -176,14 +176,14 @@ function (
 
                 expect(testWidget.grid.query).toEqual(query);
             });
-            it("updates the current pass", function () {
+            it('updates the current pass', function () {
                 testWidget.changePass(e);
 
                 expect(testWidget.currentPass).toBe(2);
             });
         });
         describe('deleteRow', function () {
-            it("removes the selected row", function () {
+            it('removes the selected row', function () {
                 testWidget.addRow();
                 testWidget.addRow();
 
@@ -195,7 +195,7 @@ function (
             });
         });
         describe('onGridKeydown', function () {
-            it("adds a new row if it's on the last field of the last row for that pass", function () {
+            it('adds a new row if it\'s on the last field of the last row for that pass', function () {
                 testWidget.addRow();
                 testWidget.addRow();
                 testWidget.addPass();
@@ -213,7 +213,7 @@ function (
 
                 expect(testWidget.grid.store.data.length).toBe(5);
             });
-            it("adds a new row on a previous pass", function () {
+            it('adds a new row on a previous pass', function () {
                 testWidget.addRow();
                 testWidget.addRow();
                 testWidget.addPass();
@@ -302,7 +302,7 @@ function (
                 var last = data[2];
                 expect(last[AGRC.fieldNames.fish.WEIGHT]).toBe(3.3);
             });
-            it("clears out the text boxes and hides the popup", function () {
+            it('clears out the text boxes and hides the popup', function () {
                 spyOn(testWidget.batchBtn, 'click');
 
                 testWidget.batch();
@@ -313,7 +313,7 @@ function (
             });
         });
         describe('specialWeight', function () {
-            it("apply the special weight to the selected row", function () {
+            it('apply the special weight to the selected row', function () {
                 testWidget.addRow();
                 testWidget.addRow();
 
@@ -327,7 +327,7 @@ function (
             });
         });
         describe('moreInfo', function () {
-            it("doesn't open the dialog if no row is selected", function () {
+            it('doesn\'t open the dialog if no row is selected', function () {
                 spyOn(testWidget, 'getSelectedRow').andReturn(undefined);
                 spyOn(testWidget.moreInfoDialog, 'show');
 
@@ -337,7 +337,7 @@ function (
             });
         });
         describe('isValid', function () {
-            it("requires at least one fish to be recorded", function () {
+            it('requires at least one fish to be recorded', function () {
                 expect(testWidget.isValid()).toEqual(testWidget.invalidGridMsg);
 
                 testWidget.grid.store.data[0][fn.SPECIES_CODE] = 'blah';
@@ -347,7 +347,7 @@ function (
             });
         });
         describe('getNumberOfPasses', function () {
-            it("returns the correct number of passes", function () {
+            it('returns the correct number of passes', function () {
                 expect(testWidget.getNumberOfPasses()).toEqual(1);
 
                 testWidget.addPass();
@@ -357,7 +357,7 @@ function (
             });
         });
         describe('clear', function () {
-            it("clears all of the controls", function () {
+            it('clears all of the controls', function () {
                 testWidget.addPass();
                 testWidget.grid.store.data[0][fn.SPECIES_CODE] = 'blah';
                 testWidget.addRow();

@@ -7,7 +7,7 @@ require([
 ],
 
 function (
-    StartEndGeoDef, 
+    StartEndGeoDef,
     Deferred,
     json,
     topic,
@@ -30,7 +30,7 @@ function (
             });
         });
         describe('wireEvents', function () {
-            it("wires the onInvalidate method to point defs", function () {
+            it('wires the onInvalidate method to point defs', function () {
                 spyOn(testWidget, 'onInvalidate');
                 spyOn(testWidget.startPointDef, 'updateMarkerPosition');
                 spyOn(testWidget.endPointDef, 'updateMarkerPosition');
@@ -41,7 +41,7 @@ function (
 
                 expect(testWidget.onInvalidate.calls.length).toEqual(2);
             });
-            it("subscribes to the mapInit topic and creates a feature group", function () {
+            it('subscribes to the mapInit topic and creates a feature group', function () {
                 spyOn(testWidget.startPointDef, 'setMap');
                 spyOn(testWidget.endPointDef, 'setMap');
 
@@ -77,7 +77,7 @@ function (
 
                 expect(testWidget.getXHRParams).toHaveBeenCalledWith(start, end);
             });
-            it("sets the geoDef property", function () {
+            it('sets the geoDef property', function () {
                 var start = {x: 1, y: 2};
                 spyOn(testWidget.startPointDef, 'getPoint').andReturn(start);
                 var end = {x: 3, y: 4};
@@ -128,10 +128,10 @@ function (
             });
         });
         describe('checkJobStatus', function () {
-            var xhrDef,
-                def,
-                xhrSpy,
-                testWidget2;
+            var xhrDef;
+            var def;
+            var xhrSpy;
+            var testWidget2;
             beforeEach(function () {
                 xhrDef = new Deferred();
                 def = new Deferred();
@@ -151,7 +151,7 @@ function (
             it('calls getResult and returns true if esriJobSucceeded', function () {
                 testWidget2.checkJobStatus('123', def);
                 xhrDef.resolve({jobStatus: 'esriJobSucceeded'});
-                
+
                 expect(xhrSpy).toHaveBeenCalled();
                 expect(testWidget2.getJobResults).toHaveBeenCalled();
             });

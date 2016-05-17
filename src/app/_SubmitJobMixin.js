@@ -2,7 +2,6 @@ define([
     'dojo/_base/declare',
     'dojo/request/xhr',
     'dojo/_base/array'
-
 ],
 
 function (
@@ -19,8 +18,8 @@ function (
             // data: {}
             // url: String
             // returns: Deferred
-            console.log(this.declaredClass + "::submitJob", arguments);
-        
+            console.log(this.declaredClass + '::submitJob', arguments);
+
             var that = this;
             var intId;
             var params = {
@@ -29,29 +28,27 @@ function (
                 method: 'POST'
             };
 
-            return xhr(url + '/submitJob', params).then(
-                function (response) {
-                    if (response.error) {
-                        that.onError(response.error);
-                    } else {
-                        intId = setInterval(function () {
-                            that.checkJobStatus(url, response.jobId, intId);
-                        }, 500);
-                        return true;
-                    }
-                }, function (err) {
-                    that.onError(err);
+            return xhr(url + '/submitJob', params).then(function (response) {
+                if (response.error) {
+                    that.onError(response.error);
+                } else {
+                    intId = setInterval(function () {
+                        that.checkJobStatus(url, response.jobId, intId);
+                    }, 500);
+                    return true;
                 }
-            );
-        },        
+            }, function (err) {
+                that.onError(err);
+            });
+        },
         checkJobStatus: function (url, jobId, intId) {
             // summary:
             //      description
             // url: String
             // jobId: String
             // intId: setInterval handle for clearing it
-            console.log(this.declaredClass + "::checkJobStatus", arguments);
-            
+            console.log(this.declaredClass + '::checkJobStatus', arguments);
+
             var that = this;
             var params = {
                 data: {f: 'json'},
@@ -60,7 +57,7 @@ function (
             };
 
             xhr(url + '/jobs/' + jobId, params).then(function (jobStatus) {
-                array.forEach(jobStatus.messages, function(m) {
+                array.forEach(jobStatus.messages, function (m) {
                     console.log(m.description);
                 });
                 if (jobStatus.jobStatus === 'esriJobSucceeded') {

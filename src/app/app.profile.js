@@ -1,6 +1,6 @@
-/*global profile:true*/
-profile = (function () {
-    var copyOnly = function(mid) {
+/*eslint-disable no-unused-vars */
+var profile = (function () {
+    var copyOnly = function (mid) {
         // console.log(mid);
         var list = {
             'bootstrap': true
@@ -22,10 +22,10 @@ profile = (function () {
         layers: {
             'dojo/dojo': {
                 include: [
-                    'dojo/i18n', 
-                    'dojo/domReady', 
-                    'app/main', 
-                    'app/run', 
+                    'dojo/i18n',
+                    'dojo/domReady',
+                    'app/main',
+                    'app/run',
                     'dijit/_base/manager' // this could probably be removed once all modules are AMD
                 ],
                 customBase: true,
@@ -33,12 +33,12 @@ profile = (function () {
             }
         },
         staticHasFeatures: {
-            'dojo-trace-api':0,
-            'dojo-log-api':0,
-            'dojo-publish-privates':0,
-            // 'dojo-sync-loader':0, // this can be uncommented once all modules are AMD
-            'dojo-xhr-factory':0,
-            'dojo-test-sniff':0,
+            'dojo-trace-api': 0,
+            'dojo-log-api': 0,
+            'dojo-publish-privates': 0,
+            // 'dojo-sync-loader': 0, // this can be uncommented once all modules are AMD
+            'dojo-xhr-factory': 0,
+            'dojo-test-sniff': 0,
             'dijit-legacy-requires': 0
         },
         resourceTags: {
@@ -64,4 +64,4 @@ profile = (function () {
             location: '../dojox'
         }]
     };
-})();
+}());

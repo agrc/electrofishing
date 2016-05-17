@@ -1,7 +1,7 @@
 define([
-    'dojo/_base/declare', 
-    'dijit/_WidgetBase', 
-    'dijit/_TemplatedMixin', 
+    'dojo/_base/declare',
+    'dijit/_WidgetBase',
+    'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin',
     'dojo/text!app/catch/templates/Catch.html',
     'agrc/modules/GUID',
@@ -18,14 +18,13 @@ define([
     'agrc/modules/Formatting',
     'app/Domains',
     'dojo/on'
-
 ],
 
 function (
-    declare, 
-    _WidgetBase, 
-    _TemplatedMixin, 
-    _WidgetsInTemplateMixin, 
+    declare,
+    _WidgetBase,
+    _TemplatedMixin,
+    _WidgetsInTemplateMixin,
     template,
     GUID,
     domClass,
@@ -44,8 +43,7 @@ function (
     ) {
     // summary:
     //      Catch tab
-    return declare('app/Catch', 
-        [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GridMixin], {
+    return declare('app/Catch', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GridMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'catch',
@@ -89,8 +87,8 @@ function (
             // summary:
             //      sets some properties that cannot be set in the class definition
             //      because AGRC isn't available yet
-            console.log(this.declaredClass + "::constructor", arguments);
-            
+            console.log(this.declaredClass + '::constructor', arguments);
+
             var fn = AGRC.fieldNames.fish;
 
             this.lastColumn = fn.WEIGHT;
@@ -100,7 +98,7 @@ function (
         postCreate: function () {
             // summary:
             //      dom is ready
-            console.log(this.declaredClass + "::postCreate", arguments);
+            console.log(this.declaredClass + '::postCreate', arguments);
 
             var fn = AGRC.fieldNames.fish;
             var columns = [
@@ -110,7 +108,7 @@ function (
                 {label: 'NOTES', field: fn.NOTES, sortable: false},
                 {label: 'ID', field: fn.CATCH_ID, sortable: false},
                 editor({
-                    autoSave: true, 
+                    autoSave: true,
                     // can't auto save because save causes the row to be redrawn which in turn looses focus
                     // update: This bug has supposedly been fixed: https://github.com/SitePen/dgrid/issues/496#issuecomment-23382688
                     label: 'Species Code',
@@ -124,7 +122,7 @@ function (
                     }
                 }),
                 editor({
-                    autoSave: true, 
+                    autoSave: true,
                     label: 'Length Type',
                     field: fn.LENGTH_TYPE,
                     editor: GridDropdown,
@@ -136,7 +134,7 @@ function (
                     }
                 }),
                 editor({
-                    autoSave: true, 
+                    autoSave: true,
                     label: 'Length (millimeters)',
                     field: fn.LENGTH,
                     editor: 'text',
@@ -149,7 +147,7 @@ function (
                     }
                 }),
                 editor({
-                    autoSave: true, 
+                    autoSave: true,
                     label: 'Weight (grams)',
                     field: fn.WEIGHT,
                     editor: 'text',
@@ -188,7 +186,7 @@ function (
             // summary:
             //      wires events for the widget
             console.log('app.Catch:wireEvents', arguments);
-        
+
             var tb = this.batchCodeSelect.parentElement.children[1].children[1].children[0];
             on(tb, 'keyup, change', lang.hitch(this, 'validateBatchForm'));
             on(this.batchNumberTxt, 'keyup, change', lang.hitch(this, 'validateBatchForm'));
@@ -199,8 +197,8 @@ function (
             //      pass number and a new guid
             // returns: String
             //      The guid of the newly added row. Mostly for unit tests.
-            console.log(this.declaredClass + "::addRow", arguments);
-            
+            console.log(this.declaredClass + '::addRow', arguments);
+
             var fn = AGRC.fieldNames.fish;
             var passData = this.grid.store.query(this.grid.query);
             var catchId = (passData.length === 0) ? 1 : passData[passData.length - 1][fn.CATCH_ID] + 1;
@@ -224,8 +222,8 @@ function (
         addPass: function () {
             // summary:
             //      adds a new pass and updates the grid store query
-            console.log(this.declaredClass + "::addPass", arguments);
-        
+            console.log(this.declaredClass + '::addPass', arguments);
+
             this.grid.save();
 
             var lbl = domConstruct.create('label', {
@@ -248,10 +246,10 @@ function (
             //      updates the query on the grid store to show only the appropriate
             //      fish
             // e: Click Event
-            console.log(this.declaredClass + "::changePass", arguments);
+            console.log(this.declaredClass + '::changePass', arguments);
 
             this.currentPass = parseInt(e.srcElement.innerText, 10);
-        
+
             this.grid.save();
 
             var query = {};
@@ -263,28 +261,30 @@ function (
             // summary:
             //      returns the number of passes
             // returns: Number
-            console.log(this.declaredClass + "::getNumberOfPasses", arguments);
-        
+            console.log(this.declaredClass + '::getNumberOfPasses', arguments);
+
             return query('.btn', this.passBtnContainer).length;
         },
         validateBatchForm: function () {
             // summary:
             //      enables/disabled go button on batch form
             console.log('app.Catch:validateBatchForm', arguments);
-        
-            this.batchGoBtn.disabled = (!this.batchCodeSelect.value || 
+
+            this.batchGoBtn.disabled = (!this.batchCodeSelect.value ||
                 !this.batchNumberTxt.value);
         },
         batch: function () {
             // summary:
             //      description
             // e: Click Event
-            console.log(this.declaredClass + "::batch", arguments);
+            console.log(this.declaredClass + '::batch', arguments);
 
             var item;
             var batchWeight = parseInt(this.batchWeightTxt.value, 10);
             var number = parseInt(this.batchNumberTxt.value, 10);
             var that = this;
+            var fn = AGRC.fieldNames.fish;
+            var avgWeight = Formatting.round(batchWeight / number, 1);
             var populateValues = function (guid) {
                 item = that.grid.store.get(guid);
                 item[fn.SPECIES_CODE] = that.batchCodeSelect.value;
@@ -292,16 +292,13 @@ function (
                 that.grid.store.put(item);
             };
 
-            var avgWeight = Formatting.round(batchWeight / number, 1);
-            var fn = AGRC.fieldNames.fish;
-
             // check to see if last row in grid is empty
             var lastRow = this.grid.store.data[this.grid.store.data.length - 1];
             if (lastRow[fn.SPECIES_CODE] === null) {
                 populateValues(lastRow[fn.FISH_ID]);
                 number--;
             }
-        
+
             for (var i = 0; i < number; i++) {
                 populateValues(this.addRow());
             }
@@ -318,7 +315,7 @@ function (
         onBatchToggle: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::onBatchToggle", arguments);
+            console.log(this.declaredClass + '::onBatchToggle', arguments);
 
             var that = this;
 
@@ -343,32 +340,32 @@ function (
         noWeight: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::noWeight", arguments);
-        
+            console.log(this.declaredClass + '::noWeight', arguments);
+
             this.specialWeight(AGRC.noWeightValue);
         },
         tooSmall: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::tooSmall", arguments);
-        
+            console.log(this.declaredClass + '::tooSmall', arguments);
+
             this.specialWeight(AGRC.tooSmallValue);
         },
         specialWeight: function (weight) {
             // summary:
             //      sets the selected row's weight
             // weight: Number
-            console.log(this.declaredClass + "::specialWeight", arguments);
-        
+            console.log(this.declaredClass + '::specialWeight', arguments);
+
             this.getSelectedRow().data[AGRC.fieldNames.fish.WEIGHT] = weight;
             this.grid.refresh();
         },
         moreInfo: function (evt) {
             // summary:
             //     opens the more info dialog
-            // evt: Mouse Click Event Object 
-            console.log(this.declaredClass + "::moreInfo", arguments);
-            
+            // evt: Mouse Click Event Object
+            console.log(this.declaredClass + '::moreInfo', arguments);
+
             var row = this.getSelectedRow();
 
             if (row) {
@@ -379,8 +376,8 @@ function (
         clear: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::clear", arguments);
-        
+            console.log(this.declaredClass + '::clear', arguments);
+
             query('.btn', this.passBtnContainer).forEach(function (node) {
                 if (node.innerText.trim() !== '1') {
                     domConstruct.destroy(node);
@@ -394,15 +391,15 @@ function (
             // summary:
             //      validates this tab
             // returns: String (if not valid) | Boolean (true if valid)
-            console.log(this.declaredClass + "::isValid", arguments);
-        
+            console.log(this.declaredClass + '::isValid', arguments);
+
             return this.isGridValid();
         },
         getData: function () {
             // summary:
             //      packages up the grid data as a record set
-            console.log(this.declaredClass + "::getData", arguments);
-        
+            console.log(this.declaredClass + '::getData', arguments);
+
             return {
                 displayFieldName: '',
                 features: this.getGridData()
@@ -419,7 +416,7 @@ function (
             query('.more-info>a', this.domNode).forEach(function (a) {
                 value(a, 'disabled');
             });
-        
+
             this.inherited(arguments);
         }
     });

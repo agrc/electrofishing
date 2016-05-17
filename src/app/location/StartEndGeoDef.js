@@ -15,20 +15,19 @@ define([
 ],
 
 function (
-    declare, 
-    _WidgetBase, 
-    _TemplatedMixin, 
-    _WidgetsInTemplateMixin, 
-    _GeoDefMixin, 
-    template, 
-    Deferred, 
-    xhr, 
+    declare,
+    _WidgetBase,
+    _TemplatedMixin,
+    _WidgetsInTemplateMixin,
+    _GeoDefMixin,
+    template,
+    Deferred,
+    xhr,
     json,
     array,
     topic
     ) {
-    return declare('app.location.StartEndGeoDef', 
-        [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GeoDefMixin], {
+    return declare('app.location.StartEndGeoDef', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GeoDefMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'start-end-geodef',
@@ -59,14 +58,14 @@ function (
         constructor: function () {
             // summary:
             //    description
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/location/StartEndGeoDef:constructor', arguments);
 
             this.gpServiceUrl = AGRC.urls.getSegmentFromCoords;
         },
         postCreate: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/location/StartEndGeoDef:postCreate', arguments);
 
             this.defs = [this.startPointDef, this.endPointDef];
 
@@ -75,10 +74,10 @@ function (
         wireEvents: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/location/StartEndGeoDef:wireEvents', arguments);
 
             var that = this;
-        
+
             this.own(
                 topic.subscribe(AGRC.topics.mapInit, function () {
                     that.featureGroup = new L.FeatureGroup().addTo(AGRC.app.map);
@@ -94,13 +93,13 @@ function (
             // summary:
             //      gets points from pointdefs and submits them to the gp task
             // returns: def || String (if we are missing a point)
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('app/location/StartEndGeoDef:getGeometry', arguments);
 
-            var def     = new Deferred(),
-                start   = this.startPointDef.getPoint(),
-                end     = this.endPointDef.getPoint(),
-                params, // parameters for the xhr call
-                that    = this;
+            var def = new Deferred();
+            var start = this.startPointDef.getPoint();
+            var end = this.endPointDef.getPoint();
+            var params; // parameters for the xhr call
+            var that = this;
 
             if (!start) {
                 return this.invalidStartMsg;
@@ -112,15 +111,14 @@ function (
 
             params = this.getXHRParams(start, end);
 
-            xhr(this.gpServiceUrl + '/submitJob?', params)
-                .then(function (data) {
-                    if (!that.onGetSegsCallback(data, def)) {
-                        def.reject('There was an error with the verify service.');
-                    }
-                }, function (err) {
-                    var msg = 'There was an error with the getSegmentFromCoords service: ';
-                    AGRC.errorLogger.log(err, msg);
-                    def.reject(msg + err.message);
+            xhr(this.gpServiceUrl + '/submitJob?', params).then(function (data) {
+                if (!that.onGetSegsCallback(data, def)) {
+                    def.reject('There was an error with the verify service.');
+                }
+            }, function (err) {
+                var msg = 'There was an error with the getSegmentFromCoords service: ';
+                AGRC.errorLogger.log(err, msg);
+                def.reject(msg + err.message);
             });
 
             return def;
@@ -130,30 +128,30 @@ function (
             //      builds the parameters object for the xhr request
             // start: point
             // end: point
-            console.log(this.declaredClass + "::" + arguments.callee.nom, arguments);
-        
+            console.log('app/location/StartEndGeoDef:getXHRParams', arguments);
+
             return {
                 query: {
                     f: 'json',
                     points: json.stringify({
-                        "displayFieldName": "",
-                        "geometryType": "esriGeometryPoint",
-                        "spatialReference": {
-                            "wkid": 26912,
-                            "latestWkid": 26912
+                        displayFieldName: '',
+                        geometryType: 'esriGeometryPoint',
+                        spatialReference: {
+                            wkid: 26912,
+                            latestWkid: 26912
                         },
-                        "fields": [{
-                            "name": "OBJECTID",
-                            "type": "esriFieldTypeOID",
-                            "alias": "OBJECTID"
+                        fields: [{
+                            name: 'OBJECTID',
+                            type: 'esriFieldTypeOID',
+                            alias: 'OBJECTID'
                         }],
-                        "features": [
+                        features: [
                             {
-                                geometry: {x: Math.round(start.x), y: Math.round(start.y), "spatialReference" : {"wkid" : 26912}},
+                                geometry: {x: Math.round(start.x), y: Math.round(start.y), spatialReference: { wkid: 26912 }},
                                 attributes: {OBJECTID: 1}
                             },
                             {
-                                geometry: {x: Math.round(end.x), y: Math.round(end.y), "spatialReference" : {"wkid" : 26912}},
+                                geometry: {x: Math.round(end.x), y: Math.round(end.y), spatialReference: { wkid: 26912 }},
                                 attributes: {OBJECTID: 2}
                             }
                         ]

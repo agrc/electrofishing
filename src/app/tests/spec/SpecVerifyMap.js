@@ -35,7 +35,7 @@ function (
                 testWidget.postCreate();
 
                 expect(testWidget.initMap.callCount).toBe(1);
-            });            
+            });
             it('creates the selectedIcon', function () {
                 expect(testWidget.selectedIcon).toBeDefined();
             });
@@ -52,7 +52,7 @@ function (
             it('should create a valid map', function () {
                 expect(testWidget.map).toBeDefined();
             });
-            it("sets the AGRC.app.map and fires global topic only if isMainMap = true", function () {
+            it('sets the AGRC.app.map and fires global topic only if isMainMap = true', function () {
                 var testWidget2 = new VerifyMap(
                     {isMainMap: true}, domConstruct.create('div', null, win.body()));
                 testWidget2.initMap();
@@ -62,7 +62,7 @@ function (
 
                 testWidget2.destroy();
             });
-            it("doesn't set AGRC.app.map and fire the global topic if isMainMap = false", function () {
+            it('doesn\'t set AGRC.app.map and fire the global topic if isMainMap = false', function () {
                 var testWidget2 = new VerifyMap({isMainMap: false});
 
                 expect(AGRC.app.map).toBeUndefined();
@@ -83,7 +83,7 @@ function (
                 spyOn(testWidget.stationsLyr, 'eachLayer');
 
                 testWidget.clearSelection();
-                
+
                 expect(testWidget.stationsLyr.eachLayer).toHaveBeenCalled();
             });
         });
