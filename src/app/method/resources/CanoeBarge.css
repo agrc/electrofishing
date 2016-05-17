@@ -1,0 +1,19 @@
+.canoe-barge {
+    margin-bottom: 5px;
+}
+.canoe-barge .radio-btn-container {
+    width: 110px;
+    display: inline-block;
+}
+.canoe-barge .radio-btn-container label:first-child {
+    margin-left: 1px;
+}
+.canoe-barge input[type='radio'] {
+    margin-top: -1px;
+}
+.canoe-barge label.checkbox.inline {
+    padding-top: 0px;
+}
+.canoe-barge select {
+    margin-left: 5px;
+}

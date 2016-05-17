@@ -1,0 +1,15 @@
+.raft-boat-container {
+
+}
+.raft-boat-container .raft-boat-label {
+    display: inline-block;
+    margin: 0 4px 0 0;
+}
+.raft-boat-container .raft-boat-label.type {
+    width: 115px;
+    float: left;
+    margin: 0;
+}
+.raft-boat-container .raft-boat-label.span2 {
+    width: 167px;
+}

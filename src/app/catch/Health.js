@@ -1,0 +1,130 @@
+define([
+    'dojo/_base/declare', 
+    'dijit/_WidgetBase', 
+    'dijit/_TemplatedMixin', 
+    'dijit/_WidgetsInTemplateMixin',
+    'dojo/text!app/catch/templates/Health.html',
+    'app/Domains',
+    'dojo/promise/all',
+    'dojo/query',
+    'app/_ClearValuesMixin',
+    'dojo/_base/array'
+
+],
+
+function (
+    declare, 
+    _WidgetBase, 
+    _TemplatedMixin, 
+    _WidgetsInTemplateMixin, 
+    template,
+    Domains,
+    all,
+    query,
+    _ClearValuesMixin,
+    array
+    ) {
+    // summary:
+    //      Health fields in more info dialog.
+    return declare('app/catch/Health', 
+        [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _ClearValuesMixin], {
+        widgetsInTemplate: false,
+        templateString: template,
+        baseClass: 'health',
+
+        // currentFishId: String (guid)
+        //      the guid corresponding to the currently selected fish in the catch grid
+        currentFishId: null,
+
+        // controlMappings: [][]
+        //      sets up association between controls and field names
+        controlMappings: null,
+
+        postCreate: function () {
+            // summary:
+            //      dom is ready
+            console.log(this.declaredClass + "::postCreate", arguments);
+
+            var fn = AGRC.fieldNames.health;
+
+            // initialize mappings property
+            this.controlMappings = [
+                [this.eyeConditionSelect, fn.EYE],
+                [this.gillConditionSelect, fn.GILL],
+                [this.pseudoConditionSelect, fn.PSBR],
+                [this.thymusConditionSelect, fn.THYMUS],
+                [this.fatSelect, fn.FAT],
+                [this.spleenConditionSelect, fn.SPLEEN],
+                [this.hindGutConditionSelect, fn.HIND],
+                [this.kidneyConditionSelect, fn.KIDNEY],
+                [this.liverConditionSelect, fn.LIVER],
+                [this.bileConditionSelect, fn.BILE],
+                [this.genderSelect, fn.GENDER],
+                [this.reproductiveConditionSelect, fn.REPRODUCTIVE],
+                [this.hematocritTxt, fn.HEMATOCRIT],
+                [this.leukocritTxt, fn.LEUKOCRIT],
+                [this.plasmaTxt, fn.PLPRO],
+                [this.finConditionSelect, fn.FIN],
+                [this.opercleConditionSelect, fn.OPERCLE]
+            ];
+
+            var url = AGRC.urls.healthFeatureService;
+            var defs = [];
+
+            array.forEach(this.controlMappings, function (map) {
+                if (map[0].type === 'select-one') {
+                    defs.push(Domains.populateSelectWithDomainValues(map[0], url, map[1]));
+                }
+            });
+
+            all(defs).then(function () {
+                $('.health select').combobox();
+            });
+
+            this.inherited(arguments);
+        },
+        getData: function () {
+            // summary:
+            //      builds a record set 
+            console.log(this.declaredClass + "::getData", arguments);
+        
+            var f = {};
+
+            array.forEach(this.controlMappings, function (map) {
+                f[map[1]] = map[0].value;
+            });
+
+            var empty = true;
+            for (var prop in f) {
+                if (f.hasOwnProperty(prop)) {
+                    if (f[prop] != null && f[prop] !== '') {
+                        empty = false;
+                        break;
+                    }
+                }
+            }
+
+            if (empty) {
+                return null;
+            } else {
+                f[AGRC.fieldNames.health.FISH_ID] = this.currentFishId;
+                return {attributes: f};
+            }
+        },
+        setData: function (feature) {
+            // summary:
+            //      prepopulates the controls with existing data
+            // feature: {attributes:{...}}
+            console.log('app.catch.Health:setData', arguments);
+        
+            var f = feature.attributes;
+
+            array.forEach(this.controlMappings, function (map) {
+                map[0].value = f[map[1]];
+                if (map[0].type === 'select-one') {
+                    $(map[0]).combobox('refresh');
+                } 
+            });
+        }
+    });
+});

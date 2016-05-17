@@ -1,0 +1,19 @@
+<div>
+    <div class='row'>
+        <div data-dojo-attach-point='startPointDef' data-dojo-type='app.location.PointDef' data-dojo-props="label: 'Start'" class='col-md-2'></div>
+        <div class='dist-block col-md-3' data-dojo-attach-point='distGroup'>
+            <div class="form-group">
+                <label class='control-label'>Distance (in meters)</label>
+                <input type='number' class='form-control' data-dojo-attach-point='distanceBox'>
+            </div>
+            <div class='btn-group' data-toggle='buttons'>
+                <label class='btn btn-primary active' data-dojo-attach-point='upBtn'>
+                    <input type='radio' name='up_down_stream' value='up'>Upstream
+                </label>
+                <label class='btn btn-primary' data-dojo-attach-point='downBtn'>
+                    <input type='radio' name='up_down_stream' value='down'>Downstream
+                </label>
+            </div>
+        </div>
+    </div>
+</div>

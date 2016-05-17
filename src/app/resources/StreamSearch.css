@@ -1,0 +1,54 @@
+.magic-zoom {
+    padding: 10px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    z-index: 25;
+    width: 303px;
+}
+.magic-zoom input[data-dojo-attach-point='textBox'] {
+    display: inline-block;
+    width: 233px;
+    box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    min-height: 1px;
+    height: 17px;
+}
+.magic-zoom .input-group {
+    width: 274px;
+}
+.magic-zoom [data-dojo-attach-point='matchesList'] {
+    display: block;
+    width: 100%;
+}
+.magic-zoom .matches-table {
+    width: 299px;
+    background-color: white;
+    font-size: 12px;
+    display: none;
+    float: left;
+    z-index: 99;
+    position: absolute;
+    top: 40px;
+}
+.magic-zoom .matches-table li.match:hover, 
+.magic-zoom .matches-table .highlighted-row {
+    color: #ffffff;
+    background-color: #428bca;
+    cursor: pointer;
+}
+.magic-zoom .matches-table li {
+    padding: 2px 12px;
+}
+.magic-zoom span.glyphicon-search {
+    top: 0;
+}
+.magic-zoom li.dropdown-header {
+    display: none;
+}
+.magic-zoom .first-cell {
+    float: left;
+}
+.magic-zoom .cnty-cell {
+    float: right;
+}

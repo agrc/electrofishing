@@ -1,0 +1,4 @@
+/* Hack until this is fixed in bootstrap: https://github.com/twbs/bootstrap/issues/9855*/
+.modal-open, .modal-open .navbar-fixed-top {
+    margin-right: auto !important;
+}

@@ -1,0 +1,51 @@
+<div>
+    <h4 class='heading'>Station</h4>
+    <p class="help-block">Select a station by clicking on the map above.</p>
+    <div class="form-inline">
+        <div class="form-group">
+            <input type='text' disabled data-dojo-attach-point='stationTxt' class='form-control'>
+        </div>
+        <a class="btn btn-default" data-dojo-attach-point='newStationBtn' data-toggle='modal' href='#stationModal'>
+            <span class='glyphicon glyphicon-plus'></span>
+            Add New Station
+        </a>
+    </div>
+    <div data-dojo-attach-point='stationDialog' class="modal fade" id="stationModal" aria-hidden="true" role="dialog" tabindex="-1" data-backdrop='static'>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class='modal-titled'>Add New Station</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label class='control-label'>Name</label>
+                            <input type="text" data-dojo-attach-point="stationNameTxt" class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <label class='control-label'>Stream Type</label>
+                            <select data-dojo-attach-point='streamTypeSelect' class='form-control'>
+                                <option value=""></option>
+                                <!-- <option value="cr">Coldwater river</option>
+                                <option value='wcs'>Wadeable coldwater stream</option> -->
+                            </select>
+                        </div>
+                        <div data-dojo-type="app/location/StationPointDef" data-dojo-attach-point='pointDef'></div>
+                    </form>
+                    <div data-dojo-attach-point="mapDiv"></div>
+                </div>
+                <div class="modal-footer">
+                    <div class="control-group has-error pull-left">
+                        <span data-dojo-attach-point="validateMsg" class="help-block"></span>
+                    </div>
+                    <div class="control-group has-success pull-left">
+                        <span data-dojo-attach-point="successMsg" class="help-block">Station added successfully!</span>
+                    </div>
+                    <a href="#" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</a>
+                    <button class="btn btn-primary" data-dojo-attach-point="submitBtn" data-loading-text='Submitting new station...'>Add Station</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

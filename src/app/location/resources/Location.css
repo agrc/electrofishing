@@ -1,0 +1,18 @@
+@import 'StartEndGeoDef.css';
+@import 'StartDistDirGeoDef.css';
+@import 'CoordTypeToggle.css';
+@import 'PointDef.css';
+@import 'IDGeoDef.css';
+@import 'VerifyMap.css';
+
+.location .v-map {
+    height: 400px;
+    margin: 10px 0;
+    border: solid 1px #ccc;
+}
+.location .nav-pills {
+    margin-bottom: 8px;
+}
+.location h4:first-child {
+    margin-top: 0;
+}

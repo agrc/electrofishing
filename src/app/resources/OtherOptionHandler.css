@@ -1,0 +1,15 @@
+.other-option-handler ul {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+}
+.other-option-handler .modal-dialog {
+    width: 350px;
+}
+.other-option-handler .modal-footer {
+    margin-top: 0;
+}
+.other-option-handler legend {
+    font-size: 17px;
+    margin-bottom: 10px;
+}

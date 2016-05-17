@@ -1,0 +1,16 @@
+@import '../../bootstrap-combobox/css/bootstrap-combobox.css';
+.new-collection-event > .nav-tabs a {
+    font-size: 20px;
+}
+.new-collection-event .heading {
+    font-size: 18px;
+}
+.new-collection-event>.row {
+    padding-left: 15px;
+}
+.new-collection-event {
+    overflow-x: hidden;
+}
+.new-collection-event>.alert {
+    margin-bottom: 10px;
+}

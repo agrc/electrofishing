@@ -1,0 +1,74 @@
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="leaflet/leaflet.ie.css" />
+    <![endif]-->
+    <!-- bootstrap .css files (and .js files for that matter) to 
+        not play nice with the dojo build system -->
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.css"/>
+    <!-- <link rel="stylesheet" href="../../bootstrap/css/bootstrap-responsive.css"/> -->
+    <link rel='stylesheet' href='../resources/App.css'>
+    <style>
+    </style>
+</head>
+<body>
+    <div id='testDiv'></div>
+    <select id='testSelect'>
+        <option value="blah">blah</option>
+        <option value="blah2">blah2</option>
+    </select>
+    <script data-dojo-config='isDebug: 1' src='../../dojo/dojo.js'></script>
+    <script>
+        define.amd.jQuery = true;
+        require({
+            packages: [
+                {
+                    name: 'app',
+                    location: '../app'
+                },{
+                    name: 'ijit',
+                    location: '../ijit'
+                },{
+                    name: 'bootstrap',
+                    location: '../bootstrap',
+                    main: 'js/bootstrap'
+                },{
+                    name: 'jquery',
+                    location: '../jquery',
+                    main: 'jquery-1.10.0'
+                },{
+                    name: 'leaflet',
+                    location: '../leaflet',
+                    main: 'leaflet-src'
+                }, {
+                    name: 'agrc',
+                    location: '../agrc'
+                }, {
+                    name: 'dgrid',
+                    location: '../dgrid'
+                }, {
+                    name: 'put-selector',
+                    location: '../put-selector'
+                }, {
+                    name: 'xstyle',
+                    location: '../xstyle'
+                }, {
+                    name: 'bootstrap-combobox',
+                    location: '../bootstrap-combobox'
+                }
+            ]
+        }, ['jquery', 'bootstrap', 'app/OtherOptionHandler', 'dojo/dom', 'dojo/domReady!'], 
+
+        function (jquery, boot, OtherOptionHandler, dom) {
+            var ooh = new OtherOptionHandler({
+                select: dom.byId('testSelect')
+            }, 'testDiv');
+            ooh.startup();
+        });
+    </script>
+</body>
+</html>

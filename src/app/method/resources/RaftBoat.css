@@ -1,0 +1,19 @@
+.raft-boat {
+    margin-bottom: 5px;
+}
+.raft-boat .radio-btn-container {
+    width: 110px;
+    display: inline-block;
+}
+.raft-boat .radio-btn-container label:first-child {
+    margin-left: 1px;
+}
+.raft-boat input[type='radio'] {
+    margin-top: -1px;
+}
+.raft-boat label.checkbox.inline {
+    padding-top: 0px;
+}
+.raft-boat select {
+    margin-left: 5px;
+}

@@ -1,0 +1,26 @@
+@import 'BackpacksContainer.css';
+@import 'Backpack.css';
+@import 'CanoeBargesContainer.css';
+@import 'CanoeBarge.css';
+@import 'RaftBoatsContainer.css';
+@import 'RaftBoat.css';
+
+.method>h4 {
+    margin-top: 0;
+}
+.method .equipment-container .form-group {
+    width: 220px;
+    display: inline-block;
+}
+.method .equipment-container .container-label {
+    margin-bottom: 0;
+    font-weight: bold;
+}
+.method .equipment-container .container-label.small,
+.method .equipment-container .form-group.small {
+    width: 70px;
+}
+.method .equipment-container .container-label.medium,
+.method .equipment-container .form-group.medium {
+    width: 130px;
+}

@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project name="Wildlife" version="3.0" id="II48hhzLd1" font="Arial" defaultPage="pgA0Y71" type="default" theme="Scrawl">
+  <Page width="960" height="1000" enabled="true" visible="true" hidden="false" id="pgA0Y71" clasz="com.flairbuilder.project::Page" name="Home_Alt" color="255" backgroundColor="16777215">
+    <Component width="516" height="40" x="30" y="30" enabled="true" visible="true" hidden="false" id="fbcjV4zo" clasz="com.flairbuilder.components::Title" bold="false" italic="false" underline="false" color="0" fontSize="32" leading="0" textAlign="left" label="Electro-Fishing Data Collection"/>
+    <Component width="255" height="40" x="30" y="107" enabled="true" visible="true" hidden="false" id="fbcx89n9" clasz="com.flairbuilder.components::Button" bold="false" italic="false" underline="false" color="0" fontSize="16" textAlign="center" backgroundColor="15658734" borderColor="10066329" borderThickness="1" borderStyle="solid" cornerRadius="5" label="Record New Collection Event" style="horizontalButton" direction="horizontal">
+      <behaviors>
+        <behavior action="flair:GoToPageAction" trigger="flair:mouseClick">
+          <action id="flair:GoToPageAction" pageID="pgj1X5B" gotoOption="specificPage" variableName="null" variableValue="null"/>
+        </behavior>
+      </behaviors>
+    </Component>
+    <Component width="255" height="40" x="30" y="157" enabled="true" visible="true" hidden="false" id="fbct5lK2" clasz="com.flairbuilder.components::Button" bold="false" italic="false" underline="false" color="0" fontSize="16" textAlign="center" backgroundColor="15658734" borderColor="10066329" borderThickness="1" borderStyle="solid" cornerRadius="5" label="View Existing Events" style="horizontalButton" direction="horizontal">
+      <behaviors>
+        <behavior action="flair:GoToPageAction" trigger="flair:mouseClick">
+          <action id="flair:GoToPageAction" pageID="#pg_O92Fs" gotoOption="specificPage" variableName="null" variableValue="null"/>
+        </behavior>
+      </behaviors>
+    </Component>
+    <Component width="255" height="40" x="30" y="207" enabled="true" visible="true" hidden="false" id="fbc75952" clasz="com.flairbuilder.components::Button" bold="false" italic="false" underline="false" color="0" fontSize="16" textAlign="center" backgroundColor="15658734" borderColor="10066329" borderThickness="1" borderStyle="solid" cornerRadius="5" label="Generate Reports" style="horizontalButton" direction="horizontal"/>
+    <Component width="175" height="18" x="30" y="77" enabled="true" visible="true" hidden="false" id="fbc8734I" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Signed in as _stdavis@utah.gov_"/>
+    <Component width="68" height="24" x="209" y="73" enabled="true" visible="true" hidden="false" id="fbcsJKMR" clasz="com.flairbuilder.components::Button" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="center" backgroundColor="15658734" borderColor="10066329" borderThickness="1" borderStyle="solid" cornerRadius="5" label="Sign Off" style="horizontalButton" direction="horizontal"/>
+    <CustomImages/>
+    <Annotations/>
+    <Layers/>
+  </Page>
+  <Page name="Viewer" width="960" height="1000" enabled="true" visible="true" hidden="false" id="#pg_O92Fs" clasz="com.flairbuilder.project::Page" color="255" backgroundColor="16777215">
+    <Component width="716" height="688" x="237" y="49" enabled="true" visible="true" hidden="false" id="fbc22yhJ" clasz="com.flairbuilder.components::GoogleMap" borderColor="0" borderThickness="1" borderStyle="solid"/>
+    <Component name="Accordion1" width="214" height="688" x="9" y="49" enabled="true" visible="true" hidden="false" id="fbc21y9t" clasz="com.flairbuilder.components::Accordion" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="15658734" borderColor="0" borderThickness="1" tabs="Tab 1,[x]Tab 2,Tab 3" headerHeight="24" showScrollbar="false">
+      <tabs>
+        <tab/>
+        <tab/>
+        <tab/>
+      </tabs>
+    </Component>
+    <Component width="548" height="40" x="14" y="4" enabled="true" visible="true" hidden="false" id="fbcSh18b" clasz="com.flairbuilder.components::Title" bold="false" italic="false" underline="false" color="0" fontSize="32" leading="0" textAlign="left" label="Electrofishing Collection Reports"/>
+    <Component width="37" height="128" x="356" y="380" enabled="true" visible="true" hidden="false" id="fbcl2o6v" clasz="com.flairbuilder.components.shapes::Polygon" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" backgroundColor="16777215" backgroundAlpha="1" borderColor="0" borderThickness="1" borderStyle="solid" cornerRadius="0" label="" points="37,0,37,0,0,128,37,74,37,74"/>
+    <Component width="320" height="224" x="388" y="231" enabled="true" visible="true" hidden="false" id="fbcec48K" clasz="com.flairbuilder.components::Rectangle" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" backgroundColor="16777215" backgroundAlpha="1" borderColor="0" borderThickness="1" borderStyle="solid" cornerRadius="0" label=""/>
+    <Component width="310" height="214" x="393" y="236" enabled="true" visible="true" hidden="false" id="fbcbFK23" clasz="com.flairbuilder.components::DataGrid" fontSize="12" borderColor="0" borderThickness="1" backgroundColor="15987442" style="dataGridHVLines" showBorder="true" showHeader="true" headerHeight="21" rowHeight="21" version="3.0" showScrollbar="false" colwidths="118,190">
+      <data encoded="true">GEO_DEFINITION,Start:%20-111.345%2041.324%20End:%20-111.435%2043.234%0DLOCATION_NOTES,%20blah%20blah%20blah</data>
+    </Component>
+    <Component width="66" height="24" x="887" y="13" enabled="true" visible="true" hidden="false" id="fbc74HUB" clasz="com.flairbuilder.components::Button" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="center" backgroundColor="15658734" borderColor="10066329" borderThickness="1" borderStyle="solid" cornerRadius="5" label="Home" style="verticalButton" direction="vertical">
+      <behaviors>
+        <behavior action="flair:GoToPageAction" trigger="flair:mouseClick">
+          <action id="flair:GoToPageAction" pageID="pgA0Y71" gotoOption="specificPage" variableName="null" variableValue="null"/>
+        </behavior>
+      </behaviors>
+    </Component>
+    <CustomImages/>
+    <Annotations>
+      <Annotation x="5" y="5" width="953" height="739">
+        <text>This viewer application will not be available for disconnected mobile devices and will only server for general data review.</text>
+      </Annotation>
+    </Annotations>
+    <Layers/>
+  </Page>
+  <Page width="960" height="1000" enabled="true" visible="true" hidden="false" id="pgj1X5B" clasz="com.flairbuilder.project::Page" name="New Collection Event" color="255" backgroundColor="16777215">
+    <Component width="469" height="40" x="28" y="23" enabled="true" visible="true" hidden="false" id="fbc3979F" clasz="com.flairbuilder.components::Title" bold="false" italic="false" underline="false" color="0" fontSize="32" leading="0" textAlign="left" label="New Collection Event"/>
+    <Component width="68" height="24" x="578" y="31" enabled="true" visible="true" hidden="false" id="fbc235lX" clasz="com.flairbuilder.components::Button" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="center" backgroundColor="15658734" borderColor="10066329" borderThickness="1" borderStyle="solid" cornerRadius="5" label="Settings" style="verticalButton" direction="vertical">
+      <behaviors>
+        <behavior action="flair:ShowHideComponents" trigger="flair:mouseClick">
+          <action id="flair:ShowHideComponents" targets="fbc8v81e,fbclT715,fbcM14kk" type="toggle" hideSimilar="false" pushOrPull="false" showAsPopUp="false"/>
+        </behavior>
+      </behaviors>
+    </Component>
+    <Component width="300" height="200" x="651" y="100" enabled="true" visible="false" hidden="false" id="fbc8v81e" clasz="com.flairbuilder.components::TitleWindow" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="13816016" borderColor="6710886" borderThickness="1" borderStyle="solid" label="Settings" title="Settings" headerHeight="21" close="true" minimize="false" maximize="false" contains="fbcM14kk,fbclT715" showScrollbar="false"/>
+    <Component width="100" height="31" x="658" y="136" enabled="true" visible="false" hidden="false" containedBy="fbc8v81e" id="fbclT715" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Coordinate Type"/>
+    <Component width="274" height="24" x="664" y="162" enabled="true" visible="false" hidden="false" containedBy="fbc8v81e" id="fbcM14kk" clasz="com.flairbuilder.components::ButtonBar" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="center" backgroundColor="15658734" borderColor="0" borderThickness="1" borderStyle="solid" style="horizontalButtonBar" direction="horizontal" version="3.0">
+      <data>UTM (NAD83), Lat/Long, UTM (NAD27)</data>
+    </Component>
+    <Component width="220" height="52" x="29" y="818" enabled="true" visible="true" hidden="false" id="fbc8FkAn" clasz="com.flairbuilder.components::Button" bold="false" italic="false" underline="false" color="0" fontSize="18" textAlign="center" backgroundColor="15658734" borderColor="10066329" borderThickness="1" borderStyle="solid" cornerRadius="5" label="Submit Report" style="horizontalButton" direction="horizontal"/>
+    <Component name="Tabs1" width="615" height="743" x="31" y="65" enabled="true" visible="true" hidden="false" id="fbc8x4i8" clasz="com.flairbuilder.components::TabNavigator" bold="false" italic="false" underline="false" color="0" fontSize="24" textAlign="left" backgroundColor="15658734" borderColor="0" borderThickness="1" tabWidth="139" tabHeight="35" position="top-left" tabs="Location, Method, Catch, Habitat">
+      <tabs>
+        <tab>fbcC8fE8,fbc5t435,fbc43B8B,fbcBfUP3,fbc7uie3,fbc8j66z,fbcKL891,fbci442Y</tab>
+        <tab>fbcnNm59,fbc0M613,fbc5v9l7,fbc95b4P,fbc3VE69,fbcS1ABZ,fbc665vd,fbc2M559,fbc9Nj9l,fbc1020c,fbcM2y5V,fbc77dzP,fbc4MN83,fbc6sV6p,fbc4mV9c,fbcc0J60,fbc7K87C,fbc346D9,fbc1081h,fbcr6eO8,fbcm9r5U,fbc66217,fbc2N283,fbc11784,fbc569f7,fbc6BTxo,fbc92htk,fbc12789,fbcm1foi,fbcV65Oj,fbci14xy</tab>
+        <tab>fbcrVu45,fbcUd0p4,fbc84c26</tab>
+        <tab></tab>
+      </tabs>
+    </Component>
+    <Component width="66" height="31" x="48" y="120" enabled="true" visible="true" hidden="false" containedBy="fbc8x4i8" id="fbci442Y" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="14" leading="0" textAlign="left" label="Station"/>
+    <Component width="193" height="24" x="124" y="119" enabled="true" visible="true" hidden="false" containedBy="fbc8x4i8" id="fbcKL891" clasz="com.flairbuilder.components::TextInput" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="16777215" backgroundAlpha="1" borderColor="0" borderThickness="1" borderStyle="solid" cornerRadius="0" label="Diamond Fork - Childs Creek"/>
+    <Component width="28" height="24" x="327" y="119" enabled="true" visible="true" hidden="false" containedBy="fbc8x4i8" id="fbc8j66z" clasz="com.flairbuilder.components::Button" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="center" backgroundColor="15658734" borderColor="10066329" borderThickness="1" borderStyle="solid" cornerRadius="5" label="{flair:CircledPlus}" style="verticalButton" direction="vertical">
+      <behaviors>
+        <behavior action="flair:GoToPageAction" trigger="flair:mouseClick">
+          <action id="flair:GoToPageAction" pageID="pgp8vL3" gotoOption="specificPage" variableName="null" variableValue="null"/>
+        </behavior>
+      </behaviors>
+    </Component>
+    <Component name="Tabs2" width="570" height="166" x="48" y="184" enabled="true" visible="true" hidden="false" containedBy="fbc8x4i8" id="fbc7uie3" clasz="com.flairbuilder.components::TabNavigator" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="15658734" borderColor="0" borderThickness="1" tabWidth="124.25" tabHeight="24" position="top-left" tabs="Start | End, Start | Dist | Dir, ID, Text">
+      <tabs>
+        <tab>fbcu77ND,fbcYnPv7,fbc4BauO,fbcA68D0,fbcmfpJJ,fbc6e60J,fbcvE7RB,fbcCkY7B,fbc87854,fbc17hR5,fbc4B6AR,fbc16917,fbcv7p14</tab>
+        <tab>fbc8vb6o,fbc1Ic8c,fbc68vU9,fbc97pyD,fbc984DF,fbca77a3,fbc7836y,fbcZ64s2,fbc2p57R,fbcS6oZT,fbcB5ve3</tab>
+        <tab>fbcT6BDI,fbcK8s3a,fbc5sC1V,fbc488Ay,fbc8r33B</tab>
+        <tab>fbcsT5KX,fbc32ok7</tab>
+      </tabs>
+    </Component>
+    <Component width="100" height="24" x="104" y="279" enabled="true" visible="true" hidden="false" containedBy="fbc7uie3" id="fbcv7p14" clasz="com.flairbuilder.components::TextInput" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="16777215" backgroundAlpha="1" borderColor="0" borderThickness="1" borderStyle="solid" cornerRadius="0" label=""/>
+    <Component width="35" height="31" x="69" y="280" enabled="true" visible="true" hidden="false" containedBy="fbc7uie3" id="fbc16917" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Lat:"/>
+    <Component width="100" height="24" x="104" y="312" enabled="true" visible="true" hidden="false" containedBy="fbc7uie3" id="fbc4B6AR" clasz="com.flairbuilder.components::TextInput" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="16777215" backgroundAlpha="1" borderColor="0" borderThickness="1" borderStyle="solid" cornerRadius="0" label=""/>
+    <Component width="35" height="31" x="69" y="313" enabled="true" visible="true" hidden="false" containedBy="fbc7uie3" id="fbc17hR5" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Long:"/>
+    <Component width="132" height="31" x="67" y="253" enabled="true" visible="true" hidden="false" containedBy="fbc7uie3" id="fbc87854" clasz="com.flairbuilder.components::Label" bold="true" italic="false" underline="false" color="0" fontSize="14" leading="0" textAlign="left" label="Start"/>
+    <Component width="26" height="24" x="108" y="251" enabled="true" visible="true" hidden="false" containedBy="fbc7uie3" id="fbcCkY7B" clasz="com.flairbuilder.components::Button" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="center" backgroundColor="15658734" borderColor="10066329" borderThickness="1" borderStyle="solid" cornerRadius="5" label="{flair:World}" style="horizontalButton" direction="horizontal"/>
+    <Component width="100" height="24" x="259" y="279" enabled="true" visible="true" hidden="false" containedBy="fbc7uie3" id="fbcvE7RB" clasz="com.flairbuilder.components::TextInput" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="16777215" backgroundAlpha="1" borderColor="0" borderThickness="1" borderStyle="solid" cornerRadius="0" label=""/>
+    <Component width="35" height="31" x="224" y="280" enabled="true" visible="true" hidden="false" containedBy="fbc7uie3" id="fbc6e60J" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Lat:"/>
+    <Component width="100" height="24" x="259" y="312" enabled="true" visible="true" hidden="false" containedBy="fbc7uie3" id="fbcmfpJJ" clasz="com.flairbuilder.components::TextInput" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="16777215" backgroundAlpha="1" borderColor="0" borderThickness="1" borderStyle="solid" cornerRadius="0" label=""/>
+    <Component width="35" height="31" x="224" y="313" enabled="true" visible="true" hidden="false" containedBy="fbc7uie3" id="fbcA68D0" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Long:"/>
+    <Component width="132" height="31" x="222" y="253" enabled="true" visible="true" hidden="false" containedBy="fbc7uie3" id="fbc4BauO" clasz="com.flairbuilder.components::Label" bold="true" italic="false" underline="false" color="0" fontSize="14" leading="0" textAlign="left" label="End"/>
+    <Component width="26" height="24" x="263" y="251" enabled="true" visible="true" hidden="false" containedBy="fbc7uie3" id="fbcYnPv7" clasz="com.flairbuilder.components::Button" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="center" backgroundColor="15658734" borderColor="10066329" borderThickness="1" borderStyle="solid" cornerRadius="5" label="{flair:World}" style="horizontalButton" direction="horizontal"/>
+    <Component width="131" height="36" x="68" y="220" enabled="true" visible="true" hidden="false" containedBy="fbc7uie3" id="fbcu77ND" clasz="com.flairbuilder.components::RadioButtonGroup" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" style="horizontalRadioButton" direction="horizontal" version="3.0">
+      <data encoded="true">%5Bx%5DLat/Long%0DUTM</data>
+    </Component>
+    <Component width="570" height="200" x="48" y="389" enabled="true" visible="true" hidden="false" containedBy="fbc8x4i8" id="fbcBfUP3" clasz="com.flairbuilder.components::GoogleMap" borderColor="0" borderThickness="1" borderStyle="solid"/>
+    <Component width="199" height="24" x="412" y="394" enabled="true" visible="true" hidden="false" containedBy="fbc8x4i8" id="fbc43B8B" clasz="com.flairbuilder.components::Search" bold="false" italic="false" underline="false" color="0" fontSize="12" backgroundColor="16777215" borderColor="0" borderThickness="1" borderStyle="solid" cornerRadius="10" label="search for stream"/>
+    <Component width="109" height="24" x="48" y="360" enabled="true" visible="true" hidden="false" containedBy="fbc8x4i8" id="fbc5t435" clasz="com.flairbuilder.components::Button" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="center" backgroundColor="15658734" borderColor="10066329" borderThickness="1" borderStyle="solid" cornerRadius="5" label="Verify Location" style="horizontalButton" direction="horizontal"/>
+    <Component width="158" height="24" x="146" y="285" enabled="true" visible="true" hidden="true" containedBy="fbc7uie3" id="fbc8r33B" clasz="com.flairbuilder.components::TextInput" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="16777215" backgroundAlpha="1" borderColor="0" borderThickness="1" borderStyle="solid" cornerRadius="0" label=""/>
+    <Component width="158" height="24" x="146" y="225" enabled="true" visible="true" hidden="true" containedBy="fbc7uie3" id="fbc488Ay" clasz="com.flairbuilder.components::TextInput" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="16777215" backgroundAlpha="1" borderColor="0" borderThickness="1" borderStyle="solid" cornerRadius="0" label=""/>
+    <Component width="100" height="31" x="62" y="226" enabled="true" visible="true" hidden="true" containedBy="fbc7uie3" id="fbc5sC1V" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Waterbody ID"/>
+    <Component width="100" height="31" x="62" y="287" enabled="true" visible="true" hidden="true" containedBy="fbc7uie3" id="fbcK8s3a" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Reach Code"/>
+    <Component width="100" height="31" x="146" y="256" enabled="true" visible="true" hidden="true" containedBy="fbc7uie3" id="fbcT6BDI" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="OR"/>
+    <Component width="100" height="24" x="104" y="279" enabled="true" visible="true" hidden="true" containedBy="fbc7uie3" id="fbcB5ve3" clasz="com.flairbuilder.components::TextInput" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="16777215" backgroundAlpha="1" borderColor="0" borderThickness="1" borderStyle="solid" cornerRadius="0" label=""/>
+    <Component width="35" height="31" x="69" y="280" enabled="true" visible="true" hidden="true" containedBy="fbc7uie3" id="fbcS6oZT" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Lat:"/>
+    <Component width="100" height="24" x="104" y="312" enabled="true" visible="true" hidden="true" containedBy="fbc7uie3" id="fbc2p57R" clasz="com.flairbuilder.components::TextInput" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="16777215" backgroundAlpha="1" borderColor="0" borderThickness="1" borderStyle="solid" cornerRadius="0" label=""/>
+    <Component width="35" height="31" x="69" y="313" enabled="true" visible="true" hidden="true" containedBy="fbc7uie3" id="fbcZ64s2" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Long:"/>
+    <Component width="132" height="31" x="67" y="253" enabled="true" visible="true" hidden="true" containedBy="fbc7uie3" id="fbc7836y" clasz="com.flairbuilder.components::Label" bold="true" italic="false" underline="false" color="0" fontSize="14" leading="0" textAlign="left" label="Start"/>
+    <Component width="26" height="24" x="108" y="251" enabled="true" visible="true" hidden="true" containedBy="fbc7uie3" id="fbca77a3" clasz="com.flairbuilder.components::Button" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="center" backgroundColor="15658734" borderColor="10066329" borderThickness="1" borderStyle="solid" cornerRadius="5" label="{flair:World}" style="horizontalButton" direction="horizontal"/>
+    <Component width="123" height="24" x="306" y="279" enabled="true" visible="true" hidden="true" containedBy="fbc7uie3" id="fbc984DF" clasz="com.flairbuilder.components::TextInput" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="16777215" backgroundAlpha="1" borderColor="0" borderThickness="1" borderStyle="solid" cornerRadius="0" label="miles, feet, meters?"/>
+    <Component width="63" height="31" x="243" y="280" enabled="true" visible="true" hidden="true" containedBy="fbc7uie3" id="fbc97pyD" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Distance"/>
+    <Component width="63" height="31" x="243" y="313" enabled="true" visible="true" hidden="true" containedBy="fbc7uie3" id="fbc68vU9" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Direction"/>
+    <Component width="131" height="36" x="68" y="220" enabled="true" visible="true" hidden="true" containedBy="fbc7uie3" id="fbc1Ic8c" clasz="com.flairbuilder.components::RadioButtonGroup" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" style="horizontalRadioButton" direction="horizontal" version="3.0">
+      <data encoded="true">%5Bx%5DLat/Long%0DUTM</data>
+    </Component>
+    <Component width="100" height="24" x="305" y="311" enabled="true" visible="true" hidden="true" containedBy="fbc7uie3" id="fbc8vb6o" clasz="com.flairbuilder.components::ComboBox" bold="false" italic="false" underline="false" color="0" fontSize="12" borderColor="0">
+      <data encoded="true">Upstream%0DDownstream</data>
+    </Component>
+    <Component width="473" height="99" x="60" y="240" enabled="true" visible="true" hidden="true" containedBy="fbc7uie3" id="fbc32ok7" clasz="com.flairbuilder.components::TextArea" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="" backgroundColor="16777215" backgroundAlpha="1" borderColor="0" borderThickness="1" borderStyle="solid" cornerRadius="0"/>
+    <Component width="327" height="31" x="57" y="215" enabled="true" visible="true" hidden="true" containedBy="fbc7uie3" id="fbcsT5KX" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Textual Description of Stream Reach"/>
+    <Component width="234" height="31" x="47" y="162" enabled="true" visible="true" hidden="false" containedBy="fbc8x4i8" id="fbcC8fE8" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Surveyed Stream Reach"/>
+    <Component width="100" height="24" x="47" y="128" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbci14xy" clasz="com.flairbuilder.components::NumericStepper" minimum="0" maximum="10" stepSize="1"/>
+    <Component width="102" height="31" x="42" y="109" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbcV65Oj" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Number of passes&#xD;"/>
+    <Component width="100" height="31" x="47" y="162" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbcm1foi" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="14" leading="0" textAlign="left" label="Specs"/>
+    <Component name="Tabs3" width="382" height="184" x="47" y="187" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc12789" clasz="com.flairbuilder.components::TabNavigator" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="15658734" borderColor="0" borderThickness="1" tabWidth="91.75" tabHeight="24" position="top-left" tabs="*[x]Backpack, Canoe|Barge, Raft, Boat*">
+      <tabs>
+        <tab>fbce7HhK,fbcPz58o,fbcFEf4x,fbcVbLS7,fbcofMC0,fbc0K1U7</tab>
+        <tab>fbc88v72,fbcjeFfO,fbc4d5ot,fbcO01E9,fbc5k9EU,fbctIN88,fbc4e27D,fbcB87jp</tab>
+        <tab>fbcv6210,fbc49Xl5,fbcf287p,fbc7P83j,fbcK367t,fbc07cvI,fbcmY25E,fbcI67nY</tab>
+        <tab>fbch7773,fbc7cA7o,fbcd4t4D,fbc73m9t,fbc097mb,fbc4u62p,fbcc4M8n,fbc28CJ8</tab>
+      </tabs>
+    </Component>
+    <Component width="150" height="24" x="59" y="236" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbc0K1U7" clasz="com.flairbuilder.components::ComboBox" bold="false" italic="false" underline="false" color="0" fontSize="12" borderColor="0">
+      <data encoded="true">Smith%20Root%20B-12%0DSmith%20Root%20LR-24</data>
+    </Component>
+    <Component width="63" height="31" x="59" y="216" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbcofMC0" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Backpacks"/>
+    <Component width="70" height="31" x="47" y="381" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc92htk" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Waveform"/>
+    <Component width="100" height="31" x="47" y="412" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc6BTxo" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Volts"/>
+    <Component width="100" height="31" x="47" y="454" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc569f7" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Duty Cycle (%)"/>
+    <Component width="100" height="31" x="47" y="490" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc11784" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Freq (Hz)"/>
+    <Component width="100" height="31" x="47" y="536" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc2N283" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Amps"/>
+    <Component width="100" height="31" x="47" y="577" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc66217" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="# of Anodes"/>
+    <Component width="100" height="31" x="47" y="651" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbcm9r5U" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="# of Netters"/>
+    <Component width="47" height="24" x="224" y="237" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbcVbLS7" clasz="com.flairbuilder.components::NumericStepper" minimum="1" maximum="10" stepSize="1"/>
+    <Component width="28" height="24" x="281" y="267" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbcFEf4x" clasz="com.flairbuilder.components::Button" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="center" backgroundColor="15658734" borderColor="10066329" borderThickness="1" borderStyle="solid" cornerRadius="5" label="{flair:CircledPlus}" style="horizontalButton" direction="horizontal"/>
+    <Component width="150" height="24" x="59" y="267" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbcPz58o" clasz="com.flairbuilder.components::ComboBox" bold="false" italic="false" underline="false" color="0" fontSize="12" borderColor="0">
+      <data encoded="true">Smith%20Root%20B-12%0DSmith%20Root%20LR-24</data>
+    </Component>
+    <Component width="47" height="24" x="224" y="267" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbce7HhK" clasz="com.flairbuilder.components::NumericStepper" minimum="2" maximum="10" stepSize="1"/>
+    <Component width="165" height="24" x="177" y="242" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbcB87jp" clasz="com.flairbuilder.components::ComboBox" bold="false" italic="false" underline="false" color="0" fontSize="12" borderColor="0">
+      <data encoded="true">Smith%20Root%0DCoffelt</data>
+    </Component>
+    <Component width="100" height="24" x="149" y="381" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbcr6eO8" clasz="com.flairbuilder.components::ComboBox" bold="false" italic="false" underline="false" color="0" fontSize="12" borderColor="0">
+      <data encoded="true">AC%0DDC%0DPulsed%20DC%0DBurst%20DC%0DPulsed%20AC</data>
+    </Component>
+    <Component width="100" height="24" x="147" y="413" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc1081h" clasz="com.flairbuilder.components::TextInput" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="16777215" backgroundAlpha="1" borderColor="0" borderThickness="1" borderStyle="solid" cornerRadius="0" label="50.45"/>
+    <Component width="100" height="24" x="147" y="451" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc346D9" clasz="com.flairbuilder.components::TextInput" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="16777215" backgroundAlpha="1" borderColor="0" borderThickness="1" borderStyle="solid" cornerRadius="0" label="45"/>
+    <Component width="100" height="24" x="147" y="489" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc7K87C" clasz="com.flairbuilder.components::TextInput" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="16777215" backgroundAlpha="1" borderColor="0" borderThickness="1" borderStyle="solid" cornerRadius="0" label="68.43"/>
+    <Component width="100" height="24" x="145" y="529" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbcc0J60" clasz="com.flairbuilder.components::TextInput" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="16777215" backgroundAlpha="1" borderColor="0" borderThickness="1" borderStyle="solid" cornerRadius="0" label=""/>
+    <Component width="100" height="24" x="143" y="572" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc4mV9c" clasz="com.flairbuilder.components::NumericStepper" minimum="4" maximum="10" stepSize="1"/>
+    <Component width="100" height="24" x="145" y="645" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc6sV6p" clasz="com.flairbuilder.components::NumericStepper" minimum="4" maximum="10" stepSize="1"/>
+    <Component width="100" height="31" x="60" y="324" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbc28CJ8" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Anode Array Type"/>
+    <Component width="165" height="24" x="170" y="318" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbcc4M8n" clasz="com.flairbuilder.components::ComboBox" bold="false" italic="false" underline="false" color="0" fontSize="12" borderColor="0">
+      <data encoded="true">Wisconsin%0DSpherical%20Array</data>
+    </Component>
+    <Component width="100" height="31" x="60" y="324" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbcI67nY" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Anode Array Type"/>
+    <Component width="165" height="24" x="170" y="318" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbcmY25E" clasz="com.flairbuilder.components::ComboBox" bold="false" italic="false" underline="false" color="0" fontSize="12" borderColor="0">
+      <data encoded="true">Wisconsin%0DSpherical%20Array</data>
+    </Component>
+    <Component width="100" height="31" x="60" y="324" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbc4e27D" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Anode Array Type"/>
+    <Component width="165" height="24" x="206" y="318" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbctIN88" clasz="com.flairbuilder.components::ComboBox" bold="false" italic="false" underline="false" color="0" fontSize="12" borderColor="0">
+      <data encoded="true">Wisconsin%0DSpherical%20Array</data>
+    </Component>
+    <Component width="100" height="31" x="47" y="611" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc4MN83" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Anode Shape"/>
+    <Component width="100" height="24" x="143" y="609" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc77dzP" clasz="com.flairbuilder.components::ComboBox" bold="false" italic="false" underline="false" color="0" fontSize="12" borderColor="0">
+      <data encoded="true">Round%0DDiamond%0DSquare%20Net</data>
+    </Component>
+    <Component width="105" height="36" x="60" y="242" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbc5k9EU" clasz="com.flairbuilder.components::RadioButtonGroup" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" style="horizontalRadioButton" direction="horizontal" version="3.0">
+      <data encoded="true">%5Bx%5DVVP%0DGPP</data>
+    </Component>
+    <Component width="100" height="31" x="59" y="221" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbcO01E9" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Canoes/Barges"/>
+    <Component width="165" height="24" x="177" y="272" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbc4d5ot" clasz="com.flairbuilder.components::ComboBox" bold="false" italic="false" underline="false" color="0" fontSize="12" borderColor="0">
+      <data encoded="true">Smith%20Root%0DCoffelt</data>
+    </Component>
+    <Component width="105" height="36" x="60" y="272" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbcjeFfO" clasz="com.flairbuilder.components::RadioButtonGroup" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" style="horizontalRadioButton" direction="horizontal" version="3.0">
+      <data encoded="true">%5Bx%5DVVP%0DGPP</data>
+    </Component>
+    <Component width="28" height="24" x="352" y="272" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbc88v72" clasz="com.flairbuilder.components::Button" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="center" backgroundColor="15658734" borderColor="10066329" borderThickness="1" borderStyle="solid" cornerRadius="5" label="{flair:CircledPlus}" style="horizontalButton" direction="horizontal"/>
+    <Component width="165" height="24" x="177" y="242" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbc07cvI" clasz="com.flairbuilder.components::ComboBox" bold="false" italic="false" underline="false" color="0" fontSize="12" borderColor="0">
+      <data encoded="true">Smith%20Root%0DCoffelt</data>
+    </Component>
+    <Component width="105" height="36" x="60" y="242" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbcK367t" clasz="com.flairbuilder.components::RadioButtonGroup" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" style="horizontalRadioButton" direction="horizontal" version="3.0">
+      <data encoded="true">%5Bx%5DVVP%0DGPP</data>
+    </Component>
+    <Component width="165" height="24" x="177" y="272" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbc7P83j" clasz="com.flairbuilder.components::ComboBox" bold="false" italic="false" underline="false" color="0" fontSize="12" borderColor="0">
+      <data encoded="true">Smith%20Root%0DCoffelt</data>
+    </Component>
+    <Component width="105" height="36" x="60" y="272" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbcf287p" clasz="com.flairbuilder.components::RadioButtonGroup" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" style="horizontalRadioButton" direction="horizontal" version="3.0">
+      <data encoded="true">%5Bx%5DVVP%0DGPP</data>
+    </Component>
+    <Component width="28" height="24" x="352" y="272" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbc49Xl5" clasz="com.flairbuilder.components::Button" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="center" backgroundColor="15658734" borderColor="10066329" borderThickness="1" borderStyle="solid" cornerRadius="5" label="{flair:CircledPlus}" style="horizontalButton" direction="horizontal"/>
+    <Component width="100" height="31" x="59" y="221" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbcv6210" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Rafts&#xD;"/>
+    <Component width="165" height="24" x="177" y="242" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbc4u62p" clasz="com.flairbuilder.components::ComboBox" bold="false" italic="false" underline="false" color="0" fontSize="12" borderColor="0">
+      <data encoded="true">Smith%20Root%0DCoffelt</data>
+    </Component>
+    <Component width="105" height="36" x="60" y="242" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbc097mb" clasz="com.flairbuilder.components::RadioButtonGroup" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" style="horizontalRadioButton" direction="horizontal" version="3.0">
+      <data encoded="true">%5Bx%5DVVP%0DGPP</data>
+    </Component>
+    <Component width="165" height="24" x="177" y="272" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbc73m9t" clasz="com.flairbuilder.components::ComboBox" bold="false" italic="false" underline="false" color="0" fontSize="12" borderColor="0">
+      <data encoded="true">Smith%20Root%0DCoffelt</data>
+    </Component>
+    <Component width="105" height="36" x="60" y="272" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbcd4t4D" clasz="com.flairbuilder.components::RadioButtonGroup" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" style="horizontalRadioButton" direction="horizontal" version="3.0">
+      <data encoded="true">%5Bx%5DVVP%0DGPP</data>
+    </Component>
+    <Component width="28" height="24" x="352" y="272" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbc7cA7o" clasz="com.flairbuilder.components::Button" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="center" backgroundColor="15658734" borderColor="10066329" borderThickness="1" borderStyle="solid" cornerRadius="5" label="{flair:CircledPlus}" style="horizontalButton" direction="horizontal"/>
+    <Component width="100" height="31" x="59" y="221" enabled="true" visible="true" hidden="true" containedBy="fbc12789" id="fbch7773" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Rafts&#xD;"/>
+    <Component name="Tabs4" width="392" height="373" x="45" y="118" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc84c26" clasz="com.flairbuilder.components::TabNavigator" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="15658734" borderColor="0" borderThickness="1" tabWidth="72" tabHeight="24" position="top-left" tabs="Pass 1, Pass 2">
+      <tabs>
+        <tab>fbcc55Y7,fbc0bt69</tab>
+        <tab>fbc17097,fbc86231</tab>
+        <tab></tab>
+      </tabs>
+    </Component>
+    <Component width="342" height="321" x="53" y="158" enabled="true" visible="true" hidden="true" containedBy="fbc84c26" id="fbc0bt69" clasz="com.flairbuilder.components::DataGrid" fontSize="12" borderColor="0" borderThickness="1" backgroundColor="15987442" style="dataGridHLines" showBorder="true" showHeader="true" headerHeight="21" rowHeight="21" version="3.0" showScrollbar="false" colwidths="25,63,54,84,59,47">
+      <data encoded="true">*ID*,*Species*,*Length*,*Length%20Type*,*Weight*,*More*%0D1,BCT,300,Standard,20,%7Bflair:Ellipsis%7D%0D2,BCT,350,Standard,50,%7Bflair:Ellipsis%7D%0D3,BCT,300,Standard,20,%7Bflair:Ellipsis%7D%0D4,BCT,350,Standard,50,%7Bflair:Ellipsis%7D%0D5,BCT,300,Standard,20,%7Bflair:Ellipsis%7D%0D6,BCT,350,Standard,50,%7Bflair:Ellipsis%7D%0D7,BCT,300,Standard,20,%7Bflair:Ellipsis%7D%0D8,BCT,350,Standard,50,%7Bflair:Ellipsis%7D%0D9,BCT,300,Standard,20,%7Bflair:Ellipsis%7D%0D10,BCT,350,Standard,50,%7Bflair:Ellipsis%7D%0D12,BCT,300,Standard,20,%7Bflair:Ellipsis%7D%0D12,BCT,350,Standard,50,%7Bflair:Ellipsis%7D%0D13,BCT,300,Standard,20,%7Bflair:Ellipsis%7D%0D14,BCT,350,Standard,50,%7Bflair:Ellipsis%7D</data>
+    </Component>
+    <Component width="28" height="24" x="399" y="451" enabled="true" visible="true" hidden="true" containedBy="fbc84c26" id="fbcc55Y7" clasz="com.flairbuilder.components::Button" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="center" backgroundColor="15658734" borderColor="10066329" borderThickness="1" borderStyle="solid" cornerRadius="5" label="{flair:CircledPlus}" style="horizontalButton" direction="horizontal"/>
+    <Component width="28" height="24" x="194" y="118" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbcUd0p4" clasz="com.flairbuilder.components::Button" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="center" backgroundColor="15658734" borderColor="10066329" borderThickness="1" borderStyle="solid" cornerRadius="5" label="{flair:CircledPlus}" style="horizontalButton" direction="horizontal"/>
+    <Component width="350" height="62" x="53" y="158" enabled="true" visible="true" hidden="true" containedBy="fbc84c26" id="fbc86231" clasz="com.flairbuilder.components::DataGrid" fontSize="12" borderColor="0" borderThickness="1" backgroundColor="15987442" style="dataGridHLines" showBorder="true" showHeader="true" headerHeight="21" rowHeight="21" version="3.0" showScrollbar="false" colwidths="22,55,49,167,49">
+      <data encoded="true">*ID*,*Species*,*Length*,*Length%20Type*,*Weight*%0D1,BCT,300,Standard,20%0D2,BCT,350,Standard,50</data>
+    </Component>
+    <Component width="28" height="24" x="403" y="196" enabled="true" visible="true" hidden="true" containedBy="fbc84c26" id="fbc17097" clasz="com.flairbuilder.components::Button" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="center" backgroundColor="15658734" borderColor="10066329" borderThickness="1" borderStyle="solid" cornerRadius="5" label="{flair:CircledPlus}" style="horizontalButton" direction="horizontal"/>
+    <Component width="539" height="295" x="89" y="507" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbcrVu45" clasz="com.flairbuilder.components::TitleWindow" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="13816016" borderColor="6710886" borderThickness="1" borderStyle="solid" label="Fish Attributes" title="Fish Attributes" headerHeight="21" close="true" minimize="true" maximize="true" contains="" showScrollbar="false"/>
+    <Component width="28" height="24" x="457" y="587" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbcM2y5V" clasz="com.flairbuilder.components::Button" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="center" backgroundColor="15658734" borderColor="10066329" borderThickness="1" borderStyle="solid" cornerRadius="5" label="{flair:CircledPlus}" style="horizontalButton" direction="horizontal"/>
+    <Component width="100" height="24" x="214" y="646" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc1020c" clasz="com.flairbuilder.components::ComboBox" bold="false" italic="false" underline="false" color="0" fontSize="12" borderColor="0">
+      <data encoded="true">???</data>
+    </Component>
+    <Component width="100" height="24" x="214" y="677" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc9Nj9l" clasz="com.flairbuilder.components::ComboBox" bold="false" italic="false" underline="false" color="0" fontSize="12" borderColor="0">
+      <data encoded="true">???</data>
+    </Component>
+    <Component width="65" height="18" x="94" y="532" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc2M559" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="*Diet*&#xD;"/>
+    <Component width="65" height="18" x="94" y="630" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc665vd" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="*Tag*"/>
+    <Component width="350" height="68" x="94" y="552" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbcS1ABZ" clasz="com.flairbuilder.components::DataGrid" fontSize="12" borderColor="0" borderThickness="1" backgroundColor="15987442" style="dataGridVLines" showBorder="true" showHeader="true" headerHeight="21" rowHeight="21" version="3.0" showScrollbar="false" colwidths="173,70,103">
+      <data encoded="true">*Class*,*Frequency*,*Frequency%20Type*%0DTerrestrial%20invertebrates,3,Count%0DAquatic%20invertebrates,400,Weight</data>
+    </Component>
+    <Component width="28" height="24" x="444" y="596" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc3VE69" clasz="com.flairbuilder.components::Button" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="center" backgroundColor="15658734" borderColor="10066329" borderThickness="1" borderStyle="solid" cornerRadius="5" label="{flair:CircledPlus}" style="horizontalButton" direction="horizontal"/>
+    <Component width="350" height="48" x="94" y="653" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc95b4P" clasz="com.flairbuilder.components::DataGrid" fontSize="12" borderColor="0" borderThickness="1" backgroundColor="15987442" style="dataGridVLines" showBorder="true" showHeader="true" headerHeight="21" rowHeight="21" version="3.0" showScrollbar="false" colwidths="69,64,64,58,43,42">
+      <data encoded="true">*Number*,*Frequency*,*Type*,*Location*,*Color*,*New?*%0D1234567890,125,Coded%20wire,Left%20pelvic,Green,Yes</data>
+    </Component>
+    <Component width="65" height="18" x="94" y="711" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc5v9l7" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="*Health*"/>
+    <Component width="100" height="18" x="94" y="739" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbc0M613" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Eye Condition&#xD;"/>
+    <Component width="100" height="18" x="94" y="770" enabled="true" visible="true" hidden="true" containedBy="fbc8x4i8" id="fbcnNm59" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Gill Condition"/>
+    <CustomImages/>
+    <Annotations>
+      <Annotation x="114" y="109" width="249" height="44">
+        <text>Auto detected by searching for the nearest station point. If no station can be found nearby, then the user can begin typing and the box with auto-complete with the list of known stations. If there is no existing station then the user can create one from the current point.</text>
+      </Annotation>
+      <Annotation x="411" y="174" width="145" height="43">
+        <text>This would only be available on the mobile app since the desktop users can click on a map if they don't have coords. If the mobile user uses this method then there is a flag set for someone on a desktop to review the textual description and click on a map to define the area.</text>
+      </Annotation>
+      <Annotation x="199" y="222" width="180" height="38">
+        <text>This drop down would dynamically update with the appropriate options when the VVP/GPP radio buttons are toggled.</text>
+      </Annotation>
+    </Annotations>
+    <Layers/>
+  </Page>
+  <Page width="960" height="1000" enabled="true" visible="true" hidden="false" id="pgp8vL3" clasz="com.flairbuilder.project::Page" name="New Station" color="255" backgroundColor="16777215">
+    <Component width="345" height="24" x="78" y="56" enabled="true" visible="true" hidden="false" id="fbc02iC5" clasz="com.flairbuilder.components::TextInput" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="16777215" backgroundAlpha="1" borderColor="0" borderThickness="1" borderStyle="solid" cornerRadius="0" label=""/>
+    <Component width="50" height="18" x="30" y="58" enabled="true" visible="true" hidden="false" id="fbc0T874" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Name"/>
+    <Component width="412" height="265" x="34" y="123" enabled="true" visible="true" hidden="false" id="fbc5iuZ3" clasz="com.flairbuilder.components::GoogleMap" borderColor="0" borderThickness="1" borderStyle="solid"/>
+    <Component width="199" height="24" x="236" y="133" enabled="true" visible="true" hidden="false" id="fbcm8yn9" clasz="com.flairbuilder.components::Search" bold="false" italic="false" underline="false" color="0" fontSize="12" backgroundColor="16777215" borderColor="0" borderThickness="1" borderStyle="solid" cornerRadius="10" label="search for stream"/>
+    <Component width="100" height="24" x="178" y="91" enabled="true" visible="true" hidden="false" id="fbc6iV97" clasz="com.flairbuilder.components::TextInput" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="16777215" backgroundAlpha="1" borderColor="0" borderThickness="1" borderStyle="solid" cornerRadius="0" label=""/>
+    <Component width="35" height="18" x="143" y="92" enabled="true" visible="true" hidden="false" id="fbcF9517" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Lat:"/>
+    <Component width="100" height="24" x="323" y="91" enabled="true" visible="true" hidden="false" id="fbc166u8" clasz="com.flairbuilder.components::TextInput" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="left" backgroundColor="16777215" backgroundAlpha="1" borderColor="0" borderThickness="1" borderStyle="solid" cornerRadius="0" label=""/>
+    <Component width="35" height="18" x="288" y="92" enabled="true" visible="true" hidden="false" id="fbc55456" clasz="com.flairbuilder.components::Label" bold="false" italic="false" underline="false" color="0" fontSize="12" leading="0" textAlign="left" label="Long:"/>
+    <Component width="132" height="20" x="30" y="91" enabled="true" visible="true" hidden="false" id="fbc1D646" clasz="com.flairbuilder.components::Label" bold="true" italic="false" underline="false" color="0" fontSize="14" leading="0" textAlign="left" label="Location"/>
+    <Component width="26" height="24" x="94" y="90" enabled="true" visible="true" hidden="false" id="fbcf5t27" clasz="com.flairbuilder.components::Button" bold="false" italic="false" underline="false" color="0" fontSize="12" textAlign="center" backgroundColor="15658734" borderColor="10066329" borderThickness="1" borderStyle="solid" cornerRadius="5" label="{flair:World}" style="horizontalButton" direction="horizontal"/>
+    <Component width="180" height="31" x="30" y="20" enabled="true" visible="true" hidden="false" id="fbc69U9e" clasz="com.flairbuilder.components::Title" bold="false" italic="false" underline="false" color="0" fontSize="24" leading="0" textAlign="left" label="New Station"/>
+    <CustomImages/>
+    <Annotations/>
+    <Layers/>
+  </Page>
+  <Variables/>
+  <CustomComponents embedded="false" list=""/>
+  <Structure name="Wildlife" siteMap="1" id="II48hhzLd1">
+    <Page name="Home_Alt" id="pgA0Y71" siteMap="1"/>
+    <Page name="Viewer" id="#pg_O92Fs" siteMap="1"/>
+    <Page name="New Collection Event" id="pgj1X5B" siteMap="1"/>
+    <Page name="New Station" id="pgp8vL3" siteMap="1"/>
+  </Structure>
+</Project>

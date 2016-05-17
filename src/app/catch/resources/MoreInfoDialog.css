@@ -1,0 +1,38 @@
+.more-info-dialog .modal-dialog {
+    width: 680px;
+}
+.more-info-dialog .dgrid .field-ID {
+    display: none;
+}
+.more-info-dialog .dgrid .field-CLASS {
+    width: 225px;
+}
+.more-info-dialog .dgrid .field-FISH_SPECIES {
+    width: 125px;
+}
+.more-info-dialog .dgrid .field-MEASUREMENT {
+    width: 120px;
+}
+.more-info-dialog .dgrid .field-MEASUREMENT input {
+    width: 82px;
+}
+.more-info-dialog .dgrid {
+    height: 240px;
+}
+.more-info-dialog .pull-right {
+    margin-bottom: 5px;
+}
+.more-info-dialog .nav-tabs {
+    margin-bottom: 10px;
+}
+.more-info-dialog .tab-pane {
+    padding: 3px;
+}
+.more-info-dialog .dgrid .dgrid-cell {
+    font-size: 14px;
+}
+.more-info-dialog .modal .tab-content {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
