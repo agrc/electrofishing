@@ -1,10 +1,12 @@
 require({
     packages: [
+        'agrc',
         'app',
         'dgrid',
         'dijit',
         'dojo',
         'dstore',
+        'ijit',
         'proj4',
         {
             name: 'bootstrap',
@@ -19,17 +21,25 @@ require({
             location: './bootstrap3-typeahead',
             main: 'bootstrap3-typeahead'
         }, {
+            name: 'esri-leaflet',
+            location: './esri-leaflet/dist',
+            main: 'esri-leaflet-src'
+        }, {
             name: 'jquery',
             location: './jquery/dist',
             main: 'jquery'
         }, {
             name: 'leaflet',
             location: './leaflet',
-            main: 'dist/leaflet.js'
+            main: 'dist/leaflet-src'
         }, {
             name: 'proj4',
             location: './proj4/dist',
             main: 'proj4'
+        }, {
+            name: 'proj4leaflet',
+            location: './Proj4Leaflet/src',
+            main: 'proj4leaflet'
         }
     ]
 });

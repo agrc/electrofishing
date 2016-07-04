@@ -15,7 +15,9 @@ define([
     'app/SettingsDialog',
     'dijit/layout/ContentPane',
     'dijit/layout/StackContainer',
-    'dijit/layout/StackController'
+    'dijit/layout/StackController',
+
+    'bootstrap'
 ],
 
 function (

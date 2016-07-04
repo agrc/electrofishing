@@ -1,35 +1,39 @@
 define([
-    'dojo/_base/declare',
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
-    'dijit/_WidgetsInTemplateMixin',
-    'dojo/text!app/location/templates/VerifyMap.html',
-    'dojo/topic',
-    'dojo/dom-style',
     'app/StreamSearch',
-    'dojo/string',
-    'dojo/text!app/templates/StationPopupTemplate.html',
-    'dojo/_base/array',
 
-    'leaflet/leaflet-src',
-    'proj4js',
-    'leaflet/proj4leaflet',
-    'leaflet/esri-leaflet-src'
+    'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
+    'dijit/_WidgetsInTemplateMixin',
+
+    'dojo/dom-style',
+    'dojo/string',
+    'dojo/text!app/location/templates/VerifyMap.html',
+    'dojo/text!app/templates/StationPopupTemplate.html',
+    'dojo/topic',
+    'dojo/_base/array',
+    'dojo/_base/declare',
+
+    'esri-leaflet',
+    'leaflet',
+    'proj4',
+    'proj4leaflet'
 ],
 
 function (
-    declare,
-    _WidgetBase,
-    _TemplatedMixin,
-    _WidgetsInTemplateMixin,
-    template,
-    topic,
-    domStyle,
     StreamSearch,
+
+    _TemplatedMixin,
+    _WidgetBase,
+    _WidgetsInTemplateMixin,
+
+    domStyle,
     dojoString,
+    template,
     stationPopupTemplate,
-    array
-    ) {
+    topic,
+    array,
+    declare
+) {
     // load these script synchronously because the order matters
     return declare('app.location.VerifyMap', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         widgetsInTemplate: false,

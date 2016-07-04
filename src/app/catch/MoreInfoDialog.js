@@ -1,36 +1,45 @@
 define([
-    'dojo/_base/declare',
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
-    'dijit/_WidgetsInTemplateMixin',
-    'dojo/text!app/catch/templates/MoreInfoDialog.html',
-    'app/_GridMixin',
     'agrc/modules/GUID',
-    'dgrid/editor',
-    'app/catch/GridDropdown',
-    'dojo/_base/lang',
-    'dojo/query',
-    'dojo/dom-class',
 
-    'app/main',
+    'app/catch/GridDropdown',
+    'app/config',
+    'app/_GridMixin',
+
+    'dgrid/editor',
+
+    'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
+    'dijit/_WidgetsInTemplateMixin',
+
+    'dojo/dom-class',
+    'dojo/query',
+    'dojo/text!app/catch/templates/MoreInfoDialog.html',
+    'dojo/_base/declare',
+    'dojo/_base/lang',
+
     './Health',
     'app/catch/TagsContainer'
 ],
 
 function (
-    declare,
-    _WidgetBase,
-    _TemplatedMixin,
-    _WidgetsInTemplateMixin,
-    template,
-    _GridMixin,
     GUID,
-    editor,
+
     GridDropdown,
-    lang,
+    config,
+    _GridMixin,
+
+    editor,
+
+    _TemplatedMixin,
+    _WidgetBase,
+    _WidgetsInTemplateMixin,
+
+    domClass,
     query,
-    domClass
-    ) {
+    template,
+    declare,
+    lang
+) {
     // summary:
     //      Form for storing diet, tag and other fish stats.
     return declare('app/catch/MoreInfoDialog', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GridMixin], {
@@ -85,8 +94,8 @@ function (
             console.log(this.declaredClass + '::constructor', arguments);
 
             // initialize properties
-            this.lastColumn = AGRC.fieldNames.diet.MEASUREMENT;
-            this.firstColumn = AGRC.fieldNames.diet.CLASS;
+            this.lastColumn = config.fieldNames.diet.MEASUREMENT;
+            this.firstColumn = config.fieldNames.diet.CLASS;
             this.dietData = {};
             this.tagsData = {};
             this.healthData = {};
@@ -98,47 +107,47 @@ function (
 
             var columns = [
                 {label: 'Catch ID', field: this.idProperty, sortable: false},
-                {label: 'Fish ID', field: AGRC.fieldNames.diet.FISH_ID, sortable: false},
+                {label: 'Fish ID', field: config.fieldNames.diet.FISH_ID, sortable: false},
                 editor({
                     autoSave: true,
                     label: 'Class',
-                    field: AGRC.fieldNames.diet.CLASS,
+                    field: config.fieldNames.diet.CLASS,
                     editor: GridDropdown,
                     sortable: false,
                     editOn: 'dgrid-cellfocusin',
                     editorArgs: {
-                        domainFieldName: AGRC.fieldNames.diet.CLASS,
-                        domainLayerUrl: AGRC.urls.dietFeatureService
+                        domainFieldName: config.fieldNames.diet.CLASS,
+                        domainLayerUrl: config.urls.dietFeatureService
                     }
                 }),
                 editor({
                     autoSave: true,
                     label: 'Fish Species',
-                    field: AGRC.fieldNames.diet.FISH_SPECIES,
+                    field: config.fieldNames.diet.FISH_SPECIES,
                     editor: GridDropdown,
                     sortable: false,
                     editOn: 'dgrid-cellfocusin',
                     editorArgs: {
-                        domainFieldName: AGRC.fieldNames.diet.FISH_SPECIES,
-                        domainLayerUrl: AGRC.urls.dietFeatureService
+                        domainFieldName: config.fieldNames.diet.FISH_SPECIES,
+                        domainLayerUrl: config.urls.dietFeatureService
                     }
                 }),
                 editor({
                     autoSave: true,
                     label: 'Type',
-                    field: AGRC.fieldNames.diet.MEASUREMENT_TYPE,
+                    field: config.fieldNames.diet.MEASUREMENT_TYPE,
                     editor: GridDropdown,
                     sortable: false,
                     editOn: 'dgrid-cellfocusin',
                     editorArgs: {
-                        domainFieldName: AGRC.fieldNames.diet.MEASUREMENT_TYPE,
-                        domainLayerUrl: AGRC.urls.dietFeatureService
+                        domainFieldName: config.fieldNames.diet.MEASUREMENT_TYPE,
+                        domainLayerUrl: config.urls.dietFeatureService
                     }
                 }),
                 editor({
                     autoSave: true,
                     label: 'Measurement',
-                    field: AGRC.fieldNames.diet.MEASUREMENT,
+                    field: config.fieldNames.diet.MEASUREMENT,
                     editor: 'text',
                     sortable: false,
                     editOn: 'dgrid-cellfocusin',
@@ -181,10 +190,10 @@ function (
 
             var item = this.store.get(guid);
 
-            this.catchId.innerHTML = item[AGRC.fieldNames.fish.CATCH_ID];
-            this.passId.innerHTML = item[AGRC.fieldNames.fish.PASS_NUM];
+            this.catchId.innerHTML = item[config.fieldNames.fish.CATCH_ID];
+            this.passId.innerHTML = item[config.fieldNames.fish.PASS_NUM];
 
-            this.notesTxtArea.value = item[AGRC.fieldNames.fish.NOTES] || '';
+            this.notesTxtArea.value = item[config.fieldNames.fish.NOTES] || '';
 
             // tab
             query('.nav-tabs li', this.domNode).forEach(function (n) {
@@ -214,7 +223,7 @@ function (
             console.log(this.declaredClass + '::addRow', arguments);
 
             var data = {};
-            var fn = AGRC.fieldNames.diet;
+            var fn = config.fieldNames.diet;
             var guid = GUID.uuid();
 
             data[this.idProperty] = guid;
@@ -240,7 +249,7 @@ function (
             }
 
             var item = this.store.get(this.currentFishId);
-            item[AGRC.fieldNames.fish.NOTES] = this.notesTxtArea.value;
+            item[config.fieldNames.fish.NOTES] = this.notesTxtArea.value;
             this.store.put(item);
 
             this.clearValues();
