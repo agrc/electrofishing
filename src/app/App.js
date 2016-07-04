@@ -1,6 +1,7 @@
 define([
     'agrc/modules/GUID',
 
+    'app/config',
     'app/NewCollectionEvent',
 
     'dijit/_TemplatedMixin',
@@ -20,6 +21,7 @@ define([
 function (
     GUID,
 
+    config,
     NewCollectionEvent,
 
     _TemplatedMixin,
@@ -48,14 +50,14 @@ function (
             //      first function to fire after page loads
             console.log('app/App:constructor', arguments);
 
-            AGRC.app = this;
+            config.app = this;
         },
         postCreate: function () {
             // summary:
             //      Fires when
             console.log('app/App:postCreate', arguments);
 
-            AGRC.eventId = GUID.uuid();
+            config.eventId = GUID.uuid();
 
             this.newEvent = new NewCollectionEvent({}, this.newEventDiv);
 

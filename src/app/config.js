@@ -1,25 +1,9 @@
-require({async: 0}); // need sync to make sure that proj4leaflet gets loaded last
-define([
-    'dojo/parser',
-    'ijit/modules/ErrorLogger',
-
-    'jquery',
-    'bootstrap',
-    'app/App'
-],
-
-function (
-    parser,
-    ErrorLogger
-    ) {
+define([], function () {
     var wildlifeFolder = '/proxy/proxy.jsp?http://dwrmapserv.utah.gov/dwrarcgis/rest/services/Aquatics/';
     var wildlifeToolbox = wildlifeFolder + 'Toolbox/GPServer/';
     var wildlifeData = wildlifeFolder + 'Data/';
 
     window.AGRC = {
-        // errorLogger: ijit.modules.ErrorLogger
-        errorLogger: new ErrorLogger({appName: 'WildlifeDataEntry'}),
-
         // app: app.App
         //      global reference to app
         app: null,
@@ -231,7 +215,5 @@ function (
     // Leaflet config
     L.Icon.Default.imagePath = 'leaflet/images';
 
-    if (!dojo.config.isJasmineTestRunner) {
-        parser.parse();
-    }
+    return AGRC;
 });
