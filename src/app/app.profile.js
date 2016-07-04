@@ -1,56 +1,21 @@
-/*eslint-disable no-unused-vars */
-var profile = (function () {
-    var copyOnly = function (mid) {
-        // console.log(mid);
-        var list = {
-            'bootstrap': true
-        };
-
-        return (mid in list);
-    };
-    return {
-        basePath: '../src',
-        action: 'release',
-        cssOptimize: 'comments',
-        mini: true,
-        optimize: 'closure',
-        layerOptimize: 'closure',
-        stripConsole: 'all',
-        selectorEngine: 'acme',
-        layers: {
-            'dojo/dojo': {
-                include: [
-                    'dojo/i18n',
-                    'dojo/domReady',
-                    'app/packages',
-                    'app/run',
-                    'app/App'
-                ],
-                customBase: true,
-                boot: true
-            }
+/*eslint-disable no-unused-vars, no-undef */
+profile = {
+    resourceTags: {
+        test: function (mid) {
+            return /\/Spec/.test(mid);
         },
-        staticHasFeatures: {
-            'dojo-trace-api': 0,
-            'dojo-log-api': 0,
-            'dojo-publish-privates': 0,
-            'dojo-sync-loader': 0,
-            'dojo-xhr-factory': 0,
-            'dojo-test-sniff': 0,
-            'dijit-legacy-requires': 0
+        copyOnly: function (filename, mid) {
+            return (/^app\/resources\//.test(mid) && !/\.css$/.test(filename));
         },
-        resourceTags: {
-            test: function (filename, mid) {
-                return (/^Spec*./).test(filename);
-            },
-            copyOnly: function (filename, mid) {
-                return copyOnly(mid);
-            },
-            // TODO: filter out agrc, ijit, and esri?
-            amd: function (filename, mid) {
-                return !copyOnly(mid) && /\.js$/.test(filename);
-            }
+        amd: function (filename, mid) {
+            return !this.copyOnly(filename, mid) && /\.js$/.test(filename);
         },
-        packages: ['app', 'dijit']
-    };
-}());
+        miniExclude: function (filename, mid) {
+            return mid in {
+                'app/package': 1,
+                'app/tests/jasmineTestBootstrap': 1
+            };
+        }
+    }
+};
+/*eslint-enable no-unused-vars, no-undef */
