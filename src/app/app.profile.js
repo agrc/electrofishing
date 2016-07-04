@@ -13,10 +13,8 @@ var profile = (function () {
         action: 'release',
         cssOptimize: 'comments',
         mini: true,
-        // can't use closure because it breaks bootstrap modal dialogs
-        // ref: https://github.com/twitter/bootstrap/issues/820
-        // optimize: 'closure',
-        // layerOptimize: 'closure',
+        optimize: 'closure',
+        layerOptimize: 'closure',
         stripConsole: 'all',
         selectorEngine: 'acme',
         layers: {
@@ -24,9 +22,9 @@ var profile = (function () {
                 include: [
                     'dojo/i18n',
                     'dojo/domReady',
-                    'app/main',
+                    'app/packages',
                     'app/run',
-                    'dijit/_base/manager' // this could probably be removed once all modules are AMD
+                    'app/App'
                 ],
                 customBase: true,
                 boot: true
@@ -36,7 +34,7 @@ var profile = (function () {
             'dojo-trace-api': 0,
             'dojo-log-api': 0,
             'dojo-publish-privates': 0,
-            // 'dojo-sync-loader': 0, // this can be uncommented once all modules are AMD
+            'dojo-sync-loader': 0,
             'dojo-xhr-factory': 0,
             'dojo-test-sniff': 0,
             'dijit-legacy-requires': 0
@@ -53,15 +51,6 @@ var profile = (function () {
                 return !copyOnly(mid) && /\.js$/.test(filename);
             }
         },
-        packages: [{
-            name: 'dojo',
-            location: '../dojo'
-        },{
-            name: 'dijit',
-            location: '../dijit'
-        },{
-            name: 'dojox',
-            location: '../dojox'
-        }]
+        packages: ['app', 'dijit']
     };
 }());
