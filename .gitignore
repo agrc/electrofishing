@@ -3,10 +3,14 @@ dist/
 node_modules/
 src/bootstrap
 src/bootstrap-combobox
+src/bootstrap3-typeahead
+src/dgrid
 src/dijit
 src/dojo
+src/dojo-themes
 src/dojox
+src/dstore
 src/jquery
-src/proj4js
-src/typeahead
+src/leaflet
+src/proj4
 src/util
