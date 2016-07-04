@@ -1,0 +1,12 @@
+{
+  "name": "electrofishing",
+  "description": "Electrofishing app for DWR",
+  "main": "",
+  "authors": [
+    "Scott Davis <stdavis@utah.gov>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/agrc/electrofishing",
+  "moduleType": [],
+  "private": true
+}
