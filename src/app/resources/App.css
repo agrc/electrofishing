@@ -1,7 +1,11 @@
+@import '../../bootstrap-combobox/css/bootstrap-combobox.css';
+@import '../../bootstrap/dist/css/bootstrap.css';
+@import '../../dgrid/css/dgrid.css';
 @import '../../dijit/themes/dijit.css';
+@import '../../leaflet/dist/leaflet.css';
+
 @import '../location/resources/Location.css';
 @import 'Header.css';
-@import '../../leaflet/leaflet.css';
 @import 'NewCollectionEvent.css';
 @import 'SettingsDialog.css';
 @import '../location/resources/Station.css';
