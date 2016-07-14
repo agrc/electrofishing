@@ -234,7 +234,7 @@ function (
 
             $('.nav-tabs a[href=#' + tabID + ']').tab('show');
         },
-        onError: function (err) {
+        onError: function () {
             // summary:
             //      displayes an error message when the submit service fails
             // err: error object

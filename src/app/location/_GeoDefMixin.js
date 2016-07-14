@@ -118,7 +118,7 @@ function (
                         } else {
                             def.reject(msg);
                         }
-                    }, function (segErr) {
+                    }, function () {
                         def.reject(msg);
                     }
                 );

@@ -137,7 +137,7 @@ function (
 
             this.mainMap.clearSelection();
         },
-        onError: function (err) {
+        onError: function () {
             // summary:
             //      displayed an error message when the service fails
             // err: error object
