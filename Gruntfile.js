@@ -13,16 +13,20 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         jasmine: {
-            app: {
-                src: [
-                    'src/app/tests/jasmineTestBootstrap.js',
-                    'src/dojo/dojo.js',
-                    'src/app/run.js'
-                ],
+            main: {
                 options: {
-                    specs: [
-                        'src/app/tests/spec/*.js'
-                    ]
+                    specs: ['src/app/**/Spec*.js'],
+                    vendor: [
+                        'src/jasmine-favicon-reporter/vendor/favico.js',
+                        'src/jasmine-favicon-reporter/jasmine-favicon-reporter.js',
+                        'src/jasmine-jsreporter/jasmine-jsreporter.js',
+                        'src/app/tests/jasmineTestBootstrap.js',
+                        'src/dojo/dojo.js',
+                        'src/app/packages.js',
+                        'src/app/tests/jsReporterSanitizer.js',
+                        'src/app/tests/jasmineAMDErrorChecking.js'
+                    ],
+                    host: 'http://localhost:8000'
                 }
             }
         },
@@ -69,7 +73,7 @@ module.exports = function (grunt) {
 
     // Default task.
     grunt.registerTask('default', [
-        'jasmine:app:build',
+        'jasmine:main:build',
         'eslint',
         'connect',
         'watch'
