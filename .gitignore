@@ -2,6 +2,7 @@
 *.sde
 dist/
 node_modules/
+scripts/Scripts/settings/__init__.py
 src/agrc/
 src/bootstrap
 src/bootstrap-combobox
