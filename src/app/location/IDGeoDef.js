@@ -170,7 +170,6 @@ function (
                             def.reject(that.errorMsg);
                         }
                     }, function (err) {
-                        AGRC.errorLogger.log(err, 'Error getting id');
                         def.reject(that.erorMsg + ': ' + err.message);
                     });
 

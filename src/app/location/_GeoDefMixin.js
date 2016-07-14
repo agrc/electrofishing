@@ -58,7 +58,6 @@ function (
             if (data.error) {
                 var msg = 'error with: ' + this.gpServiceUrl;
                 console.error(msg, data.error.message);
-                AGRC.errorLogger.log(data.error, msg);
                 return false;
             } else {
                 intId = setInterval(function () {
@@ -117,11 +116,9 @@ function (
                         if (results.value.features[0]) {
                             successCallback(results.value.features[0]);
                         } else {
-                            AGRC.errorLogger.log(results.error, msg);
                             def.reject(msg);
                         }
                     }, function (segErr) {
-                        AGRC.errorLogger.log(segErr, msg);
                         def.reject(msg);
                     }
                 );
@@ -147,7 +144,6 @@ function (
                     utm: streamGeo
                 });
             }, function (er) {
-                AGRC.errorLogger.log(er, 'Error getting one of the segments');
                 console.error(er);
             });
         }

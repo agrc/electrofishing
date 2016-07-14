@@ -244,7 +244,6 @@ function (
             domClass.remove(this.validateMsg, 'hidden');
             window.scrollTo(0,0);
             $(AGRC.app.header.submitBtn).button('reset');
-            AGRC.errorLogger.log(err || {}, this.submitErrMsg);
         }
     });
 });

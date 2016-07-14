@@ -117,7 +117,6 @@ function (
                 }
             }, function (err) {
                 var msg = 'There was an error with the getSegmentFromCoords service: ';
-                AGRC.errorLogger.log(err, msg);
                 def.reject(msg + err.message);
             });
 

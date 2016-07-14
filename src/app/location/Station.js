@@ -143,7 +143,6 @@ function (
             // err: error object
             console.log('app/location/Station:onError', arguments);
 
-            AGRC.errorLogger.log(err || {}, this.newStationErrMsg);
             this.validateMsg.innerHTML = this.newStationErrMsg;
             $(this.submitBtn).button('reset');
             this.newStation = null;
