@@ -1,4 +1,5 @@
 .grunt/
+*.sde
 dist/
 node_modules/
 src/agrc/
