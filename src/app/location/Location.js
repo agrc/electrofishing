@@ -1,28 +1,30 @@
 define([
-    'dojo/_base/declare',
-    'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
-    'dojo/text!app/location/templates/Location.html',
-    'dojo/query',
-    'dojo/topic',
 
-    'app/location/StartEndGeoDef',
-    'app/location/StartDistDirGeoDef',
+    'dojo/query',
+    'dojo/text!app/location/templates/Location.html',
+    'dojo/topic',
+    'dojo/_base/declare',
+
     'app/location/IDGeoDef',
-    'app/location/VerifyMap',
-    'app/location/Station'
+    'app/location/StartDistDirGeoDef',
+    'app/location/StartEndGeoDef',
+    'app/location/Station',
+    'app/location/VerifyMap'
 ],
 
 function (
-    declare,
-    _WidgetBase,
     _TemplatedMixin,
+    _WidgetBase,
     _WidgetsInTemplateMixin,
-    template,
+
     query,
-    topic
-    ) {
+    template,
+    topic,
+    declare
+) {
     return declare('app.location.Location', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         widgetsInTemplate: true,
         templateString: template,

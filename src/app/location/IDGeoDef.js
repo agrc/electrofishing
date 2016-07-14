@@ -1,27 +1,30 @@
 define([
-    'dojo/_base/declare',
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
-    'dijit/_WidgetsInTemplateMixin',
     'app/location/_GeoDefMixin',
-    'dojo/text!app/location/templates/IDGeoDef.html',
-    'dojo/dom-class',
-    'dojo/Deferred',
-    'dojo/request/xhr'
 
+    'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
+    'dijit/_WidgetsInTemplateMixin',
+
+    'dojo/Deferred',
+    'dojo/dom-class',
+    'dojo/request/xhr',
+    'dojo/text!app/location/templates/IDGeoDef.html',
+    'dojo/_base/declare'
 ],
 
 function (
-    declare,
-    _WidgetBase,
-    _TemplatedMixin,
-    _WidgetsInTemplateMixin,
     _GeoDefMixin,
-    template,
-    domClass,
+
+    _TemplatedMixin,
+    _WidgetBase,
+    _WidgetsInTemplateMixin,
+
     Deferred,
-    xhr
-    ) {
+    domClass,
+    xhr,
+    template,
+    declare
+) {
     return declare('app.location.IDGeoDef', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GeoDefMixin], {
         widgetsInTemplate: false,
         templateString: template,

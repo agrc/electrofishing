@@ -1,21 +1,24 @@
 define([
-    'dojo/_base/declare',
-    'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
-    'dojo/text!app/location/templates/CoordTypeToggle.html',
+
     'dojo/query',
-    'dojo/topic'
+    'dojo/text!app/location/templates/CoordTypeToggle.html',
+    'dojo/topic',
+    'dojo/_base/declare'
 ],
 
 function (
-    declare,
-    _WidgetBase,
     _TemplatedMixin,
+    _WidgetBase,
     _WidgetsInTemplateMixin,
-    template,
+
     query,
-    topic) {
+    template,
+    topic,
+    declare
+) {
     return declare('app.location.CoordTypeToggle', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         widgetsInTemplate: false,
         templateString: template,

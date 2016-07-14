@@ -1,17 +1,18 @@
 define([
-    'dojo/_base/declare',
     'dojo/Deferred',
-    'dojo/_base/array',
+    'dojo/promise/all',
     'dojo/request/xhr',
-    'dojo/promise/all'
+    'dojo/_base/array',
+    'dojo/_base/declare'
 ],
 
 function (
-    declare,
     Deferred,
-    array,
+    all,
     xhr,
-    all) {
+    array,
+    declare
+) {
     return declare('', null, {
         // defs: app/location/*Def[]
         //      all of the controls that this uses to define geometry
