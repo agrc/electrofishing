@@ -1,29 +1,32 @@
 define([
-    'dojo/_base/declare',
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
-    'dijit/_WidgetsInTemplateMixin',
-    'dojo/text!app/catch/templates/Health.html',
     'app/Domains',
+    'app/_ClearValuesMixin',
+
+    'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
+    'dijit/_WidgetsInTemplateMixin',
+
     'dojo/promise/all',
     'dojo/query',
-    'app/_ClearValuesMixin',
-    'dojo/_base/array'
-
+    'dojo/text!app/catch/templates/Health.html',
+    'dojo/_base/array',
+    'dojo/_base/declare'
 ],
 
 function (
-    declare,
-    _WidgetBase,
-    _TemplatedMixin,
-    _WidgetsInTemplateMixin,
-    template,
     Domains,
+    _ClearValuesMixin,
+
+    _TemplatedMixin,
+    _WidgetBase,
+    _WidgetsInTemplateMixin,
+
     all,
     query,
-    _ClearValuesMixin,
-    array
-    ) {
+    template,
+    array,
+    declare
+) {
     // summary:
     //      Health fields in more info dialog.
     return declare('app/catch/Health', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _ClearValuesMixin], {

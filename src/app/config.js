@@ -1,7 +1,35 @@
-define([], function () {
-    var wildlifeFolder = '/proxy/proxy.jsp?http://dwrmapserv.utah.gov/dwrarcgis/rest/services/Aquatics/';
+define([
+    'dojo/has',
+    'dojo/request/xhr'
+], function (
+    has,
+    xhr
+) {
+    var quadWord;
+    var wildlifeFolder;
+    if (has('agrc-build') === 'prod') {
+        // ??
+        quadWord = '??';
+        wildlifeFolder = '/proxy/proxy.jsp?http://dwrmapserv.utah.gov/dwrarcgis/rest/services/Aquatics/';
+    } else if (has('agrc-build') === 'stage') {
+        // test.mapserv.utah.gov
+        quadWord = '';
+    } else {
+        wildlifeFolder = 'http://localhost/arcgis/rest/services/Electrofishing/';
+        // localhost
+        xhr(require.baseUrl + 'secrets.json', {
+            handleAs: 'json',
+            sync: true
+        }).then(function (secrets) {
+            quadWord = secrets.quadWord;
+        }, function () {
+            throw 'Error getting secrets!';
+        });
+    }
+
     var wildlifeToolbox = wildlifeFolder + 'Toolbox/GPServer/';
-    var wildlifeData = wildlifeFolder + 'Data/';
+    var wildlifeData = wildlifeFolder + 'MapService/';
+    var wildlifeFeatureService = wildlifeData + 'FeatureServer/';
 
     window.AGRC = {
         // app: app.App
@@ -24,6 +52,8 @@ define([], function () {
             utm27: 'utm27'
         },
 
+        quadWord: quadWord,
+
         // topics: {key:String}
         //      Global dojo/topic topics used in the app
         topics: {
@@ -40,27 +70,37 @@ define([], function () {
 
         // urls: {}
         urls: {
-            terrainCache: 'http://mapserv.utah.gov/arcgis/rest/services/BaseMaps/Hybrid/MapServer',
+            // basemaps
+            googleImagery: 'https://discover.agrc.utah.gov/login/path/{quadWord}/tiles/utah/{z}/{x}/{y}',
+            overlay: 'https://discover.agrc.utah.gov/login/path/{quadWord}/tiles/overlay_basemap/{z}/{x}/{y}',
+
+            // leaflet icons
             startIcon: 'app/resources/images/start-icon.png',
             endIcon: 'app/resources/images/end-icon.png',
-            markerShadow: 'leaflet/images/marker-shadow.png',
+            markerShadow: 'leaflet/dist/images/marker-shadow.png',
             selectedIcon: 'app/resources/images/selected-icon.png',
+
+            // gp tasks
             getSegmentFromCoords: wildlifeToolbox + 'GetSegmentFromCoords',
             getSegmentFromStartDistDir: wildlifeToolbox + 'GetSegmentFromStartDistDir',
             getSegmentFromID: wildlifeToolbox + 'GetSegmentFromID',
             newStationService: wildlifeToolbox + 'NewStation',
             newCollectionEvent: wildlifeToolbox + 'NewCollectionEvent',
-            stationsFeatureService: wildlifeData + 'FeatureServer/0',
-            samplingEventsFeatureService: wildlifeData + 'FeatureServer/1',
-            streamsSearch: wildlifeData + 'MapServer/2/query',
-            backpacksFeatureService: wildlifeData + 'FeatureServer/3',
-            canoesbargesFeatureService: wildlifeData + 'FeatureServer/4',
-            raftsboatsFeatureService: wildlifeData + 'FeatureServer/5',
-            dietFeatureService: wildlifeData + 'FeatureServer/6',
-            fishFeatureService: wildlifeData + 'FeatureServer/7',
-            tagsFeatureService: wildlifeData + 'FeatureServer/8',
-            healthFeatureService: wildlifeData + 'FeatureServer/9',
-            habitatFeatureService: wildlifeData + 'FeatureServer/10'
+
+            // feature service
+            stationsFeatureService: wildlifeFeatureService + '0',
+            samplingEventsFeatureService: wildlifeFeatureService + '1',
+
+            fishFeatureService: wildlifeFeatureService + '3',
+            backpacksFeatureService: wildlifeFeatureService + '4',
+            canoesbargesFeatureService: wildlifeFeatureService + '5',
+            dietFeatureService: wildlifeFeatureService + '6',
+            healthFeatureService: wildlifeFeatureService + '7',
+            raftsboatsFeatureService: wildlifeFeatureService + '8',
+            tagsFeatureService: wildlifeFeatureService + '9',
+            habitatFeatureService: wildlifeFeatureService + '10',
+
+            streamsSearch: wildlifeData + 'MapServer/2/query'
         },
 
         // fieldNames: {}
@@ -213,7 +253,7 @@ define([], function () {
     };
 
     // Leaflet config
-    L.Icon.Default.imagePath = 'leaflet/images';
+    L.Icon.Default.imagePath = 'leaflet/dist/images';
 
     return AGRC;
 });

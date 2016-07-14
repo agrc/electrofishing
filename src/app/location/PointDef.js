@@ -1,23 +1,27 @@
 define([
-    'dojo/_base/declare',
-    'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
+
+    'dojo/dom-class',
     'dojo/text!app/location/templates/PointDef.html',
     'dojo/topic',
+    'dojo/_base/declare',
     'dojo/_base/lang',
-    'dojo/dom-class'
 
+    'proj4',
+    'proj4leaflet'
 ], function (
-    declare,
-    _WidgetBase,
     _TemplatedMixin,
+    _WidgetBase,
     _WidgetsInTemplateMixin,
+
+    domClass,
     template,
     topic,
-    lang,
-    domClass
-    ) {
+    declare,
+    lang
+) {
     return declare('app.location.PointDef', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         widgetsInTemplate: false,
         templateString: template,

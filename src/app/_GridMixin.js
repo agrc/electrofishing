@@ -66,7 +66,7 @@ function (
                 idProperty: this.idProperty
             }));
 
-            this.grid.set('store', store);
+            this.grid.set('collection', store);
         },
         getGridDropdownLookup: function () {
             // summary:
@@ -170,7 +170,7 @@ function (
             };
 
             if (array.indexOf(modifierKeys, e.keyCode) !== -1) {
-                passData = this.grid.store.query(this.grid.query);
+                passData = this.grid.collection.query(this.grid.query);
                 switch (e.keyCode) {
                     case keys.TAB:
                         if (!e.shiftKey) {
@@ -202,7 +202,7 @@ function (
             this.grid.save();
 
             if (this.getSelectedRow()) {
-                this.grid.store.remove(this.getSelectedRow().data[this.idProperty]);
+                this.grid.collection.remove(this.getSelectedRow().data[this.idProperty]);
             }
         },
         getSelectedRow: function () {
@@ -229,7 +229,7 @@ function (
             console.log(this.declaredClass + '::isGridValid', arguments);
 
             this.grid.save();
-            if (this.grid.store.data[0][this.firstColumn] !== null) {
+            if (this.grid.collection.data[0][this.firstColumn] !== null) {
                 return true;
             } else {
                 return this.invalidGridMsg;
@@ -245,7 +245,7 @@ function (
             if (!this.gridDropdowns) {
                 this.getGridDropdownLookup();
             }
-            var data = this.grid.store.data;
+            var data = this.grid.collection.data;
 
             if (data.length > 0) {
                 // remove any empty rows
@@ -284,7 +284,7 @@ function (
                 }
                 return f.attributes;
             });
-            this.grid.store.data = gridData;
+            this.grid.collection.data = gridData;
             this.grid.refresh();
         },
         clearGrid: function () {
@@ -292,7 +292,7 @@ function (
             //      clears the grid data
             console.log(this.declaredClass + '::clearGrid', arguments);
 
-            this.grid.store.data = [];
+            this.grid.collection.data = [];
             this.grid.refresh();
             this.addRow();
         },

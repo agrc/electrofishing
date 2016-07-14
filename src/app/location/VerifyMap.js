@@ -1,4 +1,5 @@
 define([
+    'app/config',
     'app/StreamSearch',
 
     'dijit/_TemplatedMixin',
@@ -14,12 +15,11 @@ define([
     'dojo/_base/declare',
 
     'esri-leaflet',
-    'leaflet',
-    'proj4',
-    'proj4leaflet'
+    'leaflet'
 ],
 
 function (
+    config,
     StreamSearch,
 
     _TemplatedMixin,
@@ -76,13 +76,13 @@ function (
             }
 
             this.selectedIcon = new L.Icon({
-                iconUrl: AGRC.urls.selectedIcon,
-                iconRetinaUrl: AGRC.urls.selectedIcon.replace('.png', '-2x.png'),
+                iconUrl: config.urls.selectedIcon,
+                iconRetinaUrl: config.urls.selectedIcon.replace('.png', '-2x.png'),
                 iconSize: new L.Point(25, 41),
                 iconAnchor: new L.Point(13, 41),
                 popupAnchor: new L.Point(1, -34),
                 shadowSize: new L.Point(41, 41),
-                shadowUrl: AGRC.urls.markerShadow
+                shadowUrl: config.urls.markerShadow
             });
             this.defaultIcon = new L.Icon.Default();
         },
@@ -91,40 +91,17 @@ function (
             //      description
             console.log('app/location/VerifyMap:initMap', arguments);
 
-            var crs = new L.Proj.CRS('EPSG:26912',
-                '+proj=utm +zone=12 +ellps=GRS80 +datum=NAD83 +units=m +no_defs',
-                {
-                    transformation: new L.Transformation(1, 5120900, -1, 9998100),
-                    resolutions: [4891.96999883583,
-                            2445.98499994708,
-                            1222.99250010583,
-                            611.496250052917,
-                            305.748124894166,
-                            152.8740625,
-                            76.4370312632292,
-                            38.2185156316146,
-                            19.1092578131615,
-                            9.55462890525781,
-                            4.77731445262891,
-                            2.38865722657904,
-                            1.19432861315723,
-                            0.597164306578613,
-                            0.298582153289307]
-                });
-
             this.map = new L.Map(this.mapDiv, {
-                crs: crs,
                 scrollWheelZoom: false,
                 keyboard: false
             });
 
-            this.map.setView([40.6389, -111.7034], 5);
+            this.map.setView([40.6389, -111.7034], 10);
 
-            L.esri.tiledMapLayer(AGRC.urls.terrainCache, {
-                maxZoom: 14,
-                minZoom: 0,
-                continuousWorld: true
-            }).addTo(this.map);
+            L.tileLayer(config.urls.googleImagery, {quadWord: config.quadWord})
+                .addTo(this.map);
+            L.tileLayer(config.urls.overlay, {quadWord: config.quadWord})
+                .addTo(this.map);
 
             var popup = new L.Popup({
                 closeButton: false,
@@ -132,10 +109,10 @@ function (
                 autoPan: false
             });
             var that = this;
-            this.stationsLyr = L.esri.featureLayer(AGRC.urls.stationsFeatureService, {
+            this.stationsLyr = L.esri.featureLayer({
+                url: config.urls.stationsFeatureService,
                 onEachFeature: function (geojson, layer) {
-                    console.log('each feature');
-                    if (geojson.properties[AGRC.fieldNames.stations.STATION_ID] === that.startSelectedId) {
+                    if (geojson.properties[config.fieldNames.stations.STATION_ID] === that.startSelectedId) {
                         layer.setIcon(that.selectedIcon);
                     }
                     layer.on('mouseover', function () {
@@ -146,10 +123,10 @@ function (
                         that.map.closePopup();
                     }).on('click', function () {
                         topic.publish(
-                            AGRC.topics.onStationClick,
+                            config.topics.onStationClick,
                             [
-                                geojson.properties[AGRC.fieldNames.stations.NAME],
-                                geojson.properties[AGRC.fieldNames.stations.STATION_ID]
+                                geojson.properties[config.fieldNames.stations.NAME],
+                                geojson.properties[config.fieldNames.stations.STATION_ID]
                             ]
                         );
                         array.forEach(that.stationsLyr.getLayers(), function (l) {
@@ -157,13 +134,12 @@ function (
                         });
                         layer.setIcon(that.selectedIcon);
                     });
-                },
-                continuousWorld: true
+                }
             }).addTo(this.map);
 
             if (this.isMainMap) {
-                AGRC.app.map = this.map;
-                topic.publish(AGRC.topics.mapInit);
+                config.app.map = this.map;
+                topic.publish(config.topics.mapInit);
             }
 
             this.streamSearch = new StreamSearch({

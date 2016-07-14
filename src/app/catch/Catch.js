@@ -1,46 +1,54 @@
 define([
-    'dojo/_base/declare',
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
-    'dijit/_WidgetsInTemplateMixin',
-    'dojo/text!app/catch/templates/Catch.html',
+    'agrc/modules/Formatting',
     'agrc/modules/GUID',
+
+    'app/catch/GridDropdown',
+    'app/catch/MoreInfoDialog',
+    'app/Domains',
+    'app/_GridMixin',
+
+    'dgrid/editor',
+
+    'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
+    'dijit/_WidgetsInTemplateMixin',
+
+    'dojo/aspect',
     'dojo/dom-class',
     'dojo/dom-construct',
-    'dojo/_base/lang',
-    'dojo/_base/array',
-    'app/catch/MoreInfoDialog',
-    'app/_GridMixin',
-    'dgrid/editor',
-    'app/catch/GridDropdown',
-    'dojo/aspect',
+    'dojo/on',
     'dojo/query',
-    'agrc/modules/Formatting',
-    'app/Domains',
-    'dojo/on'
+    'dojo/text!app/catch/templates/Catch.html',
+    'dojo/_base/array',
+    'dojo/_base/declare',
+    'dojo/_base/lang'
 ],
 
 function (
-    declare,
-    _WidgetBase,
-    _TemplatedMixin,
-    _WidgetsInTemplateMixin,
-    template,
+    Formatting,
     GUID,
+
+    GridDropdown,
+    MoreInfoDialog,
+    Domains,
+    _GridMixin,
+
+    editor,
+
+    _TemplatedMixin,
+    _WidgetBase,
+    _WidgetsInTemplateMixin,
+
+    aspect,
     domClass,
     domConstruct,
-    lang,
-    array,
-    MoreInfoDialog,
-    _GridMixin,
-    editor,
-    GridDropdown,
-    aspect,
+    on,
     query,
-    Formatting,
-    Domains,
-    on
-    ) {
+    template,
+    array,
+    declare,
+    lang
+) {
     // summary:
     //      Catch tab
     return declare('app/Catch', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GridMixin], {
@@ -171,7 +179,7 @@ function (
             });
 
             this.moreInfoDialog = new MoreInfoDialog({
-                store: this.grid.store
+                store: this.grid.collection
             }, this.moreInfoDialogDiv);
             this.moreInfoDialog.startup();
 
@@ -200,7 +208,7 @@ function (
             console.log(this.declaredClass + '::addRow', arguments);
 
             var fn = AGRC.fieldNames.fish;
-            var passData = this.grid.store.query(this.grid.query);
+            var passData = this.grid.collection.query(this.grid.query);
             var catchId = (passData.length === 0) ? 1 : passData[passData.length - 1][fn.CATCH_ID] + 1;
             var row = {};
 
@@ -213,7 +221,7 @@ function (
             row[fn.LENGTH] = null;
             row[fn.WEIGHT] = null;
 
-            this.grid.store.add(row);
+            this.grid.collection.add(row);
 
             this.grid.focus(this.grid.cell(row[fn.FISH_ID], '5'));
 
@@ -286,14 +294,14 @@ function (
             var fn = AGRC.fieldNames.fish;
             var avgWeight = Formatting.round(batchWeight / number, 1);
             var populateValues = function (guid) {
-                item = that.grid.store.get(guid);
+                item = that.grid.collection.get(guid);
                 item[fn.SPECIES_CODE] = that.batchCodeSelect.value;
                 item[fn.WEIGHT] = (avgWeight === avgWeight) ? avgWeight : '0';
-                that.grid.store.put(item);
+                that.grid.collection.put(item);
             };
 
             // check to see if last row in grid is empty
-            var lastRow = this.grid.store.data[this.grid.store.data.length - 1];
+            var lastRow = this.grid.collection.data[this.grid.collection.data.length - 1];
             if (lastRow[fn.SPECIES_CODE] === null) {
                 populateValues(lastRow[fn.FISH_ID]);
                 number--;

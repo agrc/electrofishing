@@ -38,9 +38,9 @@ function (
         });
         describe('postCreate', function () {
             it('should initialize an empty row', function () {
-                expect(testWidget.grid.store.data.length).toBe(1);
+                expect(testWidget.grid.collection.data.length).toBe(1);
 
-                var f = testWidget.grid.store.data[0];
+                var f = testWidget.grid.collection.data[0];
 
                 expect(f[fn.EVENT_ID]).not.toBeNull();
             });
@@ -82,13 +82,13 @@ function (
         });
         describe('addRow', function () {
             it('adds an object to the store', function () {
-                var dataCount = testWidget.grid.store.data.length;
+                var dataCount = testWidget.grid.collection.data.length;
 
                 testWidget.addRow();
 
-                expect(testWidget.grid.store.data.length).toEqual(dataCount + 1);
+                expect(testWidget.grid.collection.data.length).toEqual(dataCount + 1);
 
-                var addedRow = testWidget.grid.store.data[testWidget.grid.store.data.length - 1];
+                var addedRow = testWidget.grid.collection.data[testWidget.grid.collection.data.length - 1];
 
                 expect(addedRow[fn.PASS_NUM]).toEqual(testWidget.currentPass);
             });
@@ -97,21 +97,21 @@ function (
                 testWidget.addRow();
                 testWidget.addPass();
 
-                var addedRow = testWidget.grid.store.data[testWidget.grid.store.data.length - 1];
+                var addedRow = testWidget.grid.collection.data[testWidget.grid.collection.data.length - 1];
 
                 expect(addedRow[fn.CATCH_ID]).toBe(1);
             });
             it('adds the correct id if a row is deleted', function () {
                 testWidget.addRow();
                 testWidget.addRow();
-                testWidget.grid.select(testWidget.grid.row(testWidget.grid.store.data[0][fn.FISH_ID]));
+                testWidget.grid.select(testWidget.grid.row(testWidget.grid.collection.data[0][fn.FISH_ID]));
                 testWidget.deleteRow();
 
                 testWidget.addRow();
 
-                var addedRow = testWidget.grid.store.data[testWidget.grid.store.data.length - 1];
+                var addedRow = testWidget.grid.collection.data[testWidget.grid.collection.data.length - 1];
 
-                console.log(testWidget.grid.store.data);
+                console.log(testWidget.grid.collection.data);
                 expect(addedRow[fn.CATCH_ID]).toBe(3);
             });
         });
@@ -187,11 +187,11 @@ function (
                 testWidget.addRow();
                 testWidget.addRow();
 
-                testWidget.grid.select(testWidget.grid.row(testWidget.grid.store.data[1][fn.FISH_ID]));
+                testWidget.grid.select(testWidget.grid.row(testWidget.grid.collection.data[1][fn.FISH_ID]));
 
                 testWidget.deleteRow();
 
-                expect(testWidget.grid.store.data.length).toBe(2);
+                expect(testWidget.grid.collection.data.length).toBe(2);
             });
         });
         describe('onGridKeydown', function () {
@@ -201,7 +201,7 @@ function (
                 testWidget.addPass();
 
                 var cell = testWidget.grid.cell(
-                    testWidget.grid.store.data[testWidget.grid.store.data.length - 1][fn.FISH_ID],
+                    testWidget.grid.collection.data[testWidget.grid.collection.data.length - 1][fn.FISH_ID],
                     '8').element;
                 var e = {
                     keyCode: keys.TAB,
@@ -211,7 +211,7 @@ function (
 
                 testWidget.onGridKeydown(e);
 
-                expect(testWidget.grid.store.data.length).toBe(5);
+                expect(testWidget.grid.collection.data.length).toBe(5);
             });
             it('adds a new row on a previous pass', function () {
                 testWidget.addRow();
@@ -221,8 +221,8 @@ function (
                 testWidget.changePass({srcElement: {innerText: '1'}});
 
                 var cell = testWidget.grid.cell(
-                    testWidget.grid.store.query(testWidget.grid.query)
-                        [testWidget.grid.store.query(testWidget.grid.query).length - 1]
+                    testWidget.grid.collection.query(testWidget.grid.query)
+                        [testWidget.grid.collection.query(testWidget.grid.query).length - 1]
                         [fn.FISH_ID], '8').element;
                 var e = {
                     keyCode: keys.TAB,
@@ -232,7 +232,7 @@ function (
 
                 testWidget.onGridKeydown(e);
 
-                expect(testWidget.grid.store.data.length).toBe(6);
+                expect(testWidget.grid.collection.data.length).toBe(6);
             });
         });
         describe('batch', function () {
@@ -251,7 +251,7 @@ function (
             it('adds the appropriate number of rows and values', function () {
                 testWidget.batch();
 
-                var data = testWidget.grid.store.data;
+                var data = testWidget.grid.collection.data;
 
                 expect(data.length).toBe(number);
                 var first = data[0];
@@ -267,17 +267,17 @@ function (
                 expect(last[AGRC.fieldNames.fish.WEIGHT]).toBe(2);
             });
             it('appends rows to grid with existing rows', function () {
-                testWidget.grid.store.data[0][AGRC.fieldNames.fish.SPECIES_CODE] = 'BH';
+                testWidget.grid.collection.data[0][AGRC.fieldNames.fish.SPECIES_CODE] = 'BH';
 
                 testWidget.addRow();
-                testWidget.grid.store.data[1][AGRC.fieldNames.fish.SPECIES_CODE] = 'BH';
+                testWidget.grid.collection.data[1][AGRC.fieldNames.fish.SPECIES_CODE] = 'BH';
 
                 testWidget.addRow();
-                testWidget.grid.store.data[2][AGRC.fieldNames.fish.SPECIES_CODE] = 'BH';
+                testWidget.grid.collection.data[2][AGRC.fieldNames.fish.SPECIES_CODE] = 'BH';
 
                 testWidget.batch();
 
-                var data = testWidget.grid.store.data;
+                var data = testWidget.grid.collection.data;
 
                 expect(data.length).toBe(8);
             });
@@ -286,7 +286,7 @@ function (
 
                 testWidget.batch();
 
-                var data = testWidget.grid.store.data;
+                var data = testWidget.grid.collection.data;
 
                 var last = data[4];
                 expect(last[AGRC.fieldNames.fish.WEIGHT]).toBe('0');
@@ -297,7 +297,7 @@ function (
 
                 testWidget.batch();
 
-                var data = testWidget.grid.store.data;
+                var data = testWidget.grid.collection.data;
 
                 var last = data[2];
                 expect(last[AGRC.fieldNames.fish.WEIGHT]).toBe(3.3);
@@ -317,7 +317,7 @@ function (
                 testWidget.addRow();
                 testWidget.addRow();
 
-                var row = testWidget.grid.row(testWidget.grid.store.data[2][fn.FISH_ID]);
+                var row = testWidget.grid.row(testWidget.grid.collection.data[2][fn.FISH_ID]);
                 testWidget.grid.select(row);
                 var weight = -1;
 
@@ -340,7 +340,7 @@ function (
             it('requires at least one fish to be recorded', function () {
                 expect(testWidget.isValid()).toEqual(testWidget.invalidGridMsg);
 
-                testWidget.grid.store.data[0][fn.SPECIES_CODE] = 'blah';
+                testWidget.grid.collection.data[0][fn.SPECIES_CODE] = 'blah';
                 testWidget.grid.save();
 
                 expect(testWidget.isValid()).toBe(true);
@@ -359,7 +359,7 @@ function (
         describe('clear', function () {
             it('clears all of the controls', function () {
                 testWidget.addPass();
-                testWidget.grid.store.data[0][fn.SPECIES_CODE] = 'blah';
+                testWidget.grid.collection.data[0][fn.SPECIES_CODE] = 'blah';
                 testWidget.addRow();
                 testWidget.grid.save();
                 spyOn(testWidget.moreInfoDialog, 'clearValues');
@@ -367,8 +367,8 @@ function (
                 testWidget.clear();
 
                 expect(testWidget.getNumberOfPasses()).toBe(1);
-                expect(testWidget.grid.store.data.length).toBe(1);
-                expect(testWidget.grid.store.data[0][fn.SPECIES_CODE]).toEqual(null);
+                expect(testWidget.grid.collection.data.length).toBe(1);
+                expect(testWidget.grid.collection.data[0][fn.SPECIES_CODE]).toEqual(null);
                 expect(testWidget.moreInfoDialog.clearValues).toHaveBeenCalled();
             });
         });

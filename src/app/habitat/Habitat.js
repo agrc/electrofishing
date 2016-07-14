@@ -1,36 +1,29 @@
 define([
-    'dojo/_base/declare',
+    'app/Domains',
+    'app/_ClearValuesMixin',
 
-    'dojo/DeferredList',
-    'dojo/query',
-    'dojo/dom-class',
-
-    'dojo/text!./templates/Habitat.html',
-
-    'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
 
-    'app/Domains',
-
-    'app/_ClearValuesMixin'
-
+    'dojo/DeferredList',
+    'dojo/dom-class',
+    'dojo/query',
+    'dojo/text!./templates/Habitat.html',
+    'dojo/_base/declare'
 ], function (
-    declare,
+    Domains,
+    _ClearValuesMixin,
 
-    DeferredList,
-    query,
-    domClass,
-
-    template,
-
-    _WidgetBase,
     _TemplatedMixin,
+    _WidgetBase,
     _WidgetsInTemplateMixin,
 
-    Domains,
-
-    _ClearValuesMixin
+    DeferredList,
+    domClass,
+    query,
+    template,
+    declare
 ) {
     // summary:
     //      Habitat tab

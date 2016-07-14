@@ -84,8 +84,8 @@ function (
                 testWidget.grid.columns[2].editorInstance.values[0].name = cls;
                 testWidget.grid.columns[2].editorInstance.values[0].code = cls;
                 var msr = 'blah2';
-                testWidget.grid.store.data[2][fn.CLASS] = cls;
-                testWidget.grid.store.data[2][fn.MEASUREMENT] = msr;
+                testWidget.grid.collection.data[2][fn.CLASS] = cls;
+                testWidget.grid.collection.data[2][fn.MEASUREMENT] = msr;
                 testWidget.addRow(); // to make sure that it doesn't submit empty rows
 
                 testWidget.onSubmitClick();
@@ -130,12 +130,12 @@ function (
             var fn = AGRC.fieldNames.diet;
             it('clears diet grid', function () {
                 testWidget.addRow();
-                testWidget.grid.store.data[0][fn.CLASS] = 'blah';
+                testWidget.grid.collection.data[0][fn.CLASS] = 'blah';
                 testWidget.addRow();
 
                 testWidget.clearValues();
 
-                expect(testWidget.grid.store.data.length).toBe(0);
+                expect(testWidget.grid.collection.data.length).toBe(0);
             });
             it('clears any tags', function () {
                 spyOn(testWidget.tagsContainer.AddBtnWidgets[0], 'clearValues');

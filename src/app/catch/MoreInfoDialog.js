@@ -232,7 +232,7 @@ function (
             data[fn.MEASUREMENT_TYPE] = null;
             data[fn.MEASUREMENT] = null;
 
-            this.grid.store.add(data);
+            this.grid.collection.add(data);
 
             this.grid.focus(this.grid.cell(guid, '2'));
         },
@@ -260,7 +260,7 @@ function (
             //      clears everything in the dialog
             console.log(this.declaredClass + '::clearValues', arguments);
 
-            this.grid.store.data = [];
+            this.grid.collection.data = [];
             this.grid.refresh();
 
             this.tagsContainer.clear();

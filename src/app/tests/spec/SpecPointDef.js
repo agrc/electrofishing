@@ -47,7 +47,7 @@ function (
                             0.298582153289307]
                 });
             map = new L.Map(domConstruct.create('div'), {crs: crs});
-            L.esri.tiledMapLayer(AGRC.urls.terrainCache, {
+            L.esri.tiledMapLayer(AGRC.urls.googleImagery, {
                 maxZoom: 14,
                 minZoom: 0,
                 continuousWorld: true
