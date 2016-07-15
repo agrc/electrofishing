@@ -20,7 +20,7 @@ function (
     ) {
     // summary:
     //      specs that are specific to Canoe/Barges
-    return declare('app.method.CanoeBarge', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _ClearValuesMixin, _AddBtnMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _ClearValuesMixin, _AddBtnMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'canoe-barge',

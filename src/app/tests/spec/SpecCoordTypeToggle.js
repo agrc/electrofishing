@@ -1,7 +1,5 @@
 require([
-    'app/location/CoordTypeToggle',
-
-    'app/main'
+    'app/location/CoordTypeToggle'
 ],
 
 function (

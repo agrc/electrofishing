@@ -13,7 +13,7 @@ function (
     array,
     declare
 ) {
-    return declare('', null, {
+    return declare(null, {
         // defs: app/location/*Def[]
         //      all of the controls that this uses to define geometry
         //      This should be set in the post create method of the parent class

@@ -34,7 +34,7 @@ function (
                 testWidget.isMainMap = true;
                 testWidget.postCreate();
 
-                expect(testWidget.initMap.callCount).toBe(1);
+                expect(testWidget.initMap.calls.count()).toBe(1);
             });
             it('creates the selectedIcon', function () {
                 expect(testWidget.selectedIcon).toBeDefined();

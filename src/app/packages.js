@@ -5,6 +5,7 @@ require({
         'dgrid',
         'dijit',
         'dojo',
+        'dojox',
         'dstore',
         'ijit',
         'proj4',

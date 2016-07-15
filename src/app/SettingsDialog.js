@@ -14,7 +14,7 @@ function (
     _TemplatedMixin,
     _WidgetsInTemplateMixin,
     template) {
-    return declare('app.SettingsDialog', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'settings-dialog',

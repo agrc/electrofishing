@@ -24,7 +24,8 @@ module.exports = function (grunt) {
                         'src/dojo/dojo.js',
                         'src/app/packages.js',
                         'src/app/tests/jsReporterSanitizer.js',
-                        'src/app/tests/jasmineAMDErrorChecking.js'
+                        'src/app/tests/jasmineAMDErrorChecking.js',
+                        'src/jquery/dist/jquery.js'
                     ],
                     host: 'http://localhost:8000'
                 }

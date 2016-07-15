@@ -1,13 +1,10 @@
 define([
     'agrc/modules/Formatting',
-    'agrc/modules/GUID',
 
     'app/catch/GridDropdown',
     'app/catch/MoreInfoDialog',
     'app/Domains',
     'app/_GridMixin',
-
-    'dgrid/editor',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -21,19 +18,18 @@ define([
     'dojo/text!app/catch/templates/Catch.html',
     'dojo/_base/array',
     'dojo/_base/declare',
-    'dojo/_base/lang'
+    'dojo/_base/lang',
+
+    'dojox/uuid/generateRandomUuid'
 ],
 
 function (
     Formatting,
-    GUID,
 
     GridDropdown,
     MoreInfoDialog,
     Domains,
     _GridMixin,
-
-    editor,
 
     _TemplatedMixin,
     _WidgetBase,
@@ -47,11 +43,13 @@ function (
     template,
     array,
     declare,
-    lang
+    lang,
+
+    generateRandomUuid
 ) {
     // summary:
     //      Catch tab
-    return declare('app/Catch', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GridMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GridMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'catch',
@@ -115,7 +113,7 @@ function (
                 {label: 'PASS_NUM', field: fn.PASS_NUM, sortable: false},
                 {label: 'NOTES', field: fn.NOTES, sortable: false},
                 {label: 'ID', field: fn.CATCH_ID, sortable: false},
-                editor({
+                {
                     autoSave: true,
                     // can't auto save because save causes the row to be redrawn which in turn looses focus
                     // update: This bug has supposedly been fixed: https://github.com/SitePen/dgrid/issues/496#issuecomment-23382688
@@ -128,8 +126,7 @@ function (
                         domainFieldName: AGRC.fieldNames.fish.SPECIES_CODE,
                         domainLayerUrl: AGRC.urls.fishFeatureService
                     }
-                }),
-                editor({
+                }, {
                     autoSave: true,
                     label: 'Length Type',
                     field: fn.LENGTH_TYPE,
@@ -140,8 +137,7 @@ function (
                         domainFieldName: AGRC.fieldNames.fish.LENGTH_TYPE,
                         domainLayerUrl: AGRC.urls.fishFeatureService
                     }
-                }),
-                editor({
+                }, {
                     autoSave: true,
                     label: 'Length (millimeters)',
                     field: fn.LENGTH,
@@ -153,8 +149,7 @@ function (
                         'className': 'form-control dgrid-input',
                         type: 'number'
                     }
-                }),
-                editor({
+                }, {
                     autoSave: true,
                     label: 'Weight (grams)',
                     field: fn.WEIGHT,
@@ -165,7 +160,7 @@ function (
                         'className': 'form-control dgrid-input',
                         type: 'number'
                     }
-                })
+                }
             ];
 
             this.initGrid(columns);
@@ -179,7 +174,7 @@ function (
             });
 
             this.moreInfoDialog = new MoreInfoDialog({
-                store: this.grid.collection
+                store: this.store
             }, this.moreInfoDialogDiv);
             this.moreInfoDialog.startup();
 
@@ -208,11 +203,13 @@ function (
             console.log(this.declaredClass + '::addRow', arguments);
 
             var fn = AGRC.fieldNames.fish;
-            var passData = this.grid.collection.query(this.grid.query);
+            var passFilter = {};
+            passFilter[fn.PASS_NUM] = this.currentPass;
+            var passData = this.store.filter(passFilter).fetchSync();
             var catchId = (passData.length === 0) ? 1 : passData[passData.length - 1][fn.CATCH_ID] + 1;
             var row = {};
 
-            row[fn.FISH_ID] = GUID.uuid();
+            row[fn.FISH_ID] = '{' + generateRandomUuid() + '}';
             row[fn.EVENT_ID] = AGRC.eventId;
             row[fn.PASS_NUM] = this.currentPass;
             row[fn.CATCH_ID] = catchId;
@@ -221,7 +218,7 @@ function (
             row[fn.LENGTH] = null;
             row[fn.WEIGHT] = null;
 
-            this.grid.collection.add(row);
+            this.store.addSync(row);
 
             this.grid.focus(this.grid.cell(row[fn.FISH_ID], '5'));
 
@@ -294,14 +291,15 @@ function (
             var fn = AGRC.fieldNames.fish;
             var avgWeight = Formatting.round(batchWeight / number, 1);
             var populateValues = function (guid) {
-                item = that.grid.collection.get(guid);
+                item = that.store.getSync(guid);
                 item[fn.SPECIES_CODE] = that.batchCodeSelect.value;
                 item[fn.WEIGHT] = (avgWeight === avgWeight) ? avgWeight : '0';
-                that.grid.collection.put(item);
+                that.store.putSync(item);
             };
 
             // check to see if last row in grid is empty
-            var lastRow = this.grid.collection.data[this.grid.collection.data.length - 1];
+            var data = this.grid.collection.fetchSync();
+            var lastRow = data[data.length - 1];
             if (lastRow[fn.SPECIES_CODE] === null) {
                 populateValues(lastRow[fn.FISH_ID]);
                 number--;

@@ -1,6 +1,4 @@
 define([
-    'agrc/modules/GUID',
-
     'app/config',
     'app/NewCollectionEvent',
 
@@ -11,18 +9,17 @@ define([
     'dojo/text!app/templates/App.html',
     'dojo/_base/declare',
 
+    'dojox/uuid/generateRandomUuid',
+
     'app/Header',
     'app/SettingsDialog',
+    'bootstrap',
     'dijit/layout/ContentPane',
     'dijit/layout/StackContainer',
-    'dijit/layout/StackController',
-
-    'bootstrap'
+    'dijit/layout/StackController'
 ],
 
 function (
-    GUID,
-
     config,
     NewCollectionEvent,
 
@@ -31,9 +28,11 @@ function (
     _WidgetsInTemplateMixin,
 
     template,
-    declare
+    declare,
+
+    generateRandomUuid
 ) {
-    return declare('app.App', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         // summary:
         //      The main widget for the app
 
@@ -59,7 +58,7 @@ function (
             //      Fires when
             console.log('app/App:postCreate', arguments);
 
-            config.eventId = GUID.uuid();
+            config.eventId = '{' + generateRandomUuid() + '}';
 
             this.newEvent = new NewCollectionEvent({}, this.newEventDiv);
 

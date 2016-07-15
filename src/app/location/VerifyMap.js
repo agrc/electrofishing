@@ -4,7 +4,6 @@ define([
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
-    'dijit/_WidgetsInTemplateMixin',
 
     'dojo/dom-style',
     'dojo/string',
@@ -24,7 +23,6 @@ function (
 
     _TemplatedMixin,
     _WidgetBase,
-    _WidgetsInTemplateMixin,
 
     domStyle,
     dojoString,
@@ -35,8 +33,7 @@ function (
     declare
 ) {
     // load these script synchronously because the order matters
-    return declare('app.location.VerifyMap', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
-        widgetsInTemplate: false,
+    return declare([_WidgetBase, _TemplatedMixin], {
         templateString: template,
         baseClass: 'verify-map',
 

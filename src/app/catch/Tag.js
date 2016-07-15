@@ -1,28 +1,29 @@
 define([
-    'dojo/_base/declare',
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
-    'dijit/_WidgetsInTemplateMixin',
-    'dojo/text!app/catch/templates/Tag.html',
     'app/_AddBtnMixin',
     'app/_ClearValuesMixin',
+
+    'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
+
+    'dojo/text!app/catch/templates/Tag.html',
+    'dojo/_base/declare',
 
     'bootstrap-combobox/js/bootstrap-combobox'
 ],
 
 function (
-    declare,
-    _WidgetBase,
-    _TemplatedMixin,
-    _WidgetsInTemplateMixin,
-    template,
     _AddBtnMixin,
-    _ClearValuesMixin
-    ) {
+    _ClearValuesMixin,
+
+    _TemplatedMixin,
+    _WidgetBase,
+
+    template,
+    declare
+) {
     // summary:
     //      Tags in MoreInfoDialog in catch tab.
-    return declare('app/catch/Tag', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _ClearValuesMixin, _AddBtnMixin], {
-        widgetsInTemplate: false,
+    return declare([_WidgetBase, _TemplatedMixin, _ClearValuesMixin, _AddBtnMixin], {
         templateString: template,
         baseClass: 'tag',
 

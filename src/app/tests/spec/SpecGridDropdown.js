@@ -1,21 +1,22 @@
 require([
     'app/catch/GridDropdown',
-    'dojo/dom-construct',
-    'dojo/_base/window',
-    'dojo/dom-style',
-    'StubModule/StubModule',
-    'dojo/Deferred'
 
+    'dojo/Deferred',
+    'dojo/dom-construct',
+    'dojo/dom-style',
+
+    'stubmodule'
 ],
 
 function (
     GridDropdown,
+
+    Deferred,
     domConstruct,
-    win,
     domStyle,
-    stubModule,
-    Deferred
-    ) {
+
+    stubModule
+) {
     describe('app/catch/GridDropdown', function () {
         var testWidget;
         var destroy = function (widget) {
@@ -23,24 +24,28 @@ function (
             widget = null;
         };
         var width = 50;
-        beforeEach(function () {
+        var Stubbed;
+        beforeEach(function (done) {
             var def = new Deferred();
-            var Stubbed = stubModule('app/catch/GridDropdown', {
+            stubModule('app/catch/GridDropdown', {
                 'app/Domains': {
-                    populateSelectWithDomainValues: jasmine.createSpy('pop').andReturn(def)
+                    populateSelectWithDomainValues: jasmine.createSpy('pop').and.returnValue(def)
                 }
+            }).then(function (StubbedModule) {
+                Stubbed = StubbedModule;
+                testWidget = new StubbedModule({
+                    width: width
+                }, domConstruct.create('div', {}, document.body));
+                testWidget.startup();
+                def.resolve();
+                done();
             });
-            testWidget = new Stubbed({
-                width: width
-            }, domConstruct.create('div', {}, win.body()));
-            testWidget.startup();
-            def.resolve();
         });
         afterEach(function () {
             destroy(testWidget);
         });
         it('create a valid object', function () {
-            expect(testWidget.declaredClass).toEqual('app/catch/GridDropdown');
+            expect(testWidget).toEqual(jasmine.any(Stubbed));
         });
         describe('_setValueAttr', function () {
             var value = 'blah';

@@ -19,7 +19,7 @@ function (
     ) {
     // summary:
     //      A container for holding RaftBoat widgets.
-    return declare('app.method.RaftBoatsContainer', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _MultipleWidgetsWithAddBtnMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _MultipleWidgetsWithAddBtnMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'raft-boat-container equipment-container',

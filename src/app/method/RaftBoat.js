@@ -24,7 +24,7 @@ function (
     ) {
     // summary:
     //      Contains fields specific to rafts and boats
-    return declare('app.method.RaftBoat', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _ClearValuesMixin, _AddBtnMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _ClearValuesMixin, _AddBtnMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'raft-boat',

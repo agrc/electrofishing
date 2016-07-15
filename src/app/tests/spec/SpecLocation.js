@@ -1,22 +1,22 @@
 require([
     'app/location/Location',
+
     'dojo/Deferred',
     'dojo/dom-class',
     'dojo/dom-construct',
     'dojo/topic',
-    'dojo/_base/window',
-
-    'app/main'
+    'dojo/_base/window'
 ],
 
 function (
     Location,
+
     Deferred,
     domClass,
     domConstruct,
     topic,
     win
-    ) {
+) {
     describe('app/location/Location', function () {
         var testWidget;
         beforeEach(function () {

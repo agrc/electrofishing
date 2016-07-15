@@ -7,15 +7,15 @@
     </ul>
     <div class="tab-content">
         <div class="tab-pane fade in active" id="spec_backpack">
-            <div data-dojo-type="app.method.BackpacksContainer"
+            <div data-dojo-type="app/method/BackpacksContainer"
                 data-dojo-attach-point='backpacksContainer'></div>
         </div>
         <div class="tab-pane fade" id="spec_canoeBarge">
-            <div data-dojo-type="app.method.CanoeBargesContainer"
+            <div data-dojo-type="app/method/CanoeBargesContainer"
                 data-dojo-attach-point='canoeBargesContainer'></div>
         </div>
         <div class="tab-pane fade" id="spec_raftBoat">
-            <div data-dojo-type="app.method.RaftBoatsContainer"
+            <div data-dojo-type="app/method/RaftBoatsContainer"
                 data-dojo-attach-point='raftBoatsContainer'></div>
         </div>
     </div>
@@ -23,8 +23,8 @@
         <div class="col-md-3">
             <div class="form-group">
                 <label class='control-label'># Anodes</label>
-                <input type="number" 
-                    data-dojo-attach-point='numberTxt' 
+                <input type="number"
+                    data-dojo-attach-point='numberTxt'
                     value='1'
                     class='form-control'>
             </div>
@@ -77,7 +77,7 @@
             </div>
             <div class="form-group">
                 <label class='control-label'>Voltage (volts)</label>
-                <input type="number" 
+                <input type="number"
                     data-dojo-attach-point="voltsTxt"
                     min='1'
                     max='300'
@@ -86,7 +86,7 @@
             </div>
             <div class="form-group">
                 <label class='control-label'>Duty Cycle (%)</label>
-                <input type="number" 
+                <input type="number"
                     data-dojo-attach-point="dutyCycleTxt"
                     min='0'
                     max='100'

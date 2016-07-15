@@ -4,7 +4,6 @@ define([
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
-    'dijit/_WidgetsInTemplateMixin',
 
     'dojo/text!app/method/templates/Backpack.html',
     'dojo/_base/declare'
@@ -16,13 +15,11 @@ function (
 
     _TemplatedMixin,
     _WidgetBase,
-    _WidgetsInTemplateMixin,
 
     template,
     declare
 ) {
-    return declare('app.method.Backpack', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _ClearValuesMixin, _AddBtnMixin], {
-        widgetsInTemplate: false,
+    return declare([_WidgetBase, _TemplatedMixin, _ClearValuesMixin, _AddBtnMixin], {
         templateString: template,
         baseClass: 'backpack',
 

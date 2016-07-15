@@ -1,35 +1,37 @@
 define([
-    'dojo/_base/declare',
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
-    'dojo/text!app/catch/templates/GridDropdown.html',
-    'dojo/on',
-    'dojo/_base/lang',
-    'dojo/query',
-    'dojo/dom-style',
-    'dijit/_FocusMixin',
-    'dijit/focus',
     'app/Domains',
+
+    'dijit/focus',
+    'dijit/_FocusMixin',
+    'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
+
+    'dojo/dom-style',
+    'dojo/on',
+    'dojo/query',
+    'dojo/text!app/catch/templates/GridDropdown.html',
+    'dojo/_base/declare',
 
     'bootstrap-combobox/js/bootstrap-combobox'
 ],
 
 function (
-    declare,
-    _WidgetBase,
-    _TemplatedMixin,
-    template,
-    on,
-    lang,
-    query,
-    domStyle,
-    _FocusMixin,
+    Domains,
+
     focusUtil,
-    Domains
-    ) {
+    _FocusMixin,
+    _TemplatedMixin,
+    _WidgetBase,
+
+    domStyle,
+    on,
+    query,
+    template,
+    declare
+) {
     // summary:
     //      Dijit wrapper for bootstrap's GridDropdown so that it can be used in dgrid.
-    return declare('app/catch/GridDropdown', [_WidgetBase, _TemplatedMixin], {
+    return declare([_WidgetBase, _TemplatedMixin], {
         templateString: template,
         baseClass: 'griddropdown-wrapper',
 
@@ -61,6 +63,8 @@ function (
             //      dom is ready
             console.log(this.declaredClass + '::postCreate', arguments);
 
+            this.inherited(arguments);
+
             var that = this;
             var def = Domains.populateSelectWithDomainValues(this.select,
                 this.domainLayerUrl, this.domainFieldName);
@@ -91,8 +95,6 @@ function (
                     })
                 );
             });
-
-            this.inherited(arguments);
         },
         delayBlur: function () {
             // summary:

@@ -3,7 +3,7 @@ require([
     'dojo/Deferred',
     'dojo/json',
     'dojo/topic',
-    'StubModule/StubModule'
+    'stubmodule'
 ],
 
 function (

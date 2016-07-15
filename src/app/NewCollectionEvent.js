@@ -1,44 +1,52 @@
 define([
-    'dojo/_base/declare',
-    'dijit/_WidgetBase',
+    'app/_SubmitJobMixin',
+
     'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
-    'dojo/text!app/templates/NewCollectionEvent.html',
-    'dojo/request/xhr',
+
+    'dojo/dom-class',
     'dojo/json',
+    'dojo/request/xhr',
+    'dojo/text!app/templates/NewCollectionEvent.html',
     'dojo/topic',
+    'dojo/_base/array',
+    'dojo/_base/declare',
     'dojo/_base/fx',
     'dojo/_base/lang',
-    'dojo/dom-class',
-    'agrc/modules/GUID',
-    'dojo/_base/array',
-    'app/_SubmitJobMixin',
+
+    'dojox/uuid/generateRandomUuid',
+
     'ijit/modules/NumericInputValidator',
 
     'app/catch/Catch',
+    'app/habitat/Habitat',
     'app/location/Location',
-    'app/method/Method',
-    'app/habitat/Habitat'
+    'app/method/Method'
 ],
 
 function (
-    declare,
-    _WidgetBase,
+    _SubmitJobMixin,
+
     _TemplatedMixin,
+    _WidgetBase,
     _WidgetsInTemplateMixin,
-    template,
-    xhr,
+
+    domClass,
     json,
+    xhr,
+    template,
     topic,
+    array,
+    declare,
     fx,
     lang,
-    domClass,
-    GUID,
-    array,
-    _SubmitJobMixin,
+
+    generateRandomUuid,
+
     NumericInputValidator
-    ) {
-    return declare('app.NewCollectionEvent', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _SubmitJobMixin], {
+) {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _SubmitJobMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'new-collection-event',
@@ -177,7 +185,7 @@ function (
             //        clears all of the values in the report
             console.log('app/NewCollectionEvent:clearReport', arguments);
 
-            AGRC.eventId = GUID.uuid();
+            AGRC.eventId = '{' + generateRandomUuid() + '}';
             this.locationTb.clear();
             this.methodTb.clear();
             this.catchTb.clear();

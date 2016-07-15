@@ -1,17 +1,17 @@
 define([
-    'dojo/_base/declare',
     'dojo/request/xhr',
-    'dojo/_base/array'
+    'dojo/_base/array',
+    'dojo/_base/declare'
 ],
 
 function (
-    declare,
     xhr,
-    array
-    ) {
+    array,
+    declare
+) {
     // summary:
     //      A mixin that adds functionality for submitting gp jobs to arcgis server.
-    return declare('app/_SubmitJobMixin', null, {
+    return declare(null, {
         submitJob: function (data, url) {
             // summary:
             //      submits a job to a gp service

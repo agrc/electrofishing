@@ -3,7 +3,6 @@ define([
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
-    'dijit/_WidgetsInTemplateMixin',
 
     'dojo/Deferred',
     'dojo/dom-class',
@@ -17,7 +16,6 @@ function (
 
     _TemplatedMixin,
     _WidgetBase,
-    _WidgetsInTemplateMixin,
 
     Deferred,
     domClass,
@@ -25,8 +23,7 @@ function (
     template,
     declare
 ) {
-    return declare('app.location.IDGeoDef', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GeoDefMixin], {
-        widgetsInTemplate: false,
+    return declare([_WidgetBase, _TemplatedMixin, _GeoDefMixin], {
         templateString: template,
         baseClass: 'id-geo-def',
 

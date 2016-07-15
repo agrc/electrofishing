@@ -1,41 +1,47 @@
 define([
-    'dojo/_base/declare',
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
-    'dijit/_WidgetsInTemplateMixin',
-    'dojo/text!app/location/templates/Station.html',
-    'dojo/request/xhr',
-    'dojo/_base/array',
-    'app/location/VerifyMap',
-    'dojo/dom-construct',
-    'dojo/json',
-    'agrc/modules/GUID',
-    'app/_SubmitJobMixin',
-    'dojo/dom-style',
-    'dojo/topic',
     'app/Domains',
+    'app/location/VerifyMap',
+    'app/_SubmitJobMixin',
+
+    'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
+    'dijit/_WidgetsInTemplateMixin',
+
+    'dojo/dom-construct',
+    'dojo/dom-style',
+    'dojo/json',
+    'dojo/request/xhr',
+    'dojo/text!app/location/templates/Station.html',
+    'dojo/topic',
+    'dojo/_base/array',
+    'dojo/_base/declare',
+
+    'dojox/uuid/generateRandomUuid',
 
     'app/location/StationPointDef'
 ],
 
 function (
-    declare,
-    _WidgetBase,
-    _TemplatedMixin,
-    _WidgetsInTemplateMixin,
-    template,
-    xhr,
-    array,
+    Domains,
     VerifyMap,
-    domConstruct,
-    json,
-    GUID,
     _SubmitJobMixin,
+
+    _TemplatedMixin,
+    _WidgetBase,
+    _WidgetsInTemplateMixin,
+
+    domConstruct,
     domStyle,
+    json,
+    xhr,
+    template,
     topic,
-    Domains
-    ) {
-    return declare('app/location.Station', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _SubmitJobMixin], {
+    array,
+    declare,
+
+    generateRandomUuid
+) {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _SubmitJobMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'station',
@@ -252,7 +258,7 @@ function (
             // returns: String
             console.log('app/location/Station:getGUID', arguments);
 
-            return GUID.uuid();
+            return '{' + generateRandomUuid() + '}';
         }
     });
 });

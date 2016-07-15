@@ -1,24 +1,27 @@
 require([
+    'app/method/CanoeBarge',
     'app/_MultipleWidgetsWithAddBtnMixin',
-    'dojo/_base/declare',
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
-    'dijit/_WidgetsInTemplateMixin',
-    'app/method/CanoeBarge'
 
+    'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
+    'dijit/_WidgetsInTemplateMixin',
+
+    'dojo/_base/declare'
 ],
 
 function (
+    CanoeBarge,
     _MultipleWidgetsWithAddBtnMixin,
-    declare,
-    _WidgetBase,
+
     _TemplatedMixin,
+    _WidgetBase,
     _WidgetsInTemplateMixin,
-    CanoeBarge
-    ) {
+
+    declare
+) {
     describe('app/_MultipleWidgetsWithAddBtnMixin', function () {
         var setClass;
-        var TestWidget = declare('TestWidget', [
+        var TestWidget = declare([
             _WidgetBase,
             _TemplatedMixin,
             _WidgetsInTemplateMixin,
@@ -71,8 +74,8 @@ function (
 
                 testWidget.AddBtnWidgets[0].btn.click();
 
-                expect(testWidget.addAddBtnWidget.callCount).toBe(1);
-                expect(testWidget.onRemoveAddBtnWidget.callCount).toBe(1);
+                expect(testWidget.addAddBtnWidget.calls.count()).toBe(1);
+                expect(testWidget.onRemoveAddBtnWidget.calls.count()).toBe(1);
                 expect(testWidget.onRemoveAddBtnWidget).toHaveBeenCalledWith(testWidget.AddBtnWidgets[0]);
             });
         });
@@ -83,12 +86,12 @@ function (
                 expect(testWidget.AddBtnWidgets.length).toEqual(2);
             });
             it('wires onAdd for the newly created widget', function () {
-                spyOn(testWidget, 'addAddBtnWidget').andCallThrough();
+                spyOn(testWidget, 'addAddBtnWidget').and.callThrough();
                 testWidget.addAddBtnWidget();
 
                 testWidget.AddBtnWidgets[1].btn.click();
 
-                expect(testWidget.addAddBtnWidget.calls.length).toEqual(2);
+                expect(testWidget.addAddBtnWidget.calls.count()).toEqual(2);
             });
         });
         describe('onRemoveAddBtnWidget', function () {

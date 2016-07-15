@@ -1,7 +1,6 @@
 define([
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
-    'dijit/_WidgetsInTemplateMixin',
 
     'dojo/dom-class',
     'dojo/text!app/location/templates/PointDef.html',
@@ -14,7 +13,6 @@ define([
 ], function (
     _TemplatedMixin,
     _WidgetBase,
-    _WidgetsInTemplateMixin,
 
     domClass,
     template,
@@ -22,8 +20,7 @@ define([
     declare,
     lang
 ) {
-    return declare('app.location.PointDef', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
-        widgetsInTemplate: false,
+    return declare([_WidgetBase, _TemplatedMixin], {
         templateString: template,
         baseClass: 'point-def',
 

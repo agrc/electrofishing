@@ -1,40 +1,48 @@
 define([
     'app/catch/GridDropdown',
 
+    'dgrid/Editor',
     'dgrid/Keyboard',
     'dgrid/OnDemandGrid',
     'dgrid/Selection',
 
     'dojo/keys',
     'dojo/on',
-    'dojo/store/Memory',
-    'dojo/store/Observable',
     'dojo/_base/array',
     'dojo/_base/declare',
-    'dojo/_base/lang'
+    'dojo/_base/lang',
+
+    'dstore/Memory',
+    'dstore/Trackable'
 ],
 
 function (
     GridDropdown,
 
+    Editor,
     Keyboard,
     DGrid,
     Selection,
 
     keys,
     on,
-    Memory,
-    Observable,
     array,
     declare,
-    lang
+    lang,
+
+    Memory,
+    Trackable
 ) {
     // summary:
     //      Mixin to add dgrid to a widget.
-    return declare('app/_GridMixin', null, {
+    return declare(null, {
 
         // grid: DGrid
         grid: null,
+
+        // store: DStore
+        //      the store that is used to populate the grid
+        store: null,
 
         // selectedRow: _Row
         //      the currently selected row in the grid
@@ -51,7 +59,7 @@ function (
             //      Array of column definition objects
             console.log(this.declaredClass + '::initGrid', arguments);
 
-            this.grid = new (declare([DGrid, Keyboard, Selection]))({
+            this.grid = new (declare([DGrid, Keyboard, Selection, Editor]))({
                 selectionMode: 'single',
                 columns: columns,
                 deselectOnRefresh: false
@@ -61,12 +69,7 @@ function (
             on(this.grid, 'dgrid-select', lang.hitch(this, this.onRowSelected));
             on(this.grid, 'dgrid-deselect', lang.hitch(this, this.onRowDeselected));
 
-            var store = new Observable(new Memory({
-                data: [],
-                idProperty: this.idProperty
-            }));
-
-            this.grid.set('collection', store);
+            this.setGridData([]);
         },
         getGridDropdownLookup: function () {
             // summary:
@@ -170,7 +173,7 @@ function (
             };
 
             if (array.indexOf(modifierKeys, e.keyCode) !== -1) {
-                passData = this.grid.collection.query(this.grid.query);
+                passData = this.grid.collection.fetchSync();
                 switch (e.keyCode) {
                     case keys.TAB:
                         if (!e.shiftKey) {
@@ -202,7 +205,7 @@ function (
             this.grid.save();
 
             if (this.getSelectedRow()) {
-                this.grid.collection.remove(this.getSelectedRow().data[this.idProperty]);
+                this.store.removeSync(this.getSelectedRow().data[this.idProperty]);
             }
         },
         getSelectedRow: function () {
@@ -229,7 +232,7 @@ function (
             console.log(this.declaredClass + '::isGridValid', arguments);
 
             this.grid.save();
-            if (this.grid.collection.data[0][this.firstColumn] !== null) {
+            if (this.store.data[0][this.firstColumn] !== null) {
                 return true;
             } else {
                 return this.invalidGridMsg;
@@ -240,12 +243,10 @@ function (
             //      description
             console.log(this.declaredClass + '::getGridData', arguments);
 
-            this.grid.save();
-
             if (!this.gridDropdowns) {
                 this.getGridDropdownLookup();
             }
-            var data = this.grid.collection.data;
+            var data = this.store.fetchSync();
 
             if (data.length > 0) {
                 // remove any empty rows
@@ -284,25 +285,22 @@ function (
                 }
                 return f.attributes;
             });
-            this.grid.collection.data = gridData;
-            this.grid.refresh();
+
+            var TrackableMemory = declare([Trackable, Memory]);
+            this.store = new TrackableMemory({
+                data: gridData,
+                idProperty: this.idProperty
+            });
+
+            this.grid.set('collection', this.store);
         },
         clearGrid: function () {
             // summary:
             //      clears the grid data
             console.log(this.declaredClass + '::clearGrid', arguments);
 
-            this.grid.collection.data = [];
-            this.grid.refresh();
+            this.setGridData([]);
             this.addRow();
-        },
-        destroy: function () {
-            // summary:
-            //      destroys the widget and it's children
-            console.log(this.declaredClass + '::destroy', arguments);
-
-            this.grid.destroy();
-            this.inherited(arguments);
         }
     });
 });

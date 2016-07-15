@@ -9,8 +9,7 @@ function (
     PointDef,
     template
     ) {
-    return declare('app.location.StationPointDef', [PointDef], {
-        widgetsInTemplate: false,
+    return declare([PointDef], {
         templateString: template,
         baseClass: 'station-point-def',
 

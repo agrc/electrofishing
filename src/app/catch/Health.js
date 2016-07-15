@@ -4,7 +4,6 @@ define([
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
-    'dijit/_WidgetsInTemplateMixin',
 
     'dojo/promise/all',
     'dojo/query',
@@ -19,7 +18,6 @@ function (
 
     _TemplatedMixin,
     _WidgetBase,
-    _WidgetsInTemplateMixin,
 
     all,
     query,
@@ -29,8 +27,7 @@ function (
 ) {
     // summary:
     //      Health fields in more info dialog.
-    return declare('app/catch/Health', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _ClearValuesMixin], {
-        widgetsInTemplate: false,
+    return declare([_WidgetBase, _TemplatedMixin, _ClearValuesMixin], {
         templateString: template,
         baseClass: 'health',
 

@@ -1,26 +1,25 @@
 define([
-    'dojo/_base/declare',
-    'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
-    'dijit/_WidgetsInTemplateMixin',
+    'dijit/_WidgetBase',
+
+    'dojo/on',
     'dojo/text!app/templates/Header.html',
-    'dojo/_base/event',
     'dojo/topic',
-    'dojo/on'
+    'dojo/_base/declare',
+    'dojo/_base/event'
 ],
 
 function (
-    declare,
-    _WidgetBase,
     _TemplatedMixin,
-    _WidgetsInTemplateMixin,
+    _WidgetBase,
+
+    on,
     template,
-    event,
     topic,
-    on
-    ) {
-    return declare('app.Header', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
-        widgetsInTemplate: false,
+    declare,
+    event
+) {
+    return declare([_WidgetBase, _TemplatedMixin], {
         templateString: template,
         baseClass: 'header',
 

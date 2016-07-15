@@ -31,7 +31,7 @@ function (
     lang,
     _ClearValuesMixin
     ) {
-    return declare('app.method.Method', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _ClearValuesMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _ClearValuesMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'method',

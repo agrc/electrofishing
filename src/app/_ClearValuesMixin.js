@@ -12,7 +12,7 @@ function (
     ) {
     // summary:
     //      Mixin to add a method to clear all form values.
-    return declare('app/_ClearValuesMixin', null, {
+    return declare(null, {
         clearValues: function () {
             // summary:
             //      clears the input values for this widget

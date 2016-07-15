@@ -20,7 +20,7 @@ function (
     ) {
     // summary:
     //      The container for the backpage widgets
-    return declare('app.method.BackpacksContainer', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _MultipleWidgetsWithAddBtnMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _MultipleWidgetsWithAddBtnMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'backpacks-container equipment-container',

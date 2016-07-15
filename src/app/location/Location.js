@@ -25,7 +25,7 @@ function (
     topic,
     declare
 ) {
-    return declare('app.location.Location', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'location',

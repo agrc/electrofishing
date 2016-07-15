@@ -1,6 +1,4 @@
 define([
-    'agrc/modules/GUID',
-
     'app/catch/GridDropdown',
     'app/config',
     'app/_GridMixin',
@@ -17,13 +15,13 @@ define([
     'dojo/_base/declare',
     'dojo/_base/lang',
 
+    'dojox/uuid/generateRandomUuid',
+
     './Health',
     'app/catch/TagsContainer'
 ],
 
 function (
-    GUID,
-
     GridDropdown,
     config,
     _GridMixin,
@@ -38,11 +36,13 @@ function (
     query,
     template,
     declare,
-    lang
+    lang,
+
+    generateRandomUuid
 ) {
     // summary:
     //      Form for storing diet, tag and other fish stats.
-    return declare('app/catch/MoreInfoDialog', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GridMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GridMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'more-info-dialog',
@@ -224,7 +224,7 @@ function (
 
             var data = {};
             var fn = config.fieldNames.diet;
-            var guid = GUID.uuid();
+            var guid = '{' + generateRandomUuid() + '}';
 
             data[this.idProperty] = guid;
             data[fn.FISH_ID] = this.currentFishId;

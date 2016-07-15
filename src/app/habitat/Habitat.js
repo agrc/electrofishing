@@ -4,7 +4,6 @@ define([
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
-    'dijit/_WidgetsInTemplateMixin',
 
     'dojo/DeferredList',
     'dojo/dom-class',
@@ -17,7 +16,6 @@ define([
 
     _TemplatedMixin,
     _WidgetBase,
-    _WidgetsInTemplateMixin,
 
     DeferredList,
     domClass,
@@ -27,8 +25,7 @@ define([
 ) {
     // summary:
     //      Habitat tab
-    return declare('app/habitat/Habitat', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _ClearValuesMixin], {
-        widgetsInTemplate: false,
+    return declare([_WidgetBase, _TemplatedMixin, _ClearValuesMixin], {
         templateString: template,
         baseClass: 'habitat',
 

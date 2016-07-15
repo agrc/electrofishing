@@ -1,7 +1,6 @@
 define([
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
-    'dijit/_WidgetsInTemplateMixin',
 
     'dojo/query',
     'dojo/text!app/location/templates/CoordTypeToggle.html',
@@ -12,15 +11,13 @@ define([
 function (
     _TemplatedMixin,
     _WidgetBase,
-    _WidgetsInTemplateMixin,
 
     query,
     template,
     topic,
     declare
 ) {
-    return declare('app.location.CoordTypeToggle', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
-        widgetsInTemplate: false,
+    return declare([_WidgetBase, _TemplatedMixin], {
         templateString: template,
 
         // currentType: String (AGRC.coordTypes)

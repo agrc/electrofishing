@@ -3,7 +3,7 @@ require([
     'dojo/dom-construct',
     'dojo/dom-class',
     'dojo/dom-style',
-    'StubModule/StubModule',
+    'stubmodule',
     'dojo/topic'
 ],
 

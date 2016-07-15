@@ -27,7 +27,7 @@ function (
     array,
     topic
     ) {
-    return declare('app.location.StartEndGeoDef', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GeoDefMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GeoDefMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'start-end-geodef',

@@ -20,7 +20,7 @@ function (
     ) {
     // summary:
     //      Container widget for Tag widgets.
-    return declare('app/catch/TagsContainer', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _MultipleWidgetsWithAddBtnMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _MultipleWidgetsWithAddBtnMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'tags-container',

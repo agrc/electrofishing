@@ -1,6 +1,6 @@
 <div>
     <h4>Water Body</h4>
-    <div data-dojo-attach-point='verifyMap' data-dojo-type='app.location.VerifyMap' data-dojo-props='isMainMap:true' class='v-map'></div>
+    <div data-dojo-attach-point='verifyMap' data-dojo-type='app/location/VerifyMap' data-dojo-props='isMainMap:true' class='v-map'></div>
     <div data-dojo-type="app/location/Station" data-dojo-attach-point='station'></div>
     <h4>Stream Reach</h4>
     <ul class='nav nav-pills'>
@@ -16,32 +16,32 @@
     </ul>
     <div class='tab-content'>
         <div class='tab-pane fade in active' id='loc_startend'>
-            <div data-dojo-attach-point='startEndGeoDef' data-dojo-type='app.location.StartEndGeoDef'></div>
+            <div data-dojo-attach-point='startEndGeoDef' data-dojo-type='app/location/StartEndGeoDef'></div>
         </div>
         <div class='tab-pane fade' id='loc_startdistdir'>
-            <div data-dojo-attach-point='startDistDirGeoDef' data-dojo-type='app.location.StartDistDirGeoDef'></div>
+            <div data-dojo-attach-point='startDistDirGeoDef' data-dojo-type='app/location/StartDistDirGeoDef'></div>
         </div>
         <div class='tab-pane fade' id='loc_id'>
-            <div data-dojo-attach-point='idGeoDef' data-dojo-type='app.location.IDGeoDef'></div>
+            <div data-dojo-attach-point='idGeoDef' data-dojo-type='app/location/IDGeoDef'></div>
         </div>
     </div>
     <button data-dojo-attach-point='verifyMapBtn' class='btn btn-default' data-loading-text='Verifying...this may take a few seconds.'>Verify Location</button>
     <div class="form-group has-error">
         <span data-dojo-attach-point='validateMsg' class='help-block'></span>
     </div>
-    
+
     <div class="row">
         <div class="col-md-3">
             <div class="form-group">
                 <label class='control-label'>Stream Length (meters)</label>
                 <input type="number" data-dojo-attach-point="streamLengthTxt" class='form-control'>
             </div>
-            
+
             <div class="form-group">
                 <label class='control-label'>Collection Date</label>
                 <input type="date" data-dojo-attach-point='dateTxt' class='form-control'>
             </div>
-            
+
             <div class="form-group">
                 <label class='control-label'>Additional Location Notes (optional)</label>
                 <textarea rows="2" data-dojo-attach-point='additionalNotesTxt' class='form-control'></textarea>

@@ -20,7 +20,7 @@ function (
     ) {
     // summary:
     //      Container for CanoeBarge Widgets
-    return declare('app.method.CanoeBargesContainer', [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _MultipleWidgetsWithAddBtnMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _MultipleWidgetsWithAddBtnMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'canoe-barges-container equipment-container',

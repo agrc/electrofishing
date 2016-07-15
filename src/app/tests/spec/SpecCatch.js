@@ -1,23 +1,24 @@
 require([
     'app/catch/Catch',
+
+    'dojo/dom-class',
     'dojo/dom-construct',
-    'dojo/_base/window',
-    'dojo/query',
     'dojo/keys',
     'dojo/on',
-    'dojo/dom-class'
-
+    'dojo/query',
+    'dojo/_base/window'
 ],
 
 function (
     Catch,
+
+    domClass,
     domConstruct,
-    win,
-    query,
     keys,
     on,
-    domClass
-    ) {
+    query,
+    win
+) {
     describe('app/catch/Catch', function () {
         var testWidget;
         var destroy = function (widget) {
@@ -55,7 +56,7 @@ function (
                 on.emit(testWidget.batchNumberTxt, 'keyup', {bubbles: true});
                 on.emit(testWidget.batchNumberTxt, 'change', {bubbles: true});
 
-                expect(testWidget.validateBatchForm.callCount).toBe(4);
+                expect(testWidget.validateBatchForm.calls.count()).toBe(4);
             });
         });
         describe('validateBatchForm', function () {
@@ -136,7 +137,7 @@ function (
 
                 testWidget.addPass();
 
-                expect(testWidget.changePass.mostRecentCall.args[0].srcElement.innerText).toBe('2');
+                expect(testWidget.changePass.calls.mostRecent().args[0].srcElement.innerText).toBe('2');
             });
             it('adds a new row for the new pass', function () {
                 spyOn(testWidget, 'addRow');
@@ -154,7 +155,7 @@ function (
 
                 testWidget.addPass();
 
-                expect(testWidget.changePass.mostRecentCall.args[0].srcElement.innerText).toBe('3');
+                expect(testWidget.changePass.calls.mostRecent().args[0].srcElement.innerText).toBe('3');
             });
         });
         describe('changePass', function () {

@@ -1,16 +1,16 @@
 require([
     'app/catch/Health',
-    'dojo/dom-construct',
-    'dojo/_base/window',
 
-    'app/main'
+    'dojo/dom-construct',
+    'dojo/_base/window'
 ],
 
 function (
     Health,
+
     domConstruct,
     win
-    ) {
+) {
     describe('app/catch/Health', function () {
         var testWidget;
         var destroy = function (widget) {

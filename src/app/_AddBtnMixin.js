@@ -17,7 +17,7 @@ function (
     array,
     declare
 ) {
-    return declare('app/_AddBtnMixin', null, {
+    return declare(null, {
         // minusIconClass: String
         //      bootstrap icon class
         minusIconClass: 'glyphicon-minus',

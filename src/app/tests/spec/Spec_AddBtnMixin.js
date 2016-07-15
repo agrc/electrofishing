@@ -14,7 +14,7 @@ function (
     domClass
     ) {
     describe('app/_AddBtnMixin', function () {
-        var TestWidget = declare('TestWidget', [
+        var TestWidget = declare([
             _WidgetBase,
             _TemplatedMixin,
             _AddBtnMixin
@@ -33,7 +33,7 @@ function (
         });
         describe('wireEvents', function () {
             beforeEach(function () {
-                spyOn(testWidget, 'onAdd').andCallThrough();
+                spyOn(testWidget, 'onAdd').and.callThrough();
                 spyOn(testWidget, 'onRemove');
             });
             it('fires onAdd when the plus button is clicked', function () {
@@ -47,7 +47,7 @@ function (
 
                 testWidget.btn.click();
 
-                expect(testWidget.onAdd.callCount).toBe(1);
+                expect(testWidget.onAdd.calls.count()).toBe(1);
                 expect(testWidget.onRemove).toHaveBeenCalled();
             });
         });
