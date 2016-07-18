@@ -57,7 +57,7 @@ function (
             //      creates the grid with the specified columns
             // columns: Object[]
             //      Array of column definition objects
-            console.log(this.declaredClass + '::initGrid', arguments);
+            console.log('app/_GridMixin:initGrid', arguments);
 
             this.grid = new (declare([DGrid, Keyboard, Selection, Editor]))({
                 selectionMode: 'single',
@@ -136,7 +136,7 @@ function (
             //      cells.
             //      If we are at the end of the last row, it calls addRow
             // e: Keyboard Event
-            console.log(this.declaredClass + '::onGridKeydown', arguments);
+            console.log('app/_GridMixin:onGridKeydown', arguments);
 
             var passData;
             var that = this;
@@ -200,7 +200,7 @@ function (
         deleteRow: function () {
             // summary:
             //      Removes the currently selected row from the data store
-            console.log(this.declaredClass + '::deleteRow', arguments);
+            console.log('app/_GridMixin:deleteRow', arguments);
 
             this.grid.save();
 
@@ -211,7 +211,7 @@ function (
         getSelectedRow: function () {
             // summary:
             //      gets the currently selected row in the grid
-            console.log(this.declaredClass + '::getSelectedRow', arguments);
+            console.log('app/_GridMixin:getSelectedRow', arguments);
 
             for (var id in this.grid.selection) {
                 if (this.grid.selection.hasOwnProperty(id)) {
@@ -222,14 +222,14 @@ function (
         addRow: function () {
             // summary:
             //      this needs to be implemented by the child object
-            console.log(this.declaredClass + '::addRow', arguments);
+            console.log('app/_GridMixin:addRow', arguments);
 
         },
         isGridValid: function () {
             // summary:
             //      Confirms that there is at least one row and that it
             //      has a value in the first visible field
-            console.log(this.declaredClass + '::isGridValid', arguments);
+            console.log('app/_GridMixin:isGridValid', arguments);
 
             this.grid.save();
             if (this.store.data[0][this.firstColumn] !== null) {
@@ -241,7 +241,7 @@ function (
         getGridData: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + '::getGridData', arguments);
+            console.log('app/_GridMixin:getGridData', arguments);
 
             if (!this.gridDropdowns) {
                 this.getGridDropdownLookup();
@@ -297,7 +297,7 @@ function (
         clearGrid: function () {
             // summary:
             //      clears the grid data
-            console.log(this.declaredClass + '::clearGrid', arguments);
+            console.log('app/_GridMixin:clearGrid', arguments);
 
             this.setGridData([]);
             this.addRow();

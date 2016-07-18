@@ -159,7 +159,10 @@ function (
 
             $(this.dialog).on('hidden.bs.modal', lang.hitch(this, this.clearValues));
 
-            this.inherited(arguments);
+            var that = this;
+            $(this.dietTab).on('shown.bs.tab', function () {
+                that.grid.startup()
+            });
         },
         show: function (guid, tabName) {
             // summary:
@@ -209,10 +212,14 @@ function (
 
             $(this.dialog).modal('show');
 
-            // make sure that dialog is scrolled to the top
+            // make sure that dialog is scrolled to the top and grid is started upd
             var that = this;
             setTimeout(function () {
                 that.tabContainer.scrollTop = 0;
+
+                if (tabName === 'Diet') {
+                    that.grid.startup();
+                }
             }, 250);
         },
         addRow: function () {

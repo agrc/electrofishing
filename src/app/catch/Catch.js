@@ -93,7 +93,7 @@ function (
             // summary:
             //      sets some properties that cannot be set in the class definition
             //      because AGRC isn't available yet
-            console.log(this.declaredClass + '::constructor', arguments);
+            console.log('app/catch/Catch:constructor', arguments);
 
             var fn = AGRC.fieldNames.fish;
 
@@ -104,7 +104,7 @@ function (
         postCreate: function () {
             // summary:
             //      dom is ready
-            console.log(this.declaredClass + '::postCreate', arguments);
+            console.log('app/catch/Catch:postCreate', arguments);
 
             var fn = AGRC.fieldNames.fish;
             var columns = [
@@ -183,16 +183,21 @@ function (
                 AGRC.urls.fishFeatureService,
                 AGRC.fieldNames.fish.SPECIES_CODE);
 
-            this.inherited(arguments);
+            var that = this;
+            $('a[href="#catchTab"]').on('shown.bs.tab', function () {
+                that.grid.startup();
+            });
         },
         wireEvents: function () {
             // summary:
             //      wires events for the widget
-            console.log('app.Catch:wireEvents', arguments);
+            console.log('app/catch/Catch:wireEvents', arguments);
 
             var tb = this.batchCodeSelect.parentElement.children[1].children[1].children[0];
-            on(tb, 'keyup, change', lang.hitch(this, 'validateBatchForm'));
-            on(this.batchNumberTxt, 'keyup, change', lang.hitch(this, 'validateBatchForm'));
+            this.own(
+                on(tb, 'keyup, change', lang.hitch(this, 'validateBatchForm')),
+                on(this.batchNumberTxt, 'keyup, change', lang.hitch(this, 'validateBatchForm'))
+            );
         },
         addRow: function () {
             // summary
@@ -200,7 +205,7 @@ function (
             //      pass number and a new guid
             // returns: String
             //      The guid of the newly added row. Mostly for unit tests.
-            console.log(this.declaredClass + '::addRow', arguments);
+            console.log('app/catch/Catch:addRow', arguments);
 
             var fn = AGRC.fieldNames.fish;
             var passFilter = {};
@@ -251,7 +256,7 @@ function (
             //      updates the query on the grid store to show only the appropriate
             //      fish
             // e: Click Event
-            console.log(this.declaredClass + '::changePass', arguments);
+            console.log('app/catch/Catch:changePass', arguments);
 
             this.currentPass = parseInt(e.srcElement.innerText, 10);
 
@@ -266,14 +271,14 @@ function (
             // summary:
             //      returns the number of passes
             // returns: Number
-            console.log(this.declaredClass + '::getNumberOfPasses', arguments);
+            console.log('app/catch/Catch:getNumberOfPasses', arguments);
 
             return query('.btn', this.passBtnContainer).length;
         },
         validateBatchForm: function () {
             // summary:
             //      enables/disabled go button on batch form
-            console.log('app.Catch:validateBatchForm', arguments);
+            console.log('app/catch/Catch:validateBatchForm', arguments);
 
             this.batchGoBtn.disabled = (!this.batchCodeSelect.value ||
                 !this.batchNumberTxt.value);
@@ -282,7 +287,7 @@ function (
             // summary:
             //      description
             // e: Click Event
-            console.log(this.declaredClass + '::batch', arguments);
+            console.log('app/catch/Catch:batch', arguments);
 
             var item;
             var batchWeight = parseInt(this.batchWeightTxt.value, 10);
@@ -321,7 +326,7 @@ function (
         onBatchToggle: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + '::onBatchToggle', arguments);
+            console.log('app/catch/Catch:onBatchToggle', arguments);
 
             var that = this;
 
@@ -346,14 +351,14 @@ function (
         noWeight: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + '::noWeight', arguments);
+            console.log('app/catch/Catch:noWeight', arguments);
 
             this.specialWeight(AGRC.noWeightValue);
         },
         tooSmall: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + '::tooSmall', arguments);
+            console.log('app/catch/Catch:tooSmall', arguments);
 
             this.specialWeight(AGRC.tooSmallValue);
         },
@@ -361,7 +366,7 @@ function (
             // summary:
             //      sets the selected row's weight
             // weight: Number
-            console.log(this.declaredClass + '::specialWeight', arguments);
+            console.log('app/catch/Catch:specialWeight', arguments);
 
             this.getSelectedRow().data[AGRC.fieldNames.fish.WEIGHT] = weight;
             this.grid.refresh();
@@ -370,7 +375,7 @@ function (
             // summary:
             //     opens the more info dialog
             // evt: Mouse Click Event Object
-            console.log(this.declaredClass + '::moreInfo', arguments);
+            console.log('app/catch/Catch:moreInfo', arguments);
 
             var row = this.getSelectedRow();
 
@@ -382,7 +387,7 @@ function (
         clear: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + '::clear', arguments);
+            console.log('app/catch/Catch:clear', arguments);
 
             query('.btn', this.passBtnContainer).forEach(function (node) {
                 if (node.innerText.trim() !== '1') {
@@ -397,14 +402,14 @@ function (
             // summary:
             //      validates this tab
             // returns: String (if not valid) | Boolean (true if valid)
-            console.log(this.declaredClass + '::isValid', arguments);
+            console.log('app/catch/Catch:isValid', arguments);
 
             return this.isGridValid();
         },
         getData: function () {
             // summary:
             //      packages up the grid data as a record set
-            console.log(this.declaredClass + '::getData', arguments);
+            console.log('app/catch/Catch:getData', arguments);
 
             return {
                 displayFieldName: '',
@@ -415,7 +420,7 @@ function (
             // summary:
             //      overridden from _GridMixin
             // row: _Row
-            console.log('app.Catch:_setSelectedRow', arguments);
+            console.log('app/catch/Catch:_setSelectedRowAttr', arguments);
 
             var value = (row) ? domClass.remove : domClass.add;
 

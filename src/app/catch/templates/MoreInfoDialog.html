@@ -11,7 +11,7 @@
                 </div>
                 <div class="modal-body">
                     <ul class="nav nav-tabs">
-                        <li class='active'><a href="#Diet_tab" data-toggle="tab">Diet</a></li>
+                        <li class='active'><a data-dojo-attach-point='dietTab' href="#Diet_tab" data-toggle="tab">Diet</a></li>
                         <li><a href="#Tag_tab" data-toggle="tab">Tags</a></li>
                         <li><a href="#Health_tab" data-toggle="tab">Health</a></li>
                         <li><a href="#Notes_tab" data-toggle="tab">Notes</a></li>
@@ -24,10 +24,10 @@
                                         data-dojo-attach-event='onclick: deleteRow'>
                                         <i class="icon-remove-sign icon-white"></i> Delete Row
                                     </button>
-                                    <button class='btn btn-success' 
+                                    <button class='btn btn-success'
                                         data-dojo-attach-event='onclick: addRow'>
                                         <i class="icon-plus-sign icon-white"></i> Add Row
-                                    </button> 
+                                    </button>
                                 </div>
                             </div>
                             <div style="clear: both;"></div>
