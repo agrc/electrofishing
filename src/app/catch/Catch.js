@@ -174,7 +174,7 @@ function (
             });
 
             this.moreInfoDialog = new MoreInfoDialog({
-                store: this.store
+                catchStore: this.store
             }, this.moreInfoDialogDiv);
             this.moreInfoDialog.startup();
 
@@ -260,7 +260,7 @@ function (
             var query = {};
             query[AGRC.fieldNames.fish.PASS_NUM] = this.currentPass;
 
-            this.grid.set('query', query);
+            this.grid.set('collection', this.store.filter(query));
         },
         getNumberOfPasses: function () {
             // summary:

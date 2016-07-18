@@ -43,7 +43,7 @@ function (
 
                 testWidget.postCreate();
 
-                expect(testWidget.onChange.mostRecentCall.args[0])
+                expect(testWidget.onChange.calls.mostRecent().args[0])
                     .toEqual(AGRC.coordTypes.utm83);
             });
             it('sets the current type to equal the localstorage value if there is one', function () {
@@ -62,7 +62,7 @@ function (
                 testWidget.coord_llBtn.click();
                 testWidget.coord_utm27Btn.click();
 
-                expect(testWidget.onChange.calls.length).toEqual(3);
+                expect(testWidget.onChange.calls.count()).toEqual(3);
             });
             it('should pass the appropriate AGRC.coordTypes to onChange', function () {
                 spyOn(testWidget, 'onChange');
@@ -70,19 +70,19 @@ function (
                 testWidget.wireEvents();
 
                 testWidget.coord_utm83Btn.click();
-                expect(testWidget.onChange.mostRecentCall.args[0]).toEqual(AGRC.coordTypes.utm83);
+                expect(testWidget.onChange.calls.mostRecent().args[0]).toEqual(AGRC.coordTypes.utm83);
                 testWidget.coord_utm27Btn.click();
-                expect(testWidget.onChange.mostRecentCall.args[0]).toEqual(AGRC.coordTypes.utm27);
+                expect(testWidget.onChange.calls.mostRecent().args[0]).toEqual(AGRC.coordTypes.utm27);
                 testWidget.coord_llBtn.click();
-                expect(testWidget.onChange.mostRecentCall.args[0]).toEqual(AGRC.coordTypes.ll);
+                expect(testWidget.onChange.calls.mostRecent().args[0]).toEqual(AGRC.coordTypes.ll);
             });
         });
         describe('onChange', function () {
             it('should call topic.publish with correct topic from AGRC', function () {
                 testWidget.onChange(value, topicMock);
 
-                expect(topicMock.publish.mostRecentCall.args[1]).toEqual(value);
-                expect(topicMock.publish.mostRecentCall.args[0]).toEqual(AGRC.topics.coordTypeToggle_onChange);
+                expect(topicMock.publish.calls.mostRecent().args[1]).toEqual(value);
+                expect(topicMock.publish.calls.mostRecent().args[0]).toEqual(AGRC.topics.coordTypeToggle_onChange);
             });
             it('should set the currentType property', function () {
                 testWidget.onChange(value, topicMock);

@@ -1,32 +1,42 @@
 define([
-    'dojo/_base/declare',
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
-    'dijit/_WidgetsInTemplateMixin',
+    'app/config',
     'app/location/_GeoDefMixin',
-    'dojo/text!app/location/templates/StartEndGeoDef.html',
+
+    'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
+    'dijit/_WidgetsInTemplateMixin',
+
+    'dojo/aspect',
     'dojo/Deferred',
-    'dojo/request/xhr',
     'dojo/json',
-    'dojo/_base/array',
+    'dojo/request/xhr',
+    'dojo/text!app/location/templates/StartEndGeoDef.html',
     'dojo/topic',
+    'dojo/_base/array',
+    'dojo/_base/declare',
+    'dojo/_base/lang',
 
     'app/location/PointDef'
 ],
 
 function (
-    declare,
-    _WidgetBase,
-    _TemplatedMixin,
-    _WidgetsInTemplateMixin,
+    config,
     _GeoDefMixin,
-    template,
+
+    _TemplatedMixin,
+    _WidgetBase,
+    _WidgetsInTemplateMixin,
+
+    aspect,
     Deferred,
-    xhr,
     json,
+    xhr,
+    template,
+    topic,
     array,
-    topic
-    ) {
+    declare,
+    lang
+) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GeoDefMixin], {
         widgetsInTemplate: true,
         templateString: template,
@@ -60,7 +70,7 @@ function (
             //    description
             console.log('app/location/StartEndGeoDef:constructor', arguments);
 
-            this.gpServiceUrl = AGRC.urls.getSegmentFromCoords;
+            this.gpServiceUrl = config.urls.getSegmentFromCoords;
         },
         postCreate: function () {
             // summary:
@@ -79,14 +89,14 @@ function (
             var that = this;
 
             this.own(
-                topic.subscribe(AGRC.topics.mapInit, function () {
-                    that.featureGroup = new L.FeatureGroup().addTo(AGRC.app.map);
-                    that.startPointDef.setMap(AGRC.app.map, that.featureGroup);
-                    that.endPointDef.setMap(AGRC.app.map, that.featureGroup);
+                topic.subscribe(config.topics.mapInit, function () {
+                    that.featureGroup = new L.FeatureGroup().addTo(config.app.map);
+                    that.startPointDef.setMap(config.app.map, that.featureGroup);
+                    that.endPointDef.setMap(config.app.map, that.featureGroup);
                 })
             );
             array.forEach(this.defs, function (def) {
-                this.own(this.connect(def, 'updateMarkerPosition', 'onInvalidate'));
+                this.own(aspect.after(def, 'updateMarkerPosition', lang.hitch(this, 'onInvalidate')));
             }, this);
         },
         getGeometry: function () {

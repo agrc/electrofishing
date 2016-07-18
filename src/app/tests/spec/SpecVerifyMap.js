@@ -80,11 +80,11 @@ function (
                 expect(testWidget.startSelectedId).toBeUndefined();
             });
             it('loops through all of the markers and resets their icon', function () {
-                spyOn(testWidget.stationsLyr, 'eachLayer');
+                spyOn(testWidget.stationsLyr, 'eachFeature');
 
                 testWidget.clearSelection();
 
-                expect(testWidget.stationsLyr.eachLayer).toHaveBeenCalled();
+                expect(testWidget.stationsLyr.eachFeature).toHaveBeenCalled();
             });
         });
     });

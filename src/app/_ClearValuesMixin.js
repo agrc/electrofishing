@@ -1,25 +1,25 @@
 define([
-    'dojo/_base/declare',
+    'dojo/on',
     'dojo/query',
-    'dojo/on'
-
+    'dojo/_base/declare'
 ],
 
 function (
-    declare,
+    on,
     query,
-    on
-    ) {
+    declare
+) {
     // summary:
     //      Mixin to add a method to clear all form values.
     return declare(null, {
         clearValues: function () {
             // summary:
             //      clears the input values for this widget
-            console.log(this.declaredClass + '::clearValues', arguments);
+            console.log('app/_ClearValuesMixin:clearValues', arguments);
 
             query('select', this.domNode).forEach(function (node) {
-                $(node).combobox('clear');
+                $(node).data('combobox').clearTarget();
+                $(node).data('combobox').clearElement();
             });
             query('input[type="number"], input[type="text"]', this.domNode).forEach(function (node) {
                 node.value = null;

@@ -1,24 +1,28 @@
 require([
+    'app/config',
     'app/location/StartDistDirGeoDef',
+
     'dojo/Deferred',
     'dojo/dom-class',
-    'dojo/topic',
     'dojo/json',
-    'dojo/on'
+    'dojo/on',
+    'dojo/topic'
 ],
 
 function (
+    config,
     StartDistDirGeoDef,
+
     Deferred,
     domClass,
-    topic,
     json,
-    on
-    ) {
+    on,
+    topic
+) {
     describe('app/location/StartDistDirGeoDef', function () {
         var testWidget;
         beforeEach(function () {
-            AGRC.app = {map: {addLayer: function () {}}};
+            config.app = {map: {addLayer: function () {}}};
             testWidget = new StartDistDirGeoDef();
         });
         afterEach(function () {
@@ -36,31 +40,21 @@ function (
             });
         });
         describe('wireEvents', function () {
-            it('wires the onInvalidate method to point defs', function () {
-                spyOn(testWidget, 'onInvalidate');
-                spyOn(testWidget.startPointDef, 'updateMarkerPosition');
-
-                testWidget.wireEvents();
-                testWidget.startPointDef.updateMarkerPosition();
-
-                expect(testWidget.onInvalidate).toHaveBeenCalled();
-            });
             it('subscribes to the mapInit topic and creates a feature group', function () {
                 spyOn(testWidget.startPointDef, 'setMap');
 
-                topic.publish(AGRC.topics.mapInit);
+                topic.publish(config.topics.mapInit);
 
                 expect(testWidget.featureGroup).toBeDefined();
                 expect(testWidget.startPointDef.setMap).toHaveBeenCalled();
             });
             it('wires onInvalidate to direction buttons', function () {
                 spyOn(testWidget, 'onInvalidate');
-                spyOn(testWidget.startPointDef, 'updateMarkerPosition');
 
                 testWidget.downBtn.click();
                 testWidget.upBtn.click();
 
-                expect(testWidget.onInvalidate.calls.length).toEqual(2);
+                expect(testWidget.onInvalidate.calls.count()).toEqual(2);
             });
             it('wires onInvalidate to distanceBox on change', function () {
                 spyOn(testWidget, 'onInvalidate');
@@ -74,22 +68,22 @@ function (
         });
         describe('getGeometry', function () {
             it('return a dojo.Deferred object if is has valid start point and distance', function () {
-                spyOn(testWidget.startPointDef, 'getPoint').andReturn({});
-                spyOn(testWidget, 'getDistance').andReturn(123);
+                spyOn(testWidget.startPointDef, 'getPoint').and.returnValue({});
+                spyOn(testWidget, 'getDistance').and.returnValue(123);
 
                 expect(testWidget.getGeometry()).toEqual(jasmine.any(Deferred));
             });
             it('returns an invalid message it if doesnt have valid start point and/or distance', function () {
                 expect(testWidget.getGeometry()).toBe(testWidget.invalidStartMsg);
 
-                spyOn(testWidget.startPointDef, 'getPoint').andReturn({});
+                spyOn(testWidget.startPointDef, 'getPoint').and.returnValue({});
 
                 expect(testWidget.getGeometry()).toBe(testWidget.invalidDistanceMsg);
             });
             it('calls getXHRParams', function () {
                 spyOn(testWidget, 'getXHRParams');
-                spyOn(testWidget.startPointDef, 'getPoint').andReturn({});
-                spyOn(testWidget, 'getDistance').andReturn(123);
+                spyOn(testWidget.startPointDef, 'getPoint').and.returnValue({});
+                spyOn(testWidget, 'getDistance').and.returnValue(123);
 
                 testWidget.getGeometry();
 
@@ -97,11 +91,11 @@ function (
             });
             it('sets the geoDef property', function () {
                 var start = {x: 1, y: 2};
-                spyOn(testWidget.startPointDef, 'getPoint').andReturn(start);
+                spyOn(testWidget.startPointDef, 'getPoint').and.returnValue(start);
                 var dist = 3;
-                spyOn(testWidget, 'getDistance').andReturn(dist);
+                spyOn(testWidget, 'getDistance').and.returnValue(dist);
                 var dir = 'blah';
-                spyOn(testWidget, 'getDirection').andReturn(dir);
+                spyOn(testWidget, 'getDirection').and.returnValue(dir);
 
                 testWidget.getGeometry();
 
@@ -121,7 +115,7 @@ function (
             it('publishes the streamDistance topic', function () {
                 var value = '500';
                 var publishedValue;
-                topic.subscribe(AGRC.topics.startDistDirGeoDef_onDistanceChange, function (dist) {
+                topic.subscribe(config.topics.startDistDirGeoDef_onDistanceChange, function (dist) {
                     publishedValue = dist;
                 });
 

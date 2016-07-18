@@ -37,7 +37,7 @@ define([
         postCreate: function () {
             // summary:
             //      dom is ready
-            console.log(this.declaredClass + '::postCreate', arguments);
+            console.log('app/habitat/Habitat:postCreate', arguments);
 
             var that = this;
             var lst = new DeferredList([
@@ -58,7 +58,7 @@ define([
         clear: function () {
             // summary:
             //      resets all controls
-            console.log(this.declaredClass + '::clear', arguments);
+            console.log('app/habitat/Habitat:clear', arguments);
 
             this.clearValues();
 
@@ -68,7 +68,7 @@ define([
             // summary:
             //      Supposed to check for required values. But this tab currently
             //      has no required values.
-            console.log(this.declaredClass + '::isValid', arguments);
+            console.log('app/habitat/Habitat:isValid', arguments);
 
             var total = parseInt(this.sedTotalSpan.innerHTML, 10);
 
@@ -82,7 +82,7 @@ define([
             // summary:
             //      Builds a record set object suitable for submitting to the
             //      NewCollectionEvent service
-            console.log(this.declaredClass + '::getData', arguments);
+            console.log('app/habitat/Habitat:getData', arguments);
 
             var f = {};
             var fn = AGRC.fieldNames.habitat;
@@ -125,7 +125,7 @@ define([
             //      fires when a change has been made to any of the six
             //      sediment classes
             //      Adds up the classes and applies the appropriate color to the total
-            console.log(this.declaredClass + '::onSedimentClassChange', arguments);
+            console.log('app/habitat/Habitat:onSedimentClassChange', arguments);
 
             var total = 0;
             query('.panel-body .form-group input', this.domNode).forEach(function (node) {

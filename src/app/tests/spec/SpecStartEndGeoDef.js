@@ -1,18 +1,24 @@
 require([
+    'app/config',
     'app/location/StartEndGeoDef',
+
     'dojo/Deferred',
     'dojo/json',
     'dojo/topic',
+
     'stubmodule'
 ],
 
 function (
+    config,
     StartEndGeoDef,
+
     Deferred,
     json,
     topic,
+
     stubModule
-    ) {
+) {
     describe('app/location/StartEndGeoDef', function () {
         var testWidget;
         beforeEach(function () {
@@ -30,22 +36,13 @@ function (
             });
         });
         describe('wireEvents', function () {
-            it('wires the onInvalidate method to point defs', function () {
-                spyOn(testWidget, 'onInvalidate');
-                spyOn(testWidget.startPointDef, 'updateMarkerPosition');
-                spyOn(testWidget.endPointDef, 'updateMarkerPosition');
-
-                testWidget.wireEvents();
-                testWidget.startPointDef.updateMarkerPosition();
-                testWidget.endPointDef.updateMarkerPosition();
-
-                expect(testWidget.onInvalidate.calls.length).toEqual(2);
-            });
             it('subscribes to the mapInit topic and creates a feature group', function () {
                 spyOn(testWidget.startPointDef, 'setMap');
                 spyOn(testWidget.endPointDef, 'setMap');
 
-                topic.publish(AGRC.topics.mapInit);
+                config.app = {map: {addLayer: function () {}}};
+
+                topic.publish(config.topics.mapInit);
 
                 expect(testWidget.featureGroup).toBeDefined();
                 expect(testWidget.startPointDef.setMap).toHaveBeenCalled();
@@ -54,15 +51,15 @@ function (
         });
         describe('getGeometry', function () {
             it('return a dojo.Deferred object if it has valid geometries', function () {
-                spyOn(testWidget.startPointDef, 'getPoint').andReturn({});
-                spyOn(testWidget.endPointDef, 'getPoint').andReturn({});
+                spyOn(testWidget.startPointDef, 'getPoint').and.returnValue({});
+                spyOn(testWidget.endPointDef, 'getPoint').and.returnValue({});
 
                 expect(testWidget.getGeometry()).toEqual(jasmine.any(Deferred));
             });
             it('should return an invalid message if it doesnt have valid geometries', function () {
                 expect(testWidget.getGeometry()).toBe(testWidget.invalidStartMsg);
 
-                spyOn(testWidget.startPointDef, 'getPoint').andReturn({});
+                spyOn(testWidget.startPointDef, 'getPoint').and.returnValue({});
 
                 expect(testWidget.getGeometry()).toBe(testWidget.invalidEndMsg);
             });
@@ -70,8 +67,8 @@ function (
                 spyOn(testWidget, 'getXHRParams');
                 var start = {};
                 var end = {};
-                spyOn(testWidget.startPointDef, 'getPoint').andReturn(start);
-                spyOn(testWidget.endPointDef, 'getPoint').andReturn(end);
+                spyOn(testWidget.startPointDef, 'getPoint').and.returnValue(start);
+                spyOn(testWidget.endPointDef, 'getPoint').and.returnValue(end);
 
                 testWidget.getGeometry();
 
@@ -79,9 +76,9 @@ function (
             });
             it('sets the geoDef property', function () {
                 var start = {x: 1, y: 2};
-                spyOn(testWidget.startPointDef, 'getPoint').andReturn(start);
+                spyOn(testWidget.startPointDef, 'getPoint').and.returnValue(start);
                 var end = {x: 3, y: 4};
-                spyOn(testWidget.endPointDef, 'getPoint').andReturn(end);
+                spyOn(testWidget.endPointDef, 'getPoint').and.returnValue(end);
 
                 testWidget.getGeometry();
 
@@ -113,15 +110,14 @@ function (
 
                 expect(window.setInterval).toHaveBeenCalled();
             });
-            it('calls checkJobStatus', function () {
-                spyOn(testWidget, 'checkJobStatus').andReturn(true);
+            it('calls checkJobStatus', function (done) {
+                spyOn(testWidget, 'checkJobStatus').and.returnValue(true);
 
-                runs(function () {
-                    testWidget.onGetSegsCallback({});
-                });
-                waitsFor(function () {
-                    return testWidget.checkJobStatus.calls.length > 0;
-                }, 'checkJobStatus to be called', 1500);
+                testWidget.onGetSegsCallback({});
+                setTimeout(function () {
+                    expect(testWidget.checkJobStatus.calls.count()).toBeGreaterThan(0);
+                    done();
+                }, 501);
             });
             it('returns true if there wasnt an error', function () {
                 expect(testWidget.onGetSegsCallback({})).toBe(true);
@@ -132,15 +128,18 @@ function (
             var def;
             var xhrSpy;
             var testWidget2;
-            beforeEach(function () {
+            beforeEach(function (done) {
                 xhrDef = new Deferred();
                 def = new Deferred();
-                xhrSpy = jasmine.createSpy('xhr').andReturn(xhrDef);
-                var StartEndGeoDef2 = stubModule('app/location/StartEndGeoDef', {
+                xhrSpy = jasmine.createSpy('xhr').and.returnValue(xhrDef);
+                stubModule('app/location/StartEndGeoDef', {
                     'dojo/request/xhr': xhrSpy
-                }, ['app/location/_GeoDefMixin']);
-                testWidget2 = new StartEndGeoDef2();
-                spyOn(testWidget2, 'getJobResults');
+                }, ['app/location/_GeoDefMixin']).then(function (StubbedModule) {
+                    testWidget2 = new StubbedModule();
+                    spyOn(testWidget2, 'getJobResults');
+
+                    done();
+                });
             });
             afterEach(function () {
                 xhrDef = null;

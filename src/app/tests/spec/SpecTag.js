@@ -37,6 +37,7 @@ function (
                 container: {currentFishId: fishId}
             }, domConstruct.create('div', {}, win.body()));
             testWidget.startup();
+            $(testWidget.domNode).find('select').combobox();
         });
         afterEach(function () {
             destroy(testWidget);

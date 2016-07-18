@@ -30,8 +30,8 @@ function (
             it('should get data from all tags', function () {
                 testWidget.addAddBtnWidget();
 
-                spyOn(testWidget.AddBtnWidgets[0], 'getData').andReturn({});
-                spyOn(testWidget.AddBtnWidgets[1], 'getData').andReturn({});
+                spyOn(testWidget.AddBtnWidgets[0], 'getData').and.returnValue({});
+                spyOn(testWidget.AddBtnWidgets[1], 'getData').and.returnValue({});
 
                 var data = testWidget.getData();
 
@@ -52,7 +52,7 @@ function (
             });
             it('passes the appropriate values for lastOne to setData', function () {
                 var setDataSpy = jasmine.createSpy('setData');
-                spyOn(testWidget, 'addAddBtnWidget').andReturn({
+                spyOn(testWidget, 'addAddBtnWidget').and.returnValue({
                     setData: setDataSpy
                 });
 

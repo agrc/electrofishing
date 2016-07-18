@@ -24,7 +24,7 @@ require([
         });
         describe('populateSelectWithDomainValues', function () {
             it('wires up a listener for when the other option is selected', function () {
-                spyOn(Domains, 'getCodedValues').andReturn({then: function (cb) {
+                spyOn(Domains, 'getCodedValues').and.returnValue({then: function (cb) {
                     cb();
                 }});
                 Domains.populateSelectWithDomainValues(select, 'blah', 'blah');

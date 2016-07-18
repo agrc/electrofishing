@@ -1,32 +1,40 @@
 define([
-    'dojo/_base/declare',
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
-    'dijit/_WidgetsInTemplateMixin',
+    'app/config',
     'app/location/_GeoDefMixin',
-    'dojo/text!app/location/templates/StartDistDirGeoDef.html',
+
+    'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
+    'dijit/_WidgetsInTemplateMixin',
+
+    'dojo/aspect',
     'dojo/Deferred',
-    'dojo/query',
-    'dojo/topic',
     'dojo/json',
+    'dojo/query',
     'dojo/request/xhr',
+    'dojo/text!app/location/templates/StartDistDirGeoDef.html',
+    'dojo/topic',
+    'dojo/_base/declare',
 
     'app/location/PointDef'
 ],
 
 function (
-    declare,
-    _WidgetBase,
-    _TemplatedMixin,
-    _WidgetsInTemplateMixin,
+    config,
     _GeoDefMixin,
-    template,
+
+    _TemplatedMixin,
+    _WidgetBase,
+    _WidgetsInTemplateMixin,
+
+    aspect,
     Deferred,
-    query,
-    topic,
     json,
-    xhr
-    ) {
+    query,
+    xhr,
+    template,
+    topic,
+    declare
+) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GeoDefMixin], {
         widgetsInTemplate: true,
         templateString: template,
@@ -50,7 +58,7 @@ function (
             //    description
             console.log('app/location/StartDistDirGeoDef:constructor', arguments);
 
-            this.gpServiceUrl = AGRC.urls.getSegmentFromStartDistDir;
+            this.gpServiceUrl = config.urls.getSegmentFromStartDistDir;
         },
         postCreate: function () {
             // summary:
@@ -68,14 +76,18 @@ function (
             var that = this;
 
             this.own(
-                topic.subscribe(AGRC.topics.mapInit, function () {
-                    that.featureGroup = new L.FeatureGroup().addTo(AGRC.app.map);
-                    that.startPointDef.setMap(AGRC.app.map, that.featureGroup);
+                topic.subscribe(config.topics.mapInit, function () {
+                    that.featureGroup = new L.FeatureGroup().addTo(config.app.map);
+                    that.startPointDef.setMap(config.app.map, that.featureGroup);
                 }),
-                this.connect(this.startPointDef, 'updateMarkerPosition', 'onInvalidate'),
-                this.connect(this.distanceBox, 'onchange', 'onInvalidate'),
-                query('.btn-group .btn', this.domNode).on('click', function () {
+                aspect.before(this.startPointDef, 'updateMarkerPosition', function () {
                     that.onInvalidate();
+                }),
+                this.connect(this.distanceBox, 'onchange', 'onInvalidate'),
+                query('.btn-group .btn', this.domNode).on('click', function (evt) {
+                    if (evt.target.tagName === 'LABEL') {
+                        that.onInvalidate();
+                    }
                 })
             );
         },
@@ -88,7 +100,7 @@ function (
 
             var dist = this.distanceBox.value;
 
-            topic.publish(AGRC.topics.startDistDirGeoDef_onDistanceChange, dist);
+            topic.publish(config.topics.startDistDirGeoDef_onDistanceChange, dist);
 
             if (dist === '') {
                 return null;

@@ -1,16 +1,20 @@
 require([
-    'dojo/topic',
+    'app/config',
     'app/location/PointDef',
+
     'dojo/dom-class',
-    'dojo/dom-construct'
+    'dojo/dom-construct',
+    'dojo/topic'
 ],
 
 function (
-    topic,
+    config,
     PointDef,
+
     domClass,
-    domConstruct
-    ) {
+    domConstruct,
+    topic
+) {
     describe('app/location/PointDef', function () {
         var testWidget;
         var ll;
@@ -26,34 +30,13 @@ function (
             utm27 = {x: 428861, y: 4496494};
 
             testWidget = new PointDef();
-            var crs = new L.Proj.CRS('EPSG:26912',
-                '+proj=utm +zone=12 +ellps=GRS80 +datum=NAD83 +units=m +no_defs',
-                {
-                    transformation: new L.Transformation(1, 5120900, -1, 9998100),
-                    resolutions: [4891.96999883583,
-                            2445.98499994708,
-                            1222.99250010583,
-                            611.496250052917,
-                            305.748124894166,
-                            152.8740625,
-                            76.4370312632292,
-                            38.2185156316146,
-                            19.1092578131615,
-                            9.55462890525781,
-                            4.77731445262891,
-                            2.38865722657904,
-                            1.19432861315723,
-                            0.597164306578613,
-                            0.298582153289307]
-                });
-            map = new L.Map(domConstruct.create('div'), {crs: crs});
-            L.esri.tiledMapLayer(AGRC.urls.googleImagery, {
-                maxZoom: 14,
-                minZoom: 0,
-                continuousWorld: true
-            }).addTo(map);
+            map = new L.Map(domConstruct.create('div'));
+            L.tileLayer(config.urls.googleImagery, {quadWord: config.quadWord})
+                .addTo(map);
+            L.tileLayer(config.urls.overlay, {quadWord: config.quadWord})
+                .addTo(map);
             map.setView([40, -111], 6);
-            spyOn(map, 'getBounds').andReturn({contains: function () {}});
+            spyOn(map, 'getBounds').and.returnValue({contains: function () {}});
             fGroup = new L.FeatureGroup().addTo(map);
             testWidget.setMap(map, fGroup);
 
@@ -76,10 +59,10 @@ function (
                 expect(testWidget.xLabel.innerHTML).toEqual(testWidget.labels.utm.x);
                 expect(testWidget.yBox.placeholder).toEqual(testWidget.labels.utm.placeY);
                 expect(testWidget.xBox.placeholder).toEqual(testWidget.labels.utm.placeX);
-                expect(testWidget.currentType).toEqual(AGRC.coordTypes.utm83);
+                expect(testWidget.currentType).toEqual(config.coordTypes.utm83);
             });
             it('sets the coord type according to the localStorage value if it exists', function () {
-                localStorage.coordType = AGRC.coordTypes.ll;
+                localStorage.coordType = config.coordTypes.ll;
 
                 var testWidget2 = new PointDef();
 
@@ -87,7 +70,7 @@ function (
                 expect(testWidget2.xLabel.innerHTML).toEqual(testWidget2.labels.ll.x);
                 expect(testWidget2.yBox.placeholder).toEqual(testWidget2.labels.ll.placeY);
                 expect(testWidget2.xBox.placeholder).toEqual(testWidget2.labels.ll.placeX);
-                expect(testWidget2.currentType).toEqual(AGRC.coordTypes.ll);
+                expect(testWidget2.currentType).toEqual(config.coordTypes.ll);
             });
         });
         describe('wireEvents', function () {
@@ -96,7 +79,7 @@ function (
 
                 testWidget.wireEvents();
 
-                topic.publish(AGRC.topics.coordTypeToggle_onChange, AGRC.coordTypes.utm83);
+                topic.publish(config.topics.coordTypeToggle_onChange, config.coordTypes.utm83);
 
                 expect(testWidget.onCoordTypeChange).toHaveBeenCalled();
             });
@@ -112,21 +95,21 @@ function (
         });
         describe('onCoordTypeChange', function () {
             it('should update the labels and placeholders', function () {
-                testWidget.onCoordTypeChange(AGRC.coordTypes.ll);
+                testWidget.onCoordTypeChange(config.coordTypes.ll);
 
                 expect(testWidget.yLabel.innerHTML).toEqual(testWidget.labels.ll.y);
                 expect(testWidget.xLabel.innerHTML).toEqual(testWidget.labels.ll.x);
                 expect(testWidget.yBox.placeholder).toEqual(testWidget.labels.ll.placeY);
                 expect(testWidget.xBox.placeholder).toEqual(testWidget.labels.ll.placeX);
 
-                testWidget.onCoordTypeChange(AGRC.coordTypes.utm83);
+                testWidget.onCoordTypeChange(config.coordTypes.utm83);
 
                 expect(testWidget.yLabel.innerHTML).toEqual(testWidget.labels.utm.y);
                 expect(testWidget.xLabel.innerHTML).toEqual(testWidget.labels.utm.x);
                 expect(testWidget.yBox.placeholder).toEqual(testWidget.labels.utm.placeY);
                 expect(testWidget.xBox.placeholder).toEqual(testWidget.labels.utm.placeX);
 
-                testWidget.onCoordTypeChange(AGRC.coordTypes.utm27);
+                testWidget.onCoordTypeChange(config.coordTypes.utm27);
 
                 expect(testWidget.yLabel.innerHTML).toEqual(testWidget.labels.utm.y);
                 expect(testWidget.xLabel.innerHTML).toEqual(testWidget.labels.utm.x);
@@ -136,37 +119,21 @@ function (
             it('should set the currentType', function () {
                 testWidget.currentType = null;
 
-                testWidget.onCoordTypeChange(AGRC.coordTypes.ll);
+                testWidget.onCoordTypeChange(config.coordTypes.ll);
 
-                expect(testWidget.currentType).toEqual(AGRC.coordTypes.ll);
-
-                testWidget.currentType = null;
-
-                testWidget.onCoordTypeChange(AGRC.coordTypes.utm27);
-
-                expect(testWidget.currentType).toEqual(AGRC.coordTypes.utm27);
+                expect(testWidget.currentType).toEqual(config.coordTypes.ll);
 
                 testWidget.currentType = null;
 
-                testWidget.onCoordTypeChange(AGRC.coordTypes.utm83);
+                testWidget.onCoordTypeChange(config.coordTypes.utm27);
 
-                expect(testWidget.currentType).toEqual(AGRC.coordTypes.utm83);
-            });
-            xit('should convert any existing values', function () {
-                // don't think that this is necessary right now
-                testWidget.yBox.value = ll.lat;
-                testWidget.xBox.value = ll.lng;
-                testWidget.currentType = AGRC.coordTypes.ll;
+                expect(testWidget.currentType).toEqual(config.coordTypes.utm27);
 
-                testWidget.onCoordTypeChange(AGRC.coordTypes.utm83);
+                testWidget.currentType = null;
 
-                expect(testWidget.yBox.value).toEqual(utm83.y + '');
-                expect(testWidget.xBox.value).toEqual(utm83.x + '');
+                testWidget.onCoordTypeChange(config.coordTypes.utm83);
 
-                testWidget.onCoordTypeChange(AGRC.coordTypes.utm27);
-
-                expect(testWidget.yBox.value).toEqual(utm27.y + '');
-                expect(testWidget.xBox.value).toEqual(utm27.x + '');
+                expect(testWidget.currentType).toEqual(config.coordTypes.utm83);
             });
         });
         describe('validate', function () {
@@ -190,7 +157,7 @@ function (
                 expect(domClass.contains(testWidget.xGroup, testWidget.validateErrorClass)).toBeTruthy();
             });
             it('should not show any messages for ll values', function () {
-                testWidget.onCoordTypeChange(AGRC.coordTypes.ll);
+                testWidget.onCoordTypeChange(config.coordTypes.ll);
                 var box = testWidget.xBox;
 
                 testWidget.validate(box);
@@ -260,7 +227,7 @@ function (
 
                 map.fire('click');
 
-                expect(testWidget.onMapClicked.calls.length).toEqual(1);
+                expect(testWidget.onMapClicked.calls.count()).toEqual(1);
             });
             it('fire the onMapBtn topic', function () {
                 spyOn(testWidget, 'onOtherMapBtnClicked');
@@ -341,7 +308,7 @@ function (
                 expect(testWidget.marker.getLatLng()).toEqual(ll2);
             });
             it('set the text box values for ll', function () {
-                testWidget.onCoordTypeChange(AGRC.coordTypes.ll);
+                testWidget.onCoordTypeChange(config.coordTypes.ll);
                 testWidget.onMapClicked({
                     latlng: ll
                 });
@@ -350,7 +317,7 @@ function (
                 expect(testWidget.xBox.value).toEqual(ll.lng + '');
             });
             it('set the text box value for utm83', function () {
-                testWidget.onCoordTypeChange(AGRC.coordTypes.utm83);
+                testWidget.onCoordTypeChange(config.coordTypes.utm83);
                 testWidget.onMapClicked({
                     latlng: ll
                 });
@@ -359,7 +326,7 @@ function (
                 expect(testWidget.xBox.value).toEqual(utm83.x + '');
             });
             it('set the text box value for utm27', function () {
-                testWidget.onCoordTypeChange(AGRC.coordTypes.utm27);
+                testWidget.onCoordTypeChange(config.coordTypes.utm27);
                 testWidget.onMapClicked({
                     latlng: ll
                 });
@@ -375,7 +342,7 @@ function (
                     latlng: ll
                 });
 
-                expect(testWidget2.marker.options.icon.options.iconUrl).toEqual(AGRC.urls.startIcon);
+                expect(testWidget2.marker.options.icon.options.iconUrl).toEqual(config.urls.startIcon);
 
                 var testWidget3 = new PointDef({label: 'End'});
                 testWidget3.setMap(map, fGroup);
@@ -383,7 +350,7 @@ function (
                     latlng: ll
                 });
 
-                expect(testWidget3.marker.options.icon.options.iconUrl).toEqual(AGRC.urls.endIcon);
+                expect(testWidget3.marker.options.icon.options.iconUrl).toEqual(config.urls.endIcon);
             });
         });
         describe('clear', function () {
@@ -422,8 +389,8 @@ function (
                 testWidget.yBox.value = utm83.y;
                 testWidget.xBox.value = utm83.x;
 
-                testWidget.validate(testWidget.yBox);
-                testWidget.validate(testWidget.xBox);
+                expect(testWidget.validate(testWidget.yBox)).toBe(true);
+                expect(testWidget.validate(testWidget.xBox)).toBe(true);
                 testWidget.updateMarkerPosition();
 
                 expect(testWidget.getPoint().y).toBeCloseTo(utm83.y, 2);
@@ -436,7 +403,7 @@ function (
 
                 testWidget.onTextBoxFocusOut();
 
-                expect(testWidget.validate.calls.length).toEqual(2);
+                expect(testWidget.validate.calls.count()).toEqual(2);
             });
         });
         describe('setMap', function () {

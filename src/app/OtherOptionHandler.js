@@ -89,7 +89,9 @@ define([
 
             $(this.modal).modal('hide');
 
-            this.select.parentElement.children[0].children[1].children[0].focus();
+            if (this.select.parentElement.children[0].children[1]) {
+                this.select.parentElement.children[0].children[1].children[0].focus();
+            }
         },
         onTxtChange: function () {
             // summary:

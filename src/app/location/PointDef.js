@@ -92,6 +92,10 @@ define([
         //      CRS for UTM 12 NAD27
         utm27crs: null,
 
+        // utm83crs: L.CRS
+        //      CRS for UTM 12 NAD83
+        utm83crs: null,
+
         // startIcon: L.Icon
         //      the green start icon
         startIcon: null,
@@ -116,9 +120,16 @@ define([
             //    description
             console.log('app/location/PointDef:constructor', arguments);
 
-            this.utm27crs = L.CRS.proj4js('EPSG:26712',
+            this.utm27crs = new L.Proj.CRS(
+                'EPSG:26712',
                 '+proj=utm +zone=12 +ellps=clrk66 +datum=NAD27 +units=m +no_defs',
-                new L.Transformation(1, 5682968.14599198, -1, 10997674.9165387));
+                new L.Transformation(1, 5682968.14599198, -1, 10997674.9165387)
+            );
+            this.utm83crs = new L.Proj.CRS(
+                'EPSG:26912',
+                '+proj=utm +zone=12 +ellps=GRS80 +datum=NAD83 +units=m +no_defs',
+                {transformation: new L.Transformation(1, 5120900, -1, 9998100)}
+            );
 
             this.subscribeHandles = [];
         },
@@ -293,7 +304,7 @@ define([
                 this.yBox.value = Math.round(evt.latlng.lat * 1000000) / 1000000;
                 this.xBox.value = Math.round(evt.latlng.lng * 1000000) / 1000000;
             } else if (this.currentType === AGRC.coordTypes.utm83) {
-                projection = this.map.options.crs.projection;
+                projection = this.utm83crs.projection;
                 pnt = projection.project(evt.latlng);
                 this.yBox.value = parseInt(pnt.y, 10);
                 this.xBox.value = parseInt(pnt.x, 10);
@@ -321,7 +332,7 @@ define([
                 if (this.currentType === AGRC.coordTypes.ll) {
                     ll = new L.LatLng(y, x);
                 } else if (this.currentType === AGRC.coordTypes.utm83) {
-                    ll = this.map.options.crs.projection.unproject(new L.Point(x, y));
+                    ll = this.utm83crs.projection.unproject(new L.Point(x, y));
                 } else {
                     // utm27
                     ll = this.utm27crs.projection.unproject(new L.Point(x, y));
@@ -370,7 +381,7 @@ define([
             if (this.marker === null || !this.marker) {
                 return false;
             } else {
-                return this.map.options.crs.projection.project(this.marker.getLatLng());
+                return this.utm83crs.projection.project(this.marker.getLatLng());
             }
         },
         setMap: function (map, group) {

@@ -18,7 +18,8 @@ define([
     'dojox/uuid/generateRandomUuid',
 
     './Health',
-    'app/catch/TagsContainer'
+    'app/catch/TagsContainer',
+    'leaflet'
 ],
 
 function (
@@ -84,9 +85,9 @@ function (
 
         // properties passed in via the constructor
 
-        // store: dojo/DataStore
+        // catchStore: dojo/DataStore
         //      the grid's data store
-        store: null,
+        catchStore: null,
 
         constructor: function () {
             // summary:
@@ -108,7 +109,7 @@ function (
             var columns = [
                 {label: 'Catch ID', field: this.idProperty, sortable: false},
                 {label: 'Fish ID', field: config.fieldNames.diet.FISH_ID, sortable: false},
-                editor({
+                {
                     autoSave: true,
                     label: 'Class',
                     field: config.fieldNames.diet.CLASS,
@@ -119,8 +120,7 @@ function (
                         domainFieldName: config.fieldNames.diet.CLASS,
                         domainLayerUrl: config.urls.dietFeatureService
                     }
-                }),
-                editor({
+                }, {
                     autoSave: true,
                     label: 'Fish Species',
                     field: config.fieldNames.diet.FISH_SPECIES,
@@ -131,8 +131,7 @@ function (
                         domainFieldName: config.fieldNames.diet.FISH_SPECIES,
                         domainLayerUrl: config.urls.dietFeatureService
                     }
-                }),
-                editor({
+                }, {
                     autoSave: true,
                     label: 'Type',
                     field: config.fieldNames.diet.MEASUREMENT_TYPE,
@@ -143,8 +142,7 @@ function (
                         domainFieldName: config.fieldNames.diet.MEASUREMENT_TYPE,
                         domainLayerUrl: config.urls.dietFeatureService
                     }
-                }),
-                editor({
+                }, {
                     autoSave: true,
                     label: 'Measurement',
                     field: config.fieldNames.diet.MEASUREMENT,
@@ -154,7 +152,7 @@ function (
                     editorArgs: {
                         'className': 'form-control dgrid-input'
                     }
-                })
+                }
             ];
 
             this.initGrid(columns);
@@ -188,7 +186,7 @@ function (
                 this.addRow();
             }
 
-            var item = this.store.get(guid);
+            var item = this.catchStore.getSync(guid);
 
             this.catchId.innerHTML = item[config.fieldNames.fish.CATCH_ID];
             this.passId.innerHTML = item[config.fieldNames.fish.PASS_NUM];
@@ -199,7 +197,7 @@ function (
             query('.nav-tabs li', this.domNode).forEach(function (n) {
                 domClass.remove(n, 'active');
             });
-            var tb = query('a[href="#" + tabName + "_tab"]', this.domNode)[0].parentElement;
+            var tb = query('a[href="#' + tabName + '_tab"]', this.domNode)[0].parentElement;
             domClass.add(tb, 'active');
 
             // tab contents
@@ -248,9 +246,9 @@ function (
                 this.healthData[this.currentFishId] = [healthFeature];
             }
 
-            var item = this.store.get(this.currentFishId);
+            var item = this.catchStore.getSync(this.currentFishId);
             item[config.fieldNames.fish.NOTES] = this.notesTxtArea.value;
-            this.store.put(item);
+            this.catchStore.putSync(item);
 
             this.clearValues();
             $(this.dialog).modal('hide');

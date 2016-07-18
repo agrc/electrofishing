@@ -18,7 +18,8 @@ define([
 
     'dojox/uuid/generateRandomUuid',
 
-    'app/location/StationPointDef'
+    'app/location/StationPointDef',
+    'bootstrap'
 ],
 
 function (
@@ -196,7 +197,8 @@ function (
 
             // clear form
             this.stationNameTxt.value = '';
-            $(this.streamTypeSelect).combobox('clear');
+            $(this.streamTypeSelect).data('combobox').clearTarget();
+            $(this.streamTypeSelect).data('combobox').clearElement();
             this.pointDef.clear();
 
             topic.publish(AGRC.topics.onStationClick, [

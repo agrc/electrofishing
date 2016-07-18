@@ -240,7 +240,7 @@ function (
             // tabID: String
             console.log('app/NewCollectionEvent:showTab', arguments);
 
-            $('.nav-tabs a[href=#' + tabID + ']').tab('show');
+            $('.nav-tabs a[href="#' + tabID + '"]').tab('show');
         },
         onError: function () {
             // summary:

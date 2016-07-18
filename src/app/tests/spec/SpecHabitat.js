@@ -1,18 +1,15 @@
 require([
     'app/habitat/Habitat',
 
-    'dojo/_base/window',
-
+    'dojo/dom-class',
     'dojo/dom-construct',
-    'dojo/dom-class'
-
+    'dojo/_base/window'
 ], function (
     Habitat,
 
-    win,
-
+    domClass,
     domConstruct,
-    domClass
+    win
 ) {
     describe('app/habitat/Habitat', function () {
         var testWidget;
@@ -45,6 +42,9 @@ require([
                 testWidget.springSelect.selectedIndex = 1;
                 testWidget.acidityTxt.value = '2';
                 testWidget.sedTotalSpan.innerHTML = '99';
+
+                // call this manually since we aren't waiting for lst to resolve in postCreate
+                $(testWidget.domNode).find('select').combobox();
 
                 testWidget.clear();
 

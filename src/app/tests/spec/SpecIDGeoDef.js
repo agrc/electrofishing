@@ -117,7 +117,7 @@ function (
                 on.emit(testWidget.waterIDBox, 'change', {bubbles: true});
                 on.emit(testWidget.reachBox, 'change', {bubbles: true});
 
-                expect(testWidget.onInvalidate.calls.length).toBe(2);
+                expect(testWidget.onInvalidate.calls.count()).toBe(2);
             });
             it('wire getID to textboxes blur event', function () {
                 spyOn(testWidget, 'getID');
@@ -125,30 +125,30 @@ function (
                 on.emit(testWidget.waterIDBox, 'blur', {bubbles: true});
                 on.emit(testWidget.reachBox, 'blur', {bubbles: true});
 
-                expect(testWidget.getID.calls.length).toBe(2);
+                expect(testWidget.getID.calls.count()).toBe(2);
             });
         });
         describe('getGeometry', function () {
             it('returns a Deferred object if it has a valid id', function () {
-                spyOn(testWidget, 'getID').andReturn(mockReturn);
+                spyOn(testWidget, 'getID').and.returnValue(mockReturn);
 
                 expect(testWidget.getGeometry()).toEqual(jasmine.any(Deferred));
             });
             it('returns an invalid message if it doesn\'t have a valid id', function () {
-                spyOn(testWidget, 'getID').andReturn(false);
+                spyOn(testWidget, 'getID').and.returnValue(false);
 
                 expect(testWidget.getGeometry()).toEqual(testWidget.invalidMsg);
             });
             it('calls getXHRParams', function () {
                 spyOn(testWidget, 'getXHRParams');
-                spyOn(testWidget, 'getID').andReturn(mockReturn);
+                spyOn(testWidget, 'getID').and.returnValue(mockReturn);
 
                 testWidget.getGeometry();
 
                 expect(testWidget.getXHRParams).toHaveBeenCalledWith(mockReturn.id, mockReturn.type);
             });
             it('sets the geoDef property', function () {
-                spyOn(testWidget, 'getID').andReturn(mockReturn);
+                spyOn(testWidget, 'getID').and.returnValue(mockReturn);
 
                 testWidget.getGeometry();
 

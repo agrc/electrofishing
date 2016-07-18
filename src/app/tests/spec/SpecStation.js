@@ -82,7 +82,7 @@ function (
         // broken somewhere in stub module
         xdescribe('onDialogShown', function () {
             it('inits the map if it hasn\'t been done already', function () {
-                var VerifyMapSpy = jasmine.createSpy('VerifyMapSpy').andReturn({
+                var VerifyMapSpy = jasmine.createSpy('VerifyMapSpy').and.returnValue({
                     map: {
                         addLayer: function () {}
                     }
@@ -99,8 +99,8 @@ function (
                 testWidget2.onDialogShown();
                 testWidget2.onDialogShown();
 
-                expect(VerifyMapSpy.calls.length).toEqual(1);
-                expect(testWidget2.pointDef.setMap.calls.length).toEqual(1);
+                expect(VerifyMapSpy.calls.count()).toEqual(1);
+                expect(testWidget2.pointDef.setMap.calls.count()).toEqual(1);
                 expect(testWidget2.fGroup).toEqual(jasmine.any(L.FeatureGroup));
 
                 testWidget2.destroy();
@@ -136,34 +136,23 @@ function (
             });
             it('submits the data only if validate returns true', function () {
                 spyOn(testWidget, 'submitJob');
-                spyOn(testWidget, 'getGUID').andReturn('blah');
+                spyOn(testWidget, 'getGUID').and.returnValue('blah');
 
                 testWidget.onSubmit();
 
-                expect(testWidget.submitJob.calls.length).toEqual(0);
+                expect(testWidget.submitJob.calls.count()).toEqual(0);
 
-                spyOn(testWidget, 'validate').andReturn(feature);
+                spyOn(testWidget, 'validate').and.returnValue(feature);
 
                 testWidget.onSubmit();
 
-                expect(testWidget.submitJob.calls.length).toEqual(1);
-                expect(testWidget.getGUID.calls.length).toEqual(1);
-            });
-            it('disabled the submit button', function () {
-                runs(function () {
-                    spyOn(testWidget, 'validate').andReturn(feature);
-
-                    testWidget.onSubmit();
-                });
-
-                waitsFor(function () {
-                    return domClass.contains(testWidget.submitBtn, 'disabled');
-                }, 'button to be disabled', 200);
+                expect(testWidget.submitJob.calls.count()).toEqual(1);
+                expect(testWidget.getGUID.calls.count()).toEqual(1);
             });
             it('stores the station in newStation property', function () {
                 var value = 'blah';
-                spyOn(testWidget, 'getGUID').andReturn(value);
-                spyOn(testWidget, 'validate').andReturn(feature);
+                spyOn(testWidget, 'getGUID').and.returnValue(value);
+                spyOn(testWidget, 'validate').and.returnValue(feature);
 
                 testWidget.onSubmit();
 
@@ -192,7 +181,7 @@ function (
             it('clears out any existing validate messages', function () {
                 testWidget.validateMsg.innerHTML = 'blah';
                 setToValid();
-                spyOn(testWidget.pointDef, 'getPoint').andReturn(point);
+                spyOn(testWidget.pointDef, 'getPoint').and.returnValue(point);
 
                 expect(testWidget.validate()).toBeDefined();
                 expect(testWidget.validateMsg.innerHTML).toEqual('');
@@ -200,7 +189,7 @@ function (
             it('displays on invalid message if there is no Stream type value', function () {
                 setToValid();
                 testWidget.streamTypeSelect.value = '';
-                spyOn(testWidget.pointDef, 'getPoint').andReturn(point);
+                spyOn(testWidget.pointDef, 'getPoint').and.returnValue(point);
 
                 expect(testWidget.validateMsgs.type).toBeDefined();
                 expect(testWidget.validate()).toBe(false);
@@ -208,7 +197,7 @@ function (
             });
             it('displays an invalid message if there is no locaiton defined', function () {
                 setToValid();
-                spyOn(testWidget.pointDef, 'getPoint').andReturn(false);
+                spyOn(testWidget.pointDef, 'getPoint').and.returnValue(false);
 
                 expect(testWidget.validateMsgs.point).toBeDefined();
                 expect(testWidget.validate()).toBe(false);
@@ -216,7 +205,7 @@ function (
             });
             it('returns an object appropriate for submitting data to the new station service', function () {
                 setToValid();
-                spyOn(testWidget.pointDef, 'getPoint').andReturn(point);
+                spyOn(testWidget.pointDef, 'getPoint').and.returnValue(point);
 
                 var value = testWidget.validate();
 
@@ -243,17 +232,7 @@ function (
                 obj.attributes[AGRC.fieldNames.stations.NAME] = 'station name';
                 testWidget.newStation = obj;
                 name = obj.attributes[AGRC.fieldNames.stations.NAME];
-            });
-            it('re-enables the submit button', function () {
-                runs(function () {
-                    domClass.add(testWidget.submitBtn, 'disabled');
-
-                    testWidget.onSuccessfulSubmit();
-                });
-
-                waitsFor(function () {
-                    return !domClass.contains(testWidget.submitBtn, 'disabled');
-                }, 'button to be enabled');
+                $(testWidget.domNode).find('select').combobox();
             });
             it('clears the form values', function () {
                 spyOn(testWidget.pointDef, 'clear');

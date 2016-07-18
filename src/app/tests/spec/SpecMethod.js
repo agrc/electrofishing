@@ -32,6 +32,8 @@ function (
                 testWidget.cathodeDiameterTxt.value = 2.3;
                 testWidget.waveformSelect.value = 'ac';
 
+                $(testWidget.domNode).find('select').combobox();
+
                 testWidget.clear();
 
                 expect(testWidget.backpacksContainer.clear).toHaveBeenCalled();

@@ -173,7 +173,7 @@ function (
 
             delete this.startSelectedId;
 
-            this.stationsLyr.eachLayer(function (l) {
+            this.stationsLyr.eachFeature(function (l) {
                 l.setIcon(this.defaultIcon);
             }, this);
         }

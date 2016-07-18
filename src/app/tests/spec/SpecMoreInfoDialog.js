@@ -1,17 +1,18 @@
 require([
     'app/catch/MoreInfoDialog',
-    'dojo/dom-construct',
-    'dojo/_base/window',
-    'dojo/query'
 
+    'dojo/dom-construct',
+    'dojo/query',
+    'dojo/_base/window'
 ],
 
 function (
     MoreInfoDialog,
+
     domConstruct,
-    win,
-    query
-    ) {
+    query,
+    win
+) {
     describe('app/catch/MoreInfoDialog', function () {
         var testWidget;
         var destroy = function (widget) {
@@ -27,12 +28,12 @@ function (
             row[AGRC.fieldNames.fish.PASS_NUM] = 1;
             store = {
                 data: [row],
-                get: function () {
+                getSync: function () {
                     return this.data[0];
                 },
-                put: function () {}
+                putSync: function () {}
             };
-            testWidget = new MoreInfoDialog({store: store}, domConstruct.create('div', {}, win.body()));
+            testWidget = new MoreInfoDialog({catchStore: store}, domConstruct.create('div', {}, win.body()));
             testWidget.startup();
         });
         afterEach(function () {
@@ -75,14 +76,19 @@ function (
         describe('onSubmitClick', function () {
             var fn = AGRC.fieldNames.diet;
             var value = 'blah';
+
+            beforeEach(function () {
+                $(testWidget.health.domNode).find('select').combobox();
+            });
+
             it('gathers the diet grid data', function () {
                 testWidget.addRow();
                 testWidget.addRow();
                 testWidget.addRow();
                 var cls = 'blah';
-                testWidget.grid.columns[2].editorInstance.values = [{}];
-                testWidget.grid.columns[2].editorInstance.values[0].name = cls;
-                testWidget.grid.columns[2].editorInstance.values[0].code = cls;
+                testWidget.grid._editorInstances[2].values = [{}];
+                testWidget.grid._editorInstances[2].values[0].name = cls;
+                testWidget.grid._editorInstances[2].values[0].code = cls;
                 var msr = 'blah2';
                 testWidget.grid.collection.data[2][fn.CLASS] = cls;
                 testWidget.grid.collection.data[2][fn.MEASUREMENT] = msr;
@@ -96,7 +102,7 @@ function (
                 expect(testWidget.getData('diet').displayFieldName).toEqual('');
             });
             it('gathers the tags data', function () {
-                spyOn(testWidget.tagsContainer, 'getData').andReturn([value, value]);
+                spyOn(testWidget.tagsContainer, 'getData').and.returnValue([value, value]);
 
                 testWidget.onSubmitClick();
 
@@ -106,7 +112,7 @@ function (
                 expect(testWidget.getData('tags').features.length).toEqual(2);
             });
             it('gathers the health data', function () {
-                spyOn(testWidget.health, 'getData').andReturn(value);
+                spyOn(testWidget.health, 'getData').and.returnValue(value);
 
                 testWidget.onSubmitClick();
 
@@ -128,6 +134,11 @@ function (
         });
         describe('clearValues', function () {
             var fn = AGRC.fieldNames.diet;
+
+            beforeEach(function () {
+                $(testWidget.health.domNode).find('select').combobox();
+            });
+
             it('clears diet grid', function () {
                 testWidget.addRow();
                 testWidget.grid.collection.data[0][fn.CLASS] = 'blah';
@@ -154,9 +165,12 @@ function (
             });
         });
         describe('getData', function () {
+            beforeEach(function () {
+                $(testWidget.health.domNode).find('select').combobox();
+            });
             it('returns a record set object', function () {
                 testWidget.currentFishId = '123';
-                spyOn(testWidget, 'getGridData').andReturn([1]);
+                spyOn(testWidget, 'getGridData').and.returnValue([1]);
                 testWidget.onSubmitClick();
                 var data = testWidget.getData('diet');
 

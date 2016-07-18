@@ -1,19 +1,15 @@
 require([
+    'app/Domains',
     'app/OtherOptionHandler',
 
-    'dojo/_base/window',
-
     'dojo/dom-construct',
-
-    'app/Domains'
+    'dojo/_base/window'
 ], function (
+    Domains,
     OtherOptionHandler,
 
-    win,
-
     domConstruct,
-
-    Domains
+    win
 ) {
     describe('app/OtherOptionHandler', function () {
         var testWidget;

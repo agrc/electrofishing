@@ -31,6 +31,9 @@ function (
             populateSelect(testWidget.kidneyConditionSelect, kidney);
             populateSelect(testWidget.finConditionSelect, fin);
             testWidget.plasmaTxt.value = plasma;
+
+            // call this manually since we aren't waiting for lst to resolve in postCreate
+            $(testWidget.domNode).find('select').combobox();
         }
         beforeEach(function () {
             testWidget = new Health({}, domConstruct.create('div', {}, win.body()));
