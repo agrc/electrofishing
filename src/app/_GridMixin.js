@@ -88,12 +88,10 @@ function (
 
                     if (col.editorInstance && col.editorInstance instanceof GridDropdown) {
                         var lookup = {};
-                        /*jshint -W083 */
                         array.forEach(col.editorInstance.values, function (v) {
                             lookup[v.name] = v.code; // for going from description to code
                             lookup[v.code] = v.name; // for going from code to description
                         });
-                        /*jshint +W083 */
                         this.gridDropdowns[col.field] = lookup;
                     }
                 }
@@ -149,10 +147,9 @@ function (
             ];
 
             var advance = function () {
-                if (that.grid.column(e.srcElement).field === that.lastColumn) {
+                if (that.grid.column(e.target).field === that.lastColumn) {
                     // last column
-
-                    if (that.grid.row(e.srcElement).data[that.idProperty] === passData[passData.length - 1][that.idProperty]) {
+                    if (that.grid.row(e.target).data[that.idProperty] === passData[passData.length - 1][that.idProperty]) {
                         // last row for this pass
                         that.addRow();
                     } else {
@@ -164,7 +161,7 @@ function (
                 }
             };
             var retreat = function () {
-                if (that.grid.column(e.srcElement).field === that.firstColumn) {
+                if (that.grid.column(e.target).field === that.firstColumn) {
                     // first column skip fields
                     Keyboard.moveFocusHorizontal.call(that.grid, e, -that.skipNumber);
                 } else {

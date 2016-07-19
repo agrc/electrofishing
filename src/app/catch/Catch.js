@@ -260,7 +260,7 @@ function (
             // e: Click Event
             console.log('app/catch/Catch:changePass', arguments);
 
-            this.currentPass = parseInt(e.srcElement.innerText, 10);
+            this.currentPass = parseInt(e.target.innerText, 10);
 
             this.grid.save();
 
@@ -383,7 +383,7 @@ function (
 
             if (row) {
                 this.moreInfoDialog.show(row.data[config.fieldNames.fish.FISH_ID],
-                    evt.srcElement.innerHTML.trim());
+                    evt.target.innerHTML.trim());
             }
         },
         clear: function () {
@@ -396,7 +396,7 @@ function (
                     domConstruct.destroy(node);
                 }
             });
-            this.changePass({srcElement: {innerText: '1'}});
+            this.changePass({target: {innerText: '1'}});
             this.clearGrid();
             this.moreInfoDialog.clearValues();
         },

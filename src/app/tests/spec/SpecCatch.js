@@ -137,7 +137,7 @@ function (
 
                 testWidget.addPass();
 
-                expect(testWidget.changePass.calls.mostRecent().args[0].srcElement.innerText).toBe('2');
+                expect(testWidget.changePass.calls.mostRecent().args[0].target.innerText).toBe('2');
             });
             it('adds a new row for the new pass', function () {
                 spyOn(testWidget, 'addRow');
@@ -155,12 +155,12 @@ function (
 
                 testWidget.addPass();
 
-                expect(testWidget.changePass.calls.mostRecent().args[0].srcElement.innerText).toBe('3');
+                expect(testWidget.changePass.calls.mostRecent().args[0].target.innerText).toBe('3');
             });
         });
         describe('changePass', function () {
             var e = {
-                srcElement: {innerText: '2'}
+                target: {innerText: '2'}
             };
             it('saves the store', function () {
                 spyOn(testWidget.grid, 'save');
@@ -208,7 +208,7 @@ function (
                     '8').element;
                 var e = {
                     keyCode: keys.TAB,
-                    srcElement: cell,
+                    target: cell,
                     preventDefault: function () {}
                 };
 
@@ -221,7 +221,7 @@ function (
                 testWidget.addRow();
                 testWidget.addPass();
                 testWidget.addRow();
-                testWidget.changePass({srcElement: {innerText: '1'}});
+                testWidget.changePass({target: {innerText: '1'}});
 
                 var filter = {};
                 filter[fn.PASS_NUM] = testWidget.currentPass;
@@ -229,7 +229,7 @@ function (
                 var cell = testWidget.grid.cell(data[data.length - 1][fn.FISH_ID], '8').element;
                 var e = {
                     keyCode: keys.TAB,
-                    srcElement: cell,
+                    target: cell,
                     preventDefault: function () {}
                 };
 
