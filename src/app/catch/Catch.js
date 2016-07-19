@@ -3,6 +3,7 @@ define([
 
     'app/catch/GridDropdown',
     'app/catch/MoreInfoDialog',
+    'app/config',
     'app/Domains',
     'app/_GridMixin',
 
@@ -28,6 +29,7 @@ function (
 
     GridDropdown,
     MoreInfoDialog,
+    config,
     Domains,
     _GridMixin,
 
@@ -92,10 +94,10 @@ function (
         constructor: function () {
             // summary:
             //      sets some properties that cannot be set in the class definition
-            //      because AGRC isn't available yet
+            //      because config isn't available yet
             console.log('app/catch/Catch:constructor', arguments);
 
-            var fn = AGRC.fieldNames.fish;
+            var fn = config.fieldNames.fish;
 
             this.lastColumn = fn.WEIGHT;
             this.firstColumn = fn.SPECIES_CODE;
@@ -106,7 +108,7 @@ function (
             //      dom is ready
             console.log('app/catch/Catch:postCreate', arguments);
 
-            var fn = AGRC.fieldNames.fish;
+            var fn = config.fieldNames.fish;
             var columns = [
                 {label: 'FISH_ID', field: fn.FISH_ID, sortable: false},
                 {label: 'EVENT_ID', field: fn.EVENT_ID, sortable: false},
@@ -123,8 +125,8 @@ function (
                     sortable: false,
                     editOn: 'dgrid-cellfocusin',
                     editorArgs: {
-                        domainFieldName: AGRC.fieldNames.fish.SPECIES_CODE,
-                        domainLayerUrl: AGRC.urls.fishFeatureService
+                        domainFieldName: fn.SPECIES_CODE,
+                        domainLayerUrl: config.urls.fishFeatureService
                     }
                 }, {
                     autoSave: true,
@@ -134,8 +136,8 @@ function (
                     sortable: false,
                     editOn: 'dgrid-cellfocusin',
                     editorArgs: {
-                        domainFieldName: AGRC.fieldNames.fish.LENGTH_TYPE,
-                        domainLayerUrl: AGRC.urls.fishFeatureService
+                        domainFieldName: fn.LENGTH_TYPE,
+                        domainLayerUrl: config.urls.fishFeatureService
                     }
                 }, {
                     autoSave: true,
@@ -180,8 +182,8 @@ function (
 
             Domains.populateSelectWithDomainValues(
                 this.batchCodeSelect,
-                AGRC.urls.fishFeatureService,
-                AGRC.fieldNames.fish.SPECIES_CODE);
+                config.urls.fishFeatureService,
+                fn.SPECIES_CODE);
 
             var that = this;
             $('a[href="#catchTab"]').on('shown.bs.tab', function () {
@@ -207,7 +209,7 @@ function (
             //      The guid of the newly added row. Mostly for unit tests.
             console.log('app/catch/Catch:addRow', arguments);
 
-            var fn = AGRC.fieldNames.fish;
+            var fn = config.fieldNames.fish;
             var passFilter = {};
             passFilter[fn.PASS_NUM] = this.currentPass;
             var passData = this.store.filter(passFilter).fetchSync();
@@ -215,7 +217,7 @@ function (
             var row = {};
 
             row[fn.FISH_ID] = '{' + generateRandomUuid() + '}';
-            row[fn.EVENT_ID] = AGRC.eventId;
+            row[fn.EVENT_ID] = config.eventId;
             row[fn.PASS_NUM] = this.currentPass;
             row[fn.CATCH_ID] = catchId;
             row[fn.SPECIES_CODE] = null;
@@ -263,7 +265,7 @@ function (
             this.grid.save();
 
             var query = {};
-            query[AGRC.fieldNames.fish.PASS_NUM] = this.currentPass;
+            query[config.fieldNames.fish.PASS_NUM] = this.currentPass;
 
             this.grid.set('collection', this.store.filter(query));
         },
@@ -293,7 +295,7 @@ function (
             var batchWeight = parseInt(this.batchWeightTxt.value, 10);
             var number = parseInt(this.batchNumberTxt.value, 10);
             var that = this;
-            var fn = AGRC.fieldNames.fish;
+            var fn = config.fieldNames.fish;
             var avgWeight = Formatting.round(batchWeight / number, 1);
             var populateValues = function (guid) {
                 item = that.store.getSync(guid);
@@ -353,14 +355,14 @@ function (
             //      description
             console.log('app/catch/Catch:noWeight', arguments);
 
-            this.specialWeight(AGRC.noWeightValue);
+            this.specialWeight(config.noWeightValue);
         },
         tooSmall: function () {
             // summary:
             //      description
             console.log('app/catch/Catch:tooSmall', arguments);
 
-            this.specialWeight(AGRC.tooSmallValue);
+            this.specialWeight(config.tooSmallValue);
         },
         specialWeight: function (weight) {
             // summary:
@@ -368,7 +370,7 @@ function (
             // weight: Number
             console.log('app/catch/Catch:specialWeight', arguments);
 
-            this.getSelectedRow().data[AGRC.fieldNames.fish.WEIGHT] = weight;
+            this.getSelectedRow().data[config.fieldNames.fish.WEIGHT] = weight;
             this.grid.refresh();
         },
         moreInfo: function (evt) {
@@ -380,7 +382,7 @@ function (
             var row = this.getSelectedRow();
 
             if (row) {
-                this.moreInfoDialog.show(row.data[AGRC.fieldNames.fish.FISH_ID],
+                this.moreInfoDialog.show(row.data[config.fieldNames.fish.FISH_ID],
                     evt.srcElement.innerHTML.trim());
             }
         },

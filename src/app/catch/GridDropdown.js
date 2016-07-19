@@ -61,33 +61,42 @@ function (
         postCreate: function () {
             // summary:
             //      dom is ready
-            console.log(this.declaredClass + '::postCreate', arguments);
-
-            this.inherited(arguments);
+            console.log('app/catch/GridDropdown:postCreate', arguments);
 
             var that = this;
             var def = Domains.populateSelectWithDomainValues(this.select,
                 this.domainLayerUrl, this.domainFieldName);
 
+
             def.then(function (values) {
                 that.values = values;
                 // init combobox
                 $(that.select).combobox();
-                that.textBox = query('.combobox-container input[type="text"]', that.domNode)[0];
+                that.textBox = this.focusNode = query('.combobox-container input[type="text"]', that.domNode)[0];
+
+                // work around until this is merged: https://github.com/danielfarrell/bootstrap-combobox/pull/216
+                that.textBox.setAttribute('autocomplete', 'off');
+
                 that.Btn = query('.combobox-container span.dropdown-toggle', that.domNode)[0];
 
                 // this mess is all so that we don't loose focus of the dgrid cell
-                // when clicking on the drop-down button
+                // when clicking on the drop-down button or menu
                 var bx = $(that.select).data('combobox');
                 that.own(
+                    on(that.Btn, 'mouseenter', function () {
+                        that.BtnMousedOver = true;
+                    }),
+                    on(that.Btn, 'mouseleave', function () {
+                        that.BtnMousedOver = false;
+                    }),
                     on(that.textBox, 'blur', function (evt) {
                         if (evt.relatedTarget !== that.domNode.parentElement) {
                             if (bx.mousedover && bx.shown) {
-                                // mouse click on drop down
+                                // mouse click on drop down menu
                                 setTimeout(function () {
                                     that.delayBlur();
                                 }, 201);
-                            } else {
+                            } else if (!that.BtnMousedOver) {
                                 // tab out of box
                                 that.delayBlur();
                             }
@@ -100,7 +109,7 @@ function (
             // summary:
             //      delay the onBlur until the OtherOptionHandler widget is done
             //      doing it's thing
-            console.log('app/GridDropdown:delayBlur', arguments);
+            console.log('app/catch/GridDropdown:delayBlur', arguments);
 
             if (this.textBox.value !== Domains.otherTxt) {
                 this._onBlur();
@@ -109,7 +118,7 @@ function (
         focus: function () {
             // summary:
             //      dgrid/editor calls this
-            console.log(this.declaredClass + '::focus::' + this.id, arguments);
+            console.log('app/catch/GridDropdown:focus', arguments);
 
             // manually focus the textbox
             // this is called when the user clicks in the dgrid cell
@@ -120,14 +129,14 @@ function (
         isValid: function () {
             // summary:
             //      another method that it is called by dgrid/editor
-            console.log(this.declaredClass + '::isValid::' + this.id, arguments);
+            console.log('app/catch/GridDropdown:isValid', arguments);
 
             return true;
         },
         _getValueAttr: function () {
             // summary:
             //      another method that it is called by dgrid/editor
-            console.log(this.declaredClass + '::getValueAttr::' + this.id, arguments);
+            console.log('app/catch/GridDropdown:_getValueAttr', arguments);
 
             // return value of
             return this.textBox.value;
@@ -136,7 +145,7 @@ function (
             // summary:
             //      another method that is called by dgrid/editor
             // newValue: String
-            console.log(this.declaredClass + '::_setValueAttr', arguments);
+            console.log('app/catch/GridDropdown:_setValueAttr', arguments);
 
             if (newValue) {
                 this.textBox.value = newValue;

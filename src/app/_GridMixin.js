@@ -103,7 +103,7 @@ function (
             // summary:
             //      fires when a row is selected
             // evt: dgrid-select event object
-            console.log('app._GridMixin:onRowSelected', arguments);
+            console.log('app/_GridMixin:onRowSelected', arguments);
 
             this.set('selectedRow', evt.rows[0]);
         },
@@ -111,7 +111,7 @@ function (
             // summary:
             //      fires when a row is deselected
             // evt: dgrid-deselect event object
-            console.log('app._GridMixin:onRowDeselected', arguments);
+            console.log('app/_GridMixin:onRowDeselected', arguments);
 
             var that = this;
             var selectedId = this.selectedRow;
@@ -125,7 +125,7 @@ function (
             // summary:
             //
             // row: _Row
-            console.log('app._GridMixin:_setSelectedRowAttr', arguments);
+            console.log('app/_GridMixin:_setSelectedRowAttr', arguments);
 
             this._set('selectedRow', row);
         },

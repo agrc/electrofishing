@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Grid Tests</title>
+    <title>GridDropdown Tests</title>
 
     <!-- META TAGS -->
     <meta charset='utf-8'>
@@ -10,16 +10,13 @@
     <link rel='stylesheet' href='../resources/App.css'>
     <style>
         html, body {
-            width: 1160px;
-            margin: 50px 10px;
-        }
-        input {
-            height: 30px !important;
+            width: 50%;
+            margin: 50px;
         }
     </style>
 </head>
 <body class='claro'>
-    <div data-dojo-type="app/catch/Catch" id='catch'></div>
+    <div id="testDiv"></div>
 
     <!-- JAVASCRIPT -->
     <script type="text/javascript" src="../../jquery/dist/jquery.js"></script>
@@ -28,10 +25,15 @@
     <script src='../../app/packages.js'></script>
 
     <script>
-        require({baseUrl: '../../'}, ['dojo/parser', 'dijit/registry', 'dojo/domReady!', 'leaflet'], function (parser, reg) {
-            parser.parse();
-            grid = reg.byId('catch').grid;
-        });
+        require({baseUrl: '../../'}, ['app/catch/GridDropdown', 'app/config', 'dojo/domReady!', 'leaflet'],
+            function (GridDropdown, config) {
+                gridDropdown = new GridDropdown({
+                    domainFieldName: config.fieldNames.fish.SPECIES_CODE,
+                    domainLayerUrl: config.urls.fishFeatureService
+                }, document.getElementById('testDiv'));
+                gridDropdown.startup();
+            }
+        );
     </script>
 </body>
 </html>
