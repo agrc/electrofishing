@@ -29,5 +29,6 @@ src/put-selector/
 src/secrets.json
 src/spin.js/
 src/spinjs/
+src/stubmodule/
 src/util
 src/xstyle/
