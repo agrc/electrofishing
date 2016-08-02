@@ -126,7 +126,7 @@ function (
                                 geojson.properties[config.fieldNames.stations.STATION_ID]
                             ]
                         );
-                        array.forEach(that.stationsLyr.getLayers(), function (l) {
+                        that.stationsLyr.eachFeature(function (l) {
                             l.setIcon(that.defaultIcon);
                         });
                         layer.setIcon(that.selectedIcon);
