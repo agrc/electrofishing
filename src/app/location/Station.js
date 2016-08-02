@@ -206,9 +206,9 @@ function (
                 this.newStation.attributes[AGRC.fieldNames.stations.STATION_ID]
             ]);
 
-            var point = AGRC.app.map.options.crs.projection.unproject(
+            var point = this.pointDef.utm83crs.projection.unproject(
                 new L.Point(this.newStation.geometry.x, this.newStation.geometry.y));
-            this.mainMap.map.setView(point, 6);
+            this.mainMap.map.setView(point, 14);
             this.mainMap.selectStation(this.newStation.attributes[AGRC.fieldNames.stations.STATION_ID]);
 
             var onMapLoad = function () {
