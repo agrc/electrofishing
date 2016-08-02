@@ -92,7 +92,7 @@ function (
         constructor: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + '::constructor', arguments);
+            console.log('app/catch/MoreInfoDialog:constructor', arguments);
 
             // initialize properties
             this.lastColumn = config.fieldNames.diet.MEASUREMENT;
@@ -104,7 +104,7 @@ function (
         postCreate: function () {
             // summary:
             //      dom is ready
-            console.log(this.declaredClass + '::postCreate', arguments);
+            console.log('app/catch/MoreInfoDialog:postCreate', arguments);
 
             var columns = [
                 {label: 'Catch ID', field: this.idProperty, sortable: false},
@@ -171,7 +171,7 @@ function (
             //      The guid of the currently selected row
             // tabName: String
             //      The name of the tab that you want to show (i.e. 'Diet')
-            console.log(this.declaredClass + '::show', arguments);
+            console.log('app/catch/MoreInfoDialog:show', arguments);
 
             // pre-populate dialog with existing data, if any
             this.currentFishId = guid;
@@ -225,7 +225,7 @@ function (
         addRow: function () {
             // summary:
             //      adds a row to the diet grid
-            console.log(this.declaredClass + '::addRow', arguments);
+            console.log('app/catch/MoreInfoDialog:addRow', arguments);
 
             var data = {};
             var fn = config.fieldNames.diet;
@@ -244,7 +244,7 @@ function (
         onSubmitClick: function () {
             // summary:
             //      gathers data and calls submit which Catch is listening for
-            console.log(this.declaredClass + '::onSubmitClick', arguments);
+            console.log('app/catch/MoreInfoDialog:onSubmitClick', arguments);
 
             this.dietData[this.currentFishId] = this.getGridData();
             this.tagsData[this.currentFishId] = this.tagsContainer.getData().features;
@@ -263,7 +263,7 @@ function (
         clearValues: function () {
             // summary:
             //      clears everything in the dialog
-            console.log(this.declaredClass + '::clearValues', arguments);
+            console.log('app/catch/MoreInfoDialog:clearValues', arguments);
 
             this.grid.collection.data = [];
             this.grid.refresh();
@@ -276,7 +276,7 @@ function (
         onCancel: function () {
             // summary:
             //      cancel button is clicked
-            console.log(this.declaredClass + '::onCancel', arguments);
+            console.log('app/catch/MoreInfoDialog:onCancel', arguments);
 
             $(this.dialog).modal('hide');
         },
@@ -284,7 +284,7 @@ function (
             // summary:
             //      formats data suitable for submission to gp service
             // returns: RecordSet (Object)
-            console.log('app.catch.MoreInfoDialog:getData', arguments);
+            console.log('app/catch/MoreInfoDialog:getData', arguments);
 
             var rSet = {
                 displayFieldName: '',
