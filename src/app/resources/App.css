@@ -44,7 +44,7 @@ footer {
     overflow-x: hidden;
 }
 .dropdown-menu {
-    z-index: 1041; /* required to make them appear on top of bootstrap modal*/
+    z-index: 1051; /* required to make them appear on top of bootstrap modal*/
 }
 .app .dgrid-scroller {
     margin-top: 27px;
