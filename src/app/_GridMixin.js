@@ -77,18 +77,18 @@ function (
             //      for the fields with GridDropdown editor controls
             console.log('app/_GridMixin:getGridDropdownLookup', arguments);
 
-            // CAUTION - This code block takes the domain descriptions (names) from the
+            // This code block takes the domain descriptions (names) from the
             // cells that have GridDropdown editors and converts them to their corresponding
-            // codes. I couldn't figure out a great way to test this so there are no unit tests.
-            // So touch at your own risk! - scott
+            // codes.
             this.gridDropdowns = {};
             for (var i in this.grid.columns) {
                 if (this.grid.columns.hasOwnProperty(i)) {
                     var col = this.grid.columns[i];
 
-                    if (col.editorInstance && col.editorInstance instanceof GridDropdown) {
+                    var instance = this.grid._editorInstances[i];
+                    if (instance && instance instanceof GridDropdown) {
                         var lookup = {};
-                        array.forEach(col.editorInstance.values, function (v) {
+                        array.forEach(instance.values, function (v) {
                             lookup[v.name] = v.code; // for going from description to code
                             lookup[v.code] = v.name; // for going from code to description
                         });
@@ -255,7 +255,7 @@ function (
                 return array.map(data, function (item) {
                     // translate descriptions to codes
                     for (var fieldName in that.gridDropdowns) {
-                        if (this.gridDropdowns.hasOwnProperty(fieldName)) {
+                        if (that.gridDropdowns.hasOwnProperty(fieldName)) {
                             item[fieldName] = that.gridDropdowns[fieldName][item[fieldName]];
                         }
                     }
