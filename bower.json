@@ -15,7 +15,6 @@
     "dijit": "~1.11.2",
     "leaflet": "~0.7.7",
     "bootstrap-combobox": "https://github.com/stdavis/bootstrap-combobox.git#focus-on-hide",
-    "bootstrap3-typeahead": "~4.0.1",
     "proj4": "~2.3.14",
     "util": "dojo-util#~1.11.2",
     "dgrid": "~1.1.0",

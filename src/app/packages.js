@@ -18,10 +18,6 @@ require({
             location: './bootstrap-combobox',
             main: 'js/bootstrap-combobox.js'
         }, {
-            name: 'bootstrap3-typeahead',
-            location: './bootstrap3-typeahead',
-            main: 'bootstrap3-typeahead'
-        }, {
             name: 'esri-leaflet',
             location: './esri-leaflet/dist',
             main: 'esri-leaflet-src'
