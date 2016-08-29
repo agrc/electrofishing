@@ -30,6 +30,7 @@
 }
 .more-info-dialog .dgrid .dgrid-cell {
     font-size: 14px;
+    height: 27px;
 }
 .more-info-dialog .modal .tab-content {
     max-height: 300px;

@@ -5,6 +5,7 @@ define([
 
     'dgrid/editor',
 
+    'dijit/popup',
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
@@ -29,6 +30,7 @@ function (
 
     editor,
 
+    popupManager,
     _TemplatedMixin,
     _WidgetBase,
     _WidgetsInTemplateMixin,
@@ -93,6 +95,8 @@ function (
             // summary:
             //      description
             console.log('app/catch/MoreInfoDialog:constructor', arguments);
+
+            popupManager._beginZIndex = 1051;
 
             // initialize properties
             this.lastColumn = config.fieldNames.diet.MEASUREMENT;
