@@ -51,10 +51,6 @@ define([
             });
 
             this.on('change', function () {
-                var parentElement = that.domNode.parentElement;
-                var refocus = function () {
-                    topic.publish('refocus', parentElement);
-                };
                 if (that.get('value') === appDomains.otherTxt) {
                     var otherOptionHandler = new OtherOptionHandler({
                         existingOptions: that.store.query(function (d) {
@@ -64,15 +60,16 @@ define([
                     }, domConstruct.create('div', null, document.body));
                     otherOptionHandler.startup();
                     otherOptionHandler.on('add-new-value', function (newValue) {
-                        refocus();
-                        that.store.data.push({
+                        topic.publish('refocus');
+                        var item = {
                             name: newValue.name,
                             code: newValue.code
-                        });
-                        that.set('value', newValue.code);
+                        };
+                        that.store.put(item);
+                        that.set('item', item);
                     });
                     otherOptionHandler.on('cancel', function () {
-                        refocus();
+                        topic.publish('refocus');
                         that.set('value', '');
                     });
                 }

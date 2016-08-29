@@ -197,8 +197,12 @@ function (
             });
 
             this.own(
-                topic.subscribe('refocus', function (td) {
-                    that.grid.edit(td);
+                topic.subscribe('refocus', function () {
+                    for (var id in that.grid.selection) {
+                        if (that.grid.selection.hasOwnProperty(id)) {
+                            that.grid.edit(that.grid.cell(id, '6'));
+                        }
+                    }
                 })
             );
         },
