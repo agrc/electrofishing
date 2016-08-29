@@ -1,4 +1,4 @@
-@import 'GridDropdown.css';
+@import 'FilteringSelectForGrid.css';
 @import 'MoreInfoDialog.css';
 @import 'Tag.css';
 @import 'TagsContainer.css';
@@ -33,13 +33,13 @@
 .catch .dgrid-cell.batch {
     background-color: #F9FFC0;
 }
-.catch .dgrid th:focus, 
-.catch .dgrid-scroller:focus, 
+.catch .dgrid th:focus,
+.catch .dgrid-scroller:focus,
 .catch .dgrid td:focus {
     outline: none;
 }
-.catch .dgrid .field-FISH_ID, 
-.catch .dgrid .field-PASS_NUM, 
+.catch .dgrid .field-FISH_ID,
+.catch .dgrid .field-PASS_NUM,
 .catch .dgrid .field-EVENT_ID,
 .catch .dgrid .field-NOTES {
     display: none;

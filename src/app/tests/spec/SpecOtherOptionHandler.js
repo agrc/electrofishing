@@ -32,7 +32,7 @@ require([
             select = domConstruct.create('select', {}, win.body());
             Domains.buildOptions(options, select);
             testWidget = new OtherOptionHandler({
-                select: select,
+                existingOptions: options,
                 otherTxt: Domains.otherTxt
             }, domConstruct.create('div', {}, win.body()));
             testWidget.startup();
@@ -50,15 +50,18 @@ require([
             });
         });
         describe('onSubmit', function () {
-            it('adds the option to the select', function () {
+            it('emits the new option', function (done) {
                 var value = 'blah3';
                 var desc = 'desc';
                 testWidget.codeTxt.value = value;
                 testWidget.descTxt.value = desc;
-                testWidget.onSubmit();
+                testWidget.on('add-new-value', function (event) {
+                    expect(event.name).toEqual(desc);
+                    expect(event.code).toEqual(value);
+                    done();
+                });
 
-                expect(select.children[select.children.length - 1].value).toEqual(value);
-                expect(select.value).toEqual(value);
+                testWidget.onSubmit();
             });
         });
     });

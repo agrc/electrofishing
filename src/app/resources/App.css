@@ -2,6 +2,7 @@
 @import '../../bootstrap/dist/css/bootstrap.css';
 @import '../../dgrid/css/dgrid.css';
 @import '../../dijit/themes/dijit.css';
+@import '../../dijit/themes/claro/claro.css';
 @import '../../leaflet/dist/leaflet.css';
 
 @import '../location/resources/Location.css';

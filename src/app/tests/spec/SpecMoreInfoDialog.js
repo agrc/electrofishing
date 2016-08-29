@@ -3,6 +3,7 @@ require([
 
     'dojo/dom-construct',
     'dojo/query',
+    'dojo/store/Memory',
     'dojo/_base/window'
 ],
 
@@ -11,6 +12,7 @@ function (
 
     domConstruct,
     query,
+    Memory,
     win
 ) {
     describe('app/catch/MoreInfoDialog', function () {
@@ -74,7 +76,6 @@ function (
             });
         });
         describe('onSubmitClick', function () {
-            var fn = AGRC.fieldNames.diet;
             var value = 'blah';
 
             beforeEach(function () {
@@ -82,23 +83,11 @@ function (
             });
 
             it('gathers the diet grid data', function () {
-                testWidget.addRow();
-                testWidget.addRow();
-                testWidget.addRow();
-                var cls = 'blah';
-                testWidget.grid._editorInstances[2].values = [{}];
-                testWidget.grid._editorInstances[2].values[0].name = cls;
-                testWidget.grid._editorInstances[2].values[0].code = cls;
-                var msr = 'blah2';
-                testWidget.grid.collection.data[2][fn.CLASS] = cls;
-                testWidget.grid.collection.data[2][fn.MEASUREMENT] = msr;
-                testWidget.addRow(); // to make sure that it doesn't submit empty rows
+                spyOn(testWidget, 'getGridData').and.returnValue('blah');
 
                 testWidget.onSubmitClick();
 
-                expect(testWidget.getData('diet').features.length).toBe(3);
-                expect(testWidget.getData('diet').features[2].attributes[fn.CLASS]).toEqual(cls);
-                expect(testWidget.getData('diet').features[2].attributes[fn.MEASUREMENT]).toEqual(msr);
+                expect(testWidget.getData('diet').features).toEqual(['blah']);
                 expect(testWidget.getData('diet').displayFieldName).toEqual('');
             });
             it('gathers the tags data', function () {

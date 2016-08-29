@@ -49,7 +49,7 @@ function (
                 spyOn(testWidget, 'validateBatchForm');
 
                 $(testWidget.batchCodeSelect).combobox();
-                testWidget.wireEvents();
+                testWidget.wireBatchFormEvents();
                 var tb = testWidget.batchCodeSelect.parentElement.children[1].children[1].children[0];
                 on.emit(tb, 'keyup', {bubbles: true});
                 on.emit(tb, 'change', {bubbles: true});

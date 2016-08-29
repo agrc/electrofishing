@@ -33,37 +33,25 @@ define([
 
         // options pass in via the constructor
 
-        // select: Select Element
-        //      The corresponding select element
-        select: null,
+        // existingOptions: String[]
+        //      The existing options
+        existingOptions: null,
 
         // otherTxt: String
         //      The other txt from Domains
         otherTxt: null,
 
-        constructor: function (params) {
-            // summary:
-            //      description
-            console.log('app/OtherOptionHandler:constructor', arguments);
-
-            var parentWidget = registry.getEnclosingWidget(params.select);
-            if (parentWidget) {
-                parentWidget.def = this.def;
-            }
-        },
         postCreate: function () {
             // summary:
             //      set up widget
             console.log('app/OtherOptionHandler:postCreate', arguments);
 
-            var that = this;
-
-            array.forEach(this.select.children, function (option) {
-                if (option.value !== '' && option.value !== that.otherTxt) {
-                    var txt = option.innerHTML + ' (' + option.value + ')';
-                    domConstruct.create('li', {innerHTML: txt}, that.existingOptionsList);
+            this.existingOptions.forEach(function (option) {
+                if (option.code !== '' && option.code !== this.otherTxt) {
+                    var txt = option.name + ' (' + option.code + ')';
+                    domConstruct.create('li', {innerHTML: txt}, this.existingOptionsList);
                 }
-            });
+            }, this);
         },
         startup: function () {
             // summary:
@@ -73,25 +61,27 @@ define([
             $(this.modal).modal('show');
 
             setTimeout(lang.hitch(this.codeTxt, 'focus'), 200);
+
+            this.inherited(arguments);
         },
         onSubmit: function () {
             // summary:
             //      fires when the submit button is clicked
             console.log('app/OtherOptionHandler:onSubmit', arguments);
 
-            domConstruct.create('option', {
-                innerHTML: this.descTxt.value,
-                value: this.codeTxt.value
-            }, this.select);
-            this.select.value = this.codeTxt.value;
-
-            $(this.select).combobox('refresh');
-
             $(this.modal).modal('hide');
 
-            if (this.select.parentElement.children[0].children[1]) {
-                this.select.parentElement.children[0].children[1].children[0].focus();
-            }
+            this.emit('add-new-value', {
+                name: this.descTxt.value,
+                code: this.codeTxt.value
+            });
+        },
+        onCancel: function () {
+            // summary:
+            //      user has clicked the close button
+            // param or return
+            console.log('app/OtherOptionHandler:onCancel', arguments);
+
         },
         onTxtChange: function () {
             // summary:

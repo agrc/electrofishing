@@ -1,7 +1,7 @@
 define([
     'agrc/modules/Formatting',
 
-    'app/catch/GridDropdown',
+    'app/catch/FilteringSelectForGrid',
     'app/catch/MoreInfoDialog',
     'app/config',
     'app/Domains',
@@ -16,7 +16,9 @@ define([
     'dojo/dom-construct',
     'dojo/on',
     'dojo/query',
+    'dojo/store/Memory',
     'dojo/text!app/catch/templates/Catch.html',
+    'dojo/topic',
     'dojo/_base/array',
     'dojo/_base/declare',
     'dojo/_base/lang',
@@ -27,7 +29,7 @@ define([
 function (
     Formatting,
 
-    GridDropdown,
+    FilteringSelectForGrid,
     MoreInfoDialog,
     config,
     Domains,
@@ -42,7 +44,9 @@ function (
     domConstruct,
     on,
     query,
+    Memory,
     template,
+    topic,
     array,
     declare,
     lang,
@@ -121,23 +125,25 @@ function (
                     // update: This bug has supposedly been fixed: https://github.com/SitePen/dgrid/issues/496#issuecomment-23382688
                     label: 'Species Code',
                     field: fn.SPECIES_CODE,
-                    editor: GridDropdown,
+                    editor: FilteringSelectForGrid,
                     sortable: false,
-                    editOn: 'dgrid-cellfocusin',
+                    editOn: 'focus',
                     editorArgs: {
                         domainFieldName: fn.SPECIES_CODE,
-                        domainLayerUrl: config.urls.fishFeatureService
+                        domainLayerUrl: config.urls.fishFeatureService,
+                        grid: this.grid
                     }
                 }, {
                     autoSave: true,
                     label: 'Length Type',
                     field: fn.LENGTH_TYPE,
-                    editor: GridDropdown,
+                    editor: FilteringSelectForGrid,
                     sortable: false,
-                    editOn: 'dgrid-cellfocusin',
+                    editOn: 'focus',
                     editorArgs: {
                         domainFieldName: fn.LENGTH_TYPE,
-                        domainLayerUrl: config.urls.fishFeatureService
+                        domainLayerUrl: config.urls.fishFeatureService,
+                        grid: this.grid
                     }
                 }, {
                     autoSave: true,
@@ -145,7 +151,7 @@ function (
                     field: fn.LENGTH,
                     editor: 'text',
                     sortable: false,
-                    editOn: 'dgrid-cellfocusin',
+                    editOn: 'focus',
                     editorArgs: {
                         // dgrid-input is required for dgrid save events
                         'className': 'form-control dgrid-input',
@@ -157,7 +163,7 @@ function (
                     field: fn.WEIGHT,
                     editor: 'text',
                     sortable: false,
-                    editOn: 'dgrid-cellfocusin',
+                    editOn: 'focus',
                     editorArgs: {
                         'className': 'form-control dgrid-input',
                         type: 'number'
@@ -189,11 +195,17 @@ function (
             $('a[href="#catchTab"]').on('shown.bs.tab', function () {
                 that.grid.startup();
             });
+
+            this.own(
+                topic.subscribe('refocus', function (td) {
+                    that.grid.edit(td);
+                })
+            );
         },
-        wireEvents: function () {
+        wireBatchFormEvents: function () {
             // summary:
             //      wires events for the widget
-            console.log('app/catch/Catch:wireEvents', arguments);
+            console.log('app/catch/Catch:wireBatchFormEvents', arguments);
 
             var tb = this.batchCodeSelect.parentElement.children[1].children[1].children[0];
             this.own(
@@ -340,7 +352,7 @@ function (
                     // something calling jquery's cleanData method which strips the combobox
                     // object out of the data dom property for the select
                     $(that.batchCodeSelect).combobox();
-                    that.wireEvents();
+                    that.wireBatchFormEvents();
                     that.batchCodeSelect.parentElement.children[1].children[1].children[0].focus();
                 }, 200);
             }

@@ -1,5 +1,5 @@
 define([
-    'app/catch/GridDropdown',
+    'app/catch/FilteringSelectForGrid',
     'app/config',
     'app/_GridMixin',
 
@@ -23,7 +23,7 @@ define([
 ],
 
 function (
-    GridDropdown,
+    FilteringSelectForGrid,
     config,
     _GridMixin,
 
@@ -113,34 +113,37 @@ function (
                     autoSave: true,
                     label: 'Class',
                     field: config.fieldNames.diet.CLASS,
-                    editor: GridDropdown,
+                    editor: FilteringSelectForGrid,
                     sortable: false,
-                    editOn: 'dgrid-cellfocusin',
+                    editOn: 'focus',
                     editorArgs: {
                         domainFieldName: config.fieldNames.diet.CLASS,
-                        domainLayerUrl: config.urls.dietFeatureService
+                        domainLayerUrl: config.urls.dietFeatureService,
+                        grid: this.grid
                     }
                 }, {
                     autoSave: true,
                     label: 'Fish Species',
                     field: config.fieldNames.diet.FISH_SPECIES,
-                    editor: GridDropdown,
+                    editor: FilteringSelectForGrid,
                     sortable: false,
-                    editOn: 'dgrid-cellfocusin',
+                    editOn: 'focus',
                     editorArgs: {
                         domainFieldName: config.fieldNames.diet.FISH_SPECIES,
-                        domainLayerUrl: config.urls.dietFeatureService
+                        domainLayerUrl: config.urls.dietFeatureService,
+                        grid: this.grid
                     }
                 }, {
                     autoSave: true,
                     label: 'Type',
                     field: config.fieldNames.diet.MEASUREMENT_TYPE,
-                    editor: GridDropdown,
+                    editor: FilteringSelectForGrid,
                     sortable: false,
-                    editOn: 'dgrid-cellfocusin',
+                    editOn: 'focus',
                     editorArgs: {
                         domainFieldName: config.fieldNames.diet.MEASUREMENT_TYPE,
-                        domainLayerUrl: config.urls.dietFeatureService
+                        domainLayerUrl: config.urls.dietFeatureService,
+                        grid: this.grid
                     }
                 }, {
                     autoSave: true,

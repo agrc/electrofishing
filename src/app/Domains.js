@@ -1,19 +1,15 @@
 define([
-    'dojo/_base/window',
-
     'agrc/modules/Domains',
 
-    'dojo/dom-construct',
+    'app/OtherOptionHandler',
 
-    'app/OtherOptionHandler'
+    'dojo/dom-construct'
 ], function (
-    win,
-
     agrcDomains,
 
-    domConstruct,
+    OtherOptionHandler,
 
-    OtherOptionHandler
+    domConstruct
 ) {
     // summary:
     //      Used to feed options to comboboxes
@@ -52,11 +48,32 @@ define([
             //      fires when a select is changed to the "other" option
             console.log('app/Domains:onOtherSelected', arguments);
 
+            var existingOptions = [];
+
+            select.children.forEach(function (option) {
+                if (option.value !== '' && option.value !== this.otherTxt) {
+                    existingOptions.push({
+                        code: option.value,
+                        name: option.innerHTML
+                    });
+                }
+            }, this);
+
             var ooh = new OtherOptionHandler({
-                select: select,
+                existingOptions: existingOptions,
                 otherTxt: this.otherTxt
-            }, domConstruct.create('div', null, win.body()));
+            }, domConstruct.create('div', null, document.body));
             ooh.startup();
+
+            ooh.on('add-new-value', function (newValue) {
+                domConstruct.create('option', {
+                    innerHTML: newValue.name,
+                    value: newValue.code
+                }, select);
+                select.value = newValue.code;
+
+                $(select).combobox('refresh');
+            });
         }
     };
 });

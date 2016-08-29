@@ -13,9 +13,6 @@
             width: 1160px;
             margin: 50px 10px;
         }
-        input {
-            height: 30px !important;
-        }
     </style>
 </head>
 <body class='claro'>
@@ -31,6 +28,7 @@
         require({baseUrl: '../../'}, ['dojo/parser', 'dijit/registry', 'dojo/domReady!', 'leaflet'], function (parser, reg) {
             parser.parse();
             grid = reg.byId('catch').grid;
+            grid.startup();
         });
     </script>
 </body>

@@ -1,6 +1,4 @@
 define([
-    'app/catch/GridDropdown',
-
     'dgrid/Editor',
     'dgrid/Keyboard',
     'dgrid/OnDemandGrid',
@@ -17,8 +15,6 @@ define([
 ],
 
 function (
-    GridDropdown,
-
     Editor,
     Keyboard,
     DGrid,
@@ -48,10 +44,6 @@ function (
         //      the currently selected row in the grid
         selectedRow: null,
 
-        // gridDropdowns: Object
-        //      Object that holds lookups for grid dropdown values
-        gridDropdowns: null,
-
         initGrid: function (columns) {
             // summary:
             //      creates the grid with the specified columns
@@ -70,32 +62,6 @@ function (
             on(this.grid, 'dgrid-deselect', lang.hitch(this, this.onRowDeselected));
 
             this.setGridData([]);
-        },
-        getGridDropdownLookup: function () {
-            // summary:
-            //      builds a lookup object for converting between descriptions and values
-            //      for the fields with GridDropdown editor controls
-            console.log('app/_GridMixin:getGridDropdownLookup', arguments);
-
-            // This code block takes the domain descriptions (names) from the
-            // cells that have GridDropdown editors and converts them to their corresponding
-            // codes.
-            this.gridDropdowns = {};
-            for (var i in this.grid.columns) {
-                if (this.grid.columns.hasOwnProperty(i)) {
-                    var col = this.grid.columns[i];
-
-                    var instance = this.grid._editorInstances[i];
-                    if (instance && instance instanceof GridDropdown) {
-                        var lookup = {};
-                        array.forEach(instance.values, function (v) {
-                            lookup[v.name] = v.code; // for going from description to code
-                            lookup[v.code] = v.name; // for going from code to description
-                        });
-                        this.gridDropdowns[col.field] = lookup;
-                    }
-                }
-            }
         },
         onRowSelected: function (evt) {
             // summary:
@@ -240,9 +206,6 @@ function (
             //      description
             console.log('app/_GridMixin:getGridData', arguments);
 
-            if (!this.gridDropdowns) {
-                this.getGridDropdownLookup();
-            }
             var data = this.store.fetchSync();
 
             if (data.length > 0) {
@@ -251,16 +214,7 @@ function (
                     data.pop();
                 }
 
-                var that = this;
-                return array.map(data, function (item) {
-                    // translate descriptions to codes
-                    for (var fieldName in that.gridDropdowns) {
-                        if (that.gridDropdowns.hasOwnProperty(fieldName)) {
-                            item[fieldName] = that.gridDropdowns[fieldName][item[fieldName]];
-                        }
-                    }
-                    return {attributes: item};
-                });
+                return data;
             } else {
                 return [];
             }
@@ -271,21 +225,9 @@ function (
             // data: Array
             console.log('app/_GridMixin:setGridData', arguments);
 
-            var that = this;
-            var gridData = array.map(data, function (f) {
-                // translate codes to descriptions
-                for (var fieldName in that.gridDropdowns) {
-                    if (this.gridDropdowns.hasOwnProperty(fieldName)) {
-                        f.attributes[fieldName] =
-                            that.gridDropdowns[fieldName][f.attributes[fieldName]];
-                    }
-                }
-                return f.attributes;
-            });
-
             var TrackableMemory = declare([Trackable, Memory]);
             this.store = new TrackableMemory({
-                data: gridData,
+                data: data,
                 idProperty: this.idProperty
             });
 
