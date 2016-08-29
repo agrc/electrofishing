@@ -155,7 +155,7 @@ function (
                     field: config.fieldNames.diet.MEASUREMENT,
                     editor: 'text',
                     sortable: false,
-                    editOn: 'dgrid-cellfocusin',
+                    editOn: 'focus',
                     editorArgs: {
                         'className': 'form-control dgrid-input'
                     }
