@@ -3,13 +3,15 @@ define([
 
     'app/OtherOptionHandler',
 
-    'dojo/dom-construct'
+    'dojo/dom-construct',
+    'dojo/_base/array'
 ], function (
     agrcDomains,
 
     OtherOptionHandler,
 
-    domConstruct
+    domConstruct,
+    array
 ) {
     // summary:
     //      Used to feed options to comboboxes
@@ -50,7 +52,7 @@ define([
 
             var existingOptions = [];
 
-            select.children.forEach(function (option) {
+            array.forEach(select.children, function (option) {
                 if (option.value !== '' && option.value !== this.otherTxt) {
                     existingOptions.push({
                         code: option.value,

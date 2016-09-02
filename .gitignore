@@ -1,4 +1,5 @@
 .grunt/
+*.pyc
 *.sde
 dist/
 node_modules/
