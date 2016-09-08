@@ -103,6 +103,19 @@ define([
             streamsSearch: wildlifeData + 'MapServer/2/query'
         },
 
+        // tableNames: {}
+        tableNames: {
+            backpacks: 'BackPacks',
+            canoesBarges: 'CanoesBarges',
+            diet: 'Diet',
+            fish: 'Fish',
+            habitat: 'Habitat',
+            health: 'Health',
+            raftsBoats: 'RaftsBoats',
+            samplingEvents: 'SamplingEvents',
+            tags: 'Tags'
+        },
+
         // fieldNames: {}
         //      Field names
         fieldNames: {

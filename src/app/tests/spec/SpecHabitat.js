@@ -97,9 +97,8 @@ require([
                 testWidget.acidityTxt.value = 4;
 
                 var data = testWidget.getData();
-                var f = data.features[0].attributes;
+                var f = data[0];
 
-                expect(data.displayFieldName).toEqual('');
                 expect(f[AGRC.fieldNames.habitat.SUB_FINES]).toEqual('2');
                 expect(f[AGRC.fieldNames.habitat.VEGD]).toEqual('3');
                 expect(f[AGRC.fieldNames.habitat.SPNG]).toEqual('blah');

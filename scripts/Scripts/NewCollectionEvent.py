@@ -1,45 +1,48 @@
 """
 New Collection Event Service for Wildlife Project
 
-Accepts a JSON object with all collection event and related data.
+Accepts a JSON object with all collection event event data. See scripts/Scripts/TestData/NewCollectionEventData.json for an example.
+
+I tried doing this with feature/record sets as inputs and using the Append tool to add the data.
+However, it would return successful but not add the data as expected. Thus the InsertCursor solution.
 
 GP Parameters:
 *input
-samplingEvent(0): FeatureSet
-backpacks(1): FeatureSet
-canoesBarges(2): FeatureSet
-raftsBoats(3): FeatureSet
-fish(4): FeatureSet
-diet(5): FeatureSet
-health(6): FeatureSet
-tags(7): FeatureSet
-habitat(8): FeatureSet
+data(0): JSON String
 
 """
 import arcpy
-from settings import *
+import settings
+import json
+from datetime import datetime
 
 
-def appendData(paramIndex, fc):
-    featureSet = arcpy.GetParameterAsText(paramIndex)
-    arcpy.Append_management(featureSet, DATAPATH + fc, 'NO_TEST')
+def appendTableData(tableName, rows):
+    arcpy.AddMessage('Adding row(s) to {}'.format(tableName))
+    cursor = arcpy.da.InsertCursor(tableName, rows[0].keys())
+    for row in rows:
+        cursor.insertRow([row[key] for key in row.keys()])
 
-edit = arcpy.da.Editor(DB)
-edit.startEditing(False)
-try:
-    edit.startOperation()
-    appendData(0, 'SamplingEvents')
-    appendData(1, 'Backpacks')
-    appendData(2, 'CanoesBarges')
-    appendData(3, 'RaftsBoats')
-    appendData(4, 'Fish')
-    appendData(5, 'Diet')
-    appendData(6, 'Health')
-    appendData(7, 'Tags')
-    appendData(8, 'Habitat')
-    edit.stopOperation()
-    edit.stopEditing(True)
-except Exception as e:
-    edit.stopOperation()
-    edit.stopEditing(False)
-    raise e
+    del cursor
+
+
+def appendFeatureData(feature):
+    arcpy.AddMessage('Adding feature to SamplingEvents')
+    attributes = feature['attributes']
+    attributes[settings.EVENT_DATE] = datetime.strptime(attributes[settings.EVENT_DATE], '%Y-%m-%d')
+    fields = attributes.keys() + ['SHAPE@JSON']
+    cursor = arcpy.da.InsertCursor(settings.SAMPLINGEVENTS, fields)
+    cursor.insertRow([attributes[key] for key in attributes.keys()] + [json.dumps(feature['geometry'])])
+
+    del cursor
+
+data = json.loads(arcpy.GetParameterAsText(0))
+
+
+arcpy.env.workspace = settings.DB
+with arcpy.da.Editor(settings.DB) as edit:
+    for table in data.keys():
+        if table == settings.SAMPLINGEVENTS:
+            appendFeatureData(data[table])
+        elif len(data[table]) > 0:
+            appendTableData(table, data[table])

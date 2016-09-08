@@ -35,8 +35,7 @@ function (
 
                 var data = testWidget.getData();
 
-                expect(data.displayFieldName).toEqual('');
-                expect(data.features.length).toEqual(2);
+                expect(data.length).toEqual(2);
             });
         });
         describe('setData', function () {

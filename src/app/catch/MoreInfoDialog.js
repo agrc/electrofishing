@@ -13,6 +13,7 @@ define([
     'dojo/dom-class',
     'dojo/query',
     'dojo/text!app/catch/templates/MoreInfoDialog.html',
+    'dojo/_base/array',
     'dojo/_base/declare',
     'dojo/_base/lang',
 
@@ -38,6 +39,7 @@ function (
     domClass,
     query,
     template,
+    array,
     declare,
     lang,
 
@@ -65,8 +67,9 @@ function (
         firstColumn: null,
 
         // idProperty: String
-        //      required for _GridMixin
-        idProperty: 'ID',
+        //      required for _GridMixin, not in corresponding data table.
+        //      Stripped off before the data is sent to the server.
+        idProperty: 'TEMP_ID',
 
         // currentFishID: type
         //      description
@@ -253,8 +256,11 @@ function (
             //      gathers data and calls submit which Catch is listening for
             console.log('app/catch/MoreInfoDialog:onSubmitClick', arguments);
 
-            this.dietData[this.currentFishId] = this.getGridData();
-            this.tagsData[this.currentFishId] = this.tagsContainer.getData().features;
+            this.dietData[this.currentFishId] = array.map(this.getGridData(), function (record) {
+                delete record[this.idProperty];
+                return record;
+            }, this);
+            this.tagsData[this.currentFishId] = this.tagsContainer.getData();
             var healthFeature = this.health.getData();
             if (healthFeature) {
                 this.healthData[this.currentFishId] = [healthFeature];
@@ -272,8 +278,7 @@ function (
             //      clears everything in the dialog
             console.log('app/catch/MoreInfoDialog:clearValues', arguments);
 
-            this.grid.collection.data = [];
-            this.grid.refresh();
+            this.setGridData([])
 
             this.tagsContainer.clear();
             this.health.clearValues();
@@ -293,18 +298,17 @@ function (
             // returns: RecordSet (Object)
             console.log('app/catch/MoreInfoDialog:getData', arguments);
 
-            var rSet = {
-                displayFieldName: '',
-                features: []
-            };
-
+            var data = [];
             for (var fishId in this[type + 'Data']) {
                 if (this[type + 'Data'].hasOwnProperty(fishId)) {
-                    rSet.features = rSet.features.concat(this[type + 'Data'][fishId]);
+                    data = data.concat(this[type + 'Data'][fishId].map(function (record) {
+                        record[config.fieldNames.fish.FISH_ID] = fishId;
+                        return record;
+                    }));
                 }
             }
 
-            return rSet;
+            return data;
         }
     });
 });

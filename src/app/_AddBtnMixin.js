@@ -131,7 +131,7 @@ function (
             if (empty) {
                 return null;
             } else {
-                return {attributes: this.addConstantValues(data)};
+                return this.addConstantValues(data);
             }
         },
         setData: function (feature, lastOne) {

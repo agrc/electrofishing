@@ -158,6 +158,7 @@ function (
                     AGRC.app.map.fitBounds(line.getBounds().pad(0.1));
                     that.geometry = line;
                     that.utmGeo = values.utm;
+                    this.utmGeo.spatialReference = {wkid: 26912}
                 },
                 function (errorMsg) {
                     that.setValidateMsg(errorMsg);

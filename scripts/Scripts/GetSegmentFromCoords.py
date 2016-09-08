@@ -18,6 +18,7 @@ segmentUTM(2): FeatureClass
 """
 
 import arcpy
+from os import path
 from settings import *
 
 
@@ -30,7 +31,7 @@ streamsLyr = 'streamsLyr'
 tempLyr = 'tempLyr'
 wgs84 = arcpy.SpatialReference('WGS 1984')
 utm = arcpy.SpatialReference('NAD 1983 UTM Zone 12N')
-linesTemplate = r'Z:\Documents\Projects\Wildlife\dataentry\scripts\ToolData\InputSchemas.gdb\lines'
+linesTemplate = path.join(path.dirname(__file__), '..\ToolData\InputSchemas.gdb\lines')
 in_memory = 'in_memory'
 
 # temp data

@@ -429,10 +429,7 @@ function (
             //      packages up the grid data as a record set
             console.log('app/catch/Catch:getData', arguments);
 
-            return {
-                displayFieldName: '',
-                features: this.getGridData()
-            };
+            return this.getGridData();
         },
         _setSelectedRowAttr: function (row) {
             // summary:

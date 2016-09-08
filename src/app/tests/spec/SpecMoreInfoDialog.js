@@ -83,22 +83,39 @@ function (
             });
 
             it('gathers the diet grid data', function () {
-                spyOn(testWidget, 'getGridData').and.returnValue('blah');
+                testWidget.currentFishId = 'b';
+                spyOn(testWidget, 'getGridData').and.returnValue([{
+                    TEMP_ID: 'remove me',
+                    CATCH_ID: ''
+                }, {
+                    TEMP_ID: 'remove me also',
+                    CATCH_ID: ''
+                }]);
 
                 testWidget.onSubmitClick();
 
-                expect(testWidget.getData('diet').features).toEqual(['blah']);
-                expect(testWidget.getData('diet').displayFieldName).toEqual('');
+                expect(testWidget.getData('diet')[0]).toEqual({CATCH_ID: '', FISH_ID: 'b'});
+                expect(testWidget.getData('diet').length).toEqual(2);
             });
             it('gathers the tags data', function () {
-                spyOn(testWidget.tagsContainer, 'getData').and.returnValue([value, value]);
+                testWidget.currentFishId = '1';
+                spyOn(testWidget.tagsContainer, 'getData').and.returnValue([{
+                    HELLO: value
+                }, {
+                    HELLO: value
+                }]);
 
                 testWidget.onSubmitClick();
 
                 testWidget.currentFishId = '123123123';
+                testWidget.tagsContainer.getData.and.returnValue([{
+                    HELLO: 'another'
+                }, {
+                    HELLO: 'another'
+                }]);
                 testWidget.onSubmitClick();
 
-                expect(testWidget.getData('tags').features.length).toEqual(2);
+                expect(testWidget.getData('tags').length).toEqual(4);
             });
             it('gathers the health data', function () {
                 spyOn(testWidget.health, 'getData').and.returnValue(value);
@@ -111,7 +128,7 @@ function (
                 testWidget.currentFishId = '543543534';
                 testWidget.onSubmitClick();
 
-                expect(testWidget.getData('health').features.length).toEqual(3);
+                expect(testWidget.getData('health').length).toEqual(3);
             });
             it('clears the dialog', function () {
                 spyOn(testWidget, 'clearValues');
@@ -163,8 +180,7 @@ function (
                 testWidget.onSubmitClick();
                 var data = testWidget.getData('diet');
 
-                expect(data.displayFieldName).toEqual('');
-                expect(data.features.length).toBe(1);
+                expect(data.length).toBe(1);
             });
         });
     });

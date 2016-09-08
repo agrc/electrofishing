@@ -1,4 +1,5 @@
 define([
+    'app/config',
     'app/_SubmitJobMixin',
 
     'dijit/_TemplatedMixin',
@@ -26,6 +27,7 @@ define([
 ],
 
 function (
+    config,
     _SubmitJobMixin,
 
     _TemplatedMixin,
@@ -112,18 +114,16 @@ function (
             domClass.add(this.validateMsg, 'hidden');
             $(AGRC.app.header.submitBtn).button('loading');
 
-            var data = {
-                f: 'json',
-                samplingEvent: json.stringify(this.buildFeatureObject()),
-                backpacks: json.stringify(this.methodTb.backpacksContainer.getData()),
-                canoesBarges: json.stringify(this.methodTb.canoeBargesContainer.getData()),
-                raftsBoats: json.stringify(this.methodTb.raftBoatsContainer.getData()),
-                fish: json.stringify(this.catchTb.getData()),
-                diet: json.stringify(this.catchTb.moreInfoDialog.getData('diet')),
-                tags: json.stringify(this.catchTb.moreInfoDialog.getData('tags')),
-                health: json.stringify(this.catchTb.moreInfoDialog.getData('health')),
-                habitat: json.stringify(this.habitatTb.getData())
-            };
+            var data = {};
+            data[config.tableNames.samplingEvents] = this.buildFeatureObject();
+            data[config.tableNames.backpacks] = this.methodTb.backpacksContainer.getData();
+            data[config.tableNames.canoesBarges] = this.methodTb.canoeBargesContainer.getData();
+            data[config.tableNames.raftsBoats] = this.methodTb.raftBoatsContainer.getData();
+            data[config.tableNames.fish] = this.catchTb.getData();
+            data[config.tableNames.diet] = this.catchTb.moreInfoDialog.getData('diet');
+            data[config.tableNames.tags] = this.catchTb.moreInfoDialog.getData('tags');
+            data[config.tableNames.health] = this.catchTb.moreInfoDialog.getData('health');
+            data[config.tableNames.habitat] = this.habitatTb.getData();
 
             if (!localStorage.reportsArchive) {
                 localStorage.reportsArchive = '[' + JSON.stringify(data) + ']';
@@ -133,7 +133,7 @@ function (
                 localStorage.reportsArchive = JSON.stringify(reports);
             }
 
-            this.submitJob(data, AGRC.urls.newCollectionEvent);
+            this.submitJob({f: 'json', data: JSON.stringify(data)}, AGRC.urls.newCollectionEvent);
         },
         onSuccessfulSubmit: function () {
             // summary:
@@ -195,7 +195,7 @@ function (
         },
         buildFeatureObject: function () {
             // summary:
-            //      builds a json object suitable for submitting to the add features service
+            //      builds a json object suitable for submitting to the NewCollectionEvent service
             console.log('app/NewCollectionEvent:buildFeatureObject', arguments);
 
             var fn = AGRC.fieldNames.samplingEvents;
@@ -205,7 +205,7 @@ function (
             atts[fn.EVENT_ID] = AGRC.eventId;
             atts[fn.GEO_DEF] = this.locationTb.currentGeoDef.geoDef;
             atts[fn.LOCATION_NOTES] = this.locationTb.additionalNotesTxt.value;
-            atts[fn.EVENT_DATE] = new Date(this.locationTb.dateTxt.value).getTime();
+            atts[fn.EVENT_DATE] = this.locationTb.dateTxt.value;
             atts[fn.STATION_ID] = this.locationTb.station.getStationId();
             atts[fn.SEGMENT_LENGTH] = this.locationTb.streamLengthTxt.value;
             atts[fn.NUM_PASSES] = this.catchTb.getNumberOfPasses();
@@ -222,16 +222,8 @@ function (
             atts[fn.MACHINE_RES] = this.methodTb.machineResistenceTxt.value;
 
             return {
-                displayFieldName: '',
-                geometryType: 'esriGeometryPolyline',
-                spatialReference: {
-                    wkid: 26912,
-                    latestWkid: 26912
-                },
-                features: [{
-                    geometry: this.locationTb.utmGeo,
-                    attributes: atts
-                }]
+                geometry: this.locationTb.utmGeo,
+                attributes: atts
             };
         },
         showTab: function (tabID) {

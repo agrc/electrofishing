@@ -1,7 +1,7 @@
 .more-info-dialog .modal-dialog {
     width: 680px;
 }
-.more-info-dialog .dgrid .field-ID {
+.more-info-dialog .dgrid .field-TEMP_ID {
     display: none;
 }
 .more-info-dialog .dgrid .field-CLASS {

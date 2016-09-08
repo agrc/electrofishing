@@ -115,10 +115,7 @@ define([
             f[fn.TEMP] = this.waterTempTxt.value;
             f[fn.PH] = this.acidityTxt.value;
             f[fn.CON] = this.conductivityTxt.value;
-            return {
-                displayFieldName: '',
-                features: [{attributes: f}]
-            };
+            return [f];
         },
         onSedimentClassChange: function () {
             // summary:

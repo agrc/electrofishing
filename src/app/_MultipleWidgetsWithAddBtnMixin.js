@@ -103,15 +103,12 @@ function (
             // returns: Object[]
             console.log(this.declaredClass + '::getData', arguments);
 
-            var data = {
-                displayFieldName: '',
-                features: []
-            };
+            var data = [];
             array.forEach(this.AddBtnWidgets, function (addBtn) {
                 var d = addBtn.getData();
 
                 if (d !== null) {
-                    data.features.push(d);
+                    data.push(d);
                 }
             });
 

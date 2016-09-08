@@ -33,7 +33,7 @@ function (
                 populateSelect(testWidget.modelSelect, model);
                 populateSelect(testWidget.anodeShapeSelect, shape);
 
-                var data = testWidget.getData().attributes;
+                var data = testWidget.getData();
                 var fn = AGRC.fieldNames.backpacks;
 
                 expect(data[fn.EVENT_ID]).toEqual(AGRC.eventId);

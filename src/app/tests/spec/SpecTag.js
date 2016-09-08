@@ -60,7 +60,7 @@ function (
             it('returns a data object', function () {
                 setData();
 
-                var data = testWidget.getData().attributes;
+                var data = testWidget.getData();
 
                 expect(data[fn.NUMBER]).toEqual(num);
                 expect(data[fn.TYPE]).toEqual(type);
