@@ -26,6 +26,8 @@
                 <input type="number"
                     data-dojo-attach-point='numberTxt'
                     value='1'
+                    min='1'
+                    max='5'
                     class='form-control'>
             </div>
             <div class="form-group">
@@ -49,8 +51,8 @@
                 <label class='control-label'>Cathode Length (centimeters)</label>
                 <input type="number"
                     data-dojo-attach-point='cathodeLengthTxt'
-                    min='0.1'
-                    max='2.54'
+                    min='1'
+                    max='121'
                     step='0.01'
                     class='form-control'>
             </div>
@@ -79,8 +81,8 @@
                 <label class='control-label'>Voltage (volts)</label>
                 <input type="number"
                     data-dojo-attach-point="voltsTxt"
-                    min='1'
-                    max='300'
+                    min='0'
+                    max='1000'
                     step='0.01'
                     class='form-control'>
             </div>
@@ -97,15 +99,15 @@
                 <input type="number"
                     data-dojo-attach-point='frequencyTxt'
                     min='1'
-                    max='200'
+                    max='1000'
                     class='form-control'>
             </div>
             <div class="form-group">
                 <label class='control-label'>Amps</label>
                 <input type="number"
                     data-dojo-attach-point='ampsTxt'
-                    min='0.1'
-                    max='20.0'
+                    min='0'
+                    max='150'
                     step='0.1'
                     class='form-control'>
             </div>
