@@ -116,10 +116,10 @@ function (
         setData: function (feature) {
             // summary:
             //      prepopulates the controls with existing data
-            // feature: {attributes:{...}}
+            // feature: {}
             console.log('app.catch.Health:setData', arguments);
 
-            var f = feature.attributes;
+            var f = feature;
 
             array.forEach(this.controlMappings, function (map) {
                 map[0].value = f[map[1]];

@@ -64,7 +64,7 @@ function (
 
                 var data = testWidget.getData();
 
-                var f = data.attributes;
+                var f = data;
 
                 expect(f[fn.EYE]).toEqual(eye);
                 expect(f[fn.KIDNEY]).toEqual(kidney);
@@ -77,11 +77,11 @@ function (
             });
         });
         describe('setData', function () {
-            var data = {attributes: {}};
-            data.attributes[fn.EYE] = eye;
-            data.attributes[fn.KIDNEY] = kidney;
-            data.attributes[fn.FIN] = fin;
-            data.attributes[fn.PLPRO] = plasma;
+            var data = {};
+            data[fn.EYE] = eye;
+            data[fn.KIDNEY] = kidney;
+            data[fn.FIN] = fin;
+            data[fn.PLPRO] = plasma;
             it('sets values of comboboxes', function () {
                 setData();
                 var t = testWidget;
