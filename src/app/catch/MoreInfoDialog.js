@@ -3,7 +3,7 @@ define([
     'app/config',
     'app/_GridMixin',
 
-    'dgrid/editor',
+    'dgrid/Editor',
 
     'dijit/popup',
     'dijit/_TemplatedMixin',
