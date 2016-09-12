@@ -68,15 +68,19 @@ module.exports = function (grunt) {
         }
     });
 
-    // Register tasks.
     require('load-grunt-tasks')(grunt);
     grunt.loadNpmTasks('intern');
 
-    // Default task.
     grunt.registerTask('default', [
         'jasmine:main:build',
         'eslint',
         'connect',
         'watch'
+    ]);
+
+    grunt.registerTask('travis', [
+        'eslint',
+        'connect',
+        'jasmine'
     ]);
 };
