@@ -1,27 +1,30 @@
 define([
-    'dojo/_base/declare',
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
-    'dijit/_WidgetsInTemplateMixin',
-    'dojo/text!app/method/templates/RaftBoat.html',
     'app/_AddBtnMixin',
     'app/_ClearValuesMixin',
-    'dojo/dom-class',
-    'dojo/topic'
 
+    'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
+    'dijit/_WidgetsInTemplateMixin',
+
+    'dojo/dom-class',
+    'dojo/text!app/method/templates/RaftBoat.html',
+    'dojo/topic',
+    'dojo/_base/declare'
 ],
 
 function (
-    declare,
-    _WidgetBase,
-    _TemplatedMixin,
-    _WidgetsInTemplateMixin,
-    template,
     _AddBtnMixin,
     _ClearValuesMixin,
+
+    _TemplatedMixin,
+    _WidgetBase,
+    _WidgetsInTemplateMixin,
+
     domClass,
-    topic
-    ) {
+    template,
+    topic,
+    declare
+) {
     // summary:
     //      Contains fields specific to rafts and boats
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _ClearValuesMixin, _AddBtnMixin], {

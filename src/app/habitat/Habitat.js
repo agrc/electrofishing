@@ -1,5 +1,6 @@
 define([
     'app/Domains',
+    'app/helpers',
     'app/_ClearValuesMixin',
 
     'dijit/_TemplatedMixin',
@@ -12,6 +13,7 @@ define([
     'dojo/_base/declare'
 ], function (
     Domains,
+    helpers,
     _ClearValuesMixin,
 
     _TemplatedMixin,
@@ -88,33 +90,33 @@ define([
             var fn = AGRC.fieldNames.habitat;
 
             f[fn.EVENT_ID] = AGRC.eventId;
-            f[fn.BANKVEG] = this.bankVegTxt.value;
-            f[fn.BWID] = this.bankfulWidthTxt.value;
-            f[fn.DEPTR] = this.depthRightThirdTxt.value;
-            f[fn.DEPTL] = this.depthLeftThirdTxt.value;
-            f[fn.DEPM] = this.depthMidChannelTxt.value;
-            f[fn.DEPMAX] = this.maxDepthTxt.value;
+            f[fn.BANKVEG] = helpers.getNumericValue(this.bankVegTxt.value);
+            f[fn.BWID] = helpers.getNumericValue(this.bankfulWidthTxt.value);
+            f[fn.DEPTR] = helpers.getNumericValue(this.depthRightThirdTxt.value);
+            f[fn.DEPTL] = helpers.getNumericValue(this.depthLeftThirdTxt.value);
+            f[fn.DEPM] = helpers.getNumericValue(this.depthMidChannelTxt.value);
+            f[fn.DEPMAX] = helpers.getNumericValue(this.maxDepthTxt.value);
             f[fn.DOVR] = this.overstorySelect.value;
             f[fn.DUND] = this.understorySelect.value;
-            f[fn.LGWD] = this.largeWoodyDebrisTxt.value;
-            f[fn.POOL] = this.poolAreaTxt.value;
+            f[fn.LGWD] = helpers.getNumericValue(this.largeWoodyDebrisTxt.value);
+            f[fn.POOL] = helpers.getNumericValue(this.poolAreaTxt.value);
             f[fn.SPNG] = this.springSelect.value;
-            f[fn.RIFF] = this.riffleAreaTxt.value;
-            f[fn.RUNA] = this.runAreaTxt.value;
-            f[fn.SUB_FINES] = this.finesTxt.value;
-            f[fn.SUB_SAND] = this.sandTxt.value;
-            f[fn.SUB_GRAV] = this.gravelTxt.value;
-            f[fn.SUB_COBB] = this.cobbleTxt.value;
-            f[fn.SUB_RUBB] = this.rubbleTxt.value;
-            f[fn.SUB_BOUL] = this.boulderTxt.value;
-            f[fn.VEGD] = this.vegDensityTxt.value;
-            f[fn.WWID] = this.wettedWidthTxt.value;
-            f[fn.SIN] = this.sinuosityTxt.value;
-            f[fn.VEL] = this.waterVelocityTxt.value;
-            f[fn.EROS] = this.banksErodingTxt.value;
-            f[fn.TEMP] = this.waterTempTxt.value;
-            f[fn.PH] = this.acidityTxt.value;
-            f[fn.CON] = this.conductivityTxt.value;
+            f[fn.RIFF] = helpers.getNumericValue(this.riffleAreaTxt.value);
+            f[fn.RUNA] = helpers.getNumericValue(this.runAreaTxt.value);
+            f[fn.SUB_FINES] = helpers.getNumericValue(this.finesTxt.value);
+            f[fn.SUB_SAND] = helpers.getNumericValue(this.sandTxt.value);
+            f[fn.SUB_GRAV] = helpers.getNumericValue(this.gravelTxt.value);
+            f[fn.SUB_COBB] = helpers.getNumericValue(this.cobbleTxt.value);
+            f[fn.SUB_RUBB] = helpers.getNumericValue(this.rubbleTxt.value);
+            f[fn.SUB_BOUL] = helpers.getNumericValue(this.boulderTxt.value);
+            f[fn.VEGD] = helpers.getNumericValue(this.vegDensityTxt.value);
+            f[fn.WWID] = helpers.getNumericValue(this.wettedWidthTxt.value);
+            f[fn.SIN] = helpers.getNumericValue(this.sinuosityTxt.value);
+            f[fn.VEL] = helpers.getNumericValue(this.waterVelocityTxt.value);
+            f[fn.EROS] = helpers.getNumericValue(this.banksErodingTxt.value);
+            f[fn.TEMP] = helpers.getNumericValue(this.waterTempTxt.value);
+            f[fn.PH] = helpers.getNumericValue(this.acidityTxt.value);
+            f[fn.CON] = helpers.getNumericValue(this.conductivityTxt.value);
             return [f];
         },
         onSedimentClassChange: function () {

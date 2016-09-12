@@ -1,12 +1,18 @@
 require([
+    'app/config',
     'app/method/RaftBoat',
+
+    'dojo/dom-construct',
     'dojo/topic'
 ],
 
 function (
+    config,
     RaftBoat,
+
+    domConstruct,
     topic
-    ) {
+) {
     describe('app/method/RaftBoat', function () {
         var testWidget;
         beforeEach(function () {
@@ -28,6 +34,17 @@ function (
                 $(testWidget.cathodeTypeSelect).trigger('change');
 
                 expect(fired).toBe(true);
+            });
+        });
+        describe('getData', function () {
+            it('returns numeric value for netters', function () {
+                testWidget.numberTxt.value = '3';
+                var div = domConstruct.create('div', {
+                    className: 'active'
+                }, document.body);
+                domConstruct.place(testWidget.domNode, div);
+
+                expect(testWidget.getData()[config.fieldNames.raftsboats.NUM_NETTERS]).toBe(3);
             });
         });
     });

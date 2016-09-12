@@ -1,15 +1,16 @@
 require([
     'app/NewCollectionEvent',
+
     'dojo/dom-class',
     'dojo/dom-construct'
-
 ],
 
 function (
     NewCollectionEvent,
+
     domClass,
     domConstruct
-    ) {
+) {
     describe('app/NewCollectionEvent', function () {
         var testWidget;
         beforeEach(function () {
@@ -163,6 +164,7 @@ function (
             var length;
             var dateTxt = '1923-02-04';
             beforeEach(function () {
+                testWidget.clearReport();
                 utmGeo = 'blah1';
                 testWidget.locationTb.utmGeo = utmGeo;
                 stationId = 'blah2';
@@ -180,7 +182,7 @@ function (
                 expect(value.attributes[AGRC.fieldNames.samplingEvents.GEO_DEF]).toEqual(geoDef);
                 expect(value.geometry).toEqual(utmGeo);
                 expect(value.attributes[AGRC.fieldNames.samplingEvents.EVENT_DATE]).toEqual(dateTxt);
-                expect(value.attributes[AGRC.fieldNames.samplingEvents.SEGMENT_LENGTH]).toEqual(length);
+                expect(value.attributes[AGRC.fieldNames.samplingEvents.SEGMENT_LENGTH]).toEqual(500);
                 expect(value.attributes[AGRC.fieldNames.samplingEvents.EVENT_ID].length).toBe(38);
             });
             it('returns the additional location notes field', function () {

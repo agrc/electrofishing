@@ -99,10 +99,10 @@ require([
                 var data = testWidget.getData();
                 var f = data[0];
 
-                expect(f[AGRC.fieldNames.habitat.SUB_FINES]).toEqual('2');
-                expect(f[AGRC.fieldNames.habitat.VEGD]).toEqual('3');
+                expect(f[AGRC.fieldNames.habitat.SUB_FINES]).toEqual(2);
+                expect(f[AGRC.fieldNames.habitat.VEGD]).toEqual(3);
                 expect(f[AGRC.fieldNames.habitat.SPNG]).toEqual('blah');
-                expect(f[AGRC.fieldNames.habitat.PH]).toEqual('4');
+                expect(f[AGRC.fieldNames.habitat.PH]).toEqual(4);
             });
         });
         describe('onSedimentClassChange', function () {

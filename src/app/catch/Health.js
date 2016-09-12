@@ -1,5 +1,6 @@
 define([
     'app/Domains',
+    'app/helpers',
     'app/_ClearValuesMixin',
 
     'dijit/_TemplatedMixin',
@@ -14,6 +15,7 @@ define([
 
 function (
     Domains,
+    helpers,
     _ClearValuesMixin,
 
     _TemplatedMixin,
@@ -90,7 +92,8 @@ function (
             var f = {};
 
             array.forEach(this.controlMappings, function (map) {
-                f[map[1]] = map[0].value;
+                var control = map[0];
+                f[map[1]] = (control.type === 'number') ? helpers.getNumericValue(control.value) : control.value;
             });
 
             var empty = true;

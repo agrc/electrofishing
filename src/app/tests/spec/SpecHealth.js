@@ -69,7 +69,7 @@ function (
                 expect(f[fn.EYE]).toEqual(eye);
                 expect(f[fn.KIDNEY]).toEqual(kidney);
                 expect(f[fn.FIN]).toEqual(fin);
-                expect(f[fn.PLPRO]).toEqual(plasma);
+                expect(f[fn.PLPRO]).toEqual(3);
                 expect(f[fn.FISH_ID]).toEqual('blah');
             });
             it('returns null if no values are entered', function () {

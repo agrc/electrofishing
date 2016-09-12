@@ -1,5 +1,6 @@
 define([
     'app/Domains',
+    'app/helpers',
 
     'dojo/dom-class',
     'dojo/on',
@@ -10,6 +11,7 @@ define([
 
 function (
     Domains,
+    helpers,
 
     domClass,
     on,
@@ -115,7 +117,8 @@ function (
             var data = {};
 
             array.forEach(this.fields, function (fld) {
-                data[fld.fieldName] = fld.control.value;
+                data[fld.fieldName] = (fld.control.type === 'number') ?
+                    helpers.getNumericValue(fld.control.value) : fld.control.value;
             });
 
             var empty = true;
