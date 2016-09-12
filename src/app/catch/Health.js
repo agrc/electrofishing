@@ -110,7 +110,7 @@ function (
                 return null;
             } else {
                 f[AGRC.fieldNames.health.FISH_ID] = this.currentFishId;
-                return {attributes: f};
+                return f;
             }
         },
         setData: function (feature) {
