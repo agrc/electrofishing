@@ -5,7 +5,7 @@ define([
     has,
     xhr
 ) {
-    var quadWord;
+    var quadWord = '';
     var wildlifeFolder;
     if (has('agrc-build') === 'prod') {
         // ??
