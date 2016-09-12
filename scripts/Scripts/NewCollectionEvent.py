@@ -40,9 +40,19 @@ data = json.loads(arcpy.GetParameterAsText(0))
 
 
 arcpy.env.workspace = settings.DB
-with arcpy.da.Editor(settings.DB) as edit:
+edit = arcpy.da.Editor(settings.DB)
+edit.startEditing(False, True)
+edit.startOperation()
+
+try:
     for table in data.keys():
         if table == settings.SAMPLINGEVENTS:
             appendFeatureData(data[table])
         elif len(data[table]) > 0:
             appendTableData(table, data[table])
+except:
+    edit.abortOperation()
+    edit.stopEditing(False)
+
+edit.stopOperation()
+edit.stopEditing(True)
