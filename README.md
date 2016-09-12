@@ -1,8 +1,11 @@
+[![Build Status](https://travis-ci.org/agrc/electrofishing.svg?branch=master)](https://travis-ci.org/agrc/electrofishing)
+
 # electrofishing
 Application for recording electrofishing surveys. Built for DWR.
 
 # Database
 - All feature classes and tables should be registered as versioned with the option to move edits to base except for StreamsNHDHighRes & WaterbodyIds_Streams.
+- [Database Design](https://docs.google.com/spreadsheets/d/1_LhNljqvb9GMxpMWlx_CnQo9FuZ5MNwoO3jzTORcxn0/edit#gid=0)
 
 # Deployment
 1. Publish `maps/MapService.mxd` as `Electrofishing/MapService`
