@@ -1,6 +1,8 @@
 define([
     'dojo/has',
-    'dojo/request/xhr'
+    'dojo/request/xhr',
+
+    'leaflet'
 ], function (
     has,
     xhr
@@ -61,7 +63,6 @@ define([
             pointDef_onBtnClick: 'pointDef_onBtnClick',
             mapInit: 'verifyMap_mapinited',
             startDistDirGeoDef_onDistanceChange: 'startDistDirGeoDef_onDistanceChange',
-            onCathodeTypeChange: 'raftBoat_onCathodeTypeChange',
             newCollectionEvent: 'app_newCollectionEvent',
             onStationClick: 'verifyMap_onStationClick',
             onSubmitReportClick: 'header_onSubmitReportClick',
@@ -92,28 +93,24 @@ define([
             samplingEventsFeatureService: wildlifeFeatureService + '1',
 
             fishFeatureService: wildlifeFeatureService + '3',
-            backpacksFeatureService: wildlifeFeatureService + '4',
-            canoesbargesFeatureService: wildlifeFeatureService + '5',
-            dietFeatureService: wildlifeFeatureService + '6',
-            healthFeatureService: wildlifeFeatureService + '7',
-            raftsboatsFeatureService: wildlifeFeatureService + '8',
-            tagsFeatureService: wildlifeFeatureService + '9',
-            habitatFeatureService: wildlifeFeatureService + '10',
+            dietFeatureService: wildlifeFeatureService + '4',
+            healthFeatureService: wildlifeFeatureService + '5',
+            tagsFeatureService: wildlifeFeatureService + '6',
+            habitatFeatureService: wildlifeFeatureService + '7',
+            equipmentFeatureService: wildlifeFeatureService + '8',
 
             streamsSearch: wildlifeData + 'MapServer/2/query'
         },
 
         // tableNames: {}
         tableNames: {
-            backpacks: 'BackPacks',
-            canoesBarges: 'CanoesBarges',
             diet: 'Diet',
             fish: 'Fish',
             habitat: 'Habitat',
             health: 'Health',
-            raftsBoats: 'RaftsBoats',
             samplingEvents: 'SamplingEvents',
-            tags: 'Tags'
+            tags: 'Tags',
+            equipment: 'Equipment'
         },
 
         // fieldNames: {}
@@ -132,7 +129,10 @@ define([
                 EVENT_DATE: 'EVENT_DATE',
                 STATION_ID: 'STATION_ID',
                 SEGMENT_LENGTH: 'SEGMENT_LENGTH',
-                NUM_PASSES: 'NUM_PASSES',
+                NUM_PASSES: 'NUM_PASSES'
+            },
+            equipment: {
+                EVENT_ID: 'EVENT_ID',
                 WAVEFORM: 'WAVEFORM',
                 VOLTAGE: 'VOLTAGE',
                 DUTY_CYCLE: 'DUTY_CYCLE',
@@ -143,24 +143,13 @@ define([
                 CATHODE_LEN: 'CATHODE_LEN',
                 CATHODE_DIAMETER: 'CATHODE_DIAMETER',
                 NUM_ANODES: 'NUM_ANODES',
-                MACHINE_RES: 'MACHINE_RES'
-            },
-            backpacks: {
-                EVENT_ID: 'EVENT_ID',
+                MACHINE_RES: 'MACHINE_RES',
                 MODEL: 'MODEL',
-                ANODE_SHAPE: 'ANODE_SHAPE'
-            },
-            canoesbarges: {
-                EVENT_ID: 'EVENT_ID',
-                MODEL: 'MODEL',
-                ANODE_SHAPE: 'ANODE_SHAPE'
-            },
-            raftsboats: {
-                EVENT_ID: 'EVENT_ID',
-                MODEL: 'MODEL',
+                ANODE_SHAPE: 'ANODE_SHAPE',
                 ARRAY_TYPE: 'ARRAY_TYPE',
                 NUM_NETTERS: 'NUM_NETTERS',
-                CATHODE_TYPE: 'CATHODE_TYPE'
+                CATHODE_TYPE: 'CATHODE_TYPE',
+                TYPE: 'TYPE'
             },
             fish: {
                 FISH_ID: 'FISH_ID',

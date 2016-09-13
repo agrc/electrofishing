@@ -1,5 +1,5 @@
 require([
-    'app/method/CanoeBarge',
+    'app/method/Equipment',
     'app/_MultipleWidgetsWithAddBtnMixin',
 
     'dijit/_TemplatedMixin',
@@ -10,7 +10,7 @@ require([
 ],
 
 function (
-    CanoeBarge,
+    Equipment,
     _MultipleWidgetsWithAddBtnMixin,
 
     _TemplatedMixin,
@@ -32,7 +32,7 @@ function (
             constructor: function () {
                 console.log(this.declaredClass + '::constructor', arguments);
                 if (setClass) {
-                    this.AddBtnWidgetClass = CanoeBarge;
+                    this.AddBtnWidgetClass = Equipment;
                 }
             }
         });
@@ -64,44 +64,44 @@ function (
             it('fires addAddBtnWidget when the add button is pressed on the first btn widget', function () {
                 // testWidget.wireEvents();
 
-                testWidget.AddBtnWidgets[0].btn.click();
+                testWidget.addBtnWidgets[0].btn.click();
 
                 expect(testWidget.addAddBtnWidget).toHaveBeenCalled();
             });
             it('fires onRemoveAddBtnWidget when the minus button is pressed', function () {
                 spyOn(testWidget, 'onRemoveAddBtnWidget');
-                testWidget.AddBtnWidgets[0].btn.click();
+                testWidget.addBtnWidgets[0].btn.click();
 
-                testWidget.AddBtnWidgets[0].btn.click();
+                testWidget.addBtnWidgets[0].btn.click();
 
                 expect(testWidget.addAddBtnWidget.calls.count()).toBe(1);
                 expect(testWidget.onRemoveAddBtnWidget.calls.count()).toBe(1);
-                expect(testWidget.onRemoveAddBtnWidget).toHaveBeenCalledWith(testWidget.AddBtnWidgets[0]);
+                expect(testWidget.onRemoveAddBtnWidget).toHaveBeenCalledWith(testWidget.addBtnWidgets[0]);
             });
         });
         describe('addAddBtnWidget', function () {
-            it('create a new Backpack widget', function () {
+            it('create a new Equipment widget', function () {
                 testWidget.addAddBtnWidget();
 
-                expect(testWidget.AddBtnWidgets.length).toEqual(2);
+                expect(testWidget.addBtnWidgets.length).toEqual(2);
             });
             it('wires onAdd for the newly created widget', function () {
                 spyOn(testWidget, 'addAddBtnWidget').and.callThrough();
                 testWidget.addAddBtnWidget();
 
-                testWidget.AddBtnWidgets[1].btn.click();
+                testWidget.addBtnWidgets[1].btn.click();
 
                 expect(testWidget.addAddBtnWidget.calls.count()).toEqual(2);
             });
         });
         describe('onRemoveAddBtnWidget', function () {
-            it('removes the widget from AddBtnWidgets array', function () {
+            it('removes the widget from addBtnWidgets array', function () {
                 testWidget.addAddBtnWidget();
-                var newWidget = testWidget.AddBtnWidgets[1];
+                var newWidget = testWidget.addBtnWidgets[1];
                 testWidget.addAddBtnWidget();
                 testWidget.onRemoveAddBtnWidget(newWidget);
 
-                expect(testWidget.AddBtnWidgets).not.toContain(newWidget);
+                expect(testWidget.addBtnWidgets).not.toContain(newWidget);
             });
         });
     });

@@ -1,17 +1,18 @@
 require([
     'app/catch/Tag',
-    'dojo/dom-construct',
-    'dojo/_base/window',
-    'dojo/dom-class'
 
+    'dojo/dom-class',
+    'dojo/dom-construct',
+    'dojo/_base/window'
 ],
 
 function (
     Tag,
+
+    domClass,
     domConstruct,
-    win,
-    domClass
-    ) {
+    win
+) {
     describe('app/catch/Tag', function () {
         var testWidget;
         var destroy = function (widget) {

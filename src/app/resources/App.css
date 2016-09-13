@@ -50,3 +50,6 @@ footer {
 .app .dgrid-scroller {
     margin-top: 27px;
 }
+.app .form-group .help-block {
+    margin: 0;
+}

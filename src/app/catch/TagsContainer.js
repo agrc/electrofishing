@@ -1,23 +1,26 @@
 define([
-    'dojo/_base/declare',
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
-    'dijit/_WidgetsInTemplateMixin',
-    'dojo/text!app/catch/templates/TagsContainer.html',
+    'app/catch/Tag',
     'app/_MultipleWidgetsWithAddBtnMixin',
-    'app/catch/Tag'
 
+    'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
+    'dijit/_WidgetsInTemplateMixin',
+
+    'dojo/text!app/catch/templates/TagsContainer.html',
+    'dojo/_base/declare'
 ],
 
 function (
-    declare,
-    _WidgetBase,
-    _TemplatedMixin,
-    _WidgetsInTemplateMixin,
-    template,
+    Tag,
     _MultipleWidgetsWithAddBtnMixin,
-    Tag
-    ) {
+
+    _TemplatedMixin,
+    _WidgetBase,
+    _WidgetsInTemplateMixin,
+
+    template,
+    declare
+) {
     // summary:
     //      Container widget for Tag widgets.
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _MultipleWidgetsWithAddBtnMixin], {
@@ -30,7 +33,7 @@ function (
         currentFishId: null,
 
         constructor: function () {
-            console.log(this.declaredClass + '::constructor', arguments);
+            console.log('app/catch/TagsContainer:constructor', arguments);
 
             this.AddBtnWidgetClass = Tag;
         }

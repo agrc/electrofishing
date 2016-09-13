@@ -30,8 +30,8 @@ function (
             it('should get data from all tags', function () {
                 testWidget.addAddBtnWidget();
 
-                spyOn(testWidget.AddBtnWidgets[0], 'getData').and.returnValue({});
-                spyOn(testWidget.AddBtnWidgets[1], 'getData').and.returnValue({});
+                spyOn(testWidget.addBtnWidgets[0], 'getData').and.returnValue({});
+                spyOn(testWidget.addBtnWidgets[1], 'getData').and.returnValue({});
 
                 var data = testWidget.getData();
 
@@ -41,13 +41,13 @@ function (
         describe('setData', function () {
             var data = [{}, {}];
             beforeEach(function () {
-                spyOn(testWidget.AddBtnWidgets[0], 'setData');
+                spyOn(testWidget.addBtnWidgets[0], 'setData');
             });
             it('creates the appropriate tag widgets', function () {
                 testWidget.setData(data);
 
-                expect(testWidget.AddBtnWidgets[0].setData).toHaveBeenCalledWith(data[0]);
-                expect(testWidget.AddBtnWidgets.length).toBe(2);
+                expect(testWidget.addBtnWidgets[0].setData).toHaveBeenCalledWith(data[0]);
+                expect(testWidget.addBtnWidgets.length).toBe(2);
             });
             it('passes the appropriate values for lastOne to setData', function () {
                 var setDataSpy = jasmine.createSpy('setData');

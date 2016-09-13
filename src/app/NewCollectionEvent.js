@@ -118,9 +118,7 @@ function (
 
             var data = {};
             data[config.tableNames.samplingEvents] = this.buildFeatureObject();
-            data[config.tableNames.backpacks] = this.methodTb.backpacksContainer.getData();
-            data[config.tableNames.canoesBarges] = this.methodTb.canoeBargesContainer.getData();
-            data[config.tableNames.raftsBoats] = this.methodTb.raftBoatsContainer.getData();
+            data[config.tableNames.equipment] = this.methodTb.getData();
             data[config.tableNames.fish] = this.catchTb.getData();
             data[config.tableNames.diet] = this.catchTb.moreInfoDialog.getData('diet');
             data[config.tableNames.tags] = this.catchTb.moreInfoDialog.getData('tags');
@@ -211,17 +209,6 @@ function (
             atts[fn.STATION_ID] = this.locationTb.station.getStationId();
             atts[fn.SEGMENT_LENGTH] = helpers.getNumericValue(this.locationTb.streamLengthTxt.value);
             atts[fn.NUM_PASSES] = this.catchTb.getNumberOfPasses();
-            atts[fn.WAVEFORM] = this.methodTb.waveformSelect.value;
-            atts[fn.VOLTAGE] = helpers.getNumericValue(this.methodTb.voltsTxt.value);
-            atts[fn.DUTY_CYCLE] = helpers.getNumericValue(this.methodTb.dutyCycleTxt.value);
-            atts[fn.FREQUENCY] = helpers.getNumericValue(this.methodTb.frequencyTxt.value);
-            atts[fn.AMPS] = helpers.getNumericValue(this.methodTb.ampsTxt.value);
-            atts[fn.ANODE_DIAMETER] = helpers.getNumericValue(this.methodTb.anodeDiameterTxt.value);
-            atts[fn.STOCK_DIAMETER] = helpers.getNumericValue(this.methodTb.stockDiameterTxt.value);
-            atts[fn.CATHODE_LEN] = helpers.getNumericValue(this.methodTb.cathodeLengthTxt.value);
-            atts[fn.CATHODE_DIAMETER] = helpers.getNumericValue(this.methodTb.cathodeDiameterTxt.value);
-            atts[fn.NUM_ANODES] = helpers.getNumericValue(this.methodTb.numberTxt.value);
-            atts[fn.MACHINE_RES] = helpers.getNumericValue(this.methodTb.machineResistenceTxt.value);
 
             return {
                 geometry: this.locationTb.utmGeo,

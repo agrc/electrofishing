@@ -155,12 +155,12 @@ function (
                 expect(testWidget.grid.collection.data.length).toBe(0);
             });
             it('clears any tags', function () {
-                spyOn(testWidget.tagsContainer.AddBtnWidgets[0], 'clearValues');
+                spyOn(testWidget.tagsContainer.addBtnWidgets[0], 'clearValues');
                 testWidget.tagsContainer.addAddBtnWidget();
 
                 testWidget.clearValues();
 
-                expect(testWidget.tagsContainer.AddBtnWidgets.length).toBe(1);
+                expect(testWidget.tagsContainer.addBtnWidgets.length).toBe(1);
             });
             it('clears health values', function () {
                 spyOn(testWidget.health, 'clearValues');

@@ -1,16 +1,16 @@
 define([
-    'dojo/_base/declare',
-    'dojo/dom-construct',
     'dojo/aspect',
-    'dojo/_base/array'
+    'dojo/dom-construct',
+    'dojo/_base/array',
+    'dojo/_base/declare'
 ],
 
 function (
-    declare,
-    domConstruct,
     aspect,
-    array
-    ) {
+    domConstruct,
+    array,
+    declare
+) {
     // summary:
     //      Used to manage multiple _AddBtnWidget's
     return declare(null, {
@@ -21,9 +21,9 @@ function (
         //      The class that the AddBtn widget is using for this widget
         AddBtnWidgetClass: null,
 
-        // AddBtnWidgets: _AddBtnMixin[]
+        // addBtnWidgets: _AddBtnMixin[]
         //      A list of the _AddBtnMixin widgets associated with this widget
-        AddBtnWidgets: null,
+        addBtnWidgets: null,
 
 
         postCreate: function () {
@@ -35,7 +35,7 @@ function (
                 throw this.noAddBtnWidgetPropErrMsg;
             }
 
-            this.AddBtnWidgets = [];
+            this.addBtnWidgets = [];
 
             this.addAddBtnWidget();
 
@@ -52,7 +52,7 @@ function (
             );
             widget.startup();
 
-            this.AddBtnWidgets.push(widget);
+            this.addBtnWidgets.push(widget);
 
             this.wireAddBtnWidgetOnAdd(widget);
 
@@ -82,18 +82,18 @@ function (
             //      the widget that needs to be removed
             console.log(this.declaredClass + '::onRemoveAddBtnWidget', arguments);
 
-            this.AddBtnWidgets.splice(array.indexOf(this.AddBtnWidgets, widget), 1);
+            this.addBtnWidgets.splice(array.indexOf(this.addBtnWidgets, widget), 1);
         },
         clear: function () {
             // summary:
             //      removes all widgets except the first one
             console.log(this.declaredClass + '::clear', arguments);
 
-            array.forEach(this.AddBtnWidgets, function (addBtn) {
+            array.forEach(this.addBtnWidgets, function (addBtn) {
                 addBtn.destroyRecursive(false);
             });
 
-            this.AddBtnWidgets = [];
+            this.addBtnWidgets = [];
 
             this.addAddBtnWidget();
         },
@@ -104,7 +104,7 @@ function (
             console.log(this.declaredClass + '::getData', arguments);
 
             var data = [];
-            array.forEach(this.AddBtnWidgets, function (addBtn) {
+            array.forEach(this.addBtnWidgets, function (addBtn) {
                 var d = addBtn.getData();
 
                 if (d !== null) {
@@ -122,7 +122,7 @@ function (
 
             // there's already a blank widget so fill that one in first
             if (features[0]) {
-                this.AddBtnWidgets[0].setData(features[0]);
+                this.addBtnWidgets[0].setData(features[0]);
             }
 
             for (var i = 1; i < features.length; i++) {
