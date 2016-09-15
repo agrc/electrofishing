@@ -25,9 +25,7 @@ define([
     'app/habitat/Habitat',
     'app/location/Location',
     'app/method/Method'
-],
-
-function (
+], function (
     config,
     helpers,
     _SubmitJobMixin,
@@ -221,7 +219,7 @@ function (
             // tabID: String
             console.log('app/NewCollectionEvent:showTab', arguments);
 
-            $('.nav-tabs a[href="#' + tabID + '"]').tab('show');
+            $('a[href="#' + tabID + '"]').tab('show');
         },
         onError: function () {
             // summary:
