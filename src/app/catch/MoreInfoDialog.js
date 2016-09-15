@@ -22,9 +22,7 @@ define([
     './Health',
     'app/catch/TagsContainer',
     'leaflet'
-],
-
-function (
+], function (
     FilteringSelectForGrid,
     config,
     _GridMixin,
@@ -172,6 +170,14 @@ function (
             var that = this;
             $(this.dietTab).on('shown.bs.tab', function () {
                 that.grid.startup()
+            });
+
+            query('input[type=number]', this.domNode).on('change, keyup', function () {
+                // bump this to the bottom of the callstack
+                // otherwise this code executes before the numericInputValidator
+                window.setTimeout(function () {
+                    that.submitBtn.disabled = query('.form-group.has-error', that.domNode).length > 0;
+                }, 0);
             });
         },
         show: function (guid, tabName) {

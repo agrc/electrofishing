@@ -7,9 +7,7 @@ define([
     'dojo/topic',
     'dojo/_base/declare',
     'dojo/_base/event'
-],
-
-function (
+], function (
     _TemplatedMixin,
     _WidgetBase,
 

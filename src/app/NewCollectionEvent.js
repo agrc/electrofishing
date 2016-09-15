@@ -9,6 +9,7 @@ define([
 
     'dojo/dom-class',
     'dojo/json',
+    'dojo/query',
     'dojo/request/xhr',
     'dojo/text!app/templates/NewCollectionEvent.html',
     'dojo/topic',
@@ -24,7 +25,8 @@ define([
     'app/catch/Catch',
     'app/habitat/Habitat',
     'app/location/Location',
-    'app/method/Method'
+    'app/method/Method',
+    'dojo/NodeList-traverse'
 ], function (
     config,
     helpers,
@@ -36,6 +38,7 @@ define([
 
     domClass,
     json,
+    query,
     xhr,
     template,
     topic,
@@ -59,6 +62,9 @@ define([
 
         // submitErrMsg: String
         submitErrMsg: 'There was an error submitting the report!',
+
+        // invalidInputMsg: String
+        invalidInputMsg: 'Invalid value for ',
 
 
         constructor: function () {
@@ -151,7 +157,7 @@ define([
             // returns: String (if invalid) || true (if valid)
             console.log('app/NewCollectionEvent:validateReport', arguments);
 
-            var valid;
+            var valid = true;
             var validationMethods = [
                 // [method, scope, tabID]
                 [this.locationTb.hasValidLocation, this.locationTb, 'locationTab'],
@@ -161,6 +167,15 @@ define([
             ];
             var validationReturn;
             var that = this;
+
+            var invalidInputs = query('.form-group.has-error input', this.domNode);
+            if (invalidInputs.length > 0) {
+                var labels = query('.form-group.has-error label');
+                valid = this.invalidInputMsg + labels[0].textContent + '.';
+                var parentTab = labels.closest('.tab-pane')[0];
+                this.showTab(parentTab.id);
+                return valid;
+            }
 
             valid = array.every(validationMethods, function (a) {
                 validationReturn = a[0].apply(a[1]);

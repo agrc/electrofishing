@@ -2,14 +2,22 @@ require([
     'app/NewCollectionEvent',
 
     'dojo/dom-class',
-    'dojo/dom-construct'
+    'dojo/dom-construct',
+
+    'ijit/modules/NumericInputValidator',
+
+    'put-selector/put'
 ],
 
 function (
     NewCollectionEvent,
 
     domClass,
-    domConstruct
+    domConstruct,
+
+    NumericInputValidator,
+
+    put
 ) {
     describe('app/NewCollectionEvent', function () {
         var testWidget;
@@ -19,7 +27,7 @@ function (
                     submitBtn: domConstruct.create('button')
                 }
             };
-            testWidget = new NewCollectionEvent();
+            testWidget = new NewCollectionEvent(null, domConstruct.create('div', null, document.body));
             localStorage.clear('reportArchives');
 
             spyOn(testWidget.locationTb, 'clear');
@@ -28,6 +36,7 @@ function (
             spyOn(testWidget.habitatTb, 'clear');
         });
         afterEach(function () {
+            testWidget.destroyRecursive();
             testWidget = null;
         });
         it('create a valid object', function () {
@@ -103,6 +112,22 @@ function (
                 testWidget.validateReport();
 
                 expect(testWidget.showTab).toHaveBeenCalledWith('locationTab');
+            });
+            it('checks for invalid numeric inputs', function () {
+                var formGroup = put(testWidget.methodTb.domNode, 'div.form-group');
+                put(formGroup, 'label', 'Voltage (volts)');
+                var textBox = put(formGroup, 'input[type=text]');
+                var validator = new NumericInputValidator();
+                validator.updateUI(textBox, false);
+
+                spyOn(testWidget.locationTb, 'hasValidLocation').and.returnValue(true);
+                spyOn(testWidget.methodTb, 'isValid').and.returnValue(true);
+                spyOn(testWidget.catchTb, 'isValid').and.returnValue(true);
+                spyOn(testWidget.habitatTb, 'isValid').and.returnValue(true);
+                spyOn(testWidget, 'showTab');
+
+                expect(testWidget.validateReport()).toBe('Invalid value for Voltage (volts).')
+                expect(testWidget.showTab).toHaveBeenCalledWith('methodTab')
             });
         });
         describe('onSuccessfulSubmit', function () {
@@ -206,7 +231,7 @@ function (
 
                 testWidget.showTab(tab);
 
-                expect(window.$).toHaveBeenCalledWith('.nav-tabs a[href="#' + tab + '"]');
+                expect(window.$).toHaveBeenCalledWith('a[href="#' + tab + '"]');
             });
         });
     });

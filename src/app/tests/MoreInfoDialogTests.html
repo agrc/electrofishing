@@ -27,10 +27,13 @@
     <script data-dojo-config='isDebug: 1' src='../../dojo/dojo.js'></script>
     <script src='../../app/packages.js'></script>
     <script>
-        require(
-            {baseUrl: '../../'},
-            ['jquery', 'bootstrap', 'app/catch/MoreInfoDialog', 'dojo/domReady!'],
-            function (jquery, boot, MoreInfoDialog) {
+        require({baseUrl: '../../'}, [
+            'jquery',
+            'bootstrap',
+            'app/catch/MoreInfoDialog',
+            'ijit/modules/NumericInputValidator',
+            'dojo/domReady!'
+        ], function (jquery, boot, MoreInfoDialog, NumericInputValidator) {
                 var row = {};
                 row[AGRC.fieldNames.fish.FISH_ID] = 'blah';
                 row[AGRC.fieldNames.fish.CATCH_ID] = 3;
@@ -43,6 +46,9 @@
                 };
                 dialog = new MoreInfoDialog({catchStore: store}, 'testDiv');
                 dialog.show('blah', 'Diet');
+
+                var numericValidator = new NumericInputValidator();
+                numericValidator.init();
             }
         );
     </script>

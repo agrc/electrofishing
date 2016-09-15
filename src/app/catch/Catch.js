@@ -92,7 +92,7 @@ function (
 
         // invalidGridMsg: String
         //      returned by isValid if there are no fish recorded
-        invalidGridMsg: 'You must input at least one fish',
+        invalidGridMsg: 'You must input at least one fish.',
 
 
         constructor: function () {
