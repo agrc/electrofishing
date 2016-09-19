@@ -183,7 +183,7 @@ define([
         onCoordTypeChange: function (type) {
             // summary:
             //      Fires when the user changes the coordinate type through
-            //      the CoordTypeToggle widget.
+            //      the SettingsDialog widget.
             // type: String (AGRC.coordTypes)
             console.log('app/location/PointDef:onCoordTypeChange', arguments);
 

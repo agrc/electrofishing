@@ -15,9 +15,7 @@ define([
 
     'esri-leaflet',
     'leaflet'
-],
-
-function (
+], function (
     config,
     StreamSearch,
 
@@ -89,12 +87,20 @@ function (
             console.log('app/location/VerifyMap:initMap', arguments);
 
             this.map = new L.Map(this.mapDiv, {
-                scrollWheelZoom: false,
-                keyboard: false
+                keyboard: false,
+                scrollWheelZoom: (localStorage.mouseWheelZooming === 'true') ? true : false
             });
 
             this.map.setView([40.6389, -111.7034], 10);
 
+            var that = this;
+            this.own(topic.subscribe(config.topics.mouseWheelZooming_onChange, function (enable) {
+                if (enable) {
+                    that.map.scrollWheelZoom.enable();
+                } else {
+                    that.map.scrollWheelZoom.disable();
+                }
+            }))
             L.tileLayer(config.urls.googleImagery, {quadWord: config.quadWord})
                 .addTo(this.map);
             L.tileLayer(config.urls.overlay, {quadWord: config.quadWord})
@@ -105,7 +111,6 @@ function (
                 offset: [0, -40],
                 autoPan: false
             });
-            var that = this;
             this.stationsLyr = L.esri.featureLayer({
                 url: config.urls.stationsFeatureService,
                 onEachFeature: function (geojson, layer) {

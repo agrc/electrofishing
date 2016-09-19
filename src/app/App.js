@@ -17,9 +17,7 @@ define([
     'dijit/layout/ContentPane',
     'dijit/layout/StackContainer',
     'dijit/layout/StackController'
-],
-
-function (
+], function (
     config,
     NewCollectionEvent,
 

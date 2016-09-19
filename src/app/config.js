@@ -47,7 +47,7 @@ define([
         version: '1.0.0',
 
         // coordTypes: {key:String}
-        //      Coordinate types as used in app/location/CoordTypeToggle
+        //      Coordinate types as used in app/SettingsDialoge
         coordTypes: {
             utm83: 'utm83',
             ll: 'll',
@@ -66,7 +66,8 @@ define([
             newCollectionEvent: 'app_newCollectionEvent',
             onStationClick: 'verifyMap_onStationClick',
             onSubmitReportClick: 'header_onSubmitReportClick',
-            onCancelReportClick: 'header_onCancelReportClick'
+            onCancelReportClick: 'header_onCancelReportClick',
+            mouseWheelZooming_onChange: 'app_mouseWheelZooming'
         },
 
         // urls: {}
