@@ -24,9 +24,7 @@ define([
     'dojo/_base/lang',
 
     'dojox/uuid/generateRandomUuid'
-],
-
-function (
+], function (
     Formatting,
 
     FilteringSelectForGrid,
@@ -93,6 +91,9 @@ function (
         // invalidGridMsg: String
         //      returned by isValid if there are no fish recorded
         invalidGridMsg: 'You must input at least one fish.',
+
+        // fldMoreInfo: String
+        //      property name for grid row that has additional info attached to it via the more info dialog
 
 
         constructor: function () {
@@ -172,6 +173,13 @@ function (
             ];
 
             this.initGrid(columns);
+            var that = this;
+            aspect.after(this.grid, 'renderRow', function (row, args) {
+                if (args[0][config.fieldNames.MOREINFO]) {
+                    domClass.add(row, 'bold');
+                }
+                return row;
+            });
             this.addRow();
 
             $(this.batchBtn).popover({

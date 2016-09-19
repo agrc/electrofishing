@@ -117,6 +117,7 @@ define([
         // fieldNames: {}
         //      Field names
         fieldNames: {
+            MOREINFO: 'MOREINFO',
             OBJECTID: 'OBJECTID',
             stations: {
                 NAME: 'NAME',

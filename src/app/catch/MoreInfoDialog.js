@@ -274,6 +274,7 @@ define([
 
             var item = this.catchStore.getSync(this.currentFishId);
             item[config.fieldNames.fish.NOTES] = this.notesTxtArea.value;
+            item[config.fieldNames.MOREINFO] = true;
             this.catchStore.putSync(item);
 
             this.clearValues();

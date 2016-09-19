@@ -73,3 +73,6 @@ div[data-dojo-attach-point='batchForm'] .btn {
     width: 100%;
     margin-top: 5px;
 }
+.catch .dgrid .dgrid-row.bold {
+    font-weight: bold;
+}
