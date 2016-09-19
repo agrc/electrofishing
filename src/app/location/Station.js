@@ -20,9 +20,7 @@ define([
 
     'app/location/StationPointDef',
     'bootstrap'
-],
-
-function (
+], function (
     Domains,
     VerifyMap,
     _SubmitJobMixin,
@@ -122,10 +120,22 @@ function (
             //      fires when the user clicks on the new station button
             console.log('app/location/Station:onDialogShown', arguments);
 
+            var setView = function (movedMap, otherMap) {
+                otherMap.map.setView(movedMap.map.getCenter(), movedMap.map.getZoom());
+            };
             if (!this.vMap) {
                 this.vMap = new VerifyMap({isMainMap: false}, this.mapDiv);
+                setView(this.mainMap, this.vMap);
                 this.fGroup = new L.FeatureGroup().addTo(this.vMap.map);
                 this.pointDef.setMap(this.vMap.map, this.fGroup);
+
+                var that = this;
+                this.vMap.map.on('moveend', function () {
+                    setView(that.vMap, that.mainMap);
+                });
+                this.mainMap.map.on('moveend', function () {
+                    setView(that.mainMap, that.vMap);
+                });
             }
         },
         getStationId: function () {

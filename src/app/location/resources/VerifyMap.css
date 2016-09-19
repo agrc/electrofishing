@@ -5,3 +5,6 @@
 .verify-map {
     position: relative;
 }
+.station .verify-map .map {
+    height: 320px;
+}

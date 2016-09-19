@@ -1,3 +1,6 @@
+.station .modal .modal-dialog {
+    width: 80%;
+}
 .station .modal input {
     width: 100%;
     display: block;

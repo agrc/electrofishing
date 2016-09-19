@@ -18,12 +18,12 @@
                     <h4 class='modal-titled'>Add New Station</h4>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <div class="form-group">
+                    <div class='row'>
+                        <div class="form-group col-md-3">
                             <label class='control-label'>Name</label>
                             <input type="text" data-dojo-attach-point="stationNameTxt" class='form-control'>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group col-md-3">
                             <label class='control-label'>Stream Type</label>
                             <select data-dojo-attach-point='streamTypeSelect' class='form-control'>
                                 <option value=""></option>
@@ -31,8 +31,8 @@
                                 <option value='wcs'>Wadeable coldwater stream</option> -->
                             </select>
                         </div>
-                        <div data-dojo-type="app/location/StationPointDef" data-dojo-attach-point='pointDef'></div>
-                    </form>
+                    </div>
+                    <div data-dojo-type="app/location/StationPointDef" data-dojo-attach-point='pointDef'></div>
                     <div data-dojo-attach-point="mapDiv"></div>
                 </div>
                 <div class="modal-footer">
