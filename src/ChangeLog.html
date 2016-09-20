@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Wildlife App Changelog</title>
+    <title>Wildlife App Changelog</title>
     <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css"/>
 
     <style type="text/css">
@@ -11,7 +11,19 @@
     </style>
 </head>
 <body>
-	<h1>Wildlife App Changelog</h1>
+    <h1>Wildlife App Changelog</h1>
+    <h4>1.1.0 <small>Sept 20, 2016</small></h4>
+    <ul>
+        <li>Upgraded all 3rd party libraries to their latest versions.</li>
+        <li>Added grunt tasks.</li>
+        <li>Converted to Web Mercator base maps.</li>
+        <li>Database schema tweaks to cathode length, voltage and thymus category (<a href='https://github.com/agrc/electrofishing/issues/3'>#3</a>).</li>
+        <li>Refactor/redesign the method tab (<a href='https://github.com/agrc/electrofishing/issues/2'>#2</a>).</li>
+        <li>Fixed bug that allowed invalid numeric inputs to be submitted to the database (<a href='https://github.com/agrc/electrofishing/issues/17'>#17</a>).</li>
+        <li>Added "Mouse wheel zooming" setting to settings dialog (<a href='https://github.com/agrc/electrofishing/issues/5'>#5</a>).</li>
+        <li>Made the new station dialog map larger and synchronized its extent with that of the main maps (<a href='https://github.com/agrc/electrofishing/issues/9'>#9</a>).</li>
+        <li>Added a subtle visual cue (bold) to rows that have additional data attached to them via the diet, tag, health and notes dialog (<a href='https://github.com/agrc/eletrofishing/issues/12'>#12</a>).</li>
+    </ul>
     <h4>1.0.0 <small>January 3, 2014</small></h4>
     <ul>
         <li>Fixed layout bug with grid scrolling. Closes #28662.</li>
@@ -95,7 +107,7 @@
         <li>Method tab controls finalized and validating.</li>
         <li>Catch tab grid built (not wired up to submit data to database yet).</li>
     </ul>
-    <h4>0.4.0 <small>Nov 20, 2012</small></h4>   
+    <h4>0.4.0 <small>Nov 20, 2012</small></h4>
     <ul>
         <li>New collection events can now be submitted successfully and are being stored in the test database along with the stations data.</li>
         <li>Added error reporter to most errors so that they are logged and an email is sent to the developer.</li>
