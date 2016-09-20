@@ -16,6 +16,7 @@ define([
     } else if (has('agrc-build') === 'stage') {
         // test.mapserv.utah.gov
         quadWord = 'opera-event-little-pinball';
+        wildlifeFolder = 'http://test.mapserv.utah.gov/arcgis/rest/services/Electrofishing/';
     } else {
         wildlifeFolder = 'http://localhost/arcgis/rest/services/Electrofishing/';
         // localhost
