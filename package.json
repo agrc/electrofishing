@@ -1,16 +1,23 @@
 {
-    "name": "electrofishing",
-    "version": "1.0.0",
-    "devDependencies": {
-        "grunt": "^1.0.1",
-        "grunt-contrib-connect": "^1.0.2",
-        "grunt-contrib-jasmine": "^1.0.3",
-        "grunt-contrib-watch": "^1.0.0",
-        "grunt-eslint": "^19.0.0",
-        "intern": "^3.2.0",
-        "load-grunt-tasks": "^3.5.2"
-    },
-    "scripts": {
-        "test": "grunt travis"
-    }
+  "name": "electrofishing",
+  "version": "1.0.0",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-imagemin": "^1.0.1",
+    "grunt-contrib-jasmine": "^1.0.3",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-dojo": "^1.1.1",
+    "grunt-eslint": "^19.0.0",
+    "grunt-newer": "^1.2.0",
+    "grunt-processhtml": "^0.4.1",
+    "intern": "^3.2.0",
+    "load-grunt-tasks": "^3.5.2"
+  },
+  "scripts": {
+    "test": "grunt travis"
+  }
 }

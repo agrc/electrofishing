@@ -4,15 +4,18 @@
 dist/
 node_modules/
 src/agrc/
+src/arcgis-js-api/
 src/bootstrap
 src/bootstrap-combobox
 src/bootstrap3-typeahead
 src/components-jasmine/
 src/dgrid
+src/dgrid-esri/
 src/dijit
 src/dojo
 src/dojo-themes
 src/dojox
+src/dojox-esri/
 src/dstore
 src/esri-leaflet/
 src/favico.js/
@@ -22,6 +25,7 @@ src/jasmine-jsreporter/
 src/jquery
 src/ladda-bootstrap/
 src/leaflet
+src/moment/
 src/mustache/
 src/proj4
 src/Proj4Leaflet/
