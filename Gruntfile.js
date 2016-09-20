@@ -8,11 +8,51 @@ module.exports = function (grunt) {
     var gruntFile = 'GruntFile.js';
     var internFile = 'ui-tests/intern.js';
     var eslintFiles = [jsFiles, gruntFile, internFile];
+    var deployDir = 'wwwroot/electrofishing';
+    var deployFiles = [
+        '**',
+        '!**/*.uncompressed.js',
+        '!**/*consoleStripped.js',
+        '!**/bootstrap/less/**',
+        '!**/bootstrap/test-infra/**',
+        '!**/tests/**',
+        '!build-report.txt',
+        '!components-jasmine/**',
+        '!favico.js/**',
+        '!jasmine-favicon-reporter/**',
+        '!jasmine-jsreporter/**',
+        '!stubmodule/**',
+        '!util/**'
+    ];
+    var secrets;
+    try {
+        secrets = grunt.file.readJSON('secrets.json');
+    } catch (e) {
+        secrets = {
+            stageHost: '',
+            prodHost: '',
+            username: '',
+            password: ''
+        };
+    }
 
     grunt.initConfig({
         clean: {
             build: ['dist'],
             deploy: ['deploy']
+        },
+        compress: {
+            main: {
+                options: {
+                    archive: 'deploy/deploy.zip'
+                },
+                files: [{
+                    src: deployFiles,
+                    dest: './',
+                    cwd: 'dist/',
+                    expand: true
+                }]
+            }
         },
         connect: {
             uses_defaults: {}
@@ -100,6 +140,52 @@ module.exports = function (grunt) {
             }
         },
         pkg: grunt.file.readJSON('package.json'),
+        secrets: secrets,
+        sftp: {
+            stage: {
+                files: {
+                    './': 'deploy/deploy.zip'
+                },
+                options: {
+                    host: '<%= secrets.stageHost %>'
+                }
+            },
+            prod: {
+                files: {
+                    './': 'deploy/deploy.zip'
+                },
+                options: {
+                    host: '<%= secrets.prodHost %>'
+                }
+            },
+            options: {
+                path: './' + deployDir + '/',
+                srcBasePath: 'deploy/',
+                username: '<%= secrets.username %>',
+                password: '<%= secrets.password %>',
+                showProgress: true,
+                readyTimeout: 120000
+            }
+        },
+        sshexec: {
+            options: {
+                username: '<%= secrets.username %>',
+                password: '<%= secrets.password %>',
+                readyTimeout: 120000
+            },
+            stage: {
+                command: ['cd ' + deployDir, 'unzip -o deploy.zip', 'rm deploy.zip'].join(';'),
+                options: {
+                    host: '<%= secrets.stageHost %>'
+                }
+            },
+            prod: {
+                command: ['cd ' + deployDir, 'unzip -o deploy.zip', 'rm deploy.zip'].join(';'),
+                options: {
+                    host: '<%= secrets.prodHost %>'
+                }
+            }
+        },
         uglify: {
             options: {
                 preserveComments: false,
@@ -173,7 +259,8 @@ module.exports = function (grunt) {
     grunt.registerTask('deploy-prod', [
         'clean:deploy',
         'compress:main',
-        'sftp:prod'
+        'sftp:prod',
+        'sshexec:prod'
     ]);
     grunt.registerTask('build-stage', [
         'clean:build',

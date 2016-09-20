@@ -1,8 +1,10 @@
 .grunt/
 *.pyc
 *.sde
+deploy/deploy.zip
 dist/
 node_modules/
+secrets.json
 src/agrc/
 src/arcgis-js-api/
 src/bootstrap
