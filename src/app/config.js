@@ -15,7 +15,7 @@ define([
         wildlifeFolder = '/proxy/proxy.jsp?http://dwrmapserv.utah.gov/dwrarcgis/rest/services/Aquatics/';
     } else if (has('agrc-build') === 'stage') {
         // test.mapserv.utah.gov
-        quadWord = '';
+        quadWord = 'opera-event-little-pinball';
     } else {
         wildlifeFolder = 'http://localhost/arcgis/rest/services/Electrofishing/';
         // localhost
