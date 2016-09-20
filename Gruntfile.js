@@ -35,8 +35,21 @@ module.exports = function (grunt) {
             password: ''
         };
     }
+    var bumpFiles = [
+        'package.json',
+        'bower.json',
+        'src/app/package.json',
+        'src/app/config.js'
+    ];
 
     grunt.initConfig({
+        bump: {
+            options: {
+                files: bumpFiles,
+                commitFiles: bumpFiles.concat(['src/ChangeLog.html']),
+                push: false
+            }
+        },
         clean: {
             build: ['dist'],
             deploy: ['deploy']
