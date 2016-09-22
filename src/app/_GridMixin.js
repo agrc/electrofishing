@@ -12,9 +12,7 @@ define([
 
     'dstore/Memory',
     'dstore/Trackable'
-],
-
-function (
+], function (
     Editor,
     Keyboard,
     DGrid,

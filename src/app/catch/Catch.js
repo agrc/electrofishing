@@ -190,7 +190,7 @@ define([
             });
 
             this.moreInfoDialog = new MoreInfoDialog({
-                catchStore: this.store
+                catch: this
             }, this.moreInfoDialogDiv);
             this.moreInfoDialog.startup();
 

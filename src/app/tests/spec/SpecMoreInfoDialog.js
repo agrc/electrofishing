@@ -5,9 +5,7 @@ require([
     'dojo/query',
     'dojo/store/Memory',
     'dojo/_base/window'
-],
-
-function (
+], function (
     MoreInfoDialog,
 
     domConstruct,
@@ -21,21 +19,23 @@ function (
             widget.destroy();
             widget = null;
         };
-        var store;
+        var catchMock;
         var guid = 'blah';
         beforeEach(function () {
             var row = {};
             row[AGRC.fieldNames.fish.FISH_ID] = guid;
             row[AGRC.fieldNames.fish.CATCH_ID] = 3;
             row[AGRC.fieldNames.fish.PASS_NUM] = 1;
-            store = {
-                data: [row],
-                getSync: function () {
-                    return this.data[0];
-                },
-                putSync: function () {}
+            catchMock = {
+                store: {
+                    data: [row],
+                    getSync: function () {
+                        return this.data[0];
+                    },
+                    putSync: function () {}
+                }
             };
-            testWidget = new MoreInfoDialog({catchStore: store}, domConstruct.create('div', {}, win.body()));
+            testWidget = new MoreInfoDialog({catch: catchMock}, domConstruct.create('div', {}, win.body()));
             testWidget.startup();
         });
         afterEach(function () {

@@ -88,9 +88,9 @@ define([
 
         // properties passed in via the constructor
 
-        // catchStore: dojo/DataStore
-        //      the grid's data store
-        catchStore: null,
+        // catch: app/catch/Catch
+        //      for accessing the grid's data store
+        catch: null,
 
         constructor: function () {
             // summary:
@@ -205,7 +205,7 @@ define([
                 this.addRow();
             }
 
-            var item = this.catchStore.getSync(guid);
+            var item = this.catch.store.getSync(guid);
 
             this.catchId.innerHTML = item[config.fieldNames.fish.CATCH_ID];
             this.passId.innerHTML = item[config.fieldNames.fish.PASS_NUM];
@@ -272,10 +272,10 @@ define([
                 this.healthData[this.currentFishId] = [healthFeature];
             }
 
-            var item = this.catchStore.getSync(this.currentFishId);
+            var item = this.catch.store.getSync(this.currentFishId);
             item[config.fieldNames.fish.NOTES] = this.notesTxtArea.value;
             item[config.fieldNames.MOREINFO] = true;
-            this.catchStore.putSync(item);
+            this.catch.store.putSync(item);
 
             this.clearValues();
             $(this.dialog).modal('hide');
