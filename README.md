@@ -4,8 +4,9 @@
 Application for recording electrofishing surveys. Built for DWR.
 
 # Database
-- All feature classes and tables should be registered as versioned with the option to move edits to base except for StreamsNHDHighRes & WaterbodyIds_Streams.
+- All feature classes and tables in SDE should be registered as versioned with the option to move edits.
 - [Database Design](https://docs.google.com/spreadsheets/d/1_LhNljqvb9GMxpMWlx_CnQo9FuZ5MNwoO3jzTORcxn0/edit#gid=0)
+- XML Workspace Document: `data/DATABASESCHEMA.XML`.
 
 # Deployment
 1. Publish `maps/MapService.mxd` as `Electrofishing/MapService`
