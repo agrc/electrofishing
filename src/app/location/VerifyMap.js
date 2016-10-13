@@ -86,6 +86,8 @@ define([
                 shadowUrl: config.urls.markerShadow
             });
             this.defaultIcon = new L.Icon.Default();
+
+            this.own(topic.subscribe(config.topics.streamsLakes_toggle, lang.hitch(this, 'toggleStreamsLakes')));
         },
         initMap: function () {
             // summary:
@@ -152,11 +154,34 @@ define([
 
             this.streamSearch = new StreamSearch({
                 map: this.map,
-                searchField: 'GNIS_Name',
-                placeHolder: 'stream name...',
-                contextField: 'COUNTY',
-                maxResultsToDisplay: 20
+                searchField: config.fieldNames.reference.WaterName,
+                placeHolder: 'stream/lake name...',
+                contextField: config.fieldNames.reference.COUNTY,
+                maxResultsToDisplay: 10
             }, this.streamSearchDiv);
+
+            if (localStorage.streamsLakesToggle === 'true') {
+                this.toggleStreamsLakes(true);
+            }
+        },
+        toggleStreamsLakes: function (visible) {
+            // summary:
+            //      creates and toggles the streams and lakes layer
+            // visible: Boolean
+            console.log('app/location/VerifyMap:toggleStreamsLakes', arguments);
+
+            if (visible && !this.streamsLakesLyr) {
+                this.streamsLakesLyr = L.esri.dynamicMapLayer({
+                    url: config.urls.streamsLakesService,
+                    format: 'png32'
+                });
+            }
+
+            if (visible) {
+                this.streamsLakesLyr.addTo(this.map);
+            } else {
+                this.streamsLakesLyr.remove();
+            }
         },
         destroy: function () {
             // summary:

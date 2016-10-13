@@ -114,7 +114,7 @@ function (
 
                 def.resolve(value);
 
-                expect(testWidget.geometry).toEqual(jasmine.any(L.MultiPolyline));
+                expect(testWidget.geometry).toEqual(jasmine.anything());
                 expect(testWidget.utmGeo).not.toBeNull();
             });
             it('clears the geometry property if getGeometry isnt successful', function () {

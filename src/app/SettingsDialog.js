@@ -48,6 +48,9 @@ define([
                 this.onCoordTypeChange(localStorage.coordType);
             }
 
+            this.streamsLakesChBox.checked = (localStorage.streamsLakesToggle === 'true') ? true : false;
+            this.onStreamsLakesChange();
+
             this.mouseWheelChBox.checked = (localStorage.mouseWheelZooming === 'true') ? true : false;
             this.onMouseWheelChange();
         },
@@ -83,6 +86,15 @@ define([
             localStorage.mouseWheelZooming = this.mouseWheelChBox.checked;
 
             topic.publish(config.topics.mouseWheelZooming_onChange, this.mouseWheelChBox.checked);
+        },
+        onStreamsLakesChange: function () {
+            // summary:
+            //      toggle the visibility of the reference layers on the map
+            console.log('app/SettingsDialog:onStreamsLakesChange', arguments);
+
+            localStorage.streamsLakesToggle = this.streamsLakesChBox.checked;
+
+            topic.publish(config.topics.streamsLakes_toggle, this.streamsLakesChBox.checked);
         }
     });
 });

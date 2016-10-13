@@ -13,9 +13,7 @@ define([
     'app/location/StartEndGeoDef',
     'app/location/Station',
     'app/location/VerifyMap'
-],
-
-function (
+], function (
     _TemplatedMixin,
     _WidgetBase,
     _WidgetsInTemplateMixin,
@@ -154,7 +152,7 @@ function (
             } else {
                 returnedValue.then(function (values) {
                     that.verifyMapBtn.innerHTML = that.successfullyVerifiedMsg;
-                    var line = L.multiPolyline(values.path, {color: 'blue'}).addTo(AGRC.app.map);
+                    var line = L.polyline(values.path, {color: 'red'}).addTo(AGRC.app.map);
                     AGRC.app.map.fitBounds(line.getBounds().pad(0.1));
                     that.geometry = line;
                     that.utmGeo = values.utm;

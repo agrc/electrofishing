@@ -32,6 +32,7 @@ define([
 
     var wildlifeToolbox = wildlifeFolder + 'Toolbox/GPServer/';
     var wildlifeFeatureService = wildlifeFolder + 'MapService/MapServer/';
+    var referenceService = wildlifeFolder + 'Reference/MapServer/';
 
     window.AGRC = {
         // app: app.App
@@ -67,7 +68,8 @@ define([
             onStationClick: 'verifyMap_onStationClick',
             onSubmitReportClick: 'header_onSubmitReportClick',
             onCancelReportClick: 'header_onCancelReportClick',
-            mouseWheelZooming_onChange: 'app_mouseWheelZooming'
+            mouseWheelZooming_onChange: 'app_mouseWheelZooming',
+            streamsLakes_toggle: 'verifyMap_streamsLakes_toggle'
         },
 
         // urls: {}
@@ -93,14 +95,17 @@ define([
             stationsFeatureService: wildlifeFeatureService + '0',
             samplingEventsFeatureService: wildlifeFeatureService + '1',
 
-            fishFeatureService: wildlifeFeatureService + '3',
-            dietFeatureService: wildlifeFeatureService + '4',
-            healthFeatureService: wildlifeFeatureService + '5',
-            tagsFeatureService: wildlifeFeatureService + '6',
-            habitatFeatureService: wildlifeFeatureService + '7',
-            equipmentFeatureService: wildlifeFeatureService + '8',
+            fishFeatureService: wildlifeFeatureService + '2',
+            dietFeatureService: wildlifeFeatureService + '3',
+            healthFeatureService: wildlifeFeatureService + '4',
+            tagsFeatureService: wildlifeFeatureService + '5',
+            habitatFeatureService: wildlifeFeatureService + '6',
+            equipmentFeatureService: wildlifeFeatureService + '7',
 
-            streamsSearch: wildlifeData + 'MapServer/2/query'
+            // reference service
+            streamsLakesService: referenceService,
+            streamsFeatureService: referenceService + '/0/query',
+            lakesFeatureService: referenceService + '/1/query'
         },
 
         // tableNames: {}
@@ -229,6 +234,10 @@ define([
                 TEMP: 'TEMP_',
                 PH: 'PH',
                 CON: 'CON'
+            },
+            reference: {
+                COUNTY: 'COUNTY',
+                WaterName: 'WaterName'
             }
         },
 

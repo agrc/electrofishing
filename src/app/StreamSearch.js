@@ -1,64 +1,67 @@
 define([
-    'dojo/_base/declare',
-    'dojo/_base/lang',
-    'dojo/_base/Color',
-    'dojo/_base/array',
+    'app/config',
+
+    'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
 
     'dojo/dom-class',
-    'dojo/dom-style',
     'dojo/dom-construct',
-
-    'dojo/on',
-    'dojo/query',
+    'dojo/dom-style',
     'dojo/keys',
-    'dojo/has',
     'dojo/mouse',
+    'dojo/on',
+    'dojo/promise/all',
+    'dojo/query',
     'dojo/request/xhr',
-
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
-
     'dojo/text!./templates/StreamSearch.html',
-
+    'dojo/_base/array',
+    'dojo/_base/Color',
+    'dojo/_base/declare',
+    'dojo/_base/lang',
     'dojo/_base/sniff'
-],
+], function (
+    config,
 
-function (
-    declare,
-    lang,
-    Color,
-    array,
+    _TemplatedMixin,
+    _WidgetBase,
 
     domClass,
-    domStyle,
     domConstruct,
-
-    on,
-    query,
+    domStyle,
     keys,
-    has,
     mouse,
+    on,
+    all,
+    query,
     xhr,
-
-    _WidgetBase,
-    _TemplatedMixin,
-
-    template
+    template,
+    array,
+    Color,
+    declare,
+    lang
 ) {
     return declare([_WidgetBase, _TemplatedMixin], {
         templateString: template,
 
-        // _deferred: [private] Dojo.Deferred
-        //      Dojo.Deferred for canceling pending requests.
-        _deferred: null,
+        // promises: dojo/promise/all
+        //      container for holding query promises
+        promises: null,
 
         // symbolLine: esri.symbol
         //     esri.symbol zoom graphic symbol for polylines.
         symbolLine: null,
 
-        // _graphicsLayer: [private] esri.layers.GraphicsLayer
+        // _streamsLayer: [private] L.Polyline
         //      esri.layers.GraphicsLayer to hold graphics.
-        _graphicsLayer: null,
+        _streamsLayer: null,
+
+        // _lakesLayer: [private] L.Polyline
+        //      esri.layers.GraphicsLayer to hold graphics.
+        _lakesLayer: null,
+
+        // _groupLayer: L.LayerGroup
+        //      group layer holding the graphics layers
+        _groupLayer: null,
 
         // _isOverTable: Boolean
         //      A switch to help with onBlur callback on search box.
@@ -116,18 +119,18 @@ function (
             //      Overrides method of same name in dijit._Widget.
             // tags:
             //      private
-            console.log(this.declaredClass + '::postCreate', arguments);
+            console.log('app/StreamSearch:postCreate', arguments);
 
-            this._setUpQueryTask();
+            this._setUpQuery();
             this._wireEvents();
             this._setUpGraphicsLayer();
         },
-        _setUpQueryTask: function () {
+        _setUpQuery: function () {
             // summary:
             //      Sets up the esri QueryTask.
             // tags:
             //      private
-            console.log(this.declaredClass + '::_setUpQueryTask', arguments);
+            console.log('app/StreamSearch:_setUpQuery', arguments);
 
             // create new query options object
             var outFields;
@@ -144,9 +147,7 @@ function (
                     returnGeometry: false,
                     outFields: outFields,
                     f: 'json',
-                    outSR: JSON.stringify({'wkid': 4326}),
-                    maxAllowableOffset: 10,
-                    geometryPrecision: 4
+                    outSR: JSON.stringify({'wkid': 4326})
                 }
             };
         },
@@ -155,19 +156,24 @@ function (
             //      Sets up the graphics layer and associated symbols.
             // tags:
             //      private
-            console.log(this.declaredClass + '::_setUpGraphicsLayer', arguments);
+            console.log('app/StreamSearch:_setUpGraphicsLayer', arguments);
 
-            this._graphicsLayer = new L.MultiPolyline([], {
-                smoothFactor: 1.5,
-                color: 'yellow'
-            }).addTo(this.map);
+            this._streamsLayer = L.polyline([], {
+                color: 'yellow',
+                opacity: 0.5
+            });
+            this._lakesLayer = L.polygon([], {
+                color: 'yellow',
+                opacity: 0.5
+            });
+            this._groupLayer = L.layerGroup([this._streamsLayer, this._lakesLayer]).addTo(this.map);
         },
         _wireEvents: function () {
             // summary:
             //      Wires events.
             // tags:
             //      private
-            console.log(this.declaredClass + '::_wireEvents', arguments);
+            console.log('app/StreamSearch:_wireEvents', arguments);
 
             this.own(
                 on(this.textBox, 'keyup', lang.hitch(this, this._onTextBoxKeyUp)),
@@ -207,7 +213,7 @@ function (
             //      Handles the text box onKeyUp evt.
             // tags:
             //      private
-            console.log(this.declaredClass + '::_onTextBoxKeyUp', arguments);
+            console.log('app/StreamSearch:_onTextBoxKeyUp', arguments);
 
             if (evt.keyCode === keys.ENTER) {
                 // zoom if there is at least one match
@@ -232,7 +238,7 @@ function (
             // tags:
             //      private
             // set timer so that it doesn't fire repeatedly during typing
-            console.log(this.declaredClass + '::_startSearchTimer', arguments);
+            console.log('app/StreamSearch:_startSearchTimer', arguments);
 
             clearTimeout(this._timer);
             this._timer = setTimeout(lang.hitch(this, function () {
@@ -247,7 +253,7 @@ function (
             //      The number of rows to move. Positive moves down, negative moves up.
             // tags:
             //      private
-            console.log(this.declaredClass + '::_moveSelection', arguments);
+            console.log('app/StreamSearch:_moveSelection', arguments);
 
             // exit if there are no matches in table
             if (this.matchesList.children.length < 2) {
@@ -278,7 +284,7 @@ function (
             //      The string that is used to construct the LIKE query.
             // tags:
             //      private
-            console.log(this.declaredClass + '::_search', arguments);
+            console.log('app/StreamSearch:_search', arguments);
 
             // return if not enough characters
             if (searchString.length < 1) {
@@ -295,66 +301,67 @@ function (
                 ') LIKE UPPER(\'' + searchString + '%\')';
 
             // execute query / canceling any previous query
-            if (this._deferred) {
-                this._deferred.cancel();
+            if (this.promises) {
+                this.promises.cancel();
             }
 
-            this._deferred = xhr(AGRC.urls.streamsSearch, this.query)
-                .then(lang.hitch(this,
-                    function (featureSet) {
-                        // clear table
-                        this._deleteAllTableRows(this.matchesTable);
+            var that = this;
+            this.promises = all([xhr(config.urls.streamsFeatureService, this.query), xhr(config.urls.lakesFeatureService, this.query)])
+                .then(function (featureSets) {
+                    // clear table
+                    that._deleteAllTableRows(that.matchesTable);
 
-                        this._processResults(featureSet.features);
+                    that._processResults(featureSets);
+                }, function (err) {
+                    // clear table
+                    that._deleteAllTableRows(that.matchesTable);
+
+                    // swallow errors from cancels
+                    if (err.message !== 'undefined') {
+                        throw new Error(that.declaredClass + ' ArcGISServerError: ' + err.message);
                     }
-                ), lang.hitch(this,
-                    function (err) {
-                        // clear table
-                        this._deleteAllTableRows(this.matchesTable);
 
-                        // swallow errors from cancels
-                        if (err.message !== 'undefined') {
-                            throw new Error(this.declaredClass + ' ArcGISServerError: ' + err.message);
-                        }
-
-                        if (this.map.hideLoader) {
-                            this.map.hideLoader();
-                        }
+                    if (that.map.hideLoader) {
+                        that.map.hideLoader();
                     }
-                ));
-        },
-        _processResults: function (features) {
-            // summary:
-            //      Processes the features returned from the query task.
-            // features: Object[]
-            //      The features returned from the query task.
-            // tags:
-            //      private
-            console.log(this.declaredClass + '::_processResults', arguments);
-
-            try {
-                console.info(features.length + ' search features found.');
-
-                // remove duplicates
-                features = this._sortArray(this._removeDuplicateResults(features));
-
-                // get number of unique results
-                var num = features.length;
-                console.info(num + ' unique results.');
-
-                // return if too many values or no values
-                if (num > this.maxResultsToDisplay) {
-                    this.showMessage('More than ' + this.maxResultsToDisplay + ' matches found...');
-                    this._populateTable(features.slice(0, this.maxResultsToDisplay - 1));
-                } else if (num === 0) {
-                    this.showMessage('There are no matches.');
-                } else {
-                    this.hideMessage();
-
-                    this._populateTable(features);
                 }
-            } catch (e) {
-                throw new Error(this.declaredClass + '_processResults: ' + e.message);
+            );
+        },
+        _processResults: function (featureSets) {
+            // summary:
+            //      Processes the features returned from the query tasks.
+            // featureSets: FeatureSet[]
+            //      The features returned from the query task.
+            console.log('app/StreamSearch:_processResults', arguments);
+
+            // combine features and add layer props
+            var features = [];
+            var addLayerProp = function (featureSet, url) {
+                featureSet.forEach(function (f) {
+                    f.queryUrl = url;
+                    features.push(f);
+                });
+            };
+            addLayerProp(featureSets[0].features, config.urls.streamsFeatureService);
+            addLayerProp(featureSets[1].features, config.urls.lakesFeatureService);
+
+            // remove duplicates
+            features = this._sortArray(this._removeDuplicateResults(features));
+
+            // get number of unique results
+            var num = features.length;
+            console.info(num + ' unique results.');
+
+            // return if too many values or no values
+            if (num > this.maxResultsToDisplay) {
+                this.showMessage('More than ' + this.maxResultsToDisplay + ' matches found...');
+                this._populateTable(features.slice(0, this.maxResultsToDisplay - 1));
+            } else if (num === 0) {
+                this.showMessage('There are no matches.');
+            } else {
+                this.hideMessage();
+
+                this._populateTable(features);
             }
 
             if (this.map.hideLoader) {
@@ -370,7 +377,7 @@ function (
             //      The array after it has been processed.
             // tags:
             //      private
-            console.log(this.declaredClass + '::_removeDuplicateResults', arguments);
+            console.log('app/StreamSearch:_removeDuplicateResults', arguments);
 
             var list = [];
             array.forEach(features, function (f) {
@@ -399,7 +406,7 @@ function (
             //      The array of features to populate the table with.
             // tags:
             //      private
-            console.log(this.declaredClass + '::_populateTable', arguments);
+            console.log('app/StreamSearch:_populateTable', arguments);
 
             // loop through all features
             array.forEach(features, function (feat) {
@@ -409,16 +416,14 @@ function (
                 // get match value string and bold the matching letters
                 var fString = feat.attributes[this.searchField];
                 var sliceIndex = this.textBox.value.length;
-                if (!this.contextField) {
-                    row.innerHTML = fString.slice(0, sliceIndex) + fString.slice(sliceIndex).bold();
-                } else {
-                    // add context field values
-                    var matchDiv = domConstruct.create('div', {'class': 'first-cell'}, row);
-                    matchDiv.innerHTML = fString.slice(0, sliceIndex) + fString.slice(sliceIndex).bold();
-                    var cntyDiv = domConstruct.create('div', {'class': 'cnty-cell'}, row);
-                    cntyDiv.innerHTML = feat.attributes[this.contextField] || '';
-                    domConstruct.create('div', {style: 'clear: both;'}, row);
-                }
+                // add context field values
+                var matchDiv = domConstruct.create('div', {'class': 'first-cell'}, row);
+                matchDiv.innerHTML = fString.slice(0, sliceIndex) + fString.slice(sliceIndex).bold();
+                var cntyDiv = domConstruct.create('div', {'class': 'cnty-cell'}, row);
+                cntyDiv.innerHTML = feat.attributes[this.contextField] || '';
+                domConstruct.create('div', {style: 'clear: both;'}, row);
+                // store layer for later retrival
+                row.dataset.queryUrl = feat.queryUrl;
 
                 // wire onclick event
                 this.own(on(row, 'click', lang.hitch(this, this._onRowClick)));
@@ -438,7 +443,7 @@ function (
             //      The event object.
             // tags:
             //      private
-            console.log(this.declaredClass + '::_onRowClick', arguments);
+            console.log('app/StreamSearch:_onRowClick', arguments);
 
             this._setMatch(event.currentTarget);
         },
@@ -450,12 +455,13 @@ function (
             //      The row object that you want to set the textbox to.
             // tags:
             //      private
-            console.log(this.declaredClass + '::_setMatch', arguments);
+            console.log('app/StreamSearch:_setMatch', arguments);
 
             var that = this;
 
             // clear any old graphics
-            this._graphicsLayer.setLatLngs([]);
+            this._streamsLayer.setLatLngs([]);
+            this._lakesLayer.setLatLngs([]);
 
             // clear table
             this._toggleTable(false);
@@ -464,28 +470,27 @@ function (
             this.hideMessage();
 
             // set textbox to full value
-            if (!this.contextField) {
-                this.textBox.value = (has('ie') < 9) ? row.innerText : row.textContent;
-                this.query.query.where = this.searchField + ' = \'' + this.textBox.value + '\'';
+            // dig deeper when context values are present
+            this.textBox.value = row.children[0].textContent;
+            var contextValue = row.children[1].innerHTML;
+            if (contextValue.length > 0) {
+                this.query.query.where = this.searchField + ' = \'' + this.textBox.value +
+                    '\' AND ' + this.contextField + ' = \'' + contextValue + '\'';
             } else {
-                // dig deeper when context values are present
-                this.textBox.value = (has('ie') < 9) ? row.children[0].innerText : row.children[0].textContent;
-                var contextValue = row.children[1].innerHTML;
-                if (contextValue.length > 0) {
-                    this.query.query.where = this.searchField + ' = \'' + this.textBox.value +
-                        '\' AND ' + this.contextField + ' = \'' + contextValue + '\'';
-                } else {
-                    this.query.query.where = this.searchField + ' = \'' + this.textBox.value +
-                        '\' AND ' + this.contextField + ' IS NULL';
-                }
+                this.query.query.where = this.searchField + ' = \'' + this.textBox.value +
+                    '\' AND ' + this.contextField + ' IS NULL';
             }
 
             this.query.query.returnGeometry = true;
-            xhr(AGRC.urls.streamsSearch, this.query).then(function (featureSet) {
-                if (featureSet.features.length === 1 || featureSet.features[0].geometry.type === 'polygon') {
-                    that._zoom(featureSet.features[0]);
+            xhr(row.dataset.queryUrl, this.query).then(function (featureSet) {
+                var features = featureSet.features.map(function (f) {
+                    f.geometry.type = (featureSet.geometryType === 'esriGeometryPolygon') ? 'polygon' : 'polyline';
+                    return f;
+                });
+                if (features.length === 1 || features[0].geometry.type === 'polygon') {
+                    that._zoom(features[0]);
                 } else {
-                    that._zoomToMultipleFeatures(featureSet.features);
+                    that._zoomToMultipleFeatures(features);
                 }
                 // set return geometry back to false
                 that.query.query.returnGeometry = false;
@@ -495,7 +500,7 @@ function (
             // summary:
             //      shows a messages at the top of the matches list
             // msg: String
-            console.log(this.declaredClass + '::showMessage', arguments);
+            console.log('app/StreamSearch:showMessage', arguments);
 
             this.msg.innerHTML = msg;
             domStyle.set(this.msg, 'display', 'block');
@@ -504,7 +509,7 @@ function (
         hideMessage: function () {
             // summary:
             //      hids the message at the top of the matches list
-            console.log(this.declaredClass + '::hideMessage', arguments);
+            console.log('app/StreamSearch:hideMessage', arguments);
 
             domStyle.set(this.msg, 'display', 'none');
         },
@@ -515,26 +520,28 @@ function (
             //      The esri.Graphic that you want to zoom to.
             // tags:
             //      private
-            console.log(this.declaredClass + '::_zoom', arguments);
+            console.log('app/StreamSearch:_zoom', arguments);
 
-            this._graphicsLayer.setLatLngs(this.getLatLngs(graphic));
-            this.map.fitBounds(this._graphicsLayer.getBounds().pad(0.1));
+            var layer = (graphic.geometry.type === 'polygon') ? this._lakesLayer : this._streamsLayer;
+            layer.setLatLngs(this.getLatLngs(graphic));
+            this.map.fitBounds(layer.getBounds().pad(0.1));
             this.onZoomed(graphic);
         },
         getLatLngs: function (graphic) {
             // summary:
             //      description
             // graphic: {}
-            // console.log(this.declaredClass + '::getLatLngs', arguments);
+            console.log('app/StreamSearch:getLatLngs', arguments);
 
-            return array.map(graphic.geometry.paths[0], function (p) {
+            var prop = (graphic.geometry.type === 'polygon') ? 'rings' : 'paths';
+            return array.map(graphic.geometry[prop][0], function (p) {
                 return [p[1], p[0]];
             });
         },
         onZoomed: function (/*graphic*/) {
             // summary:
             //      Fires after the map has been zoomed to the graphic.
-            console.log(this.declaredClass + '::onZoomed', arguments);
+            console.log('app/StreamSearch:onZoomed', arguments);
         },
         _deleteAllTableRows: function (table) {
             // summary:
@@ -543,7 +550,7 @@ function (
             //      The table that you want to act upon.
             // tags:
             //      private
-            console.log(this.declaredClass + '::_deleteAllTableRows', arguments);
+            console.log('app/StreamSearch:_deleteAllTableRows', arguments);
 
             // delete all rows in table
             query('li.match', this.matchesTable).forEach(domConstruct.destroy);
@@ -561,7 +568,7 @@ function (
             //      If true, table is shown. If false, table is hidden.
             // tags:
             //      private
-            console.log(this.declaredClass + '::_toggleTable', arguments);
+            console.log('app/StreamSearch:_toggleTable', arguments);
 
             var displayValue = (show) ? 'block' : 'none';
             domStyle.set(this.matchesTable, 'display', displayValue);
@@ -573,7 +580,7 @@ function (
             //      specified, no sorting is done since it's already done on the server
             //      with the 'ORDER BY' statement. I tried to add a second field to the
             //      'ORDER BY' statement but ArcGIS Server just choked.
-            console.log(this.declaredClass + '::_sortArray', arguments);
+            console.log('app/StreamSearch:_sortArray', arguments);
 
             // custom sort function
             var that = this;
@@ -602,14 +609,15 @@ function (
             //      Array of features that you want to zoom to.
             // tags:
             //      private
-            console.log(this.declaredClass + '::_zoomToMultipleFeatures', arguments);
+            console.log('app/StreamSearch:_zoomToMultipleFeatures', arguments);
 
             var that = this;
+            var layer = (features[0].geometry.type === 'polygon') ? this._lakesLayer : this._streamsLayer;
             var lls = array.map(features, function (g) {
                 return that.getLatLngs(g);
             });
-            this._graphicsLayer.setLatLngs(lls);
-            this.map.fitBounds(this._graphicsLayer.getBounds().pad(0.1));
+            layer.setLatLngs(lls);
+            this.map.fitBounds(layer.getBounds().pad(0.1));
         }
     });
 });
