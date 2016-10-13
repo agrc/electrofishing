@@ -15,12 +15,10 @@ require({
             main: 'dist/js/bootstrap'
         }, {
             name: 'bootstrap-combobox',
-            location: './bootstrap-combobox',
-            main: 'js/bootstrap-combobox.js'
+            location: './bootstrap-combobox'
         }, {
             name: 'esri-leaflet',
-            location: './esri-leaflet/dist',
-            main: 'esri-leaflet-src'
+            location: './esri-leaflet'
         }, {
             name: 'jquery',
             location: './jquery/dist',

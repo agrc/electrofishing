@@ -12,8 +12,10 @@ define([
     'dojo/topic',
     'dojo/_base/array',
     'dojo/_base/declare',
+    'dojo/_base/lang',
 
-    'esri-leaflet',
+    'esri-leaflet/dist/esri-leaflet-debug',
+
     'leaflet'
 ], function (
     config,
@@ -28,8 +30,12 @@ define([
     stationPopupTemplate,
     topic,
     array,
-    declare
+    declare,
+    lang,
+
+    esriLeaflet
 ) {
+    L.esri = esriLeaflet;
     // load these script synchronously because the order matters
     return declare([_WidgetBase, _TemplatedMixin], {
         templateString: template,
@@ -39,7 +45,7 @@ define([
         //      The leaflet map
         map: null,
 
-        // stationsLyr: L.esri.FeatureLayer
+        // stationsLyr: esriLeaflet.FeatureLayer
         stationsLyr: null,
 
         // selectedIcon: L.Icon
