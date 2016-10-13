@@ -10,7 +10,7 @@ Application for recording electrofishing surveys. Built for DWR.
 
 # Deployment
 1. Publish `maps/MapService.mxd` as `Electrofishing/MapService`
-    - Feature service
+1. Publish `maps/Reference.mxd` as `Electrofishing/Reference`
 1. Publish all tools in `scripts/Toolbox.tbx` as `Electrofishing/Toolbox`
     - Most of the test data for running the tools is in `scripts/ToolData/TestData.gdb`
     - `GetSegmentFromID`

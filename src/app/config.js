@@ -31,8 +31,7 @@ define([
     }
 
     var wildlifeToolbox = wildlifeFolder + 'Toolbox/GPServer/';
-    var wildlifeData = wildlifeFolder + 'MapService/';
-    var wildlifeFeatureService = wildlifeData + 'FeatureServer/';
+    var wildlifeFeatureService = wildlifeFolder + 'MapService/MapServer/';
 
     window.AGRC = {
         // app: app.App
