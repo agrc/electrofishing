@@ -1,8 +1,6 @@
 require([
     'app/_ClearValuesMixin'
-],
-
-function (
+], function (
     _ClearValuesMixin
     ) {
     describe('app/_ClearValuesMixin', function () {

@@ -1,8 +1,6 @@
 require([
     'app/location/_GeoDefMixin'
-],
-
-function (_GeoDefMixin) {
+], function (_GeoDefMixin) {
     describe('app/location/_GeoDefMixin', function () {
         var testObject;
         beforeEach(function () {

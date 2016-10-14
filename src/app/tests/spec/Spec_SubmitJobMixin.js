@@ -1,8 +1,6 @@
 require([
     'app/_SubmitJobMixin'
-],
-
-function (
+], function (
     _SubmitJobMixin
     ) {
     describe('app/_SubmitJobMixin', function () {

@@ -88,8 +88,8 @@ define([
             console.log('app/NewCollectionEvent:wireEvents', arguments);
 
             this.own(
-                topic.subscribe(AGRC.topics.onSubmitReportClick, lang.hitch(this, 'onSubmit')),
-                topic.subscribe(AGRC.topics.onCancelReportClick, lang.hitch(this, 'onCancel'))
+                topic.subscribe(config.topics.onSubmitReportClick, lang.hitch(this, 'onSubmit')),
+                topic.subscribe(config.topics.onCancelReportClick, lang.hitch(this, 'onCancel'))
             );
         },
         onCancel: function () {
@@ -118,7 +118,7 @@ define([
             }
             this.validateMsg.innerHTML = '';
             domClass.add(this.validateMsg, 'hidden');
-            $(AGRC.app.header.submitBtn).button('loading');
+            $(config.app.header.submitBtn).button('loading');
 
             var data = {};
             data[config.tableNames.samplingEvents] = this.buildFeatureObject();
@@ -137,7 +137,7 @@ define([
                 localStorage.reportsArchive = JSON.stringify(reports);
             }
 
-            this.submitJob({f: 'json', data: JSON.stringify(data)}, AGRC.urls.newCollectionEvent);
+            this.submitJob({f: 'json', data: JSON.stringify(data)}, config.urls.newCollectionEvent);
         },
         onSuccessfulSubmit: function () {
             // summary:
@@ -149,7 +149,7 @@ define([
             domClass.remove(this.successMsgContainer, 'hidden');
             window.scrollTo(0,0);
 
-            $(AGRC.app.header.submitBtn).button('reset');
+            $(config.app.header.submitBtn).button('reset');
         },
         validateReport: function () {
             // summary:
@@ -198,7 +198,7 @@ define([
             //        clears all of the values in the report
             console.log('app/NewCollectionEvent:clearReport', arguments);
 
-            AGRC.eventId = '{' + generateRandomUuid() + '}';
+            config.eventId = '{' + generateRandomUuid() + '}';
             this.locationTb.clear();
             this.methodTb.clear();
             this.catchTb.clear();
@@ -211,11 +211,11 @@ define([
             //      builds a json object suitable for submitting to the NewCollectionEvent service
             console.log('app/NewCollectionEvent:buildFeatureObject', arguments);
 
-            var fn = AGRC.fieldNames.samplingEvents;
+            var fn = config.fieldNames.samplingEvents;
             var atts = {};
 
             // location fields
-            atts[fn.EVENT_ID] = AGRC.eventId;
+            atts[fn.EVENT_ID] = config.eventId;
             atts[fn.GEO_DEF] = this.locationTb.currentGeoDef.geoDef;
             atts[fn.LOCATION_NOTES] = this.locationTb.additionalNotesTxt.value;
             atts[fn.EVENT_DATE] = this.locationTb.dateTxt.value;
@@ -245,7 +245,7 @@ define([
             this.validateMsg.innerHTML = this.submitErrMsg;
             domClass.remove(this.validateMsg, 'hidden');
             window.scrollTo(0,0);
-            $(AGRC.app.header.submitBtn).button('reset');
+            $(config.app.header.submitBtn).button('reset');
         }
     });
 });

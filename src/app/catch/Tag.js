@@ -1,4 +1,5 @@
 define([
+    'app/config',
     'app/_AddBtnMixin',
     'app/_ClearValuesMixin',
 
@@ -9,9 +10,8 @@ define([
     'dojo/_base/declare',
 
     'bootstrap-combobox/js/bootstrap-combobox'
-],
-
-function (
+], function (
+    config,
     _AddBtnMixin,
     _ClearValuesMixin,
 
@@ -33,26 +33,26 @@ function (
             //      description
             console.log(this.declaredClass + '::postCreate', arguments);
 
-            this.featureServiceUrl = AGRC.urls.tagsFeatureService;
+            this.featureServiceUrl = config.urls.tagsFeatureService;
             this.fields = [
                 {
                     control: this.frequencySelect,
-                    fieldName: AGRC.fieldNames.tags.FREQUENCY
+                    fieldName: config.fieldNames.tags.FREQUENCY
                 }, {
                     control: this.typeSelect,
-                    fieldName: AGRC.fieldNames.tags.TYPE
+                    fieldName: config.fieldNames.tags.TYPE
                 }, {
                     control: this.colorSelect,
-                    fieldName: AGRC.fieldNames.tags.COLOR
+                    fieldName: config.fieldNames.tags.COLOR
                 }, {
                     control: this.locationSelect,
-                    fieldName: AGRC.fieldNames.tags.LOCATION
+                    fieldName: config.fieldNames.tags.LOCATION
                 }, {
                     control: this.newSelect,
-                    fieldName: AGRC.fieldNames.tags.NEW_TAG
+                    fieldName: config.fieldNames.tags.NEW_TAG
                 }, {
                     control: this.numberTxt,
-                    fieldName: AGRC.fieldNames.tags.NUMBER
+                    fieldName: config.fieldNames.tags.NUMBER
                 }
             ];
 
@@ -74,7 +74,7 @@ function (
             // returns: {}
             console.log(this.declaredClass + '::addConstantValues', arguments);
 
-            data[AGRC.fieldNames.tags.FISH_ID] = this.container.currentFishId;
+            data[config.fieldNames.tags.FISH_ID] = this.container.currentFishId;
 
             return data;
         }

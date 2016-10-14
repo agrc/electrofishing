@@ -1,10 +1,12 @@
 require([
+    'app/config',
     'app/habitat/Habitat',
 
     'dojo/dom-class',
     'dojo/dom-construct',
     'dojo/_base/window'
 ], function (
+    config,
     Habitat,
 
     domClass,
@@ -99,10 +101,10 @@ require([
                 var data = testWidget.getData();
                 var f = data[0];
 
-                expect(f[AGRC.fieldNames.habitat.SUB_FINES]).toEqual(2);
-                expect(f[AGRC.fieldNames.habitat.VEGD]).toEqual(3);
-                expect(f[AGRC.fieldNames.habitat.SPNG]).toEqual('blah');
-                expect(f[AGRC.fieldNames.habitat.PH]).toEqual(4);
+                expect(f[config.fieldNames.habitat.SUB_FINES]).toEqual(2);
+                expect(f[config.fieldNames.habitat.VEGD]).toEqual(3);
+                expect(f[config.fieldNames.habitat.SPNG]).toEqual('blah');
+                expect(f[config.fieldNames.habitat.PH]).toEqual(4);
             });
         });
         describe('onSedimentClassChange', function () {

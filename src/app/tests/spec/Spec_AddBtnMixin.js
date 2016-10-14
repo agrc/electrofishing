@@ -4,9 +4,7 @@ require([
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
     'dojo/dom-class'
-],
-
-function (
+], function (
     _AddBtnMixin,
     declare,
     _WidgetBase,

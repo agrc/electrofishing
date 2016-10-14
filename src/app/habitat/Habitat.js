@@ -1,4 +1,5 @@
 define([
+    'app/config',
     'app/Domains',
     'app/helpers',
     'app/_ClearValuesMixin',
@@ -12,6 +13,7 @@ define([
     'dojo/text!./templates/Habitat.html',
     'dojo/_base/declare'
 ], function (
+    config,
     Domains,
     helpers,
     _ClearValuesMixin,
@@ -44,14 +46,14 @@ define([
             var that = this;
             var lst = new DeferredList([
                 Domains.populateSelectWithDomainValues(this.springSelect,
-                    AGRC.urls.habitatFeatureService,
-                    AGRC.fieldNames.habitat.SPNG),
+                    config.urls.habitatFeatureService,
+                    config.fieldNames.habitat.SPNG),
                 Domains.populateSelectWithDomainValues(this.overstorySelect,
-                    AGRC.urls.habitatFeatureService,
-                    AGRC.fieldNames.habitat.DOVR),
+                    config.urls.habitatFeatureService,
+                    config.fieldNames.habitat.DOVR),
                 Domains.populateSelectWithDomainValues(this.understorySelect,
-                    AGRC.urls.habitatFeatureService,
-                    AGRC.fieldNames.habitat.DUND)
+                    config.urls.habitatFeatureService,
+                    config.fieldNames.habitat.DUND)
             ]);
             lst.then(function () {
                 $(that.domNode).find('select').combobox();
@@ -87,9 +89,9 @@ define([
             console.log('app/habitat/Habitat:getData', arguments);
 
             var f = {};
-            var fn = AGRC.fieldNames.habitat;
+            var fn = config.fieldNames.habitat;
 
-            f[fn.EVENT_ID] = AGRC.eventId;
+            f[fn.EVENT_ID] = config.eventId;
             f[fn.BANKVEG] = helpers.getNumericValue(this.bankVegTxt.value);
             f[fn.BWID] = helpers.getNumericValue(this.bankfulWidthTxt.value);
             f[fn.DEPTR] = helpers.getNumericValue(this.depthRightThirdTxt.value);

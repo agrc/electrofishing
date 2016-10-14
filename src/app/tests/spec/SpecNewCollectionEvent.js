@@ -1,4 +1,5 @@
 require([
+    'app/config',
     'app/NewCollectionEvent',
 
     'dojo/dom-class',
@@ -7,9 +8,8 @@ require([
     'ijit/modules/NumericInputValidator',
 
     'put-selector/put'
-],
-
-function (
+], function (
+    config,
     NewCollectionEvent,
 
     domClass,
@@ -22,7 +22,7 @@ function (
     describe('app/NewCollectionEvent', function () {
         var testWidget;
         beforeEach(function () {
-            AGRC.app = {
+            config.app = {
                 header: {
                     submitBtn: domConstruct.create('button')
                 }
@@ -203,25 +203,25 @@ function (
             it('returns an appropriate object with location-related fields', function () {
                 var value = testWidget.buildFeatureObject();
 
-                expect(value.attributes[AGRC.fieldNames.samplingEvents.STATION_ID]).toEqual(stationId);
-                expect(value.attributes[AGRC.fieldNames.samplingEvents.GEO_DEF]).toEqual(geoDef);
+                expect(value.attributes[config.fieldNames.samplingEvents.STATION_ID]).toEqual(stationId);
+                expect(value.attributes[config.fieldNames.samplingEvents.GEO_DEF]).toEqual(geoDef);
                 expect(value.geometry).toEqual(utmGeo);
-                expect(value.attributes[AGRC.fieldNames.samplingEvents.EVENT_DATE]).toEqual(dateTxt);
-                expect(value.attributes[AGRC.fieldNames.samplingEvents.SEGMENT_LENGTH]).toEqual(500);
-                expect(value.attributes[AGRC.fieldNames.samplingEvents.EVENT_ID].length).toBe(38);
+                expect(value.attributes[config.fieldNames.samplingEvents.EVENT_DATE]).toEqual(dateTxt);
+                expect(value.attributes[config.fieldNames.samplingEvents.SEGMENT_LENGTH]).toEqual(500);
+                expect(value.attributes[config.fieldNames.samplingEvents.EVENT_ID].length).toBe(38);
             });
             it('returns the additional location notes field', function () {
                 var txt = 'blah';
 
                 var value = testWidget.buildFeatureObject();
 
-                expect(value.attributes[AGRC.fieldNames.samplingEvents.LOCATION_NOTES]).toEqual('');
+                expect(value.attributes[config.fieldNames.samplingEvents.LOCATION_NOTES]).toEqual('');
 
                 testWidget.locationTb.additionalNotesTxt.value = txt;
 
                 value = testWidget.buildFeatureObject();
 
-                expect(value.attributes[AGRC.fieldNames.samplingEvents.LOCATION_NOTES]).toEqual(txt);
+                expect(value.attributes[config.fieldNames.samplingEvents.LOCATION_NOTES]).toEqual(txt);
             });
         });
         describe('showTab', function () {

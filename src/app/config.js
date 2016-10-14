@@ -34,10 +34,14 @@ define([
     var wildlifeFeatureService = wildlifeFolder + 'MapService/MapServer/';
     var referenceService = wildlifeFolder + 'Reference/MapServer/';
 
-    window.AGRC = {
+    var config = {
         // app: app.App
         //      global reference to app
         app: null,
+
+        // appName: String
+        //      name of app used in permission proxy and localforage db name
+        appName: 'electrofishing',
 
         // eventId: String(GUID)
         //      The guid for this unique event.
@@ -268,5 +272,5 @@ define([
     // Leaflet config
     L.Icon.Default.imagePath = 'leaflet/dist/images';
 
-    return AGRC;
+    return config;
 });

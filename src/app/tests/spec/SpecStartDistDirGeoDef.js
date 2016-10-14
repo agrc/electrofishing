@@ -7,9 +7,7 @@ require([
     'dojo/json',
     'dojo/on',
     'dojo/topic'
-],
-
-function (
+], function (
     config,
     StartDistDirGeoDef,
 

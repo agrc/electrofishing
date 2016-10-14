@@ -1,8 +1,6 @@
 require([
     'app/_GridMixin'
-],
-
-function (
+], function (
     _GridMixin
     ) {
     describe('app/_GridMixin', function () {

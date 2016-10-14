@@ -1,4 +1,6 @@
 define([
+    'app/config',
+
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
 
@@ -8,6 +10,8 @@ define([
     'dojo/_base/declare',
     'dojo/_base/event'
 ], function (
+    config,
+
     _TemplatedMixin,
     _WidgetBase,
 
@@ -32,7 +36,7 @@ define([
             console.log('app/Header:postCreate', arguments);
 
             // set version number
-            this.version.innerHTML = AGRC.version;
+            this.version.innerHTML = config.version;
 
             this.wireEvents();
         },
@@ -44,10 +48,10 @@ define([
             this.connect(this.title, 'click', 'onGoHome');
             this.own(
                 on(this.submitBtn, 'click', function () {
-                    topic.publish(AGRC.topics.onSubmitReportClick);
+                    topic.publish(config.topics.onSubmitReportClick);
                 }),
                 on(this.cancelBtn, 'click', function () {
-                    topic.publish(AGRC.topics.onCancelReportClick);
+                    topic.publish(config.topics.onCancelReportClick);
                 })
             );
         },

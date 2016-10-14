@@ -1,4 +1,5 @@
 define([
+    'app/config',
     'app/Domains',
     'app/location/VerifyMap',
     'app/_SubmitJobMixin',
@@ -21,6 +22,7 @@ define([
     'app/location/StationPointDef',
     'bootstrap'
 ], function (
+    config,
     Domains,
     VerifyMap,
     _SubmitJobMixin,
@@ -91,8 +93,8 @@ define([
             var that = this;
 
             Domains.populateSelectWithDomainValues(this.streamTypeSelect,
-                AGRC.urls.stationsFeatureService,
-                AGRC.fieldNames.stations.STREAM_TYPE).then(function () {
+                config.urls.stationsFeatureService,
+                config.fieldNames.stations.STREAM_TYPE).then(function () {
                     $(that.streamTypeSelect).combobox();
                 });
 
@@ -110,7 +112,7 @@ define([
 
             this.connect(this.submitBtn, 'click', 'onSubmit');
 
-            this.own(topic.subscribe(AGRC.topics.onStationClick, function (params) {
+            this.own(topic.subscribe(config.topics.onStationClick, function (params) {
                 that.stationTxt.value = params[0];
                 that.currentGuid = params[1];
             }));
@@ -174,7 +176,7 @@ define([
             if (feature) {
                 $(this.submitBtn).button('loading');
 
-                feature.attributes[AGRC.fieldNames.stations.STATION_ID] = this.getGUID();
+                feature.attributes[config.fieldNames.stations.STATION_ID] = this.getGUID();
 
                 this.newStation = feature;
 
@@ -191,7 +193,7 @@ define([
                     })
                 };
 
-                this.submitJob(data, AGRC.urls.newStationService);
+                this.submitJob(data, config.urls.newStationService);
             }
         },
         onSuccessfulSubmit: function () {
@@ -211,15 +213,15 @@ define([
             $(this.streamTypeSelect).data('combobox').clearElement();
             this.pointDef.clear();
 
-            topic.publish(AGRC.topics.onStationClick, [
-                this.newStation.attributes[AGRC.fieldNames.stations.NAME],
-                this.newStation.attributes[AGRC.fieldNames.stations.STATION_ID]
+            topic.publish(config.topics.onStationClick, [
+                this.newStation.attributes[config.fieldNames.stations.NAME],
+                this.newStation.attributes[config.fieldNames.stations.STATION_ID]
             ]);
 
             var point = this.pointDef.utm83crs.projection.unproject(
                 new L.Point(this.newStation.geometry.x, this.newStation.geometry.y));
             this.mainMap.map.setView(point, 14);
-            this.mainMap.selectStation(this.newStation.attributes[AGRC.fieldNames.stations.STATION_ID]);
+            this.mainMap.selectStation(this.newStation.attributes[config.fieldNames.stations.STATION_ID]);
 
             var onMapLoad = function () {
                 $(that.stationDialog).modal('hide');
@@ -257,8 +259,8 @@ define([
                     geometry: {x: point.x, y: point.y, spatialReference: {wkid: 26912}},
                     attributes: {}
                 };
-                returnValue.attributes[AGRC.fieldNames.stations.NAME] = name;
-                returnValue.attributes[AGRC.fieldNames.stations.STREAM_TYPE] = type;
+                returnValue.attributes[config.fieldNames.stations.NAME] = name;
+                returnValue.attributes[config.fieldNames.stations.STREAM_TYPE] = type;
             }
 
             this.validateMsg.innerHTML = msg;

@@ -1,13 +1,13 @@
 require([
     'app/catch/Tag',
+    'app/config',
 
     'dojo/dom-class',
     'dojo/dom-construct',
     'dojo/_base/window'
-],
-
-function (
+], function (
     Tag,
+    config,
 
     domClass,
     domConstruct,
@@ -23,7 +23,7 @@ function (
         var location = 'blah';
         var num = '4';
         var fishId = 'blah3';
-        var fn = AGRC.fieldNames.tags;
+        var fn = config.fieldNames.tags;
         function setData() {
             function populateSelect(select, value) {
                 domConstruct.create('option', {value: value}, select);

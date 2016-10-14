@@ -1,4 +1,5 @@
 require([
+    'app/config',
     'app/location/Location',
 
     'dojo/Deferred',
@@ -6,9 +7,8 @@ require([
     'dojo/dom-construct',
     'dojo/topic',
     'dojo/_base/window'
-],
-
-function (
+], function (
+    config,
     Location,
 
     Deferred,
@@ -20,7 +20,7 @@ function (
     describe('app/location/Location', function () {
         var testWidget;
         beforeEach(function () {
-            AGRC.app = {};
+            config.app = {};
             testWidget = new Location(null, domConstruct.create('div', null, win.body()));
         });
         afterEach(function () {
@@ -38,19 +38,19 @@ function (
             });
             it('subscribe to onDistanceChange and update the stream length field', function () {
                 var dist = '500';
-                topic.publish(AGRC.topics.startDistDirGeoDef_onDistanceChange, dist);
+                topic.publish(config.topics.startDistDirGeoDef_onDistanceChange, dist);
 
                 expect(testWidget.streamLengthTxt.value).toEqual(dist);
             });
             it('inits the map', function () {
-                topic.publish(AGRC.topics.newCollectionEvent);
+                topic.publish(config.topics.newCollectionEvent);
 
                 expect(testWidget.verifyMap.initMap).toHaveBeenCalled();
             });
             it('doesnt init the map twice', function () {
                 testWidget.verifyMap.map = {remove: function () {}};
 
-                topic.publish(AGRC.topics.newCollectionEvent);
+                topic.publish(config.topics.newCollectionEvent);
 
                 expect(testWidget.verifyMap.initMap).not.toHaveBeenCalled();
             });
@@ -175,17 +175,17 @@ function (
             it('removes the geometry from the map if it exists', function () {
                 var value = true;
                 testWidget.verifyMap.initMap();
-                spyOn(AGRC.app.map, 'removeLayer');
+                spyOn(config.app.map, 'removeLayer');
 
                 testWidget.clearGeometry();
 
-                expect(AGRC.app.map.removeLayer).not.toHaveBeenCalled();
+                expect(config.app.map.removeLayer).not.toHaveBeenCalled();
 
                 testWidget.geometry = value;
 
                 testWidget.clearGeometry();
 
-                expect(AGRC.app.map.removeLayer).toHaveBeenCalledWith(value);
+                expect(config.app.map.removeLayer).toHaveBeenCalledWith(value);
                 expect(testWidget.geometry).toBeNull();
             });
         });

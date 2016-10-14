@@ -2,9 +2,7 @@ define([
     'dojo/_base/declare',
     'app/location/PointDef',
     'dojo/text!app/location/templates/StationPointDef.html'
-],
-
-function (
+], function (
     declare,
     PointDef,
     template

@@ -1,4 +1,6 @@
 define([
+    'app/config',
+
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
 
@@ -11,6 +13,8 @@ define([
     'proj4',
     'proj4leaflet'
 ], function (
+    config,
+
     _TemplatedMixin,
     _WidgetBase,
 
@@ -141,7 +145,7 @@ define([
             this.inherited(arguments);
 
             if (!localStorage.coordType) {
-                this.onCoordTypeChange(AGRC.coordTypes.utm83);
+                this.onCoordTypeChange(config.coordTypes.utm83);
             } else {
                 this.onCoordTypeChange(localStorage.coordType);
             }
@@ -151,7 +155,7 @@ define([
             //      description
             console.log('app/location/PointDef:postCreate', arguments);
 
-            var url = (this.label === 'Start') ? AGRC.urls.startIcon : AGRC.urls.endIcon;
+            var url = (this.label === 'Start') ? config.urls.startIcon : config.urls.endIcon;
 
             this.icon = new L.Icon({
                 iconUrl: url,
@@ -160,7 +164,7 @@ define([
                 iconAnchor: new L.Point(13, 41),
                 popupAnchor: new L.Point(1, -34),
                 shadowSize: new L.Point(41, 41),
-                shadowUrl: AGRC.urls.markerShadow
+                shadowUrl: config.urls.markerShadow
             });
 
             this.wireEvents();
@@ -171,8 +175,8 @@ define([
             console.log('app/location/PointDef:wireEvents', arguments);
 
             this.own(
-                topic.subscribe(AGRC.topics.coordTypeToggle_onChange, lang.hitch(this, this.onCoordTypeChange)),
-                topic.subscribe(AGRC.topics.pointDef_onBtnClick, lang.hitch(this, this.onOtherMapBtnClicked))
+                topic.subscribe(config.topics.coordTypeToggle_onChange, lang.hitch(this, this.onCoordTypeChange)),
+                topic.subscribe(config.topics.pointDef_onBtnClick, lang.hitch(this, this.onOtherMapBtnClicked))
             );
 
             // validate text boxes
@@ -184,12 +188,12 @@ define([
             // summary:
             //      Fires when the user changes the coordinate type through
             //      the SettingsDialog widget.
-            // type: String (AGRC.coordTypes)
+            // type: String (config.coordTypes)
             console.log('app/location/PointDef:onCoordTypeChange', arguments);
 
             this.clear();
 
-            if (type === AGRC.coordTypes.ll) {
+            if (type === config.coordTypes.ll) {
                 this.set('yLabelTxt', this.labels.ll.y);
                 this.set('yPlaceHolder', this.labels.ll.placeY);
                 this.set('xLabelTxt', this.labels.ll.x);
@@ -276,7 +280,7 @@ define([
             this.yBox.disabled = disabled;
             this.xBox.disabled = disabled;
 
-            topic.publish(AGRC.topics.pointDef_onBtnClick, this);
+            topic.publish(config.topics.pointDef_onBtnClick, this);
         },
         onOtherMapBtnClicked: function (widget) {
             // summary:
@@ -300,10 +304,10 @@ define([
 
             this.updateMarkerPosition(evt.latlng);
 
-            if (this.currentType === AGRC.coordTypes.ll) {
+            if (this.currentType === config.coordTypes.ll) {
                 this.yBox.value = Math.round(evt.latlng.lat * 1000000) / 1000000;
                 this.xBox.value = Math.round(evt.latlng.lng * 1000000) / 1000000;
-            } else if (this.currentType === AGRC.coordTypes.utm83) {
+            } else if (this.currentType === config.coordTypes.utm83) {
                 projection = this.utm83crs.projection;
                 pnt = projection.project(evt.latlng);
                 this.yBox.value = parseInt(pnt.y, 10);
@@ -329,9 +333,9 @@ define([
                 x = this.xBox.value;
 
                 // get it from the text boxes
-                if (this.currentType === AGRC.coordTypes.ll) {
+                if (this.currentType === config.coordTypes.ll) {
                     ll = new L.LatLng(y, x);
-                } else if (this.currentType === AGRC.coordTypes.utm83) {
+                } else if (this.currentType === config.coordTypes.utm83) {
                     ll = this.utm83crs.projection.unproject(new L.Point(x, y));
                 } else {
                     // utm27

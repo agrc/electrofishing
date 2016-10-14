@@ -1,4 +1,6 @@
 define([
+    'app/config',
+
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
@@ -14,6 +16,8 @@ define([
     'app/location/Station',
     'app/location/VerifyMap'
 ], function (
+    config,
+
     _TemplatedMixin,
     _WidgetBase,
     _WidgetsInTemplateMixin,
@@ -101,10 +105,10 @@ define([
                 this.connect(this.verifyMapBtn, 'click', function () {
                     that.validateGeometry();
                 }),
-                topic.subscribe(AGRC.topics.startDistDirGeoDef_onDistanceChange, function (dist) {
+                topic.subscribe(config.topics.startDistDirGeoDef_onDistanceChange, function (dist) {
                     that.streamLengthTxt.value = dist;
                 }),
-                topic.subscribe(AGRC.topics.newCollectionEvent, function () {
+                topic.subscribe(config.topics.newCollectionEvent, function () {
                     if (!that.verifyMap.map) {
                         that.verifyMap.initMap();
                     }
@@ -136,7 +140,7 @@ define([
             var that = this;
 
             if (this.geometry) {
-                AGRC.app.map.removeLayer(this.geometry);
+                config.app.map.removeLayer(this.geometry);
                 this.geometry = null;
             }
 
@@ -152,8 +156,8 @@ define([
             } else {
                 returnedValue.then(function (values) {
                     that.verifyMapBtn.innerHTML = that.successfullyVerifiedMsg;
-                    var line = L.polyline(values.path, {color: 'red'}).addTo(AGRC.app.map);
-                    AGRC.app.map.fitBounds(line.getBounds().pad(0.1));
+                    var line = L.polyline(values.path, {color: 'red'}).addTo(config.app.map);
+                    config.app.map.fitBounds(line.getBounds().pad(0.1));
                     that.geometry = line;
                     that.utmGeo = values.utm;
                     this.utmGeo.spatialReference = {wkid: 26912}
@@ -187,7 +191,7 @@ define([
             console.log('app/location/Location:clearGeometry', arguments);
 
             if (this.geometry) {
-                AGRC.app.map.removeLayer(this.geometry);
+                config.app.map.removeLayer(this.geometry);
                 this.geometry = null;
             }
         },

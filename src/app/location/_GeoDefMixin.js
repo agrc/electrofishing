@@ -4,9 +4,7 @@ define([
     'dojo/request/xhr',
     'dojo/_base/array',
     'dojo/_base/declare'
-],
-
-function (
+], function (
     Deferred,
     all,
     xhr,

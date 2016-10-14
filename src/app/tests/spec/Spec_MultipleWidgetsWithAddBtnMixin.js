@@ -7,9 +7,7 @@ require([
     'dijit/_WidgetsInTemplateMixin',
 
     'dojo/_base/declare'
-],
-
-function (
+], function (
     Equipment,
     _MultipleWidgetsWithAddBtnMixin,
 

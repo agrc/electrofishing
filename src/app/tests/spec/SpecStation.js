@@ -1,25 +1,29 @@
 require([
+    'app/config',
     'app/location/Station',
-    'dojo/dom-construct',
-    'dojo/dom-class',
-    'dojo/dom-style',
-    'stubmodule',
-    'dojo/topic'
-],
 
-function (
+    'dojo/dom-class',
+    'dojo/dom-construct',
+    'dojo/dom-style',
+    'dojo/topic',
+
+    'stubmodule'
+], function (
+    config,
     Station,
-    domConstruct,
+
     domClass,
+    domConstruct,
     domStyle,
-    stubModule,
-    topic
-    ) {
+    topic,
+
+    stubModule
+) {
     describe('app/location/Station', function () {
         var testWidget;
         var point;
         beforeEach(function () {
-            AGRC.app = {map: {
+            config.app = {map: {
                 options: {crs: {projection: {unproject: function () {}}}},
                 setView: function () {}
             }};
@@ -74,7 +78,7 @@ function (
                 var value = 'blah';
                 testWidget.stations = [value];
 
-                topic.publish(AGRC.topics.onStationClick, [value]);
+                topic.publish(config.topics.onStationClick, [value]);
 
                 expect(testWidget.stationTxt.value).toEqual(value);
             });
@@ -156,7 +160,7 @@ function (
 
                 testWidget.onSubmit();
 
-                expect(testWidget.newStation.attributes[AGRC.fieldNames.stations.STATION_ID]).toEqual(value);
+                expect(testWidget.newStation.attributes[config.fieldNames.stations.STATION_ID]).toEqual(value);
             });
         });
         describe('validate', function () {
@@ -229,9 +233,9 @@ function (
             var name;
             beforeEach(function () {
                 obj = {attributes: {}, geometry: point};
-                obj.attributes[AGRC.fieldNames.stations.NAME] = 'station name';
+                obj.attributes[config.fieldNames.stations.NAME] = 'station name';
                 testWidget.newStation = obj;
-                name = obj.attributes[AGRC.fieldNames.stations.NAME];
+                name = obj.attributes[config.fieldNames.stations.NAME];
                 $(testWidget.domNode).find('select').combobox();
             });
             it('clears the form values', function () {

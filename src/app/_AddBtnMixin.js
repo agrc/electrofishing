@@ -1,4 +1,5 @@
 define([
+    'app/config',
     'app/Domains',
     'app/helpers',
 
@@ -7,9 +8,8 @@ define([
     'dojo/promise/all',
     'dojo/_base/array',
     'dojo/_base/declare'
-],
-
-function (
+], function (
+    config,
     Domains,
     helpers,
 
@@ -39,7 +39,7 @@ function (
 
         // fields: Object[]
         //      config for the mapping between controls and fields
-        //      set in constructor so that we have access to AGRC.fieldNames
+        //      set in constructor so that we have access to config.fieldNames
         // [{
         //     control: '',
         //     fieldName: ''
@@ -157,7 +157,7 @@ function (
                 return control;
             };
             for (var fn in feature.attributes) {
-                if (fn !== AGRC.fieldNames.tags.FISH_ID) {
+                if (fn !== config.fieldNames.tags.FISH_ID) {
                     var control = getControl(fn);
                     control.value = feature.attributes[fn];
                     if (control.type === 'select-one') {

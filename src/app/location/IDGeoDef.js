@@ -1,4 +1,5 @@
 define([
+    'app/config',
     'app/location/_GeoDefMixin',
 
     'dijit/_TemplatedMixin',
@@ -9,9 +10,8 @@ define([
     'dojo/request/xhr',
     'dojo/text!app/location/templates/IDGeoDef.html',
     'dojo/_base/declare'
-],
-
-function (
+], function (
+    config,
     _GeoDefMixin,
 
     _TemplatedMixin,
@@ -62,7 +62,7 @@ function (
             //    description
             console.log(this.declaredClass + '::constructor:', arguments);
 
-            this.gpServiceUrl = AGRC.urls.getSegmentFromID;
+            this.gpServiceUrl = config.urls.getSegmentFromID;
             this.defs = [];
         },
         postCreate: function () {
@@ -122,14 +122,14 @@ function (
                 // no validation
                 return {
                     id: this.waterIDBox.value,
-                    type: AGRC.idTypes.waterbodyid
+                    type: config.idTypes.waterbodyid
                 };
             } else if (this.reachBox.value.length > 0) {
                 length = this.reachBox.value.length;
                 if (length === this.reachDigits) {
                     return {
                         id: this.reachBox.value,
-                        type: AGRC.idTypes.reachcode
+                        type: config.idTypes.reachcode
                     };
                 } else if (length > this.reachDigits) {
                     this.reachBoxTxt.innerHTML = this.tooManyDigitsMsg;

@@ -2,9 +2,7 @@ define([
     'dojo/on',
     'dojo/query',
     'dojo/_base/declare'
-],
-
-function (
+], function (
     on,
     query,
     declare

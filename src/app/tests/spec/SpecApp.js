@@ -1,8 +1,6 @@
 require([
     'app/App'
-],
-
-function (App) {
+], function (App) {
     describe('app/App', function () {
         var testWidget;
         beforeEach(function () {

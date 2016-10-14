@@ -3,9 +3,7 @@ define([
     'dojo/dom-construct',
     'dojo/_base/array',
     'dojo/_base/declare'
-],
-
-function (
+], function (
     aspect,
     domConstruct,
     array,

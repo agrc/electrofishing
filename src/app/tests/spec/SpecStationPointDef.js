@@ -1,10 +1,8 @@
 require([
     'app/location/StationPointDef'
-],
-
-function (
+], function (
     StationPointDef
-    ) {
+) {
     describe('app/location/StationPointDef', function () {
         var testWidget;
         beforeEach(function () {
