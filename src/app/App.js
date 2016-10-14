@@ -9,8 +9,6 @@ define([
     'dojo/text!app/templates/App.html',
     'dojo/_base/declare',
 
-    'dojox/uuid/generateRandomUuid',
-
     'app/Header',
     'app/SettingsDialog',
     'bootstrap',
@@ -26,9 +24,7 @@ define([
     _WidgetsInTemplateMixin,
 
     template,
-    declare,
-
-    generateRandomUuid
+    declare
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         // summary:
@@ -55,8 +51,6 @@ define([
             // summary:
             //      Fires when
             console.log('app/App:postCreate', arguments);
-
-            config.eventId = '{' + generateRandomUuid() + '}';
 
             this.newEvent = new NewCollectionEvent({}, this.newEventDiv);
 

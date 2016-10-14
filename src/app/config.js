@@ -2,10 +2,12 @@ define([
     'dojo/has',
     'dojo/request/xhr',
 
+    'dojox/uuid/generateRandomUuid',
     'leaflet'
 ], function (
     has,
-    xhr
+    xhr,
+    generateRandomUuid,
 ) {
     var quadWord = '';
     var wildlifeFolder;
@@ -45,7 +47,7 @@ define([
 
         // eventId: String(GUID)
         //      The guid for this unique event.
-        eventId: null,
+        eventId: '{' + generateRandomUuid() + '}',
 
         // version: String
         //      The app version number.
