@@ -73,6 +73,10 @@ define([
 
         quadWord: quadWord,
 
+        // tempValueKey: String
+        //      used by _InProgressCacheMixin
+        tempValueKey: 'tempValue',
+
         // topics: {key:String}
         //      Global dojo/topic topics used in the app
         topics: {

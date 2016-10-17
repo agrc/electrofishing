@@ -45,11 +45,20 @@ define([
             }
 
             var that = this;
-            this.inputs = query('input[data-dojo-attach-point], textarea[data-dojo-attach-point]', this.domNode)
+            var selectTxt = 'input[data-dojo-attach-point], textarea[data-dojo-attach-point], select[data-dojo-attach-point]';
+            this.inputs = query(selectTxt, this.domNode)
+                // don't return inputs from nested widgets
                 .filter(function filter(node) {
                     return that.hasOwnProperty(node.dataset.dojoAttachPoint);
                 });
             this.inputs.on('change', lang.hitch(this, 'cacheInProgressData'));
+
+            // boostrap comobox selects need to be wired via jquery
+            this.inputs.forEach(function wirejQueryEvent(node) {
+                if (node.tagName === 'SELECT') {
+                    $(node).on('change', lang.hitch(that, 'cacheInProgressData'));
+                }
+            });
 
             this.hydrateWithInProgressData();
 
@@ -66,10 +75,18 @@ define([
                 if (inProgressData) {
                     that.inputs.forEach(function (node) {
                         if (node.dataset.dojoAttachPoint in inProgressData) {
-                            node.value = inProgressData[node.dataset.dojoAttachPoint];
+                            if (node.tagName === 'SELECT' && node.children.length === 0) {
+                                node.dataset[config.tempValueKey] = inProgressData[node.dataset.dojoAttachPoint];
+                            } else {
+                                node.value = inProgressData[node.dataset.dojoAttachPoint];
+                            }
 
                             // fire onchange for inputs involved with NumericInputValidator
                             on.emit(node, 'change', {bubbles: false});
+
+                            if (node.tagName === 'SELECT') {
+                                $(node).combobox('refresh');
+                            }
                         }
                     });
                 }

@@ -1,4 +1,4 @@
-define([
+require([
     'app/_InProgressCacheMixin',
 
     'dijit/_TemplatedMixin',
@@ -32,6 +32,8 @@ define([
         var someValue = 'someValue';
         var anotherValue = 'anotherValue';
         var textAreaValue = 'textAreaValue';
+        var selectValue = 'two';
+        var selectNoOptionsValue = 'temp';
         var onError = function (error) {
             console.error(error);
         };
@@ -56,14 +58,16 @@ define([
             testWidget.anotherBox.value = anotherValue;
             testWidget.textArea.value = textAreaValue;
             document.getElementById('skipBox').value = 'blah';
+            testWidget.select.value = selectValue;
 
             testWidget.cacheInProgressData().then(function () {
                 localforage.getItem(testWidget.cacheId).then(function (value) {
                     expect(value.someBox).toBe(someValue);
                     expect(value.anotherBox).toBe(anotherValue);
                     expect(value.textArea).toBe(textAreaValue);
+                    expect(value.select).toBe(selectValue);
                     // doesn't find inputs in nested widgets
-                    expect(Object.keys(value).length).toBe(3);
+                    expect(Object.keys(value).length).toBe(5);
                     done();
                 }, onError);
             });
@@ -81,6 +85,8 @@ define([
                 expect(testWidget2.someBox.value).toBe(someValue);
                 expect(testWidget2.anotherBox.value).toBe(anotherValue);
                 expect(testWidget2.textArea.value).toBe(textAreaValue);
+                expect(testWidget2.select.value).toBe(selectValue);
+                expect(testWidget2.selectNoOptions.dataset.tempValue).toBe(selectNoOptionsValue);
 
                 testWidget2.destroy();
 
@@ -96,7 +102,9 @@ define([
             localforage.setItem(cacheId, {
                 someBox: someValue,
                 anotherBox: anotherValue,
-                textArea: textAreaValue
+                textArea: textAreaValue,
+                select: selectValue,
+                selectNoOptions: selectNoOptionsValue
             }).then(createWidget, onError);
         });
     });

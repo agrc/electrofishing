@@ -1,9 +1,10 @@
 require([
+    'app/config',
     'app/Domains',
 
     'dojo/dom-construct'
-
 ], function (
+    config,
     Domains,
 
     domConstruct
@@ -46,6 +47,23 @@ require([
 
                 expect(select.children.length).toBe(4);
                 expect(select.children[3].innerHTML).toEqual(Domains.otherTxt);
+            });
+            it('sets the value from tempValue if any', function () {
+                var value = 'blah';
+                select.dataset[config.tempValueKey] = value;
+
+                Domains.buildOptions(values, select);
+
+                expect(select.value).toBe(value);
+            });
+            it('creates other option from tempValue if appropriate', function () {
+                var value = 'foo';
+                select.dataset[config.tempValueKey] = value;
+
+                Domains.buildOptions(values, select);
+
+                expect(select.children[4].innerHTML).toBe(value);
+                expect(select.value).toBe(value);
             });
         });
     });
