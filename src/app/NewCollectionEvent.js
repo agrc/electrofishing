@@ -22,6 +22,8 @@ define([
 
     'ijit/modules/NumericInputValidator',
 
+    'localforage',
+
     'app/catch/Catch',
     'app/habitat/Habitat',
     'app/location/Location',
@@ -49,7 +51,9 @@ define([
 
     generateRandomUuid,
 
-    NumericInputValidator
+    NumericInputValidator,
+
+    localforage
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _SubmitJobMixin], {
         widgetsInTemplate: true,
@@ -205,6 +209,8 @@ define([
             this.habitatTb.clear();
             this.validateMsg.innerHTML = '';
             domClass.add(this.validateMsg, 'hidden');
+
+            localforage.clear();
         },
         buildFeatureObject: function () {
             // summary:

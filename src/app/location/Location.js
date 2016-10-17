@@ -1,5 +1,6 @@
 define([
     'app/config',
+    'app/_InProgressCacheMixin',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -17,6 +18,7 @@ define([
     'app/location/VerifyMap'
 ], function (
     config,
+    _InProgressCacheMixin,
 
     _TemplatedMixin,
     _WidgetBase,
@@ -27,10 +29,14 @@ define([
     topic,
     declare
 ) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _InProgressCacheMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'location',
+
+        // cacheId: String
+        //      used by _InProgressCacheMixin
+        cacheId: 'app/location',
 
         // currentGeoDef: IDGeoDef || StartDistDirGeoDef || StartEndGeoDef
         //      the currently selected geometry definition tab
@@ -90,6 +96,8 @@ define([
                 this.connect(this.currentGeoDef, 'onInvalidate', 'clearValidation');
 
             this.station.mainMap = this.verifyMap;
+
+            this.inherited(arguments);
         },
         wireEvents: function () {
             // summary:

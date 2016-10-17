@@ -27,6 +27,7 @@ src/jasmine-jsreporter/
 src/jquery
 src/ladda-bootstrap/
 src/leaflet
+src/localforage/
 src/moment/
 src/mustache/
 src/proj4

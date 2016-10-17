@@ -28,6 +28,10 @@ require({
             location: './leaflet',
             main: 'dist/leaflet-src'
         }, {
+            name: 'localforage',
+            location: './localforage/dist',
+            main: 'localforage'
+        }, {
             name: 'proj4',
             location: './proj4/dist',
             main: 'proj4'

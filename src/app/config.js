@@ -3,11 +3,17 @@ define([
     'dojo/request/xhr',
 
     'dojox/uuid/generateRandomUuid',
+
+    'localforage',
+
     'leaflet'
 ], function (
     has,
     xhr,
+
     generateRandomUuid,
+
+    localforage
 ) {
     var quadWord = '';
     var wildlifeFolder;
@@ -44,6 +50,10 @@ define([
         // appName: String
         //      name of app used in permission proxy and localforage db name
         appName: 'electrofishing',
+
+        // databaseVersion: Number
+        //      localforage database version
+        databaseVersion: 1.0,
 
         // eventId: String(GUID)
         //      The guid for this unique event.
@@ -273,6 +283,11 @@ define([
 
     // Leaflet config
     L.Icon.Default.imagePath = 'leaflet/dist/images';
+
+    localforage.config({
+        name: config.appName,
+        version: config.databaseVersion
+    });
 
     return config;
 });

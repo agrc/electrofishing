@@ -1,0 +1,87 @@
+define([
+    'dojo/query',
+    'dojo/_base/declare',
+    'dojo/_base/lang',
+
+    'localforage'
+], function (
+    query,
+    declare,
+    lang,
+
+    localforage
+) {
+    return declare([], {
+        // inputs: InputDomNode[]
+        //      inputs that need to be cached
+        inputs: null,
+
+        // missingCacheIdError: String
+        //      summary
+        missingCacheIdError: 'Object property "cacheId" is required!',
+
+
+        // passed in via constructor
+
+        // cacheId: String
+        //      The unique id associated with this object that is used as a key for local data caching
+        cacheId: null,
+
+        postCreate: function () {
+            // summary:
+            //      set up
+            console.log('app/_InProgressCacheMixin:postCreate', arguments);
+
+            if (!this.cacheId || this.cacheId.length === 0) {
+                throw new Error(this.missingCacheIdError);
+            }
+
+            var that = this;
+            this.inputs = query('input[data-dojo-attach-point], textarea[data-dojo-attach-point]', this.domNode)
+                .filter(function filter(node) {
+                    return that.hasOwnProperty(node.dataset.dojoAttachPoint);
+                });
+            this.inputs.on('change', lang.hitch(this, 'cacheInProgressData'));
+
+            this.hydrateWithInProgressData();
+
+            this.inherited(arguments);
+        },
+        hydrateWithInProgressData: function () {
+            // summary:
+            //      populates the controls with in progress cached data
+            console.log('app/_InProgressCacheMixin:hydrateWithInProgressData', arguments);
+
+            var that = this;
+            return localforage.getItem(this.cacheId).then(function (inProgressData) {
+                if (inProgressData) {
+                    that.inputs.forEach(function (node) {
+                        if (node.dataset.dojoAttachPoint in inProgressData) {
+                            node.value = inProgressData[node.dataset.dojoAttachPoint];
+                        }
+                    });
+                }
+            }, lang.hitch(this, 'onError'));
+        },
+        cacheInProgressData: function () {
+            // summary:
+            //      caches any relevant data for an in progress report to localforage
+            console.log('app/_InProgressCacheMixin:cacheInProgressData', arguments);
+
+            var data = {};
+            this.inputs.forEach(function (node) {
+                data[node.dataset.dojoAttachPoint] = node.value;
+            });
+
+            return localforage.setItem(this.cacheId, data).then(null, lang.hitch(this, 'onError'));
+        },
+        onError: function (error) {
+            // summary:
+            //      error from localforage
+            // error: Error
+            console.log('app/_InProgressCacheMixin:onError', arguments);
+
+            // TODO: what to do? toast?
+        }
+    });
+});
