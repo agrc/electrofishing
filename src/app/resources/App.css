@@ -14,7 +14,13 @@
 @import 'StreamSearch.css';
 @import '../habitat/resources/Habitat.css';
 @import 'OtherOptionHandler.css';
+@import '../../toaster/dist/resources/Toaster.css';
 
+.app .toaster {
+    position: fixed;
+    bottom: 15px;
+    right: 45px;
+}
 .app .main-container {
     margin-top: 65px;
 }

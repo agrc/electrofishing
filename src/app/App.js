@@ -6,8 +6,11 @@ define([
     'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
 
+    'dojo/dom-construct',
     'dojo/text!app/templates/App.html',
     'dojo/_base/declare',
+
+    'toaster',
 
     'app/Header',
     'app/SettingsDialog',
@@ -23,8 +26,11 @@ define([
     _WidgetBase,
     _WidgetsInTemplateMixin,
 
+    domConstruct,
     template,
-    declare
+    declare,
+
+    Toaster
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         // summary:
@@ -55,6 +61,11 @@ define([
             this.newEvent = new NewCollectionEvent({}, this.newEventDiv);
 
             document.body.className += ' loaded';
+
+            /* eslint-disable new-cap */
+            var toaster = new Toaster.default(null, domConstruct.create('div', null, this.domNode));
+            /* eslint-enable new-cap */
+            toaster.startup();
         }
     });
 });

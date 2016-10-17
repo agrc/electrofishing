@@ -1,11 +1,17 @@
 define([
+    'app/config',
+
     'dojo/query',
+    'dojo/topic',
     'dojo/_base/declare',
     'dojo/_base/lang',
 
     'localforage'
 ], function (
+    config,
+
     query,
+    topic,
     declare,
     lang,
 
@@ -53,6 +59,7 @@ define([
             console.log('app/_InProgressCacheMixin:hydrateWithInProgressData', arguments);
 
             var that = this;
+            this.cacheId;
             return localforage.getItem(this.cacheId).then(function (inProgressData) {
                 if (inProgressData) {
                     that.inputs.forEach(function (node) {
@@ -61,7 +68,7 @@ define([
                         }
                     });
                 }
-            }, lang.hitch(this, 'onError'));
+            }, lang.partial(lang.hitch(this, 'onError'), 'populating controls from cache.'));
         },
         cacheInProgressData: function () {
             // summary:
@@ -73,15 +80,16 @@ define([
                 data[node.dataset.dojoAttachPoint] = node.value;
             });
 
-            return localforage.setItem(this.cacheId, data).then(null, lang.hitch(this, 'onError'));
+            return localforage.setItem(this.cacheId, data)
+                .then(null, lang.partial(lang.hitch(this, 'onError'), 'caching data.'));
         },
-        onError: function (error) {
+        onError: function (error, message) {
             // summary:
             //      error from localforage
             // error: Error
             console.log('app/_InProgressCacheMixin:onError', arguments);
 
-            // TODO: what to do? toast?
+            topic.publish(config.topics.toaster, 'Error ' + message + ' ' + error.message);
         }
     });
 });

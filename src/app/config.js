@@ -85,7 +85,8 @@ define([
             onSubmitReportClick: 'header_onSubmitReportClick',
             onCancelReportClick: 'header_onCancelReportClick',
             mouseWheelZooming_onChange: 'app_mouseWheelZooming',
-            streamsLakes_toggle: 'verifyMap_streamsLakes_toggle'
+            streamsLakes_toggle: 'verifyMap_streamsLakes_toggle',
+            toaster: 'app/Toaster'
         },
 
         // urls: {}
