@@ -3,6 +3,7 @@ define([
     'app/Domains',
     'app/helpers',
     'app/_ClearValuesMixin',
+    'app/_InProgressCacheMixin',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -17,6 +18,7 @@ define([
     Domains,
     helpers,
     _ClearValuesMixin,
+    _InProgressCacheMixin,
 
     _TemplatedMixin,
     _WidgetBase,
@@ -29,9 +31,13 @@ define([
 ) {
     // summary:
     //      Habitat tab
-    return declare([_WidgetBase, _TemplatedMixin, _ClearValuesMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _ClearValuesMixin, _InProgressCacheMixin], {
         templateString: template,
         baseClass: 'habitat',
+
+        // cacheId: String
+        //      used by _InProgressCacheMixin
+        cacheId: 'app/habitat',
 
         // badSedClassesErrMsg: String
         //      error message when the sed classes don't add up to 100
@@ -58,6 +64,8 @@ define([
             lst.then(function () {
                 $(that.domNode).find('select').combobox();
             });
+
+            this.inherited(arguments);
         },
         clear: function () {
             // summary:
