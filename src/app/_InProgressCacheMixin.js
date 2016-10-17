@@ -1,6 +1,7 @@
 define([
     'app/config',
 
+    'dojo/on',
     'dojo/query',
     'dojo/topic',
     'dojo/_base/declare',
@@ -10,6 +11,7 @@ define([
 ], function (
     config,
 
+    on,
     query,
     topic,
     declare,
@@ -65,6 +67,9 @@ define([
                     that.inputs.forEach(function (node) {
                         if (node.dataset.dojoAttachPoint in inProgressData) {
                             node.value = inProgressData[node.dataset.dojoAttachPoint];
+
+                            // fire onchange for inputs involved with NumericInputValidator
+                            on.emit(node, 'change', {bubbles: false});
                         }
                     });
                 }
