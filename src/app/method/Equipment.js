@@ -2,6 +2,7 @@ define([
     'app/config',
     'app/_AddBtnMixin',
     'app/_ClearValuesMixin',
+    'app/_InProgressCacheMixin',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -16,6 +17,7 @@ define([
     config,
     _AddBtnMixin,
     _ClearValuesMixin,
+    _InProgressCacheMixin,
 
     _TemplatedMixin,
     _WidgetBase,
@@ -27,7 +29,7 @@ define([
 
     NumericInputValidator
 ) {
-    return declare([_WidgetBase, _TemplatedMixin, _ClearValuesMixin, _AddBtnMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _ClearValuesMixin, _AddBtnMixin, _InProgressCacheMixin], {
         templateString: template,
         baseClass: 'equipment',
 
@@ -36,6 +38,13 @@ define([
         requiredFields: [
             ['voltsTxt', 'Voltage']
         ],
+
+
+        // passed into constructor
+
+        // cacheId: String
+        //      set by _MultipleWidgetsWithAddBtnMixin
+        cacheId: null,
 
 
         postCreate: function () {

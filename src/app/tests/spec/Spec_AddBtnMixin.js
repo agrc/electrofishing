@@ -41,17 +41,17 @@ require([
                 expect(testWidget.onRemove).not.toHaveBeenCalled();
             });
             it('fires onRemove when the minus button is clicked', function () {
-                testWidget.onAdd();
+                testWidget.toggleButton(true);
 
                 testWidget.btn.click();
 
-                expect(testWidget.onAdd.calls.count()).toBe(1);
+                expect(testWidget.onAdd.calls.count()).toBe(0);
                 expect(testWidget.onRemove).toHaveBeenCalled();
             });
         });
-        describe('onAdd', function () {
+        describe('toggleButton', function () {
             it('changes to a minus button', function () {
-                testWidget.onAdd();
+                testWidget.toggleButton(true);
 
                 expect(domClass.contains(testWidget.icon, testWidget.minusIconClass)).toBe(true);
                 expect(domClass.contains(testWidget.icon, testWidget.plusIconClass)).toBe(false);

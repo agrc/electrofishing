@@ -2,21 +2,28 @@ require([
     'app/config',
     'app/method/Equipment',
 
-    'dojo/dom-construct'
+    'dojo/dom-construct',
+
+    'localforage'
 ], function (
     config,
     Equipment,
 
-    domConstruct
+    domConstruct,
+
+    localforage
 ) {
     describe('app/method/Equipment', function () {
         var testWidget;
         beforeEach(function () {
-            testWidget = new Equipment(null, domConstruct.create('div', {}, document.body));
+            testWidget = new Equipment({
+                cacheId: 'equipment/test'
+            }, domConstruct.create('div', {}, document.body));
         });
-        afterEach(function () {
+        afterEach(function (done) {
             testWidget.destroyRecursive();
             testWidget = null;
+            localforage.clear().then(done);
         });
         it('create a valid object', function () {
             expect(testWidget).toEqual(jasmine.any(Equipment));

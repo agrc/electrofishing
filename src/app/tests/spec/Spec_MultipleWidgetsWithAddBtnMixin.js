@@ -6,7 +6,9 @@ require([
     'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
 
-    'dojo/_base/declare'
+    'dojo/_base/declare',
+
+    'localforage'
 ], function (
     Equipment,
     _MultipleWidgetsWithAddBtnMixin,
@@ -15,7 +17,9 @@ require([
     _WidgetBase,
     _WidgetsInTemplateMixin,
 
-    declare
+    declare,
+
+    localforage
 ) {
     describe('app/_MultipleWidgetsWithAddBtnMixin', function () {
         var setClass;
@@ -27,6 +31,7 @@ require([
         ], {
             widgetsInTemplate: true,
             templateString: '<div><div data-dojo-attach-point="addBtnWidgetsContainer"></div></div></div>',
+            cacheId: 'test/widget',
             constructor: function () {
                 console.log(this.declaredClass + '::constructor', arguments);
                 if (setClass) {
@@ -35,14 +40,18 @@ require([
             }
         });
         var testWidget;
-        beforeEach(function () {
-            setClass = true;
-            testWidget = new TestWidget();
-            testWidget.startup();
+        beforeEach(function (done) {
+            localforage.clear().then(function () {
+                setClass = true;
+                testWidget = new TestWidget();
+                testWidget.startup();
+                testWidget.promise.then(done);
+            });
         });
-        afterEach(function () {
+        afterEach(function (done) {
             testWidget.destroy();
             testWidget = null;
+            localforage.clear().then(done);
         });
         it('create a valid object', function () {
             expect(testWidget).toEqual(jasmine.any(TestWidget));
@@ -55,16 +64,27 @@ require([
                 }).toThrow(testWidget.noAddBtnWidgetPropErrMsg);
             });
         });
+        describe('initChildWidgets', function () {
+            it('creates multiple existing widgets if there is cached in progress data', function (done) {
+                localforage.setItem(TestWidget.prototype.cacheId, 3).then(function () {
+                    testWidget.addBtnWidgets = [];
+
+                    testWidget.initChildWidgets().then(function () {
+                        expect(testWidget.addBtnWidgets.length).toBe(3);
+
+                        done();
+                    });
+                });
+            });
+        });
         describe('wireEvents', function () {
             beforeEach(function () {
-                spyOn(testWidget, 'addAddBtnWidget');
+                spyOn(testWidget, 'addAddBtnWidget').and.callThrough();
             });
             it('fires addAddBtnWidget when the add button is pressed on the first btn widget', function () {
-                // testWidget.wireEvents();
-
                 testWidget.addBtnWidgets[0].btn.click();
 
-                expect(testWidget.addAddBtnWidget).toHaveBeenCalled();
+                expect(testWidget.addAddBtnWidget.calls.count()).toBe(1);
             });
             it('fires onRemoveAddBtnWidget when the minus button is pressed', function () {
                 spyOn(testWidget, 'onRemoveAddBtnWidget');

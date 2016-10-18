@@ -2,12 +2,16 @@ require([
     'app/catch/TagsContainer',
 
     'dojo/dom-construct',
-    'dojo/_base/window'
+    'dojo/_base/window',
+
+    'localforage'
 ], function (
     TagsContainer,
 
     domConstruct,
-    win
+    win,
+
+    localforage
 ) {
     describe('app/catch/TagsContainer', function () {
         var testWidget;
@@ -15,12 +19,16 @@ require([
             widget.destroyRecursive();
             widget = null;
         };
-        beforeEach(function () {
-            testWidget = new TagsContainer({}, domConstruct.create('div', {}, win.body()));
-            testWidget.startup();
+        beforeEach(function (done) {
+            localforage.clear().then(function () {
+                testWidget = new TagsContainer({}, domConstruct.create('div', {}, win.body()));
+                testWidget.startup();
+                testWidget.promise.then(done);
+            });
         });
-        afterEach(function () {
+        afterEach(function (done) {
             destroy(testWidget);
+            localforage.clear().then(done);
         });
         it('create a valid object', function () {
             expect(testWidget).toEqual(jasmine.any(TagsContainer));

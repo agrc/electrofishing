@@ -29,6 +29,9 @@ define([
         templateString: template,
         baseClass: 'method',
 
+        // cacheId: String
+        //      used to build cacheId's in _MultipleWidgetsWithAddBtnMixin
+        cacheId: 'app/method',
 
         constructor: function () {
             // summary:
