@@ -202,15 +202,16 @@ define([
             //        clears all of the values in the report
             console.log('app/NewCollectionEvent:clearReport', arguments);
 
-            config.eventId = '{' + generateRandomUuid() + '}';
-            this.locationTb.clear();
-            this.methodTb.clear();
-            this.catchTb.clear();
-            this.habitatTb.clear();
-            this.validateMsg.innerHTML = '';
-            domClass.add(this.validateMsg, 'hidden');
-
-            localforage.clear();
+            var that = this;
+            localforage.clear().then(function () {
+                config.eventId = '{' + generateRandomUuid() + '}';
+                that.locationTb.clear();
+                that.methodTb.clear();
+                that.catchTb.clear();
+                that.habitatTb.clear();
+                that.validateMsg.innerHTML = '';
+                domClass.add(that.validateMsg, 'hidden');
+            });
         },
         buildFeatureObject: function () {
             // summary:
