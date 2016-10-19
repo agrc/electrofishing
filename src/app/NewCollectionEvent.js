@@ -203,7 +203,7 @@ define([
             console.log('app/NewCollectionEvent:clearReport', arguments);
 
             var that = this;
-            localforage.clear().then(function () {
+            return localforage.clear().then(function () {
                 config.eventId = '{' + generateRandomUuid() + '}';
                 that.locationTb.clear();
                 that.methodTb.clear();

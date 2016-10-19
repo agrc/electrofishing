@@ -143,23 +143,27 @@ require([
 
                 expect(domClass.contains(testWidget.successMsgContainer, 'hidden')).toBe(false);
             });
-            it('clears all of the widgets', function () {
-                testWidget.onSuccessfulSubmit();
-
-                expect(testWidget.locationTb.clear).toHaveBeenCalled();
-                expect(testWidget.catchTb.clear).toHaveBeenCalled();
-                expect(testWidget.methodTb.clear).toHaveBeenCalled();
-                expect(testWidget.habitatTb.clear).toHaveBeenCalled();
-            });
         });
         describe('clearReport', function () {
-            it('calls the appropriate methods on its child objects', function () {
+            it('calls the appropriate methods on its child objects', function (done) {
                 testWidget.validateMsg.innerHTML = 'blah';
 
-                testWidget.clearReport();
+                testWidget.clearReport().then(function () {
+                    expect(testWidget.locationTb.clear).toHaveBeenCalled();
+                    expect(testWidget.validateMsg.innerHTML).toEqual('');
 
-                expect(testWidget.locationTb.clear).toHaveBeenCalled();
-                expect(testWidget.validateMsg.innerHTML).toEqual('');
+                    done();
+                });
+            });
+            it('clears all of the widgets', function (done) {
+                testWidget.clearReport().then(function () {
+                    expect(testWidget.locationTb.clear).toHaveBeenCalled();
+                    expect(testWidget.catchTb.clear).toHaveBeenCalled();
+                    expect(testWidget.methodTb.clear).toHaveBeenCalled();
+                    expect(testWidget.habitatTb.clear).toHaveBeenCalled();
+
+                    done();
+                });
             });
         });
         describe('onCancel', function () {
