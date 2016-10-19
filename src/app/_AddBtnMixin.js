@@ -120,9 +120,9 @@ define([
             //      description
             console.log('app/_AddBtnMixin:onRemove', arguments);
 
-            this.destroyRecursive(false);
-
             localforage.removeItem(this.cacheId);
+
+            this.destroyRecursive(false);
         },
         getData: function () {
             // summary:
