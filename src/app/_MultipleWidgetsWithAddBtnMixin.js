@@ -111,6 +111,8 @@ define([
             console.log(this.declaredClass + '::onRemoveAddBtnWidget', arguments);
 
             this.addBtnWidgets.splice(array.indexOf(this.addBtnWidgets, widget), 1);
+
+            localforage.setItem(this.cacheId, this.addBtnWidgets.length);
         },
         clear: function () {
             // summary:

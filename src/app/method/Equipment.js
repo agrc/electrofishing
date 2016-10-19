@@ -122,13 +122,36 @@ define([
             });
 
             $(this.raftTab).on('show.bs.tab', function setNum() {
-                that.numberNettersTxt.value = 1;
+                // don't overrite a value that was set by inprogress cache
+                if (that.numberNettersTxt.value === '') {
+                    that.numberNettersTxt.value = 1;
+                }
             });
             $(this.raftTab).on('hide.bs.tab', function setNum() {
                 that.numberNettersTxt.value = '';
             });
 
+            query('.nav-pills li', this.domNode).on('click', function (event) {
+                that.typeTxt.value = event.currentTarget.dataset.type;
+                that.cacheInProgressData();
+            });
+
             this.inherited(arguments);
+        },
+        hydrateWithInProgressData: function () {
+            // summary:
+            //      overriden from _InProgressCacheMixin to set the nav pills
+            // param or return
+            console.log('app/method/Equipment:hydrateWithInProgressData', arguments);
+
+            var that = this;
+            this.inherited(arguments).then(function (inProgressData) {
+                if (inProgressData && inProgressData[that.typeTxt.dataset.dojoAttachPoint]) {
+                    // manually click the corresponding pill button
+                    var selector = '.nav-pills li[data-type="' + inProgressData[that.typeTxt.dataset.dojoAttachPoint] + '"] a';
+                    query(selector, that.domNode)[0].click();
+                }
+            });
         },
         isValid: function () {
             // summary:
