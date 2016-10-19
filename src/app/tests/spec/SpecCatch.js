@@ -7,7 +7,9 @@ require([
     'dojo/keys',
     'dojo/on',
     'dojo/query',
-    'dojo/_base/window'
+    'dojo/_base/window',
+
+    'localforage'
 ], function (
     Catch,
     config,
@@ -17,7 +19,9 @@ require([
     keys,
     on,
     query,
-    win
+    win,
+
+    localforage
 ) {
     describe('app/catch/Catch', function () {
         var testWidget;
@@ -31,8 +35,10 @@ require([
             testWidget = new Catch({}, domConstruct.create('div', {}, win.body()));
             testWidget.startup();
         });
-        afterEach(function () {
+        afterEach(function (done) {
             destroy(testWidget);
+
+            localforage.clear().then(done);
         });
         it('create a valid object', function () {
             expect(testWidget).toEqual(jasmine.any(Catch));
@@ -360,19 +366,21 @@ require([
             });
         });
         describe('clear', function () {
-            it('clears all of the controls', function () {
+            it('clears all of the controls', function (done) {
                 testWidget.addPass();
                 testWidget.store.data[0][fn.SPECIES_CODE] = 'blah';
                 testWidget.addRow();
                 testWidget.grid.save();
                 spyOn(testWidget.moreInfoDialog, 'clearValues');
 
-                testWidget.clear();
+                testWidget.clear().then(function () {
+                    expect(testWidget.getNumberOfPasses()).toBe(1);
+                    expect(testWidget.store.data.length).toBe(1);
+                    expect(testWidget.store.data[0][fn.SPECIES_CODE]).toEqual(null);
+                    expect(testWidget.moreInfoDialog.clearValues).toHaveBeenCalled();
 
-                expect(testWidget.getNumberOfPasses()).toBe(1);
-                expect(testWidget.store.data.length).toBe(1);
-                expect(testWidget.store.data[0][fn.SPECIES_CODE]).toEqual(null);
-                expect(testWidget.moreInfoDialog.clearValues).toHaveBeenCalled();
+                    done();
+                });
             });
         });
         describe('onRowSelected', function () {
