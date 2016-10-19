@@ -90,6 +90,8 @@ define([
                         }
                     });
                 }
+
+                return inProgressData;
             }, lang.partial(lang.hitch(this, 'onError'), 'populating controls from cache.'));
         },
         cacheInProgressData: function () {
@@ -99,7 +101,7 @@ define([
 
             var data = {};
             this.inputs.forEach(function (node) {
-                data[node.dataset.dojoAttachPoint] = node.value;
+                data[node.dataset.dojoAttachPoint] = (node.type === 'number') ? parseFloat(node.value) : node.value;
             });
 
             return localforage.setItem(this.cacheId, data)
