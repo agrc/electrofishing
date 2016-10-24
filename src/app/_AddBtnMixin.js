@@ -7,9 +7,7 @@ define([
     'dojo/on',
     'dojo/promise/all',
     'dojo/_base/array',
-    'dojo/_base/declare',
-
-    'localforage'
+    'dojo/_base/declare'
 ], function (
     config,
     Domains,
@@ -19,9 +17,7 @@ define([
     on,
     all,
     array,
-    declare,
-
-    localforage
+    declare
 ) {
     return declare(null, {
         // minusIconClass: String
@@ -120,8 +116,6 @@ define([
             //      description
             console.log('app/_AddBtnMixin:onRemove', arguments);
 
-            localforage.removeItem(this.cacheId);
-
             this.destroyRecursive(false);
         },
         getData: function () {
@@ -151,42 +145,6 @@ define([
                 return null;
             } else {
                 return this.addConstantValues(data);
-            }
-        },
-        setData: function (feature, lastOne) {
-            // summary:
-            //      pre-populates controls with data
-            // feature: {attributes{...}}
-            // lastOne: Boolean
-            //      controls whether the plus or minus icons are show
-            console.log('app/_AddBtnMixin:setData', arguments);
-
-            var that = this;
-            var getControl = function (fieldName) {
-                var control;
-                array.some(that.fields, function (fld) {
-                    if (fld.fieldName === fieldName) {
-                        control = fld.control;
-                        return false;
-                    }
-                });
-                return control;
-            };
-            for (var fn in feature.attributes) {
-                if (fn !== config.fieldNames.tags.FISH_ID) {
-                    var control = getControl(fn);
-                    control.value = feature.attributes[fn];
-                    if (control.type === 'select-one') {
-                        $(control).combobox('refresh');
-                    }
-                } else {
-                    this.container.currentFishId = feature.attributes[fn];
-                }
-            }
-
-            if (!lastOne) {
-                domClass.add(this.icon, this.minusIconClass);
-                domClass.remove(this.icon, this.plusIconClass);
             }
         },
         addConstantValues: function (/* data */) {

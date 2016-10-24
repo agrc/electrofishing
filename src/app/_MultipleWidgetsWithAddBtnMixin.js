@@ -3,17 +3,13 @@ define([
     'dojo/dom-construct',
     'dojo/_base/array',
     'dojo/_base/declare',
-    'dojo/_base/lang',
-
-    'localforage'
+    'dojo/_base/lang'
 ], function (
     aspect,
     domConstruct,
     array,
     declare,
-    lang,
-
-    localforage
+    lang
 ) {
     // summary:
     //      Used to manage multiple _AddBtnWidget's
@@ -39,32 +35,18 @@ define([
                 throw this.noAddBtnWidgetPropErrMsg;
             }
 
+            this.addBtnWidgets = [];
+
             this.initChildWidgets();
 
             this.inherited(arguments);
         },
         initChildWidgets: function () {
             // summary:
-            //      sets up initial child widget
-            //      adds additional widgets if there is in progress data that has been cached
+            //      Adds a single widget to start with
             console.log('app/_MultipleWidgetsWithAddBtnMixin:initChildWidgets', arguments);
 
-            this.addBtnWidgets = [];
-
-            var that = this;
-            this.promise = localforage.getItem(this.cacheId).then(function (childWidgetsNum) {
-                if (childWidgetsNum && childWidgetsNum > 0) {
-                    for (var i = 0; i < childWidgetsNum; i++) {
-                        that.addAddBtnWidget();
-                    }
-
-                    // reset cache number to be correct
-                    localforage.setItem(this.cacheId, childWidgetsNum);
-                } else {
-                    that.addAddBtnWidget();
-                }
-            });
-            return this.promise;
+            this.addAddBtnWidget();
         },
         addAddBtnWidget: function () {
             // summary:
@@ -74,6 +56,7 @@ define([
             var widget = new this.AddBtnWidgetClass(
                 {
                     container: this,
+                    // for local caching of Method only, doesn't hurt moreinfodialog
                     cacheId: this.cacheId + '_' + this.addBtnWidgets.length
                 },
                 domConstruct.create('div', {}, this.addBtnWidgetsContainer)
@@ -87,8 +70,6 @@ define([
             if (this.addBtnWidgets.length > 1) {
                 this.addBtnWidgets[this.addBtnWidgets.length - 2].toggleButton(true);
             }
-
-            localforage.setItem(this.cacheId, this.addBtnWidgets.length);
 
             return widget;
         },
@@ -111,8 +92,6 @@ define([
             console.log(this.declaredClass + '::onRemoveAddBtnWidget', arguments);
 
             this.addBtnWidgets.splice(array.indexOf(this.addBtnWidgets, widget), 1);
-
-            localforage.setItem(this.cacheId, this.addBtnWidgets.length);
         },
         clear: function () {
             // summary:
@@ -122,8 +101,6 @@ define([
             array.forEach(this.addBtnWidgets, function (addBtn) {
                 addBtn.destroyRecursive(false);
             });
-
-            localforage.removeItem(this.cacheId);
 
             this.addBtnWidgets = [];
 

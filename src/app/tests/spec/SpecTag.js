@@ -73,11 +73,11 @@ require([
             });
         });
         describe('setData', function () {
-            var data = {attributes: {}};
-            data.attributes[fn.NUMBER] = num;
-            data.attributes[fn.TYPE] = type;
-            data.attributes[fn.LOCATION] = location;
-            data.attributes[fn.FISH_ID] = fishId;
+            var data = {};
+            data[fn.NUMBER] = num;
+            data[fn.TYPE] = type;
+            data[fn.LOCATION] = location;
+            data[fn.FISH_ID] = fishId;
             var isMinus = function () {
                 return domClass.contains(testWidget.icon, testWidget.minusIconClass) &&
                     !domClass.contains(testWidget.icon, testWidget.plusIconClass);

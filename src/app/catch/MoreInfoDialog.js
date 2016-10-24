@@ -19,6 +19,8 @@ define([
 
     'dojox/uuid/generateRandomUuid',
 
+    'localforage',
+
     './Health',
     'app/catch/TagsContainer',
     'leaflet'
@@ -41,7 +43,9 @@ define([
     declare,
     lang,
 
-    generateRandomUuid
+    generateRandomUuid,
+
+    localforage
 ) {
     // summary:
     //      Form for storing diet, tag and other fish stats.
@@ -84,6 +88,10 @@ define([
         // healthData: {}
         //      object for storing the health table
         healthData: null,
+
+        // cacheId: String
+        //      used to cache in progress data
+        cacheId: 'app/catch/moreinfodialog',
 
 
         // properties passed in via the constructor
@@ -179,6 +187,12 @@ define([
                     that.submitBtn.disabled = query('.form-group.has-error', that.domNode).length > 0;
                 }, 0);
             });
+
+            localforage.getItem(this.cacheId).then(function (inProgressData) {
+                if (inProgressData) {
+                    lang.mixin(that, inProgressData);
+                }
+            });
         },
         show: function (guid, tabName) {
             // summary:
@@ -272,6 +286,8 @@ define([
                 this.healthData[this.currentFishId] = [healthFeature];
             }
 
+            this.cacheInProgressData();
+
             var item = this.catch.store.getSync(this.currentFishId);
             item[config.fieldNames.fish.NOTES] = this.notesTxtArea.value;
             item[config.fieldNames.MOREINFO] = true;
@@ -279,6 +295,19 @@ define([
 
             this.clearValues();
             $(this.dialog).modal('hide');
+        },
+        cacheInProgressData: function () {
+            // summary:
+            //      caches any in progress data in localforage
+            console.log('app/catch/MoreInfoDialog:cacheInProgressData', arguments);
+
+            localforage.setItem(this.cacheId, {
+                dietData: this.dietData,
+                tagsData: this.tagsData,
+                healthData: this.healthData
+            });
+
+            // notes are cached via the catch grid
         },
         clearValues: function () {
             // summary:

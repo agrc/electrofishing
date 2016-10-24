@@ -6,9 +6,7 @@ require([
     'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
 
-    'dojo/_base/declare',
-
-    'localforage'
+    'dojo/_base/declare'
 ], function (
     Equipment,
     _MultipleWidgetsWithAddBtnMixin,
@@ -17,9 +15,7 @@ require([
     _WidgetBase,
     _WidgetsInTemplateMixin,
 
-    declare,
-
-    localforage
+    declare
 ) {
     describe('app/_MultipleWidgetsWithAddBtnMixin', function () {
         var setClass;
@@ -40,41 +36,26 @@ require([
             }
         });
         var testWidget;
-        beforeEach(function (done) {
-            localforage.clear().then(function () {
-                setClass = true;
-                testWidget = new TestWidget();
-                testWidget.startup();
-                testWidget.promise.then(done);
-            });
+        beforeEach(function () {
+            setClass = true;
+            testWidget = new TestWidget();
+            testWidget.startup();
         });
-        afterEach(function (done) {
+        afterEach(function () {
             testWidget.destroy();
             testWidget = null;
-            localforage.clear().then(done);
         });
+
         it('create a valid object', function () {
             expect(testWidget).toEqual(jasmine.any(TestWidget));
         });
+
         describe('postCreate', function () {
             it('verifies the presence of AddBtnWidgetClass property', function () {
                 setClass = false;
                 expect(function () {
                     new TestWidget();
                 }).toThrow(testWidget.noAddBtnWidgetPropErrMsg);
-            });
-        });
-        describe('initChildWidgets', function () {
-            it('creates multiple existing widgets if there is cached in progress data', function (done) {
-                localforage.setItem(TestWidget.prototype.cacheId, 3).then(function () {
-                    testWidget.addBtnWidgets = [];
-
-                    testWidget.initChildWidgets().then(function () {
-                        expect(testWidget.addBtnWidgets.length).toBe(3);
-
-                        done();
-                    });
-                });
             });
         });
         describe('wireEvents', function () {

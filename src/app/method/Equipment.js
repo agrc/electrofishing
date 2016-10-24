@@ -12,7 +12,9 @@ define([
     'dojo/text!app/method/templates/Equipment.html',
     'dojo/_base/declare',
 
-    'ijit/modules/NumericInputValidator'
+    'ijit/modules/NumericInputValidator',
+
+    'localforage'
 ], function (
     config,
     _AddBtnMixin,
@@ -27,7 +29,9 @@ define([
     template,
     declare,
 
-    NumericInputValidator
+    NumericInputValidator,
+
+    localforage
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _ClearValuesMixin, _AddBtnMixin, _InProgressCacheMixin], {
         templateString: template,
@@ -202,6 +206,15 @@ define([
             data[config.fieldNames.equipment.TYPE] = query('.nav-pills li.active', this.domNode)[0].dataset.type;
 
             return data;
+        },
+        onRemove: function () {
+            // summary:
+            //      remove cached in progress data item
+            console.log('app/method/Equipment:onRemove', arguments);
+
+            localforage.removeItem(this.cacheId);
+
+            this.inherited(arguments);
         }
     });
 });

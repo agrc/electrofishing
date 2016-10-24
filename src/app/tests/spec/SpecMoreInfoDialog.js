@@ -23,7 +23,7 @@ require([
         };
         var catchMock;
         var guid = 'blah';
-        beforeEach(function (done) {
+        beforeEach(function () {
             var row = {};
             row[config.fieldNames.fish.FISH_ID] = guid;
             row[config.fieldNames.fish.CATCH_ID] = 3;
@@ -39,7 +39,6 @@ require([
             };
             testWidget = new MoreInfoDialog({catch: catchMock}, domConstruct.create('div', {}, win.body()));
             testWidget.startup();
-            testWidget.tagsContainer.promise.then(done);
         });
         afterEach(function () {
             destroy(testWidget);
