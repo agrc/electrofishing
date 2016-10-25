@@ -104,6 +104,8 @@ define([
                 data[node.dataset.dojoAttachPoint] = (node.type === 'number') ? parseFloat(node.value) : node.value;
             });
 
+            data = lang.mixin(data, this.getAdditionalCacheData());
+
             return localforage.setItem(this.cacheId, data)
                 .then(null, lang.partial(lang.hitch(this, 'onError'), 'caching data.'));
         },
@@ -114,6 +116,13 @@ define([
             console.log('app/_InProgressCacheMixin:onError', arguments);
 
             topic.publish(config.topics.toaster, 'Error ' + message + ' ' + error.message);
+        },
+        getAdditionalCacheData: function () {
+            // summary:
+            //      implemented by the child class to add additional data to the cache
+            console.log('app/_InProgressCacheMixin:getAdditionalCacheData', arguments);
+
+            return {};
         }
     });
 });

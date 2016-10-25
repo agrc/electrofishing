@@ -2,6 +2,7 @@ define([
     'app/config',
     'app/Domains',
     'app/location/VerifyMap',
+    'app/_InProgressCacheMixin',
     'app/_SubmitJobMixin',
 
     'dijit/_TemplatedMixin',
@@ -25,6 +26,7 @@ define([
     config,
     Domains,
     VerifyMap,
+    _InProgressCacheMixin,
     _SubmitJobMixin,
 
     _TemplatedMixin,
@@ -42,7 +44,7 @@ define([
 
     generateRandomUuid
 ) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _SubmitJobMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _SubmitJobMixin, _InProgressCacheMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'station',
@@ -79,6 +81,11 @@ define([
         //      An icon to represent a selected station.
         selectedIcon: null,
 
+        // cacheId: String
+        //      used by _InProgressCacheMixin
+        cacheId: 'app/location/station',
+
+
         // passed in via the constructor
 
         // mainMap: app/location/VerifyMap
@@ -99,6 +106,8 @@ define([
                 });
 
             this.wireEvents();
+
+            this.inherited(arguments);
         },
         wireEvents: function () {
             // summary:
@@ -115,6 +124,7 @@ define([
             this.own(topic.subscribe(config.topics.onStationClick, function (params) {
                 that.stationTxt.value = params[0];
                 that.currentGuid = params[1];
+                that.cacheInProgressData();
             }));
         },
         onDialogShown: function () {
@@ -273,6 +283,28 @@ define([
             console.log('app/location/Station:getGUID', arguments);
 
             return '{' + generateRandomUuid() + '}';
+        },
+        getAdditionalCacheData: function () {
+            // summary:
+            //      add currentGuid to cache
+            // param or return
+            console.log('app/location/Stations:getAdditionalCacheData', arguments);
+
+            return {
+                currentGuid: this.currentGuid
+            }
+        },
+        hydrateWithInProgressData: function () {
+            // summary:
+            //      add population of this.currentGuid which isn't covered in _InProgressCacheMixin
+            console.log('app/location/Station:hydrateWithInProgressData', arguments);
+
+            var that = this;
+            this.inherited(arguments).then(function hydrateCurrentGuid(inProgressData) {
+                if (inProgressData) {
+                    that.currentGuid = inProgressData.currentGuid;
+                }
+            });
         }
     });
 });

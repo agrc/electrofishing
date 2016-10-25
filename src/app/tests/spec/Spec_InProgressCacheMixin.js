@@ -107,5 +107,24 @@ require([
                 selectNoOptions: selectNoOptionsValue
             }).then(createWidget, onError);
         });
+        it('mixes in additional data to be cached from getAdditionalCacheData', function () {
+            var value = 'blah';
+            testWidget.getAdditionalCacheData = function () {
+                return {value: value};
+            };
+
+            spyOn(localforage, 'setItem').and.callThrough();
+
+            testWidget.cacheInProgressData();
+
+            expect(localforage.setItem.calls.mostRecent().args[1]).toEqual({
+                someBox: '',
+                anotherBox: '',
+                textArea: '',
+                select: 'one',
+                selectNoOptions: '',
+                value: value
+            });
+        });
     });
 });
