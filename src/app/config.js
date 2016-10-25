@@ -287,7 +287,7 @@ define([
     };
 
     // Leaflet config
-    L.Icon.Default.imagePath = 'leaflet/dist/images';
+    L.Icon.Default.prototype.options.imagePath = 'leaflet/dist/images/';
 
     localforage.config({
         name: config.appName,
