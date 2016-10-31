@@ -92,6 +92,10 @@ define([
         //      required for _GridMixin
         idProperty: null,
 
+        // ignoreColumn: String
+        //      required for _GridMixin
+        ignoreColumn: null,
+
         // invalidGridMsg: String
         //      returned by isValid if there are no fish recorded
         invalidGridMsg: 'You must input at least one fish.',
@@ -118,6 +122,7 @@ define([
             this.lastColumn = fn.WEIGHT;
             this.firstColumn = fn.SPECIES_CODE;
             this.idProperty = fn.FISH_ID;
+            this.ignoreColumn = config.fieldNames.MOREINFO;
         },
         postCreate: function () {
             // summary:
