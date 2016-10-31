@@ -37,6 +37,7 @@ def appendFeatureData(feature):
     del cursor
 
 data = json.loads(arcpy.GetParameterAsText(0))
+# data = json.loads(open('TestData/NewCollectionEventData.json').read())
 
 
 arcpy.env.workspace = settings.DB
