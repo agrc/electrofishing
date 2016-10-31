@@ -168,13 +168,35 @@ define([
                     config.app.map.fitBounds(line.getBounds().pad(0.1));
                     that.geometry = line;
                     that.utmGeo = values.utm;
-                    this.utmGeo.spatialReference = {wkid: 26912}
+                    that.utmGeo.spatialReference = {wkid: 26912}
+                    that.cacheInProgressData();
                 },
                 function (errorMsg) {
                     that.setValidateMsg(errorMsg);
                     $(that.verifyMapBtn).button('reset');
                 });
             }
+        },
+        getAdditionalCacheData: function () {
+            // summary:
+            //      cache the current utmGeo prop
+            console.log('app/location/Location:getAdditionalCacheData', arguments);
+
+            return {
+                utmGeo: this.utmGeo
+            };
+        },
+        hydrateWithInProgressData: function () {
+            // summary:
+            //      add utmGeo which isn't covered in _InProgressCacheMixin
+            console.log('app/location/Station:hydrateWithInProgressData', arguments);
+
+            var that = this;
+            this.inherited(arguments).then(function hydrateutmGeo(inProgressData) {
+                if (inProgressData) {
+                    that.utmGeo = inProgressData.utmGeo;
+                }
+            });
         },
         setValidateMsg: function (txt) {
             // summary:
