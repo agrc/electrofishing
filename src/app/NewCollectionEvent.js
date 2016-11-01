@@ -70,9 +70,23 @@ define([
         // invalidInputMsg: String
         invalidInputMsg: 'Invalid value for ',
 
+        // archivesStoreName: String
+        //      the localforage store name used to store the object that contains
+        //      archives of all submitted reports
+        archivesStoreName: 'submitted_reports',
+
+        // archivesLocalForage: localforage instance
+        //      used to manage archives in a separate instance that the inprogress stuff
+        //      this allows for easy clearing of inprogress without messing with archives
+        archivesLocalForage: null,
+
 
         constructor: function () {
             console.log('app/NewCollectionEvent:constructor', arguments);
+
+            this.archivesLocalForage = localforage.createInstance({
+                name: this.archivesStoreName
+            });
         },
         postCreate: function () {
             // summary:
@@ -133,15 +147,11 @@ define([
             data[config.tableNames.health] = this.catchTb.moreInfoDialog.getData('health');
             data[config.tableNames.habitat] = this.habitatTb.getData();
 
-            if (!localStorage.reportsArchive) {
-                localStorage.reportsArchive = '[' + JSON.stringify(data) + ']';
-            } else {
-                var reports = JSON.parse(localStorage.reportsArchive);
-                reports.push(JSON.stringify(data));
-                localStorage.reportsArchive = JSON.stringify(reports);
-            }
+            var data_txt = JSON.stringify(data);
+            this.submitJob({f: 'json', data: data_txt}, config.urls.newCollectionEvent);
 
-            this.submitJob({f: 'json', data: JSON.stringify(data)}, config.urls.newCollectionEvent);
+            // stringify, parse is so that we have a clean object to store in localforage
+            return this.archivesLocalForage.setItem(config.eventId, JSON.parse(data_txt));
         },
         onSuccessfulSubmit: function () {
             // summary:

@@ -7,6 +7,8 @@ require([
 
     'ijit/modules/NumericInputValidator',
 
+    'localforage',
+
     'put-selector/put'
 ], function (
     config,
@@ -16,6 +18,8 @@ require([
     domConstruct,
 
     NumericInputValidator,
+
+    localforage,
 
     put
 ) {
@@ -28,16 +32,19 @@ require([
                 }
             };
             testWidget = new NewCollectionEvent(null, domConstruct.create('div', null, document.body));
-            localStorage.clear('reportArchives');
 
             spyOn(testWidget.locationTb, 'clear');
             spyOn(testWidget.catchTb, 'clear');
             spyOn(testWidget.methodTb, 'clear');
             spyOn(testWidget.habitatTb, 'clear');
         });
-        afterEach(function () {
-            testWidget.destroyRecursive();
-            testWidget = null;
+        afterEach(function (done) {
+            testWidget.archivesLocalForage.clear().then(function () {
+                testWidget.destroyRecursive();
+                testWidget = null;
+
+                done();
+            });
         });
         it('create a valid object', function () {
             expect(testWidget).toEqual(jasmine.any(NewCollectionEvent));
@@ -69,14 +76,19 @@ require([
 
                 expect(testWidget.validateMsg.innerHTML).toEqual('');
             });
-            it('stores the report in localstorage', function () {
+            it('stores the report in localforage', function (done) {
+                config.eventId = 'eventId';
                 spyOn(testWidget, 'validateReport').and.returnValue(true);
+                spyOn(testWidget, 'buildFeatureObject').and.returnValue('hello');
 
-                testWidget.onSubmit();
-                testWidget.onSubmit();
+                var assert = function () {
+                    testWidget.archivesLocalForage.getItem(config.eventId).then(function (data) {
+                        expect(data[config.tableNames.samplingEvents]).toBe('hello');
 
-                expect(localStorage.reportsArchive).toBeDefined();
-                expect(JSON.parse(localStorage.reportsArchive).length).toBe(2);
+                        done();
+                    });
+                };
+                testWidget.onSubmit().then(assert);
             });
         });
         describe('validateReport', function () {
