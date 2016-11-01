@@ -199,6 +199,21 @@ module.exports = function (grunt) {
                 }
             }
         },
+        stylus: {
+            main: {
+                options: {
+                    compress: false,
+                    'resolve url': true
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'src/',
+                    src: ['app/**/*.styl'],
+                    dest: 'src/',
+                    ext: '.css'
+                }]
+            }
+        },
         uglify: {
             options: {
                 preserveComments: false,
@@ -237,6 +252,10 @@ module.exports = function (grunt) {
                 options: {
                     livereload: true
                 }
+            },
+            stylus: {
+                files: 'src/app/**/*.styl',
+                tasks: ['stylus']
             }
             // intern: {
             //     files: ['ui-tests/**/*.js'],
@@ -252,6 +271,7 @@ module.exports = function (grunt) {
         'jasmine:main:build',
         'eslint',
         'connect',
+        'stylus',
         'watch'
     ]);
 
@@ -263,6 +283,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build-prod', [
         'clean:build',
+        'stylus',
         'newer:imagemin:main',
         'dojo:prod',
         'uglify:prod',
@@ -277,6 +298,7 @@ module.exports = function (grunt) {
     ]);
     grunt.registerTask('build-stage', [
         'clean:build',
+        'stylus',
         'newer:imagemin:main',
         'dojo:stage',
         'uglify:stage',

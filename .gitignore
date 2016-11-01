@@ -6,6 +6,7 @@ dist/
 node_modules/
 secrets.json
 src/agrc/
+src/app/**/*.css
 src/arcgis-js-api/
 src/bootstrap
 src/bootstrap-combobox
