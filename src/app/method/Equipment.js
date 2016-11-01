@@ -130,6 +130,8 @@ define([
                 if (that.numberNettersTxt.value === '') {
                     that.numberNettersTxt.value = 1;
                 }
+                that.anodeShapeSelect.value = '';
+                $(that.anodeShapeSelect).combobox('toggle');
             });
             $(this.raftTab).on('hide.bs.tab', function setNum() {
                 that.numberNettersTxt.value = '';
