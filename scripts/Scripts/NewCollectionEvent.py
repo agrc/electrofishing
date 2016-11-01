@@ -51,9 +51,10 @@ try:
             appendFeatureData(data[table])
         elif len(data[table]) > 0:
             appendTableData(table, data[table])
-except:
+except Exception as e:
     edit.abortOperation()
     edit.stopEditing(False)
+    raise e
 
 edit.stopOperation()
 edit.stopEditing(True)
