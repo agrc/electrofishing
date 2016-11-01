@@ -1,13 +1,12 @@
 require([
     'app/Header',
+
     'dojo/on'
-
-],
-
-function (
+], function (
     Header,
+
     on
-    ) {
+) {
     describe('app/Header', function () {
         var testWidget;
         beforeEach(function () {

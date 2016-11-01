@@ -1,4 +1,5 @@
 define([
+    'app/config',
     'app/Domains',
     'app/helpers',
     'app/_ClearValuesMixin',
@@ -11,9 +12,8 @@ define([
     'dojo/text!app/catch/templates/Health.html',
     'dojo/_base/array',
     'dojo/_base/declare'
-],
-
-function (
+], function (
+    config,
     Domains,
     helpers,
     _ClearValuesMixin,
@@ -46,7 +46,7 @@ function (
             //      dom is ready
             console.log(this.declaredClass + '::postCreate', arguments);
 
-            var fn = AGRC.fieldNames.health;
+            var fn = config.fieldNames.health;
 
             // initialize mappings property
             this.controlMappings = [
@@ -69,7 +69,7 @@ function (
                 [this.opercleConditionSelect, fn.OPERCLE]
             ];
 
-            var url = AGRC.urls.healthFeatureService;
+            var url = config.urls.healthFeatureService;
             var defs = [];
 
             array.forEach(this.controlMappings, function (map) {
@@ -109,7 +109,7 @@ function (
             if (empty) {
                 return null;
             } else {
-                f[AGRC.fieldNames.health.FISH_ID] = this.currentFishId;
+                f[config.fieldNames.health.FISH_ID] = this.currentFishId;
                 return f;
             }
         },

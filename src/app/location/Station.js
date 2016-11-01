@@ -1,6 +1,8 @@
 define([
+    'app/config',
     'app/Domains',
     'app/location/VerifyMap',
+    'app/_InProgressCacheMixin',
     'app/_SubmitJobMixin',
 
     'dijit/_TemplatedMixin',
@@ -21,8 +23,10 @@ define([
     'app/location/StationPointDef',
     'bootstrap'
 ], function (
+    config,
     Domains,
     VerifyMap,
+    _InProgressCacheMixin,
     _SubmitJobMixin,
 
     _TemplatedMixin,
@@ -40,7 +44,7 @@ define([
 
     generateRandomUuid
 ) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _SubmitJobMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _SubmitJobMixin, _InProgressCacheMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'station',
@@ -77,6 +81,11 @@ define([
         //      An icon to represent a selected station.
         selectedIcon: null,
 
+        // cacheId: String
+        //      used by _InProgressCacheMixin
+        cacheId: 'app/location/station',
+
+
         // passed in via the constructor
 
         // mainMap: app/location/VerifyMap
@@ -91,12 +100,14 @@ define([
             var that = this;
 
             Domains.populateSelectWithDomainValues(this.streamTypeSelect,
-                AGRC.urls.stationsFeatureService,
-                AGRC.fieldNames.stations.STREAM_TYPE).then(function () {
+                config.urls.stationsFeatureService,
+                config.fieldNames.stations.STREAM_TYPE).then(function () {
                     $(that.streamTypeSelect).combobox();
                 });
 
             this.wireEvents();
+
+            this.inherited(arguments);
         },
         wireEvents: function () {
             // summary:
@@ -110,9 +121,10 @@ define([
 
             this.connect(this.submitBtn, 'click', 'onSubmit');
 
-            this.own(topic.subscribe(AGRC.topics.onStationClick, function (params) {
+            this.own(topic.subscribe(config.topics.onStationClick, function (params) {
                 that.stationTxt.value = params[0];
                 that.currentGuid = params[1];
+                that.cacheInProgressData();
             }));
         },
         onDialogShown: function () {
@@ -174,7 +186,7 @@ define([
             if (feature) {
                 $(this.submitBtn).button('loading');
 
-                feature.attributes[AGRC.fieldNames.stations.STATION_ID] = this.getGUID();
+                feature.attributes[config.fieldNames.stations.STATION_ID] = this.getGUID();
 
                 this.newStation = feature;
 
@@ -191,7 +203,7 @@ define([
                     })
                 };
 
-                this.submitJob(data, AGRC.urls.newStationService);
+                this.submitJob(data, config.urls.newStationService);
             }
         },
         onSuccessfulSubmit: function () {
@@ -211,15 +223,15 @@ define([
             $(this.streamTypeSelect).data('combobox').clearElement();
             this.pointDef.clear();
 
-            topic.publish(AGRC.topics.onStationClick, [
-                this.newStation.attributes[AGRC.fieldNames.stations.NAME],
-                this.newStation.attributes[AGRC.fieldNames.stations.STATION_ID]
+            topic.publish(config.topics.onStationClick, [
+                this.newStation.attributes[config.fieldNames.stations.NAME],
+                this.newStation.attributes[config.fieldNames.stations.STATION_ID]
             ]);
 
             var point = this.pointDef.utm83crs.projection.unproject(
                 new L.Point(this.newStation.geometry.x, this.newStation.geometry.y));
             this.mainMap.map.setView(point, 14);
-            this.mainMap.selectStation(this.newStation.attributes[AGRC.fieldNames.stations.STATION_ID]);
+            this.mainMap.selectStation(this.newStation.attributes[config.fieldNames.stations.STATION_ID]);
 
             var onMapLoad = function () {
                 $(that.stationDialog).modal('hide');
@@ -257,8 +269,8 @@ define([
                     geometry: {x: point.x, y: point.y, spatialReference: {wkid: 26912}},
                     attributes: {}
                 };
-                returnValue.attributes[AGRC.fieldNames.stations.NAME] = name;
-                returnValue.attributes[AGRC.fieldNames.stations.STREAM_TYPE] = type;
+                returnValue.attributes[config.fieldNames.stations.NAME] = name;
+                returnValue.attributes[config.fieldNames.stations.STREAM_TYPE] = type;
             }
 
             this.validateMsg.innerHTML = msg;
@@ -271,6 +283,28 @@ define([
             console.log('app/location/Station:getGUID', arguments);
 
             return '{' + generateRandomUuid() + '}';
+        },
+        getAdditionalCacheData: function () {
+            // summary:
+            //      add currentGuid to cache
+            // param or return
+            console.log('app/location/Stations:getAdditionalCacheData', arguments);
+
+            return {
+                currentGuid: this.currentGuid
+            }
+        },
+        hydrateWithInProgressData: function () {
+            // summary:
+            //      add population of this.currentGuid which isn't covered in _InProgressCacheMixin
+            console.log('app/location/Station:hydrateWithInProgressData', arguments);
+
+            var that = this;
+            this.inherited(arguments).then(function hydrateCurrentGuid(inProgressData) {
+                if (inProgressData) {
+                    that.currentGuid = inProgressData.currentGuid;
+                }
+            });
         }
     });
 });

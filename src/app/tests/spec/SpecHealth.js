@@ -1,12 +1,12 @@
 require([
     'app/catch/Health',
+    'app/config',
 
     'dojo/dom-construct',
     'dojo/_base/window'
-],
-
-function (
+], function (
     Health,
+    config,
 
     domConstruct,
     win
@@ -17,7 +17,7 @@ function (
             widget.destroyRecursive();
             widget = null;
         };
-        var fn = AGRC.fieldNames.health;
+        var fn = config.fieldNames.health;
         var eye = 'M1';
         var kidney = 'N';
         var fin = 'M';

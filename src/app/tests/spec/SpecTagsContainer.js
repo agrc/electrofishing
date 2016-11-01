@@ -1,15 +1,14 @@
 require([
     'app/catch/TagsContainer',
+
     'dojo/dom-construct',
     'dojo/_base/window'
-
-],
-
-function (
+], function (
     TagsContainer,
+
     domConstruct,
     win
-    ) {
+) {
     describe('app/catch/TagsContainer', function () {
         var testWidget;
         var destroy = function (widget) {

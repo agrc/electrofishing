@@ -1,13 +1,13 @@
 require([
     'app/catch/Tag',
+    'app/config',
 
     'dojo/dom-class',
     'dojo/dom-construct',
     'dojo/_base/window'
-],
-
-function (
+], function (
     Tag,
+    config,
 
     domClass,
     domConstruct,
@@ -23,7 +23,7 @@ function (
         var location = 'blah';
         var num = '4';
         var fishId = 'blah3';
-        var fn = AGRC.fieldNames.tags;
+        var fn = config.fieldNames.tags;
         function setData() {
             function populateSelect(select, value) {
                 domConstruct.create('option', {value: value}, select);
@@ -73,11 +73,11 @@ function (
             });
         });
         describe('setData', function () {
-            var data = {attributes: {}};
-            data.attributes[fn.NUMBER] = num;
-            data.attributes[fn.TYPE] = type;
-            data.attributes[fn.LOCATION] = location;
-            data.attributes[fn.FISH_ID] = fishId;
+            var data = {};
+            data[fn.NUMBER] = num;
+            data[fn.TYPE] = type;
+            data[fn.LOCATION] = location;
+            data[fn.FISH_ID] = fishId;
             var isMinus = function () {
                 return domClass.contains(testWidget.icon, testWidget.minusIconClass) &&
                     !domClass.contains(testWidget.icon, testWidget.plusIconClass);

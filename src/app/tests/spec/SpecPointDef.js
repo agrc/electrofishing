@@ -5,9 +5,7 @@ require([
     'dojo/dom-class',
     'dojo/dom-construct',
     'dojo/topic'
-],
-
-function (
+], function (
     config,
     PointDef,
 

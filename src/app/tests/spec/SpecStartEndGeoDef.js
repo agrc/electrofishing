@@ -7,9 +7,7 @@ require([
     'dojo/topic',
 
     'stubmodule'
-],
-
-function (
+], function (
     config,
     StartEndGeoDef,
 

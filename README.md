@@ -14,7 +14,7 @@ Application for recording electrofishing surveys. Built for DWR.
 1. Publish all tools in `scripts/Toolbox.tbx` as `Electrofishing/Toolbox`
     - Most of the test data for running the tools is in `scripts/ToolData/TestData.gdb`
     - `GetSegmentFromID`
-        - `reachcode`: `16020304000426`
+        - `reachcode`: `16020102000938`
     - `NewCollectionEvent`
         - Test Input: `scripts/Scripts/TestData/NewCollectionEventData.json` (may need to remove all line breaks)
     - Update `scripts/Scripts/settings/__init__.py`.

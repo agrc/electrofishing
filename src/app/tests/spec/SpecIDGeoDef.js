@@ -1,16 +1,18 @@
 require([
+    'app/config',
     'app/location/IDGeoDef',
-    'dojo/on',
-    'dojo/dom-class',
-    'dojo/Deferred'
-],
 
-function (
+    'dojo/Deferred',
+    'dojo/dom-class',
+    'dojo/on'
+], function (
+    config,
     IDGeoDef,
-    on,
+
+    Deferred,
     domClass,
-    Deferred
-    ) {
+    on
+) {
     describe('app/location/IDGeoDef', function () {
         var testWidget;
         var mockReturn = {
@@ -29,7 +31,7 @@ function (
                 expect(testWidget).toEqual(jasmine.any(IDGeoDef));
             });
             it('defines a the gpServiceUrl property', function () {
-                expect(testWidget.gpServiceUrl).toEqual(AGRC.urls.getSegmentFromID);
+                expect(testWidget.gpServiceUrl).toEqual(config.urls.getSegmentFromID);
             });
             it('sets defs to an empty array', function () {
                 expect(testWidget.defs).toEqual([]);
@@ -95,7 +97,7 @@ function (
 
                 expect(value).toEqual({
                     id: validReachValue,
-                    type: AGRC.idTypes.reachcode
+                    type: config.idTypes.reachcode
                 });
             });
             it('returns the current valid id value and type for waterbody ids', function () {
@@ -106,7 +108,7 @@ function (
 
                 expect(value).toEqual({
                     id: id,
-                    type: AGRC.idTypes.waterbodyid
+                    type: config.idTypes.waterbodyid
                 });
             });
         });

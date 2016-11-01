@@ -1,6 +1,7 @@
 define([
     'agrc/modules/Domains',
 
+    'app/config',
     'app/OtherOptionHandler',
 
     'dojo/dom-construct',
@@ -8,6 +9,7 @@ define([
 ], function (
     agrcDomains,
 
+    config,
     OtherOptionHandler,
 
     domConstruct,
@@ -43,6 +45,21 @@ define([
                 value: this.otherTxt,
                 innerHTML: this.otherTxt
             }, select);
+
+            var tempValue = select.dataset[config.tempValueKey]
+            if (tempValue) {
+                var isExistingOption = values.some(function checkTemp(val) {
+                    return val.code === tempValue;
+                });
+                if (!isExistingOption) {
+                    domConstruct.create('option', {
+                        value: tempValue,
+                        innerHTML: tempValue
+                    }, select);
+                }
+
+                select.value = tempValue;
+            }
         },
         getCodedValues: agrcDomains.getCodedValues,
         onOtherSelected: function (select) {

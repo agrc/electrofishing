@@ -2,14 +2,14 @@ define([
     'dojo/aspect',
     'dojo/dom-construct',
     'dojo/_base/array',
-    'dojo/_base/declare'
-],
-
-function (
+    'dojo/_base/declare',
+    'dojo/_base/lang'
+], function (
     aspect,
     domConstruct,
     array,
-    declare
+    declare,
+    lang
 ) {
     // summary:
     //      Used to manage multiple _AddBtnWidget's
@@ -29,7 +29,7 @@ function (
         postCreate: function () {
             // summary:
             //      dom is ready
-            console.log(this.declaredClass + '::postCreate', arguments);
+            console.log('app/_MultipleWidgetsWithAddBtnMixin:postCreate', arguments);
 
             if (!this.AddBtnWidgetClass) {
                 throw this.noAddBtnWidgetPropErrMsg;
@@ -37,17 +37,28 @@ function (
 
             this.addBtnWidgets = [];
 
-            this.addAddBtnWidget();
+            this.initChildWidgets();
 
             this.inherited(arguments);
+        },
+        initChildWidgets: function () {
+            // summary:
+            //      Adds a single widget to start with
+            console.log('app/_MultipleWidgetsWithAddBtnMixin:initChildWidgets', arguments);
+
+            this.addAddBtnWidget();
         },
         addAddBtnWidget: function () {
             // summary:
             //      Fires when the add button is pressed on the _addBtn widget
-            console.log(this.declaredClass + '::addAddBtnWidget', arguments);
+            console.log('app/_MultipleWidgetsWithAddBtnMixin:addAddBtnWidget', arguments);
 
             var widget = new this.AddBtnWidgetClass(
-                {container: this},
+                {
+                    container: this,
+                    // for local caching of Method only, doesn't hurt moreinfodialog
+                    cacheId: this.cacheId + '_' + this.addBtnWidgets.length
+                },
                 domConstruct.create('div', {}, this.addBtnWidgetsContainer)
             );
             widget.startup();
@@ -56,23 +67,21 @@ function (
 
             this.wireAddBtnWidgetOnAdd(widget);
 
+            if (this.addBtnWidgets.length > 1) {
+                this.addBtnWidgets[this.addBtnWidgets.length - 2].toggleButton(true);
+            }
+
             return widget;
         },
         wireAddBtnWidgetOnAdd: function (widget) {
             // summary:
             //      wires up the onAdd event for the passed in widget
             // widget: Backpack
-            console.log(this.declaredClass + '::wireAddBtnWidgetOnAdd', arguments);
-
-            var that = this;
+            console.log('app/_MultipleWidgetsWithAddBtnMixin:wireAddBtnWidgetOnAdd', arguments);
 
             this.own(
-                aspect.after(widget, 'onAdd', function () {
-                    that.addAddBtnWidget();
-                }),
-                aspect.before(widget, 'onRemove', function () {
-                    that.onRemoveAddBtnWidget(widget);
-                })
+                aspect.after(widget, 'onAdd', lang.hitch(this, 'addAddBtnWidget')),
+                aspect.before(widget, 'onRemove', lang.partial(lang.hitch(this, 'onRemoveAddBtnWidget'), widget))
             );
         },
         onRemoveAddBtnWidget: function (widget) {
@@ -87,7 +96,7 @@ function (
         clear: function () {
             // summary:
             //      removes all widgets except the first one
-            console.log(this.declaredClass + '::clear', arguments);
+            console.log('app/_MultipleWidgetsWithAddBtnMixin:clear', arguments);
 
             array.forEach(this.addBtnWidgets, function (addBtn) {
                 addBtn.destroyRecursive(false);
@@ -101,7 +110,7 @@ function (
             // summary:
             //      gathers data from all child widgets and returns them as an array
             // returns: Object[]
-            console.log(this.declaredClass + '::getData', arguments);
+            console.log('app/_MultipleWidgetsWithAddBtnMixin:getData', arguments);
 
             var data = [];
             array.forEach(this.addBtnWidgets, function (addBtn) {
@@ -118,7 +127,7 @@ function (
             // summary:
             //      creates and pre-populates the addBtnWidgets with the features data
             // features: {attributes: {...}}[]
-            console.log('app._MultipleWidgetsWithAddBtnMixin:setData', arguments);
+            console.log('app/_MultipleWidgetsWithAddBtnMixin:setData', arguments);
 
             // there's already a blank widget so fill that one in first
             if (features[0]) {

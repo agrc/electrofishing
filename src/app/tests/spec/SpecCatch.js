@@ -1,23 +1,27 @@
 require([
     'app/catch/Catch',
+    'app/config',
 
     'dojo/dom-class',
     'dojo/dom-construct',
     'dojo/keys',
     'dojo/on',
     'dojo/query',
-    'dojo/_base/window'
-],
+    'dojo/_base/window',
 
-function (
+    'localforage'
+], function (
     Catch,
+    config,
 
     domClass,
     domConstruct,
     keys,
     on,
     query,
-    win
+    win,
+
+    localforage
 ) {
     describe('app/catch/Catch', function () {
         var testWidget;
@@ -25,14 +29,16 @@ function (
             widget.destroyRecursive();
             widget = null;
         };
-        var fn = AGRC.fieldNames.fish;
-        AGRC.eventId = 'blah';
+        var fn = config.fieldNames.fish;
+        config.eventId = 'blah';
         beforeEach(function () {
             testWidget = new Catch({}, domConstruct.create('div', {}, win.body()));
             testWidget.startup();
         });
-        afterEach(function () {
+        afterEach(function (done) {
             destroy(testWidget);
+
+            localforage.clear().then(done);
         });
         it('create a valid object', function () {
             expect(testWidget).toEqual(jasmine.any(Catch));
@@ -258,25 +264,25 @@ function (
 
                 expect(data.length).toBe(number);
                 var first = data[0];
-                expect(first[AGRC.fieldNames.fish.SPECIES_CODE]).toBe(code);
-                expect(first[AGRC.fieldNames.fish.LENGTH_TYPE]).toBeNull();
-                expect(first[AGRC.fieldNames.fish.LENGTH]).toBeNull();
-                expect(first[AGRC.fieldNames.fish.WEIGHT]).toBe(2);
+                expect(first[config.fieldNames.fish.SPECIES_CODE]).toBe(code);
+                expect(first[config.fieldNames.fish.LENGTH_TYPE]).toBeNull();
+                expect(first[config.fieldNames.fish.LENGTH]).toBeNull();
+                expect(first[config.fieldNames.fish.WEIGHT]).toBe(2);
 
                 var last = data[4];
-                expect(last[AGRC.fieldNames.fish.SPECIES_CODE]).toBe(code);
-                expect(last[AGRC.fieldNames.fish.LENGTH_TYPE]).toBeNull();
-                expect(last[AGRC.fieldNames.fish.LENGTH]).toBeNull();
-                expect(last[AGRC.fieldNames.fish.WEIGHT]).toBe(2);
+                expect(last[config.fieldNames.fish.SPECIES_CODE]).toBe(code);
+                expect(last[config.fieldNames.fish.LENGTH_TYPE]).toBeNull();
+                expect(last[config.fieldNames.fish.LENGTH]).toBeNull();
+                expect(last[config.fieldNames.fish.WEIGHT]).toBe(2);
             });
             it('appends rows to grid with existing rows', function () {
-                testWidget.store.data[0][AGRC.fieldNames.fish.SPECIES_CODE] = 'BH';
+                testWidget.store.data[0][config.fieldNames.fish.SPECIES_CODE] = 'BH';
 
                 testWidget.addRow();
-                testWidget.store.data[1][AGRC.fieldNames.fish.SPECIES_CODE] = 'BH';
+                testWidget.store.data[1][config.fieldNames.fish.SPECIES_CODE] = 'BH';
 
                 testWidget.addRow();
-                testWidget.store.data[2][AGRC.fieldNames.fish.SPECIES_CODE] = 'BH';
+                testWidget.store.data[2][config.fieldNames.fish.SPECIES_CODE] = 'BH';
 
                 testWidget.batch();
 
@@ -292,7 +298,7 @@ function (
                 var data = testWidget.store.data;
 
                 var last = data[4];
-                expect(last[AGRC.fieldNames.fish.WEIGHT]).toBe('0');
+                expect(last[config.fieldNames.fish.WEIGHT]).toBe('0');
             });
             it('rounds weights to one decimal', function () {
                 testWidget.batchWeightTxt.value = 10;
@@ -303,7 +309,7 @@ function (
                 var data = testWidget.store.data;
 
                 var last = data[2];
-                expect(last[AGRC.fieldNames.fish.WEIGHT]).toBe(3.3);
+                expect(last[config.fieldNames.fish.WEIGHT]).toBe(3.3);
             });
             it('clears out the text boxes and hides the popup', function () {
                 spyOn(testWidget.batchBtn, 'click');
@@ -360,19 +366,21 @@ function (
             });
         });
         describe('clear', function () {
-            it('clears all of the controls', function () {
+            it('clears all of the controls', function (done) {
                 testWidget.addPass();
                 testWidget.store.data[0][fn.SPECIES_CODE] = 'blah';
                 testWidget.addRow();
                 testWidget.grid.save();
                 spyOn(testWidget.moreInfoDialog, 'clearValues');
 
-                testWidget.clear();
+                testWidget.clear().then(function () {
+                    expect(testWidget.getNumberOfPasses()).toBe(1);
+                    expect(testWidget.store.data.length).toBe(1);
+                    expect(testWidget.store.data[0][fn.SPECIES_CODE]).toEqual(null);
+                    expect(testWidget.moreInfoDialog.clearValues).toHaveBeenCalled();
 
-                expect(testWidget.getNumberOfPasses()).toBe(1);
-                expect(testWidget.store.data.length).toBe(1);
-                expect(testWidget.store.data[0][fn.SPECIES_CODE]).toEqual(null);
-                expect(testWidget.moreInfoDialog.clearValues).toHaveBeenCalled();
+                    done();
+                });
             });
         });
         describe('onRowSelected', function () {

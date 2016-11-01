@@ -6,10 +6,11 @@ define([
     'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
 
+    'dojo/dom-construct',
     'dojo/text!app/templates/App.html',
     'dojo/_base/declare',
 
-    'dojox/uuid/generateRandomUuid',
+    'toaster',
 
     'app/Header',
     'app/SettingsDialog',
@@ -25,10 +26,11 @@ define([
     _WidgetBase,
     _WidgetsInTemplateMixin,
 
+    domConstruct,
     template,
     declare,
 
-    generateRandomUuid
+    Toaster
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         // summary:
@@ -56,11 +58,14 @@ define([
             //      Fires when
             console.log('app/App:postCreate', arguments);
 
-            config.eventId = '{' + generateRandomUuid() + '}';
-
             this.newEvent = new NewCollectionEvent({}, this.newEventDiv);
 
             document.body.className += ' loaded';
+
+            /* eslint-disable new-cap */
+            var toaster = new Toaster.default(null, domConstruct.create('div', null, this.domNode));
+            /* eslint-enable new-cap */
+            toaster.startup();
         }
     });
 });

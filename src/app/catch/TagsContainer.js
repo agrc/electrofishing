@@ -8,9 +8,7 @@ define([
 
     'dojo/text!app/catch/templates/TagsContainer.html',
     'dojo/_base/declare'
-],
-
-function (
+], function (
     Tag,
     _MultipleWidgetsWithAddBtnMixin,
 

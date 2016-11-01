@@ -1,4 +1,5 @@
 define([
+    'app/config',
     'app/Domains',
     'app/helpers',
 
@@ -7,9 +8,8 @@ define([
     'dojo/promise/all',
     'dojo/_base/array',
     'dojo/_base/declare'
-],
-
-function (
+], function (
+    config,
     Domains,
     helpers,
 
@@ -39,7 +39,7 @@ function (
 
         // fields: Object[]
         //      config for the mapping between controls and fields
-        //      set in constructor so that we have access to AGRC.fieldNames
+        //      set in constructor so that we have access to config.fieldNames
         // [{
         //     control: '',
         //     fieldName: ''
@@ -50,7 +50,7 @@ function (
         postCreate: function () {
             // summary:
             //      dom is ready
-            console.log('app/_AddBtnMixin::postCreate', arguments);
+            console.log('app/_AddBtnMixin:postCreate', arguments);
 
             var that = this;
             var defs = [];
@@ -70,7 +70,7 @@ function (
         wireEvents: function () {
             // summary:
             //      wires the events for this widget
-            console.log('app/_AddBtnMixin::wireEvents', arguments);
+            console.log('app/_AddBtnMixin:wireEvents', arguments);
             var that = this;
 
             this.own(
@@ -88,23 +88,33 @@ function (
             //      overridden from _ClearValuesMixin to take care of changing the icon back
             console.log('app._AddBtnMixin:clearValues', arguments);
 
-            domClass.remove(this.icon, this.minusIconClass);
-            domClass.add(this.icon, this.plusIconClass);
+            this.toggleButton(false);
 
             this.inherited(arguments);
+        },
+        toggleButton: function (minus) {
+            // summary:
+            //      toggles the button between plus and minus symbols
+            // minus: Boolean
+            console.log('app/_AddBtnMixin:toggleButton', arguments);
+
+            if (minus) {
+                domClass.add(this.icon, this.minusIconClass);
+                domClass.remove(this.icon, this.plusIconClass);
+            } else {
+                domClass.remove(this.icon, this.minusIconClass);
+                domClass.add(this.icon, this.plusIconClass);
+            }
         },
         onAdd: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + '::onAdd', arguments);
-
-            domClass.add(this.icon, this.minusIconClass);
-            domClass.remove(this.icon, this.plusIconClass);
+            console.log('app/_AddBtnMixin:onAdd', arguments);
         },
         onRemove: function () {
             // summary:
             //      description
-            console.log(this.declaredClass + '::onRemove', arguments);
+            console.log('app/_AddBtnMixin:onRemove', arguments);
 
             this.destroyRecursive(false);
         },
@@ -112,7 +122,7 @@ function (
             // summary:
             //      gathers the data for this widget and returns an object
             //      if all fields are blank, then it returns null
-            console.log(this.declaredClass + '::getData', arguments);
+            console.log('app/_AddBtnMixin:getData', arguments);
 
             var data = {};
 
@@ -137,48 +147,11 @@ function (
                 return this.addConstantValues(data);
             }
         },
-        setData: function (feature, lastOne) {
-            // summary:
-            //      pre-populates controls with data
-            // feature: {attributes{...}}
-            // lastOne: Boolean
-            //      controls whether the plus or minus icons are show
-            console.log('app._AddBtnMixin:setData', arguments);
-
-            var that = this;
-            var getControl = function (fieldName) {
-                var control;
-                array.some(that.fields, function (fld) {
-                    if (fld.fieldName === fieldName) {
-                        control = fld.control;
-                        return false;
-                    }
-                });
-                return control;
-            };
-            for (var fn in feature.attributes) {
-                if (fn !== AGRC.fieldNames.tags.FISH_ID) {
-                    var control = getControl(fn);
-                    control.value = feature.attributes[fn];
-                    if (control.type === 'select-one') {
-                        $(control).combobox('refresh');
-                    }
-                } else {
-                    this.container.currentFishId = feature.attributes[fn];
-                }
-            }
-
-            if (!lastOne) {
-                domClass.add(this.icon, this.minusIconClass);
-                domClass.remove(this.icon, this.plusIconClass);
-            }
-        },
         addConstantValues: function (/* data */) {
             // summary:
             //      needs to be implemented in child object
             // data: {}
-            console.log(this.declaredClass + '::addConstantValues', arguments);
-
+            console.log('app/_AddBtnMixin:addConstantValues', arguments);
         }
     });
 });

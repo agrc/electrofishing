@@ -7,9 +7,7 @@ require([
     'dijit/_WidgetsInTemplateMixin',
 
     'dojo/_base/declare'
-],
-
-function (
+], function (
     Equipment,
     _MultipleWidgetsWithAddBtnMixin,
 
@@ -29,6 +27,7 @@ function (
         ], {
             widgetsInTemplate: true,
             templateString: '<div><div data-dojo-attach-point="addBtnWidgetsContainer"></div></div></div>',
+            cacheId: 'test/widget',
             constructor: function () {
                 console.log(this.declaredClass + '::constructor', arguments);
                 if (setClass) {
@@ -46,9 +45,11 @@ function (
             testWidget.destroy();
             testWidget = null;
         });
+
         it('create a valid object', function () {
             expect(testWidget).toEqual(jasmine.any(TestWidget));
         });
+
         describe('postCreate', function () {
             it('verifies the presence of AddBtnWidgetClass property', function () {
                 setClass = false;
@@ -59,14 +60,12 @@ function (
         });
         describe('wireEvents', function () {
             beforeEach(function () {
-                spyOn(testWidget, 'addAddBtnWidget');
+                spyOn(testWidget, 'addAddBtnWidget').and.callThrough();
             });
             it('fires addAddBtnWidget when the add button is pressed on the first btn widget', function () {
-                // testWidget.wireEvents();
-
                 testWidget.addBtnWidgets[0].btn.click();
 
-                expect(testWidget.addAddBtnWidget).toHaveBeenCalled();
+                expect(testWidget.addAddBtnWidget.calls.count()).toBe(1);
             });
             it('fires onRemoveAddBtnWidget when the minus button is pressed', function () {
                 spyOn(testWidget, 'onRemoveAddBtnWidget');

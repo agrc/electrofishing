@@ -2,12 +2,12 @@ from os import path
 
 SAMPLINGEVENTS = 'SamplingEvents'
 EVENT_DATE = 'EVENT_DATE'
+STREAMS = r'C:\MapData\dwrlakesstreams.gdb\Streams'
 
 # BEGIN LOCAL CONFIGS
 STATIONS = path.join(path.dirname(__file__), r'Electrofishing_LOCAL as WILDADMIN.sde\Electrofishing.WILDADMIN.Stations')
 DB = path.join(path.dirname(__file__), r'Electrofishing_LOCAL as WILDADMIN.sde')
 DATAPATH = path.join(DB, 'Electrofishing.WILDADMIN.')
-STREAMS = path.join(DB, 'StreamsNHDHighRes')
 WATERBODYIDS = path.join(DB, 'Electrofishing.WILDADMIN.WaterbodyIds_Streams')
 # END LOCAL CONFIGS
 

@@ -23,7 +23,9 @@ define([
     'dojo/_base/declare',
     'dojo/_base/lang',
 
-    'dojox/uuid/generateRandomUuid'
+    'dojox/uuid/generateRandomUuid',
+
+    'localforage'
 ], function (
     Formatting,
 
@@ -49,7 +51,9 @@ define([
     declare,
     lang,
 
-    generateRandomUuid
+    generateRandomUuid,
+
+    localforage
 ) {
     // summary:
     //      Catch tab
@@ -88,12 +92,23 @@ define([
         //      required for _GridMixin
         idProperty: null,
 
+        // ignoreColumn: String
+        //      required for _GridMixin
+        ignoreColumn: null,
+
         // invalidGridMsg: String
         //      returned by isValid if there are no fish recorded
         invalidGridMsg: 'You must input at least one fish.',
 
-        // fldMoreInfo: String
-        //      property name for grid row that has additional info attached to it via the more info dialog
+        // cacheId: String
+        //      used to cache inprogress data
+        cacheId: 'app/catch/catch',
+
+        // inprogress cached data for this object
+        // {
+        //     numPasses: number,
+        //     gridData: object[]
+        // }
 
 
         constructor: function () {
@@ -107,6 +122,7 @@ define([
             this.lastColumn = fn.WEIGHT;
             this.firstColumn = fn.SPECIES_CODE;
             this.idProperty = fn.FISH_ID;
+            this.ignoreColumn = config.fieldNames.MOREINFO;
         },
         postCreate: function () {
             // summary:
@@ -122,8 +138,6 @@ define([
                 {label: 'ID', field: fn.CATCH_ID, sortable: false},
                 {
                     autoSave: true,
-                    // can't auto save because save causes the row to be redrawn which in turn looses focus
-                    // update: This bug has supposedly been fixed: https://github.com/SitePen/dgrid/issues/496#issuecomment-23382688
                     label: 'Species Code',
                     field: fn.SPECIES_CODE,
                     editor: FilteringSelectForGrid,
@@ -213,6 +227,22 @@ define([
                     }
                 })
             );
+
+            localforage.getItem(this.cacheId).then(function (inProgressData) {
+                if (inProgressData) {
+                    if (inProgressData.gridData) {
+                        that.setGridData(inProgressData.gridData);
+                        that.grid.refresh();
+                    }
+
+                    if (inProgressData.numPasses > 1) {
+                        for (var i = 1; i < inProgressData.numPasses; i++) {
+                            that.addPass(true);
+                        }
+                    }
+                }
+                that.store.on('add, update, delete', lang.hitch(that, 'cacheInProgressData'));
+            });
         },
         wireBatchFormEvents: function () {
             // summary:
@@ -255,9 +285,10 @@ define([
 
             return row[fn.FISH_ID];
         },
-        addPass: function () {
+        addPass: function (skipAddRow) {
             // summary:
             //      adds a new pass and updates the grid store query
+            // skipAddRow: Boolean
             console.log(this.declaredClass + '::addPass', arguments);
 
             this.grid.save();
@@ -274,7 +305,24 @@ define([
 
             lbl.click();
 
-            this.addRow();
+            if (!skipAddRow) {
+                this.addRow();
+
+                this.cacheInProgressData();
+            }
+        },
+        cacheInProgressData: function () {
+            // summary:
+            //      caches the number of passes and grid data
+            console.log('app/catch/Catch:cacheInProgressData', arguments);
+
+            localforage.setItem(this.cacheId, {
+                numPasses: this.numPasses,
+
+                // The JSON stringify/parse is to strip out the extra methods that dstore
+                // adds to the array returned from fetchSync. This messes up localforage.
+                gridData: JSON.parse(JSON.stringify(this.store.fetchSync()))
+            });
         },
         changePass: function (e) {
             // summary:
@@ -415,14 +463,17 @@ define([
             //      description
             console.log('app/catch/Catch:clear', arguments);
 
-            query('.btn', this.passBtnContainer).forEach(function (node) {
-                if (node.innerText.trim() !== '1') {
-                    domConstruct.destroy(node);
-                }
+            var that = this;
+            return localforage.removeItem(this.cacheId).then(function () {
+                query('.btn', that.passBtnContainer).forEach(function (node) {
+                    if (node.innerText.trim() !== '1') {
+                        domConstruct.destroy(node);
+                    }
+                });
+                that.changePass({target: {innerText: '1'}});
+                that.clearGrid();
+                that.moreInfoDialog.clearValues();
             });
-            this.changePass({target: {innerText: '1'}});
-            this.clearGrid();
-            this.moreInfoDialog.clearValues();
         },
         isValid: function () {
             // summary:

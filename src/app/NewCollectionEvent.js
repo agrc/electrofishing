@@ -22,6 +22,8 @@ define([
 
     'ijit/modules/NumericInputValidator',
 
+    'localforage',
+
     'app/catch/Catch',
     'app/habitat/Habitat',
     'app/location/Location',
@@ -49,7 +51,9 @@ define([
 
     generateRandomUuid,
 
-    NumericInputValidator
+    NumericInputValidator,
+
+    localforage
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _SubmitJobMixin], {
         widgetsInTemplate: true,
@@ -66,9 +70,23 @@ define([
         // invalidInputMsg: String
         invalidInputMsg: 'Invalid value for ',
 
+        // archivesStoreName: String
+        //      the localforage store name used to store the object that contains
+        //      archives of all submitted reports
+        archivesStoreName: 'submitted_reports',
+
+        // archivesLocalForage: localforage instance
+        //      used to manage archives in a separate instance that the inprogress stuff
+        //      this allows for easy clearing of inprogress without messing with archives
+        archivesLocalForage: null,
+
 
         constructor: function () {
             console.log('app/NewCollectionEvent:constructor', arguments);
+
+            this.archivesLocalForage = localforage.createInstance({
+                name: this.archivesStoreName
+            });
         },
         postCreate: function () {
             // summary:
@@ -88,8 +106,8 @@ define([
             console.log('app/NewCollectionEvent:wireEvents', arguments);
 
             this.own(
-                topic.subscribe(AGRC.topics.onSubmitReportClick, lang.hitch(this, 'onSubmit')),
-                topic.subscribe(AGRC.topics.onCancelReportClick, lang.hitch(this, 'onCancel'))
+                topic.subscribe(config.topics.onSubmitReportClick, lang.hitch(this, 'onSubmit')),
+                topic.subscribe(config.topics.onCancelReportClick, lang.hitch(this, 'onCancel'))
             );
         },
         onCancel: function () {
@@ -118,7 +136,7 @@ define([
             }
             this.validateMsg.innerHTML = '';
             domClass.add(this.validateMsg, 'hidden');
-            $(AGRC.app.header.submitBtn).button('loading');
+            $(config.app.header.submitBtn).button('loading');
 
             var data = {};
             data[config.tableNames.samplingEvents] = this.buildFeatureObject();
@@ -129,15 +147,11 @@ define([
             data[config.tableNames.health] = this.catchTb.moreInfoDialog.getData('health');
             data[config.tableNames.habitat] = this.habitatTb.getData();
 
-            if (!localStorage.reportsArchive) {
-                localStorage.reportsArchive = '[' + JSON.stringify(data) + ']';
-            } else {
-                var reports = JSON.parse(localStorage.reportsArchive);
-                reports.push(JSON.stringify(data));
-                localStorage.reportsArchive = JSON.stringify(reports);
-            }
+            var data_txt = JSON.stringify(data);
+            this.submitJob({f: 'json', data: data_txt}, config.urls.newCollectionEvent);
 
-            this.submitJob({f: 'json', data: JSON.stringify(data)}, AGRC.urls.newCollectionEvent);
+            // stringify, parse is so that we have a clean object to store in localforage
+            return this.archivesLocalForage.setItem(config.eventId, JSON.parse(data_txt));
         },
         onSuccessfulSubmit: function () {
             // summary:
@@ -149,7 +163,7 @@ define([
             domClass.remove(this.successMsgContainer, 'hidden');
             window.scrollTo(0,0);
 
-            $(AGRC.app.header.submitBtn).button('reset');
+            $(config.app.header.submitBtn).button('reset');
         },
         validateReport: function () {
             // summary:
@@ -198,24 +212,27 @@ define([
             //        clears all of the values in the report
             console.log('app/NewCollectionEvent:clearReport', arguments);
 
-            AGRC.eventId = '{' + generateRandomUuid() + '}';
-            this.locationTb.clear();
-            this.methodTb.clear();
-            this.catchTb.clear();
-            this.habitatTb.clear();
-            this.validateMsg.innerHTML = '';
-            domClass.add(this.validateMsg, 'hidden');
+            var that = this;
+            return localforage.clear().then(function () {
+                config.eventId = '{' + generateRandomUuid() + '}';
+                that.locationTb.clear();
+                that.methodTb.clear();
+                that.catchTb.clear();
+                that.habitatTb.clear();
+                that.validateMsg.innerHTML = '';
+                domClass.add(that.validateMsg, 'hidden');
+            });
         },
         buildFeatureObject: function () {
             // summary:
             //      builds a json object suitable for submitting to the NewCollectionEvent service
             console.log('app/NewCollectionEvent:buildFeatureObject', arguments);
 
-            var fn = AGRC.fieldNames.samplingEvents;
+            var fn = config.fieldNames.samplingEvents;
             var atts = {};
 
             // location fields
-            atts[fn.EVENT_ID] = AGRC.eventId;
+            atts[fn.EVENT_ID] = config.eventId;
             atts[fn.GEO_DEF] = this.locationTb.currentGeoDef.geoDef;
             atts[fn.LOCATION_NOTES] = this.locationTb.additionalNotesTxt.value;
             atts[fn.EVENT_DATE] = this.locationTb.dateTxt.value;
@@ -245,7 +262,7 @@ define([
             this.validateMsg.innerHTML = this.submitErrMsg;
             domClass.remove(this.validateMsg, 'hidden');
             window.scrollTo(0,0);
-            $(AGRC.app.header.submitBtn).button('reset');
+            $(config.app.header.submitBtn).button('reset');
         }
     });
 });

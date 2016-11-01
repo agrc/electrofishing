@@ -212,6 +212,10 @@ define([
                     data.pop();
                 }
 
+                data.forEach(function removeIgnoreFields(d) {
+                    delete d[this.ignoreColumn];
+                }, this);
+
                 return data;
             } else {
                 return [];

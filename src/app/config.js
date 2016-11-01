@@ -2,10 +2,18 @@ define([
     'dojo/has',
     'dojo/request/xhr',
 
+    'dojox/uuid/generateRandomUuid',
+
+    'localforage',
+
     'leaflet'
 ], function (
     has,
-    xhr
+    xhr,
+
+    generateRandomUuid,
+
+    localforage
 ) {
     var quadWord = '';
     var wildlifeFolder;
@@ -34,14 +42,22 @@ define([
     var wildlifeFeatureService = wildlifeFolder + 'MapService/MapServer/';
     var referenceService = wildlifeFolder + 'Reference/MapServer/';
 
-    window.AGRC = {
+    var config = {
         // app: app.App
         //      global reference to app
         app: null,
 
+        // appName: String
+        //      name of app used in permission proxy and localforage db name
+        appName: 'electrofishing',
+
+        // databaseVersion: Number
+        //      localforage database version
+        databaseVersion: 1.0,
+
         // eventId: String(GUID)
         //      The guid for this unique event.
-        eventId: null,
+        eventId: '{' + generateRandomUuid() + '}',
 
         // version: String
         //      The app version number.
@@ -57,6 +73,10 @@ define([
 
         quadWord: quadWord,
 
+        // tempValueKey: String
+        //      used by _InProgressCacheMixin
+        tempValueKey: 'tempValue',
+
         // topics: {key:String}
         //      Global dojo/topic topics used in the app
         topics: {
@@ -69,7 +89,8 @@ define([
             onSubmitReportClick: 'header_onSubmitReportClick',
             onCancelReportClick: 'header_onCancelReportClick',
             mouseWheelZooming_onChange: 'app_mouseWheelZooming',
-            streamsLakes_toggle: 'verifyMap_streamsLakes_toggle'
+            streamsLakes_toggle: 'verifyMap_streamsLakes_toggle',
+            toaster: 'app/Toaster'
         },
 
         // urls: {}
@@ -266,7 +287,12 @@ define([
     };
 
     // Leaflet config
-    L.Icon.Default.imagePath = 'leaflet/dist/images';
+    L.Icon.Default.prototype.options.imagePath = 'leaflet/dist/images/';
 
-    return AGRC;
+    localforage.config({
+        name: config.appName,
+        version: config.databaseVersion
+    });
+
+    return config;
 });

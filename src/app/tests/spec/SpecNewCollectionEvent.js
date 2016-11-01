@@ -1,4 +1,5 @@
 require([
+    'app/config',
     'app/NewCollectionEvent',
 
     'dojo/dom-class',
@@ -6,10 +7,11 @@ require([
 
     'ijit/modules/NumericInputValidator',
 
-    'put-selector/put'
-],
+    'localforage',
 
-function (
+    'put-selector/put'
+], function (
+    config,
     NewCollectionEvent,
 
     domClass,
@@ -17,27 +19,32 @@ function (
 
     NumericInputValidator,
 
+    localforage,
+
     put
 ) {
     describe('app/NewCollectionEvent', function () {
         var testWidget;
         beforeEach(function () {
-            AGRC.app = {
+            config.app = {
                 header: {
                     submitBtn: domConstruct.create('button')
                 }
             };
             testWidget = new NewCollectionEvent(null, domConstruct.create('div', null, document.body));
-            localStorage.clear('reportArchives');
 
             spyOn(testWidget.locationTb, 'clear');
             spyOn(testWidget.catchTb, 'clear');
             spyOn(testWidget.methodTb, 'clear');
             spyOn(testWidget.habitatTb, 'clear');
         });
-        afterEach(function () {
-            testWidget.destroyRecursive();
-            testWidget = null;
+        afterEach(function (done) {
+            testWidget.archivesLocalForage.clear().then(function () {
+                testWidget.destroyRecursive();
+                testWidget = null;
+
+                done();
+            });
         });
         it('create a valid object', function () {
             expect(testWidget).toEqual(jasmine.any(NewCollectionEvent));
@@ -69,14 +76,19 @@ function (
 
                 expect(testWidget.validateMsg.innerHTML).toEqual('');
             });
-            it('stores the report in localstorage', function () {
+            it('stores the report in localforage', function (done) {
+                config.eventId = 'eventId';
                 spyOn(testWidget, 'validateReport').and.returnValue(true);
+                spyOn(testWidget, 'buildFeatureObject').and.returnValue('hello');
 
-                testWidget.onSubmit();
-                testWidget.onSubmit();
+                var assert = function () {
+                    testWidget.archivesLocalForage.getItem(config.eventId).then(function (data) {
+                        expect(data[config.tableNames.samplingEvents]).toBe('hello');
 
-                expect(localStorage.reportsArchive).toBeDefined();
-                expect(JSON.parse(localStorage.reportsArchive).length).toBe(2);
+                        done();
+                    });
+                };
+                testWidget.onSubmit().then(assert);
             });
         });
         describe('validateReport', function () {
@@ -143,23 +155,27 @@ function (
 
                 expect(domClass.contains(testWidget.successMsgContainer, 'hidden')).toBe(false);
             });
-            it('clears all of the widgets', function () {
-                testWidget.onSuccessfulSubmit();
-
-                expect(testWidget.locationTb.clear).toHaveBeenCalled();
-                expect(testWidget.catchTb.clear).toHaveBeenCalled();
-                expect(testWidget.methodTb.clear).toHaveBeenCalled();
-                expect(testWidget.habitatTb.clear).toHaveBeenCalled();
-            });
         });
         describe('clearReport', function () {
-            it('calls the appropriate methods on its child objects', function () {
+            it('calls the appropriate methods on its child objects', function (done) {
                 testWidget.validateMsg.innerHTML = 'blah';
 
-                testWidget.clearReport();
+                testWidget.clearReport().then(function () {
+                    expect(testWidget.locationTb.clear).toHaveBeenCalled();
+                    expect(testWidget.validateMsg.innerHTML).toEqual('');
 
-                expect(testWidget.locationTb.clear).toHaveBeenCalled();
-                expect(testWidget.validateMsg.innerHTML).toEqual('');
+                    done();
+                });
+            });
+            it('clears all of the widgets', function (done) {
+                testWidget.clearReport().then(function () {
+                    expect(testWidget.locationTb.clear).toHaveBeenCalled();
+                    expect(testWidget.catchTb.clear).toHaveBeenCalled();
+                    expect(testWidget.methodTb.clear).toHaveBeenCalled();
+                    expect(testWidget.habitatTb.clear).toHaveBeenCalled();
+
+                    done();
+                });
             });
         });
         describe('onCancel', function () {
@@ -203,25 +219,25 @@ function (
             it('returns an appropriate object with location-related fields', function () {
                 var value = testWidget.buildFeatureObject();
 
-                expect(value.attributes[AGRC.fieldNames.samplingEvents.STATION_ID]).toEqual(stationId);
-                expect(value.attributes[AGRC.fieldNames.samplingEvents.GEO_DEF]).toEqual(geoDef);
+                expect(value.attributes[config.fieldNames.samplingEvents.STATION_ID]).toEqual(stationId);
+                expect(value.attributes[config.fieldNames.samplingEvents.GEO_DEF]).toEqual(geoDef);
                 expect(value.geometry).toEqual(utmGeo);
-                expect(value.attributes[AGRC.fieldNames.samplingEvents.EVENT_DATE]).toEqual(dateTxt);
-                expect(value.attributes[AGRC.fieldNames.samplingEvents.SEGMENT_LENGTH]).toEqual(500);
-                expect(value.attributes[AGRC.fieldNames.samplingEvents.EVENT_ID].length).toBe(38);
+                expect(value.attributes[config.fieldNames.samplingEvents.EVENT_DATE]).toEqual(dateTxt);
+                expect(value.attributes[config.fieldNames.samplingEvents.SEGMENT_LENGTH]).toEqual(500);
+                expect(value.attributes[config.fieldNames.samplingEvents.EVENT_ID].length).toBe(38);
             });
             it('returns the additional location notes field', function () {
                 var txt = 'blah';
 
                 var value = testWidget.buildFeatureObject();
 
-                expect(value.attributes[AGRC.fieldNames.samplingEvents.LOCATION_NOTES]).toEqual('');
+                expect(value.attributes[config.fieldNames.samplingEvents.LOCATION_NOTES]).toEqual('');
 
                 testWidget.locationTb.additionalNotesTxt.value = txt;
 
                 value = testWidget.buildFeatureObject();
 
-                expect(value.attributes[AGRC.fieldNames.samplingEvents.LOCATION_NOTES]).toEqual(txt);
+                expect(value.attributes[config.fieldNames.samplingEvents.LOCATION_NOTES]).toEqual(txt);
             });
         });
         describe('showTab', function () {

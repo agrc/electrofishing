@@ -32,12 +32,13 @@
             'bootstrap',
             'app/catch/MoreInfoDialog',
             'ijit/modules/NumericInputValidator',
+            'app/config',
             'dojo/domReady!'
-        ], function (jquery, boot, MoreInfoDialog, NumericInputValidator) {
+        ], function (jquery, boot, MoreInfoDialog, NumericInputValidator, config) {
                 var row = {};
-                row[AGRC.fieldNames.fish.FISH_ID] = 'blah';
-                row[AGRC.fieldNames.fish.CATCH_ID] = 3;
-                row[AGRC.fieldNames.fish.PASS_NUM] = 1;
+                row[config.fieldNames.fish.FISH_ID] = 'blah';
+                row[config.fieldNames.fish.CATCH_ID] = 3;
+                row[config.fieldNames.fish.PASS_NUM] = 1;
                 var store = {
                     data: [row],
                     getSync: function () {

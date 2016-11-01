@@ -1,8 +1,7 @@
 """
 New Station GP Service for Wildlife Project
 
-Accepts a new station to append to the station feature class. Adds some additional data
-to the feature before appending it.
+Accepts a new station to append to the station feature class.
 
 Update: Not sure why this is still a gp task. Why not just send data directly to feature service?
 

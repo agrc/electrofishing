@@ -2,9 +2,7 @@ define([
     'dojo/request/xhr',
     'dojo/_base/array',
     'dojo/_base/declare'
-],
-
-function (
+], function (
     xhr,
     array,
     declare

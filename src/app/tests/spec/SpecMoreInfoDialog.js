@@ -1,5 +1,6 @@
 require([
     'app/catch/MoreInfoDialog',
+    'app/config',
 
     'dojo/dom-construct',
     'dojo/query',
@@ -7,6 +8,7 @@ require([
     'dojo/_base/window'
 ], function (
     MoreInfoDialog,
+    config,
 
     domConstruct,
     query,
@@ -23,9 +25,9 @@ require([
         var guid = 'blah';
         beforeEach(function () {
             var row = {};
-            row[AGRC.fieldNames.fish.FISH_ID] = guid;
-            row[AGRC.fieldNames.fish.CATCH_ID] = 3;
-            row[AGRC.fieldNames.fish.PASS_NUM] = 1;
+            row[config.fieldNames.fish.FISH_ID] = guid;
+            row[config.fieldNames.fish.CATCH_ID] = 3;
+            row[config.fieldNames.fish.PASS_NUM] = 1;
             catchMock = {
                 store: {
                     data: [row],
@@ -139,7 +141,7 @@ require([
             });
         });
         describe('clearValues', function () {
-            var fn = AGRC.fieldNames.diet;
+            var fn = config.fieldNames.diet;
 
             beforeEach(function () {
                 $(testWidget.health.domNode).find('select').combobox();

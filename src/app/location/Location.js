@@ -1,4 +1,7 @@
 define([
+    'app/config',
+    'app/_InProgressCacheMixin',
+
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
@@ -14,6 +17,9 @@ define([
     'app/location/Station',
     'app/location/VerifyMap'
 ], function (
+    config,
+    _InProgressCacheMixin,
+
     _TemplatedMixin,
     _WidgetBase,
     _WidgetsInTemplateMixin,
@@ -23,10 +29,14 @@ define([
     topic,
     declare
 ) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _InProgressCacheMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'location',
+
+        // cacheId: String
+        //      used by _InProgressCacheMixin
+        cacheId: 'app/location',
 
         // currentGeoDef: IDGeoDef || StartDistDirGeoDef || StartEndGeoDef
         //      the currently selected geometry definition tab
@@ -86,6 +96,8 @@ define([
                 this.connect(this.currentGeoDef, 'onInvalidate', 'clearValidation');
 
             this.station.mainMap = this.verifyMap;
+
+            this.inherited(arguments);
         },
         wireEvents: function () {
             // summary:
@@ -101,10 +113,10 @@ define([
                 this.connect(this.verifyMapBtn, 'click', function () {
                     that.validateGeometry();
                 }),
-                topic.subscribe(AGRC.topics.startDistDirGeoDef_onDistanceChange, function (dist) {
+                topic.subscribe(config.topics.startDistDirGeoDef_onDistanceChange, function (dist) {
                     that.streamLengthTxt.value = dist;
                 }),
-                topic.subscribe(AGRC.topics.newCollectionEvent, function () {
+                topic.subscribe(config.topics.newCollectionEvent, function () {
                     if (!that.verifyMap.map) {
                         that.verifyMap.initMap();
                     }
@@ -136,7 +148,7 @@ define([
             var that = this;
 
             if (this.geometry) {
-                AGRC.app.map.removeLayer(this.geometry);
+                config.app.map.removeLayer(this.geometry);
                 this.geometry = null;
             }
 
@@ -152,17 +164,39 @@ define([
             } else {
                 returnedValue.then(function (values) {
                     that.verifyMapBtn.innerHTML = that.successfullyVerifiedMsg;
-                    var line = L.polyline(values.path, {color: 'red'}).addTo(AGRC.app.map);
-                    AGRC.app.map.fitBounds(line.getBounds().pad(0.1));
+                    var line = L.polyline(values.path, {color: 'red'}).addTo(config.app.map);
+                    config.app.map.fitBounds(line.getBounds().pad(0.1));
                     that.geometry = line;
                     that.utmGeo = values.utm;
-                    this.utmGeo.spatialReference = {wkid: 26912}
+                    that.utmGeo.spatialReference = {wkid: 26912}
+                    that.cacheInProgressData();
                 },
                 function (errorMsg) {
                     that.setValidateMsg(errorMsg);
                     $(that.verifyMapBtn).button('reset');
                 });
             }
+        },
+        getAdditionalCacheData: function () {
+            // summary:
+            //      cache the current utmGeo prop
+            console.log('app/location/Location:getAdditionalCacheData', arguments);
+
+            return {
+                utmGeo: this.utmGeo
+            };
+        },
+        hydrateWithInProgressData: function () {
+            // summary:
+            //      add utmGeo which isn't covered in _InProgressCacheMixin
+            console.log('app/location/Station:hydrateWithInProgressData', arguments);
+
+            var that = this;
+            this.inherited(arguments).then(function hydrateutmGeo(inProgressData) {
+                if (inProgressData) {
+                    that.utmGeo = inProgressData.utmGeo;
+                }
+            });
         },
         setValidateMsg: function (txt) {
             // summary:
@@ -187,7 +221,7 @@ define([
             console.log('app/location/Location:clearGeometry', arguments);
 
             if (this.geometry) {
-                AGRC.app.map.removeLayer(this.geometry);
+                config.app.map.removeLayer(this.geometry);
                 this.geometry = null;
             }
         },

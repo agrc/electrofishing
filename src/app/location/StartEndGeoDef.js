@@ -17,9 +17,7 @@ define([
     'dojo/_base/lang',
 
     'app/location/PointDef'
-],
-
-function (
+], function (
     config,
     _GeoDefMixin,
 

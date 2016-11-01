@@ -1,19 +1,20 @@
 require([
+    'app/config',
     'app/location/VerifyMap',
-    'dojo/topic',
-    'dojo/dom-style',
+
     'dojo/dom-construct',
+    'dojo/dom-style',
+    'dojo/topic',
     'dojo/_base/window'
-
-],
-
-function (
+], function (
+    config,
     VerifyMap,
-    topic,
-    domStyle,
+
     domConstruct,
+    domStyle,
+    topic,
     win
-    ) {
+) {
     describe('app/location/VerifyMap', function () {
         var testWidget;
         beforeEach(function () {
@@ -44,28 +45,28 @@ function (
             var fired;
             beforeEach(function () {
                 fired = false;
-                topic.subscribe(AGRC.topics.mapInit, function () {
+                topic.subscribe(config.topics.mapInit, function () {
                     fired = true;
                 });
-                AGRC.app = {map: undefined};
+                config.app = {map: undefined};
             });
             it('should create a valid map', function () {
                 expect(testWidget.map).toBeDefined();
             });
-            it('sets the AGRC.app.map and fires global topic only if isMainMap = true', function () {
+            it('sets the config.app.map and fires global topic only if isMainMap = true', function () {
                 var testWidget2 = new VerifyMap(
                     {isMainMap: true}, domConstruct.create('div', null, win.body()));
                 testWidget2.initMap();
 
-                expect(AGRC.app.map).toBe(testWidget2.map);
+                expect(config.app.map).toBe(testWidget2.map);
                 expect(fired).toBe(true);
 
                 testWidget2.destroy();
             });
-            it('doesn\'t set AGRC.app.map and fire the global topic if isMainMap = false', function () {
+            it('doesn\'t set config.app.map and fire the global topic if isMainMap = false', function () {
                 var testWidget2 = new VerifyMap({isMainMap: false});
 
-                expect(AGRC.app.map).toBeUndefined();
+                expect(config.app.map).toBeUndefined();
                 expect(fired).toBe(false);
 
                 testWidget2.destroy();
