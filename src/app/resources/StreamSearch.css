@@ -3,7 +3,7 @@
     position: absolute;
     top: 0px;
     right: 0px;
-    z-index: 2000;
+    z-index: 410;
     width: 303px;
 }
 .magic-zoom input[data-dojo-attach-point='textBox'] {
