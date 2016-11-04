@@ -267,15 +267,23 @@ define([
             var passFilter = {};
             passFilter[fn.PASS_NUM] = this.currentPass;
             var passData = this.store.filter(passFilter).fetchSync();
-            var catchId = (passData.length === 0) ? 1 : passData[passData.length - 1][fn.CATCH_ID] + 1;
+            var lastRow = passData[passData.length - 1];
+            var catchId = 1;
+            var lastSpecies = null;
+            var lastLengthType = null;
+            if (passData.length > 0) {
+                catchId = lastRow[fn.CATCH_ID] + 1;
+                lastSpecies = lastRow[fn.SPECIES_CODE];
+                lastLengthType = lastRow[fn.LENGTH_TYPE];
+            }
             var row = {};
 
             row[fn.FISH_ID] = '{' + generateRandomUuid() + '}';
             row[fn.EVENT_ID] = config.eventId;
             row[fn.PASS_NUM] = this.currentPass;
             row[fn.CATCH_ID] = catchId;
-            row[fn.SPECIES_CODE] = null;
-            row[fn.LENGTH_TYPE] = null;
+            row[fn.SPECIES_CODE] = lastSpecies;
+            row[fn.LENGTH_TYPE] = lastLengthType;
             row[fn.LENGTH] = null;
             row[fn.WEIGHT] = null;
 

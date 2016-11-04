@@ -121,6 +121,18 @@ require([
                 console.log(testWidget.store.data);
                 expect(addedRow[fn.CATCH_ID]).toBe(3);
             });
+            it('remembers the species code and length type', function () {
+                var existingGuid = testWidget.addRow();
+                var existingObject = testWidget.store.getSync(existingGuid);
+                var species = 'BlueTrout';
+                var lengthType = 'AVeryGoodLengthType';
+                existingObject[config.fieldNames.fish.SPECIES_CODE] = species;
+                existingObject[config.fieldNames.fish.LENGTH_TYPE] = lengthType;
+
+                var newObject = testWidget.store.getSync(testWidget.addRow());
+                expect(newObject[config.fieldNames.fish.SPECIES_CODE]).toBe(species);
+                expect(newObject[config.fieldNames.fish.LENGTH_TYPE]).toBe(lengthType);
+            });
         });
         describe('addPass', function () {
             it('saves the store', function () {
