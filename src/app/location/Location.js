@@ -6,6 +6,7 @@ define([
     'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
 
+    'dojo/dom-class',
     'dojo/query',
     'dojo/text!app/location/templates/Location.html',
     'dojo/topic',
@@ -24,6 +25,7 @@ define([
     _WidgetBase,
     _WidgetsInTemplateMixin,
 
+    domClass,
     query,
     template,
     topic,
@@ -204,6 +206,7 @@ define([
             // txt: String
             console.log('app/location/Location:setValidateMsg', arguments);
 
+            domClass.remove(this.validateMsg, 'hidden');
             this.validateMsg.innerHTML = txt;
         },
         clearValidation: function () {
@@ -212,6 +215,7 @@ define([
             console.log('app/location/Location:clearValidation', arguments);
 
             $(this.verifyMapBtn).button('reset');
+            domClass.add(this.validateMsg, 'hidden');
             this.validateMsg.innerHTML = '';
             this.clearGeometry();
         },
