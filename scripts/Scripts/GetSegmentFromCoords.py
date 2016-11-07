@@ -45,7 +45,7 @@ tempOutput = r'{0}\tempOutput'.format(arcpy.env.scratchGDB)
 puntData = r'{0}\puntData'.format(arcpy.env.scratchGDB)
 
 # tools parameters
-searchRadius = '100 Meters'
+searchRadius = '150 Meters'
 splitSearchRadius = 10
 
 # fields
