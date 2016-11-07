@@ -1,6 +1,6 @@
 {
   "name": "electrofishing",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-bump": "^0.8.0",
