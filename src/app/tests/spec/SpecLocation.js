@@ -64,27 +64,6 @@ require([
 
                 expect(testWidget.currentGeoDef.getGeometry).toHaveBeenCalled();
             });
-            it('toggles the loading button', function (done) {
-                // have to test asnyc because of bootstrap plugin using setTimeout
-                var def;
-                def = new Deferred();
-                spyOn(testWidget.currentGeoDef, 'getGeometry').and.returnValue(def);
-
-                testWidget.validateGeometry();
-
-                setTimeout(function () {
-                    expect(domClass.contains(testWidget.verifyMapBtn, 'disabled')).toBe(true);
-                    expect(testWidget.verifyMapBtn.disabled).toBe(true);
-
-                    def.resolve(true);
-                    setTimeout(function () {
-                        expect(testWidget.verifyMapBtn.innerHTML).toEqual(testWidget.successfullyVerifiedMsg);
-                        expect(testWidget.verifyMapBtn.disabled).toBe(true);
-
-                        done();
-                    }, 100);
-                }, 100);
-            });
             it('calls setValidateMsg if getGeometry returns a string', function () {
                 spyOn(testWidget.currentGeoDef, 'getGeometry').and.returnValue('blah');
                 spyOn(testWidget, 'setValidateMsg');
@@ -108,7 +87,8 @@ require([
                 spyOn(testWidget.currentGeoDef, 'getGeometry').and.returnValue(def);
                 var value = {
                     path: [[[40.61961708800004,-111.77570324799996],[40.61949659800007,-111.77589739899997],[40.619351764000044,-111.77616160999997],[40.61931103200004,-111.77619033999997],[40.61898055900008,-111.77642319899996],[40.618710168000064,-111.77676409899999],[40.61852672800006,-111.77745015199997],[40.61844689000003,-111.77780117599997],[40.618263324000054,-111.77851843299999],[40.61826179600007,-111.77874516599996],[40.61829342500005,-111.77910445799995],[40.618347689000075,-111.77944698899995],[40.61837832700007,-111.77995274799997],[40.618404905000034,-111.78020581799996],[40.61839656800004,-111.78059963999999]]],
-                    utm: {}
+                    utm: {},
+                    success: true
                 };
                 testWidget.validateGeometry();
 

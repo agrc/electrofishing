@@ -13,8 +13,13 @@ direction(2): String (up | down)
 segmentWGS(3): FeatureClass
     projected to WGS84 for easy placement in leaflet
 segmentUTM(4): FeatureClass
-    segment in utm for later submission to the addFeatures service
+    segment in utm for later submission to the NewCollectionEvent service
+success(5): boolean
+    true if a segment was successfully returned
+error_message(6): string
+    only populated if success is false
 """
+
 import arcpy
 from os import path
 from settings import *
@@ -31,7 +36,7 @@ direction = arcpy.GetParameterAsText(2)  # up or down
 # folders and data
 wgs84 = arcpy.SpatialReference('WGS 1984')
 utm = arcpy.SpatialReference('NAD 1983 UTM Zone 12N')
-linesTemplate = path.join(path.dirname(__file__), '..', 'ToolData', 'InputSchemas.gdb', 'lines')
+linesTemplate = path.join(path.dirname(__file__), '..\ToolData\InputSchemas.gdb\lines')
 in_memory = 'in_memory'
 
 # temp data
@@ -48,81 +53,90 @@ splitSearchRadius = 10
 # fields
 fldReachCode = 'ReachCode'
 
-if arcpy.Exists(tempDissolve):
-    arcpy.Delete_management(tempDissolve)
-if arcpy.Exists(tempSplit):
-    arcpy.Delete_management(tempSplit)
-
 try:
-    distance = int(distance)
-except:
-    raise Exception('invalid value passed for distance parameter: {0}'.format(distance))
-if direction not in ['up', 'down']:
-    raise Exception('invalid value passed for direction parameter: {0}'.format(direction))
+    if arcpy.Exists(tempDissolve):
+        arcpy.Delete_management(tempDissolve)
+    if arcpy.Exists(tempSplit):
+        arcpy.Delete_management(tempSplit)
 
-arcpy.Snap_edit(point, [[STREAMS, 'EDGE', snapRadius]])
+    try:
+        distance = int(distance)
+    except:
+        raise Exception('Invalid value passed for distance parameter: {0}.'.format(distance))
+    if direction not in ['up', 'down']:
+        raise Exception('Invalid value passed for direction parameter: {0}.'.format(direction))
 
-arcpy.MakeFeatureLayer_management(STREAMS, streamsLyr)
+    arcpy.Snap_edit(point, [[STREAMS, 'EDGE', snapRadius]])
 
-arcpy.SelectLayerByLocation_management(streamsLyr, 'INTERSECT', point)
+    arcpy.MakeFeatureLayer_management(STREAMS, streamsLyr)
 
-values = [row[0] for row in arcpy.da.SearchCursor(streamsLyr, [fldReachCode])]
-lenValues = len(values)
-if lenValues == 0:
-    raise Exception('no stream segments selected by snapped point!')
-rcodes = set(values)
-numCodes = len(rcodes)
-if numCodes == 0:
-    raise Exception('no reach codes found!')
-elif numCodes > 1:
-    raise Exception('more than one reach code found!')
+    arcpy.SelectLayerByLocation_management(streamsLyr, 'INTERSECT', point)
 
-query = "\"{0}\" = '{1}'".format(fldReachCode, values[0])
-arcpy.SelectLayerByAttribute_management(streamsLyr, 'NEW_SELECTION', query)
+    values = [row[0] for row in arcpy.da.SearchCursor(streamsLyr, [fldReachCode])]
+    lenValues = len(values)
+    if lenValues == 0:
+        raise Exception('No stream segments selected by snapped point!')
+    rcodes = set(values)
+    numCodes = len(rcodes)
+    if numCodes == 0:
+        raise Exception('No reach codes found!')
+    elif numCodes > 1:
+        raise Exception('More than one reach code found!')
 
-arcpy.Dissolve_management(streamsLyr, tempDissolve)
+    query = "\"{0}\" = '{1}'".format(fldReachCode, values[0])
+    arcpy.SelectLayerByAttribute_management(streamsLyr, 'NEW_SELECTION', query)
 
-arcpy.SplitLineAtPoint_management(tempDissolve, point, tempSplit, splitSearchRadius)
+    arcpy.Dissolve_management(streamsLyr, tempDissolve)
 
-with arcpy.da.SearchCursor(point, ["SHAPE@", "OID@"]) as cur:
-    coord = cur.next()[0]
+    arcpy.SplitLineAtPoint_management(tempDissolve, point, tempSplit, splitSearchRadius)
 
-found = False
-with arcpy.da.SearchCursor(tempSplit, ["SHAPE@", "OID@"]) as cur:
-    for row in cur:
-        line = row[0]
-        if direction == 'up':
-            searchPoint = line.lastPoint
-        else:
-            searchPoint = line.firstPoint
-        if (coord.distanceTo(searchPoint) < splitSearchRadius):
-            baseSegment = line
-            found = True
+    with arcpy.da.SearchCursor(point, ["SHAPE@", "OID@"]) as cur:
+        coord = cur.next()[0]
+
+    found = False
+    with arcpy.da.SearchCursor(tempSplit, ["SHAPE@", "OID@"]) as cur:
+        for row in cur:
+            line = row[0]
+            if direction == 'up':
+                searchPoint = line.lastPoint
+            else:
+                searchPoint = line.firstPoint
+            if (coord.distanceTo(searchPoint) < splitSearchRadius):
+                baseSegment = line
+                found = True
+                break
+
+    if not found:
+        raise Exception('No segment found that matches the start point!')
+
+    if direction == 'up':
+        baseVertices = reversed(baseSegment.getPart(0))
+    else:
+        baseVertices = baseSegment.getPart(0)
+    lineDistance = 0
+    lineVertices = arcpy.Array()
+    lineVertices.add(coord.firstPoint)
+    for p in baseVertices:
+        endPoint = arcpy.PointGeometry(lineVertices.getObject(lineVertices.count - 1))
+        lineDistance = lineDistance + endPoint.distanceTo(p)
+        lineVertices.add(p)
+        if lineDistance >= distance:
             break
 
-if not found:
-    raise Exception('no segment found that matches the start point!')
+    arcpy.CreateFeatureclass_management(arcpy.env.scratchGDB, 'outData', 'POLYLINE', linesTemplate, "", "", utm)
 
-if direction == 'up':
-    baseVertices = reversed(baseSegment.getPart(0))
-else:
-    baseVertices = baseSegment.getPart(0)
-lineDistance = 0
-lineVertices = arcpy.Array()
-lineVertices.add(coord.firstPoint)
-for p in baseVertices:
-    endPoint = arcpy.PointGeometry(lineVertices.getObject(lineVertices.count - 1))
-    lineDistance = lineDistance + endPoint.distanceTo(p)
-    lineVertices.add(p)
-    if lineDistance >= distance:
-        break
+    with arcpy.da.InsertCursor(outData, ["SHAPE@"]) as c:
+        c.insertRow([arcpy.Polyline(arcpy.Array(lineVertices))])
 
-arcpy.CreateFeatureclass_management(arcpy.env.scratchGDB, 'outData', 'POLYLINE', linesTemplate, "", "", utm)
+    arcpy.env.outputCoordinateSystem = wgs84
+    arcpy.CopyFeatures_management(outData, outWGS)
+    arcpy.SetParameter(4, outData)
+    arcpy.SetParameter(3, outWGS)
+    arcpy.SetParameter(5, True)
+    arcpy.SetParameter(6, '')
 
-with arcpy.da.InsertCursor(outData, ["SHAPE@"]) as c:
-    c.insertRow([arcpy.Polyline(arcpy.Array(lineVertices))])
-
-arcpy.env.outputCoordinateSystem = wgs84
-arcpy.CopyFeatures_management(outData, outWGS)
-arcpy.SetParameter(4, outData)
-arcpy.SetParameter(3, outWGS)
+except Exception as ex:
+    arcpy.SetParameter(3, linesTemplate)
+    arcpy.SetParameter(4, linesTemplate)
+    arcpy.SetParameter(5, False)
+    arcpy.SetParameter(6, ex.message)

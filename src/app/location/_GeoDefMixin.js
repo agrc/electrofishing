@@ -78,9 +78,6 @@ define([
             var that = this;
 
             xhr(this.gpServiceUrl + '/jobs/' + jobId + '?', this.defaultXHRParams).then(function (jobStatus) {
-                // array.forEach(jobStatus.messages, function (m) {
-                //     console.log(m.description);
-                // });
                 if (jobStatus.jobStatus === 'esriJobSucceeded') {
                     clearInterval(intId);
                     that.getJobResults(jobId, def);
@@ -102,18 +99,19 @@ define([
             // def: dojo.Deferred
             console.log('app/location/_GeoDefMixin:getJobResults', arguments);
 
-            var promise1;
-            var promise2;
             var returnPaths;
             var streamGeo;
             var that = this;
+            var promises = [];
+            var success;
+            var error_message;
 
             function getResult(paramName, successCallback) {
                 var msg = 'There was an error getting the ' + paramName + ' result.';
                 return xhr(that.gpServiceUrl + '/jobs/' + jobId + '/results/' + paramName + '?', that.defaultXHRParams)
                     .then(function (results) {
-                        if (results.value.features[0]) {
-                            successCallback(results.value.features[0]);
+                        if (results) {
+                            successCallback(results.value);
                         } else {
                             def.reject(msg);
                         }
@@ -123,24 +121,37 @@ define([
                 );
             }
 
-            promise1 = getResult('segmentWGS', function (feature) {
-                var paths = [];
-                array.forEach(feature.geometry.paths, function (path) {
-                    // flip lats and lngs. Thanks, ESRI :P
-                    paths.push(array.map(path, function (c) {
-                        return [c[1], c[0]];
-                    }));
-                });
-                returnPaths = paths;
-            });
-            promise2 = getResult('segmentUTM', function (feature) {
-                streamGeo = feature.geometry;
-            });
+            promises.push(getResult('segmentWGS', function (value) {
+                if (value.features.length > 0) {
+                    var feature = value.features[0];
+                    var paths = [];
+                    array.forEach(feature.geometry.paths, function (path) {
+                        // flip lats and lngs. Thanks, ESRI :P
+                        paths.push(array.map(path, function (c) {
+                            return [c[1], c[0]];
+                        }));
+                    });
+                    returnPaths = paths;
+                }
+            }));
+            promises.push(getResult('segmentUTM', function (value) {
+                if (value.features.length > 0) {
+                    streamGeo = value.features[0].geometry;
+                }
+            }));
+            promises.push(getResult('success', function (value) {
+                success = value;
+            }));
+            promises.push(getResult('error_message', function (value) {
+                error_message = value;
+            }));
 
-            all([promise1, promise2]).then(function () {
+            all(promises).then(function () {
                 def.resolve({
                     path: returnPaths,
-                    utm: streamGeo
+                    utm: streamGeo,
+                    success: success,
+                    error_message: error_message
                 });
             }, function (er) {
                 console.error(er);

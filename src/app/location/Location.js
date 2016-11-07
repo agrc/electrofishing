@@ -157,23 +157,28 @@ define([
             $(this.verifyMapBtn).button('loading');
 
             this.validateMsg.innerHTML = '';
+            domClass.add(this.validateMsg, 'hidden');
 
             returnedValue = this.currentGeoDef.getGeometry();
 
+            var onError = function (msg) {
+                that.setValidateMsg(msg);
+                $(that.verifyMapBtn).button('reset');
+            };
             if (typeof returnedValue === 'string') {
-                this.setValidateMsg(returnedValue);
-                $(this.verifyMapBtn).button('reset');
+                onError(returnedValue);
             } else {
-                returnedValue.then(function (values) {
-                    that.addLineToMap(values.path);
-                    that.utmGeo = values.utm;
-                    that.utmGeo.spatialReference = {wkid: 26912}
-                    that.cacheInProgressData();
+                returnedValue.then(function (response) {
+                    if (response.success) {
+                        that.addLineToMap(response.path);
+                        that.utmGeo = response.utm;
+                        that.utmGeo.spatialReference = {wkid: 26912}
+                        that.cacheInProgressData();
+                    } else {
+                        onError(response.error_message);
+                    }
                 },
-                function (errorMsg) {
-                    that.setValidateMsg(errorMsg);
-                    $(that.verifyMapBtn).button('reset');
-                });
+                onError);
             }
         },
         addLineToMap: function (path) {
@@ -228,7 +233,7 @@ define([
             // txt: String
             console.log('app/location/Location:setValidateMsg', arguments);
 
-            if (txt.length === 0) {
+            if (txt.trim().length === 0) {
                 domClass.add(this.validateMsg, 'hidden');
             } else {
                 domClass.remove(this.validateMsg, 'hidden');

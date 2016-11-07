@@ -11,7 +11,11 @@ type(1): String (reachcode or waterbodyid)
 segmentWGS(2): FeatureClass
     projected to WGS84 for easy placement in leaflet
 segmentUTM(3): FeatureClass
-    segment in utm for later submission to the addFeatures service
+    segment in utm for later submission to the NewCollectionEvent service
+success(4): boolean
+    true if a segment was successfully returned
+error_message(5): string
+    only populated if success is false
 """
 
 import arcpy
@@ -24,6 +28,7 @@ type = arcpy.GetParameterAsText(1)  # waterbodyid or reachcode
 # folders and data
 layer = 'layer'
 wgs84 = arcpy.SpatialReference('WGS 1984')
+emptyLine = path.join(path.dirname(__file__), '..\ToolData\InputSchemas.gdb\lines')
 
 # temp data
 tempDissolve = r'{0}\tempDissolve'.format(arcpy.env.scratchGDB)
@@ -38,23 +43,32 @@ if arcpy.Exists(tempWGS):
 fldReachCode = 'ReachCode'
 fldID = 'WaterID'
 
-# choose the correct dataset
-if type == 'reachcode':
-    arcpy.MakeFeatureLayer_management(STREAMS, layer, "\"{0}\" = '{1}'".format(fldReachCode, id))
-    dissolve_field = fldReachCode
-elif type == 'waterbodyid':
-    arcpy.MakeFeatureLayer_management(WATERBODYIDS, layer, "\"{0}\" = '{1}'".format(fldID, id))
-    dissolve_field = fldID
-else:
-    raise Exception("type: {0} is unknown. Should be 'reachcode' or 'waterbodyid'.".format(type))
+try:
+    # choose the correct dataset
+    if type == 'reachcode':
+        arcpy.MakeFeatureLayer_management(STREAMS, layer, "\"{0}\" = '{1}'".format(fldReachCode, id))
+        dissolve_field = fldReachCode
+    elif type == 'waterbodyid':
+        arcpy.MakeFeatureLayer_management(WATERBODYIDS, layer, "\"{0}\" = '{1}'".format(fldID, id))
+        dissolve_field = fldID
+    else:
+        raise Exception("Type: {0} is unknown. Should be 'reachcode' or 'waterbodyid'.".format(type))
 
-count = int(arcpy.GetCount_management(layer).getOutput(0))
-if not count > 0:
-    raise Exception('No matching id found!')
+    count = int(arcpy.GetCount_management(layer).getOutput(0))
+    if not count > 0:
+        raise Exception('No matching id found!')
 
-arcpy.Dissolve_management(layer, tempDissolve, dissolve_field)
-arcpy.SetParameter(3, tempDissolve)
+    arcpy.Dissolve_management(layer, tempDissolve, dissolve_field)
+    arcpy.SetParameter(3, tempDissolve)
 
-arcpy.env.outputCoordinateSystem = wgs84
-arcpy.CopyFeatures_management(tempDissolve, tempWGS)
-arcpy.SetParameter(2, tempWGS)
+    arcpy.env.outputCoordinateSystem = wgs84
+    arcpy.CopyFeatures_management(tempDissolve, tempWGS)
+    arcpy.SetParameter(2, tempWGS)
+    arcpy.SetParameter(4, True)
+    arcpy.SetParameter(5, '')
+
+except Exception as ex:
+    arcpy.SetParameter(2, emptyLine)
+    arcpy.SetParameter(3, emptyLine)
+    arcpy.SetParameter(4, False)
+    arcpy.SetParameter(5, ex.message)
