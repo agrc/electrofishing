@@ -32,6 +32,20 @@ var profile = {
                 return false;
             }
         }
+    }, {
+        name: 'localforage',
+        resourceTags: {
+            amd: function () {
+                return true;
+            }
+        }
+    }, {
+        name: 'toaster',
+        resourceTags: {
+            amd: function (filename) {
+                return /\.js/.test(filename);
+            }
+        }
     }],
     staticHasFeatures: {
         'dojo-trace-api': 0,
@@ -42,6 +56,6 @@ var profile = {
         'dojo-test-sniff': 0
     },
     userConfig: {
-        packages: ['app', 'dijit']
+        packages: ['app', 'dijit', 'toaster']
     }
 };

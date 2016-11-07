@@ -41,8 +41,8 @@ require({
             main: 'proj4leaflet'
         }, {
             name: 'toaster',
-            location: './toaster/dist',
-            main: 'Toaster'
+            location: './toaster',
+            main: 'dist/Toaster'
         }
     ]
 });
