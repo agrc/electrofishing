@@ -165,10 +165,7 @@ define([
                 $(this.verifyMapBtn).button('reset');
             } else {
                 returnedValue.then(function (values) {
-                    that.verifyMapBtn.innerHTML = that.successfullyVerifiedMsg;
-                    var line = L.polyline(values.path, {color: 'red'}).addTo(config.app.map);
-                    config.app.map.fitBounds(line.getBounds().pad(0.1));
-                    that.geometry = line;
+                    that.addLineToMap(values.path);
                     that.utmGeo = values.utm;
                     that.utmGeo.spatialReference = {wkid: 26912}
                     that.cacheInProgressData();
@@ -179,14 +176,31 @@ define([
                 });
             }
         },
+        addLineToMap: function (path) {
+            // summary:
+            //      adds the path to the map
+            console.log('app/location/Location:addLineToMap', arguments);
+
+            this.verifyMapBtn.innerHTML = this.successfullyVerifiedMsg;
+
+            var line = L.polyline(path, {color: 'red'}).addTo(config.app.map);
+            this.path = path;
+            config.app.map.fitBounds(line.getBounds().pad(0.1));
+            this.geometry = line;
+        },
         getAdditionalCacheData: function () {
             // summary:
             //      cache the current utmGeo prop
             console.log('app/location/Location:getAdditionalCacheData', arguments);
 
-            return {
-                utmGeo: this.utmGeo
-            };
+            if (this.utmGeo) {
+                return {
+                    utmGeo: this.utmGeo,
+                    path: this.path
+                };
+            } else {
+                return {};
+            }
         },
         hydrateWithInProgressData: function () {
             // summary:
@@ -195,8 +209,16 @@ define([
 
             var that = this;
             this.inherited(arguments).then(function hydrateutmGeo(inProgressData) {
-                if (inProgressData) {
-                    that.utmGeo = inProgressData.utmGeo;
+                if (inProgressData && inProgressData.utmGeo) {
+                    try {
+                        $(that.verifyMapBtn).button('loading');
+                        that.utmGeo = inProgressData.utmGeo;
+                        that.path = inProgressData.path;
+                        that.addLineToMap(inProgressData.path);
+                    } catch (error) {
+                        console.error('error loading cached geometry', error);
+                        that.clearGeometry();
+                    }
                 }
             });
         },
@@ -206,7 +228,11 @@ define([
             // txt: String
             console.log('app/location/Location:setValidateMsg', arguments);
 
-            domClass.remove(this.validateMsg, 'hidden');
+            if (txt.length === 0) {
+                domClass.add(this.validateMsg, 'hidden');
+            } else {
+                domClass.remove(this.validateMsg, 'hidden');
+            }
             this.validateMsg.innerHTML = txt;
         },
         clearValidation: function () {

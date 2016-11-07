@@ -116,7 +116,7 @@ define([
         },
         getGeometry: function () {
             // summary:
-            //      Returns a deferred if the geometries are valid, returns and invalid
+            //      Returns a deferred if the geometries are valid, returns an invalid
             //      message if the geometries are not valid
             // returns: Deferred || String
             console.log('app/location/StartDistDirGeoDef:getGeometry', arguments);

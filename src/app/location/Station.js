@@ -303,6 +303,7 @@ define([
             this.inherited(arguments).then(function hydrateCurrentGuid(inProgressData) {
                 if (inProgressData) {
                     that.currentGuid = inProgressData.currentGuid;
+                    that.mainMap.selectStation(that.currentGuid);
                 }
             });
         }
