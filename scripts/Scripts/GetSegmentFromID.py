@@ -41,7 +41,7 @@ if arcpy.Exists(tempWGS):
 
 # fields
 fldReachCode = 'ReachCode'
-fldID = 'WaterID'
+fldID = 'DWR_WaterID'
 
 try:
     # choose the correct dataset
@@ -49,7 +49,7 @@ try:
         arcpy.MakeFeatureLayer_management(STREAMS, layer, "\"{0}\" = '{1}'".format(fldReachCode, id))
         dissolve_field = fldReachCode
     elif type == 'waterbodyid':
-        arcpy.MakeFeatureLayer_management(WATERBODYIDS, layer, "\"{0}\" = '{1}'".format(fldID, id))
+        arcpy.MakeFeatureLayer_management(STREAMS, layer, "\"{0}\" = '{1}'".format(fldID, id))
         dissolve_field = fldID
     else:
         raise Exception("Type: {0} is unknown. Should be 'reachcode' or 'waterbodyid'.".format(type))
