@@ -208,11 +208,6 @@ define([
             }, this.moreInfoDialogDiv);
             this.moreInfoDialog.startup();
 
-            Domains.populateSelectWithDomainValues(
-                this.batchCodeSelect,
-                config.urls.fishFeatureService,
-                fn.SPECIES_CODE);
-
             var that = this;
             $('a[href="#catchTab"]').on('shown.bs.tab', function () {
                 that.grid.startup();
@@ -243,16 +238,16 @@ define([
                 }
                 that.store.on('add, update, delete', lang.hitch(that, 'cacheInProgressData'));
             });
+
+            this.wireBatchFormEvents();
         },
         wireBatchFormEvents: function () {
             // summary:
             //      wires events for the widget
             console.log('app/catch/Catch:wireBatchFormEvents', arguments);
 
-            var tb = this.batchCodeSelect.parentElement.children[1].children[1].children[0];
             this.own(
-                on(tb, 'keyup, change', lang.hitch(this, 'validateBatchForm')),
-                on(this.batchNumberTxt, 'keyup, change', lang.hitch(this, 'validateBatchForm'))
+                on(this.batchWeightTxt, 'keyup, change', lang.hitch(this, 'validateBatchForm'))
             );
         },
         addRow: function () {
@@ -362,8 +357,8 @@ define([
             //      enables/disabled go button on batch form
             console.log('app/catch/Catch:validateBatchForm', arguments);
 
-            this.batchGoBtn.disabled = (!this.batchCodeSelect.value ||
-                !this.batchNumberTxt.value);
+            var value = parseFloat(this.batchWeightTxt.value);
+            this.batchGoBtn.disabled = isNaN(value) || value === 0;
         },
         batch: function () {
             // summary:
@@ -371,35 +366,40 @@ define([
             // e: Click Event
             console.log('app/catch/Catch:batch', arguments);
 
-            var item;
             var batchWeight = parseInt(this.batchWeightTxt.value, 10);
-            var number = parseInt(this.batchNumberTxt.value, 10);
-            var that = this;
             var fn = config.fieldNames.fish;
-            var avgWeight = Formatting.round(batchWeight / number, 1);
-            var populateValues = function (guid) {
-                item = that.store.getSync(guid);
-                item[fn.SPECIES_CODE] = that.batchCodeSelect.value;
-                item[fn.WEIGHT] = (avgWeight === avgWeight) ? avgWeight : '0';
-                that.store.putSync(item);
-            };
+
+            // get a new array instance so that pop doesn't mess with the original data
+            var data = Array.from(this.grid.collection.fetchSync());
 
             // check to see if last row in grid is empty
-            var data = this.grid.collection.fetchSync();
             var lastRow = data[data.length - 1];
             if (lastRow[fn.SPECIES_CODE] === null) {
-                populateValues(lastRow[fn.FISH_ID]);
-                number--;
+                data.pop();
             }
 
-            for (var i = 0; i < number; i++) {
-                populateValues(this.addRow());
+            var affectedRows = [];
+            var item = data.pop();
+            while (item && !item[fn.WEIGHT]) {
+                affectedRows.push(item)
+                item = data.pop();
             }
+
+            var that = this;
+            var avgWeight = Formatting.round(batchWeight / affectedRows.length, 1);
+            var populateValues = function (guid) {
+                var modifyItem = that.store.getSync(guid);
+                modifyItem[fn.WEIGHT] = (avgWeight === avgWeight) ? avgWeight : '0';
+                that.store.putSync(modifyItem);
+            };
+
+            affectedRows.forEach(function (row) {
+                populateValues(row[fn.FISH_ID]);
+            });
 
             // hide popup and clear values except species code
             this.batchBtn.click();
             this.batchWeightTxt.value = '';
-            this.batchNumberTxt.value = '';
 
             this.grid.save();
             this.grid.refresh();
@@ -410,25 +410,7 @@ define([
             //      description
             console.log('app/catch/Catch:onBatchToggle', arguments);
 
-            var that = this;
-
-            // focus code select
-            if (!domClass.contains(that.batchBtn, 'active')) {
-                setTimeout(function () {
-                    // have to recreate the combobox everytime because it gets trashed
-                    // each time that the tooltip is hidden. I think that it has to do with
-                    // something calling jquery's cleanData method which strips the combobox
-                    // object out of the data dom property for the select
-                    $(that.batchCodeSelect).combobox();
-                    that.wireBatchFormEvents();
-                    that.batchCodeSelect.parentElement.children[1].children[1].children[0].focus();
-                }, 200);
-            }
-
-            // destroy Comobobox old combobox if there is one
-            if (this.batchCodeSelect.parentElement.children.length === 3) {
-                domConstruct.destroy(this.batchCodeSelect.parentElement.children[1]);
-            }
+            this.batchWeightTxt.focus();
         },
         noWeight: function () {
             // summary:

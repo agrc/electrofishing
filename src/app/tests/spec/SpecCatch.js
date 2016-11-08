@@ -51,36 +51,16 @@ require([
 
                 expect(f[fn.EVENT_ID]).not.toBeNull();
             });
-            it('wire up keyup events on batch form for validation', function () {
-                spyOn(testWidget, 'validateBatchForm');
-
-                $(testWidget.batchCodeSelect).combobox();
-                testWidget.wireBatchFormEvents();
-                var tb = testWidget.batchCodeSelect.parentElement.children[1].children[1].children[0];
-                on.emit(tb, 'keyup', {bubbles: true});
-                on.emit(tb, 'change', {bubbles: true});
-                on.emit(testWidget.batchNumberTxt, 'keyup', {bubbles: true});
-                on.emit(testWidget.batchNumberTxt, 'change', {bubbles: true});
-
-                expect(testWidget.validateBatchForm.calls.count()).toBe(4);
-            });
         });
         describe('validateBatchForm', function () {
-            it('enables the button if code and number are present', function () {
-                domConstruct.create('option', {
-                    value: 'blah',
-                    innerHTML: 'blah'
-                }, testWidget.batchCodeSelect);
-                $(testWidget.batchCodeSelect).combobox();
-
-                testWidget.batchNumberTxt.value = 4;
-                testWidget.batchCodeSelect.value = 'blah';
+            it('enables the button if weight value present', function () {
+                testWidget.batchWeightTxt.value = '1';
 
                 testWidget.validateBatchForm();
 
                 expect(testWidget.batchGoBtn.disabled).toBe(false);
 
-                testWidget.batchNumberTxt.value = '';
+                testWidget.batchWeightTxt.value = '';
 
                 testWidget.validateBatchForm();
 
@@ -257,71 +237,25 @@ require([
             });
         });
         describe('batch', function () {
-            var code = 'BG';
-            var number = 5;
             var weight = 10;
             beforeEach(function () {
-                domConstruct.create('option', {
-                    value: code,
-                    innerHTML: code
-                }, testWidget.batchCodeSelect);
-                testWidget.batchCodeSelect.value = code;
-                testWidget.batchNumberTxt.value = number;
                 testWidget.batchWeightTxt.value = weight;
             });
-            it('adds the appropriate number of rows and values', function () {
-                testWidget.batch();
-
-                var data = testWidget.store.data;
-
-                expect(data.length).toBe(number);
-                var first = data[0];
-                expect(first[config.fieldNames.fish.SPECIES_CODE]).toBe(code);
-                expect(first[config.fieldNames.fish.LENGTH_TYPE]).toBeNull();
-                expect(first[config.fieldNames.fish.LENGTH]).toBeNull();
-                expect(first[config.fieldNames.fish.WEIGHT]).toBe(2);
-
-                var last = data[4];
-                expect(last[config.fieldNames.fish.SPECIES_CODE]).toBe(code);
-                expect(last[config.fieldNames.fish.LENGTH_TYPE]).toBeNull();
-                expect(last[config.fieldNames.fish.LENGTH]).toBeNull();
-                expect(last[config.fieldNames.fish.WEIGHT]).toBe(2);
-            });
-            it('appends rows to grid with existing rows', function () {
-                testWidget.store.data[0][config.fieldNames.fish.SPECIES_CODE] = 'BH';
-
-                testWidget.addRow();
-                testWidget.store.data[1][config.fieldNames.fish.SPECIES_CODE] = 'BH';
-
-                testWidget.addRow();
-                testWidget.store.data[2][config.fieldNames.fish.SPECIES_CODE] = 'BH';
-
-                testWidget.batch();
-
-                var data = testWidget.store.data;
-
-                expect(data.length).toBe(8);
-            });
-            it('adds rows without a weight', function () {
-                testWidget.batchWeightTxt.value = '';
-
-                testWidget.batch();
-
-                var data = testWidget.store.data;
-
-                var last = data[4];
-                expect(last[config.fieldNames.fish.WEIGHT]).toBe('0');
-            });
             it('rounds weights to one decimal', function () {
+                testWidget.addRow();
+                testWidget.addRow();
                 testWidget.batchWeightTxt.value = 10;
-                testWidget.batchNumberTxt.value = 3;
+
+                var data = testWidget.store.data;
+                data.forEach(function (d) {
+                    d[config.fieldNames.fish.SPECIES_CODE] = 'a';
+                });
 
                 testWidget.batch();
 
-                var data = testWidget.store.data;
-
-                var last = data[2];
-                expect(last[config.fieldNames.fish.WEIGHT]).toBe(3.3);
+                expect(data[0][config.fieldNames.fish.WEIGHT]).toBe(3.3);
+                expect(data[1][config.fieldNames.fish.WEIGHT]).toBe(3.3);
+                expect(data[2][config.fieldNames.fish.WEIGHT]).toBe(3.3);
             });
             it('clears out the text boxes and hides the popup', function () {
                 spyOn(testWidget.batchBtn, 'click');
@@ -330,7 +264,46 @@ require([
 
                 expect(testWidget.batchBtn.click).toHaveBeenCalled();
                 expect(testWidget.batchWeightTxt.value).toEqual('');
-                expect(testWidget.batchNumberTxt.value).toEqual('');
+            });
+            it('assigns weights to only those fish without them', function () {
+                testWidget.addRow();
+                testWidget.addRow();
+                testWidget.addRow();
+
+                testWidget.batchWeightTxt.value = 9;
+
+                var data = testWidget.store.data;
+                data[0][config.fieldNames.fish.WEIGHT] = 5;
+                data.forEach(function (d) {
+                    d[config.fieldNames.fish.SPECIES_CODE] = 'a';
+                });
+
+                testWidget.batch();
+
+                expect(data[0][config.fieldNames.fish.WEIGHT]).toBe(5);
+                expect(data[1][config.fieldNames.fish.WEIGHT]).toBe(3);
+                expect(data[2][config.fieldNames.fish.WEIGHT]).toBe(3);
+                expect(data[3][config.fieldNames.fish.WEIGHT]).toBe(3);
+            });
+            it('only assigns weights to fish without them that are consecutive starting from the bottom up', function () {
+                testWidget.addRow()
+                testWidget.addRow()
+                testWidget.addRow()
+
+                testWidget.batchWeightTxt.value = 9;
+
+                var data = testWidget.store.data;
+                data[1][config.fieldNames.fish.WEIGHT] = 5;
+                data.forEach(function (d) {
+                    d[config.fieldNames.fish.SPECIES_CODE] = 'a';
+                });
+
+                testWidget.batch();
+
+                expect(data[0][config.fieldNames.fish.WEIGHT]).toBe(null);
+                expect(data[1][config.fieldNames.fish.WEIGHT]).toBe(5);
+                expect(data[2][config.fieldNames.fish.WEIGHT]).toBe(4.5);
+                expect(data[3][config.fieldNames.fish.WEIGHT]).toBe(4.5);
             });
         });
         describe('specialWeight', function () {
