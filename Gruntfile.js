@@ -6,8 +6,7 @@ module.exports = function (grunt) {
         'src/index.html'
     ];
     var gruntFile = 'GruntFile.js';
-    var internFile = 'ui-tests/intern.js';
-    var eslintFiles = [jsFiles, gruntFile, internFile];
+    var eslintFiles = [jsFiles, gruntFile];
     var deployDir = 'wwwroot/electrofishing';
     var deployFiles = [
         '**',
@@ -115,14 +114,6 @@ module.exports = function (grunt) {
                     src: ['**/*.{png,jpg,gif}', '!**/tests/**/*.*'],
                     dest: 'src/'
                 }]
-            }
-        },
-        intern: {
-            dev: {
-                options: {
-                    runType: 'runner',
-                    config: internFile
-                }
             }
         },
         jasmine: {
@@ -257,15 +248,10 @@ module.exports = function (grunt) {
                 files: 'src/app/**/*.styl',
                 tasks: ['stylus']
             }
-            // intern: {
-            //     files: ['ui-tests/**/*.js'],
-            //     tasks: ['intern:dev']
-            // }
         }
     });
 
     require('load-grunt-tasks')(grunt);
-    grunt.loadNpmTasks('intern');
 
     grunt.registerTask('default', [
         'jasmine:main:build',
