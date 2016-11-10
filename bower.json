@@ -25,7 +25,8 @@
     "esri-leaflet": "~2.0.3",
     "stubmodule": "^0.6",
     "localforage": "~1.4.3",
-    "toaster": "agrc-toaster#~1.0.1"
+    "toaster": "agrc-toaster#~1.0.1",
+    "handlebars": "~4.0.5"
   },
   "resolutions": {
     "dgrid": "~1.1.0",

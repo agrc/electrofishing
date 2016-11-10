@@ -22,6 +22,7 @@ src/dojox-esri/
 src/dstore
 src/esri-leaflet/
 src/favico.js/
+src/handlebars/
 src/ijit/
 src/jasmine-favicon-reporter/
 src/jasmine-jsreporter/

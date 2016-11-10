@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SummaryReport Tests</title>
+
+    <!-- META TAGS -->
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../resources/App.css">
+    <style type='text/css'>
+        body {
+            padding: 50px;
+        }
+    </style>
+
+    <!-- JAVASCRIPT -->
+    <script type='text/javascript' src="../../dojo/dojo.js"></script>
+    <script type='text/javascript' src="../../jquery/dist/jquery.js"></script>
+    <script type='text/javascript' src="../packages.js"></script>
+    <script type="text/javascript">
+        var widgetUnderTest;
+
+        require({
+            baseUrl: '../../'
+        }, [
+            'app/SummaryReport',
+            'dojo/text!../../../scripts/Scripts/TestData/NewCollectionEventData.json',
+
+            'dojo/domReady!'
+        ], function (
+            Module,
+            dataJSON
+        ) {
+            widgetUnderTest = new Module(null, 'node');
+            widgetUnderTest.startup();
+
+            widgetUnderTest.displayReport(JSON.parse(dataJSON));
+        });
+    </script>
+</head>
+<body>
+    <div id="node"></div>
+</body>
+</html>

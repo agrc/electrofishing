@@ -7,6 +7,7 @@ require({
         'dojo',
         'dojox',
         'dstore',
+        'handlebars',
         'ijit',
         'proj4',
         {

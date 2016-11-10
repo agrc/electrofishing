@@ -1,0 +1,24 @@
+{
+    "passes": [{
+        "name": 1,
+        "species": [{
+            "name": "BH",
+            "count": 15
+        }, {
+            "name": "CD",
+            "count": 2
+        }]
+    }, {
+        "name": 2,
+        "species": [{
+            "name": "AC",
+            "count": 55
+        }, {
+            "name": "FLS",
+            "count": 245
+        }, {
+            "name": "HSD",
+            "count": 235
+        }]
+    }]
+}

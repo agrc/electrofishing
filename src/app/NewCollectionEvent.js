@@ -28,6 +28,7 @@ define([
     'app/habitat/Habitat',
     'app/location/Location',
     'app/method/Method',
+    'app/SummaryReport',
     'dojo/NodeList-traverse'
 ], function (
     config,
@@ -148,10 +149,16 @@ define([
             data[config.tableNames.habitat] = this.habitatTb.getData();
 
             var data_txt = JSON.stringify(data);
-            this.submitJob({f: 'json', data: data_txt}, config.urls.newCollectionEvent);
+            var that = this;
 
-            // stringify, parse is so that we have a clean object to store in localforage
-            return this.archivesLocalForage.setItem(config.eventId, JSON.parse(data_txt));
+            return this.reportSummary.verify(data).then(function () {
+                that.submitJob({f: 'json', data: data_txt}, config.urls.newCollectionEvent);
+
+                // stringify, parse is so that we have a clean object to store in localforage
+                return that.archivesLocalForage.setItem(config.eventId, JSON.parse(data_txt));
+            }, function () {
+                $(config.app.header.submitBtn).button('reset');
+            });
         },
         onSuccessfulSubmit: function () {
             // summary:

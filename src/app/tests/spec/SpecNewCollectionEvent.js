@@ -2,6 +2,7 @@ require([
     'app/config',
     'app/NewCollectionEvent',
 
+    'dojo/Deferred',
     'dojo/dom-class',
     'dojo/dom-construct',
 
@@ -14,6 +15,7 @@ require([
     config,
     NewCollectionEvent,
 
+    Deferred,
     domClass,
     domConstruct,
 
@@ -88,6 +90,11 @@ require([
                         done();
                     });
                 };
+
+                var def = new Deferred();
+                def.resolve();
+                spyOn(testWidget.reportSummary, 'verify').and.returnValue(def);
+
                 testWidget.onSubmit().then(assert);
             });
         });
