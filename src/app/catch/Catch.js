@@ -212,6 +212,9 @@ define([
             $('a[href="#catchTab"]').on('shown.bs.tab', function () {
                 that.grid.startup();
             });
+            $('a[href="#catchTab"]').on('hidden.bs.tab', function () {
+                $(that.batchBtn).popover('hide');
+            });
 
             this.own(
                 topic.subscribe('refocus', function () {
