@@ -170,6 +170,11 @@ define([
             domClass.remove(this.successMsgContainer, 'hidden');
             window.scrollTo(0,0);
 
+            var that = this;
+            window.setTimeout(function hideSuccessMsg() {
+                domClass.add(that.successMsgContainer, 'hidden');
+            }, 5000);
+
             $(config.app.header.submitBtn).button('reset');
         },
         validateReport: function () {
