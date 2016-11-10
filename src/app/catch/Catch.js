@@ -25,7 +25,9 @@ define([
 
     'dojox/uuid/generateRandomUuid',
 
-    'localforage'
+    'localforage',
+
+    'bootstrap'
 ], function (
     Formatting,
 
@@ -373,7 +375,7 @@ define([
             var fn = config.fieldNames.fish;
 
             // get a new array instance so that pop doesn't mess with the original data
-            var data = Array.from(this.grid.collection.fetchSync());
+            var data = this.grid.collection.fetchSync().slice();
 
             // check to see if last row in grid is empty
             var lastRow = data[data.length - 1];
