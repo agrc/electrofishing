@@ -11,6 +11,7 @@
         "L": true,
         "dojo": true
     },
+    "plugins": ['html'],
     "rules": {
         "no-bitwise": 2,
         "curly": [
