@@ -1,6 +1,6 @@
 {
   "name": "electrofishing",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "devDependencies": {
     "eslint": "^3.9.1",
     "eslint-plugin-html": "^1.6.0",
