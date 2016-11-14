@@ -12,6 +12,8 @@ define([
     'dojo/topic',
     'dojo/_base/declare',
 
+    'localforage',
+
     'app/location/IDGeoDef',
     'app/location/StartDistDirGeoDef',
     'app/location/StartEndGeoDef',
@@ -29,7 +31,9 @@ define([
     query,
     template,
     topic,
-    declare
+    declare,
+
+    localforage
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _InProgressCacheMixin], {
         widgetsInTemplate: true,
@@ -213,18 +217,27 @@ define([
             console.log('app/location/Station:hydrateWithInProgressData', arguments);
 
             var that = this;
-            this.inherited(arguments).then(function hydrateutmGeo(inProgressData) {
+            var args = arguments;
+            localforage.getItem(this.cacheId).then(function hydrateGeometry(inProgressData) {
+                // this code needs to be run before the inherited method so that
+                // getAdditionalCacheData (which is fired when the numeric text box is updated)
+                // returns the correct data
                 if (inProgressData && inProgressData.utmGeo) {
                     try {
                         $(that.verifyMapBtn).button('loading');
                         that.utmGeo = inProgressData.utmGeo;
                         that.path = inProgressData.path;
-                        that.addLineToMap(inProgressData.path);
                     } catch (error) {
                         console.error('error loading cached geometry', error);
                         that.clearGeometry();
                     }
                 }
+                that.inherited(args).then(function () {
+                    // this needs to be here since it sets the text on the verify btn
+                    // and it needs to wait for $(that.verifyMapBtn).button('loading'); to finish
+                    // which is async
+                    that.addLineToMap(inProgressData.path);
+                });
             });
         },
         setValidateMsg: function (txt) {
