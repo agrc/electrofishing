@@ -14,7 +14,6 @@ define([
 
     'localforage',
 
-    'app/location/IDGeoDef',
     'app/location/StartDistDirGeoDef',
     'app/location/StartEndGeoDef',
     'app/location/Station',
@@ -44,7 +43,7 @@ define([
         //      used by _InProgressCacheMixin
         cacheId: 'app/location',
 
-        // currentGeoDef: IDGeoDef || StartDistDirGeoDef || StartEndGeoDef
+        // currentGeoDef: StartDistDirGeoDef || StartEndGeoDef
         //      the currently selected geometry definition tab
         currentGeoDef: null,
 

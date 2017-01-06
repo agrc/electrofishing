@@ -262,13 +262,6 @@ define([
             }
         },
 
-        // idTypes: {}
-        //      used in IDGeoDef
-        idTypes: {
-            reachcode: 'reachcode',
-            waterbodyid: 'waterbodyid'
-        },
-
         // missingRequiredFieldTxt: String
         //      used to display a message about a required field that is missing
         missingRequiredFieldTxt: 'Missing value for ${0}!',
