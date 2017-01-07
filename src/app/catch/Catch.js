@@ -293,6 +293,10 @@ define([
 
             return row[fn.FISH_ID];
         },
+        addPassClick: function (e) {
+            console.log(e);
+            this.addPass(false);
+        },
         addPass: function (skipAddRow) {
             // summary:
             //      adds a new pass and updates the grid store query
