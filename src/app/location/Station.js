@@ -122,6 +122,7 @@ define([
             this.connect(this.submitBtn, 'click', 'onSubmit');
 
             this.own(topic.subscribe(config.topics.onStationClick, function (params) {
+                console.log('onStationClick $$$$');
                 that.stationTxt.value = params[0];
                 that.currentGuid = params[1];
                 that.cacheInProgressData();
@@ -141,13 +142,15 @@ define([
                 this.fGroup = new L.FeatureGroup().addTo(this.vMap.map);
                 this.pointDef.setMap(this.vMap.map, this.fGroup);
 
-                var that = this;
-                this.vMap.map.on('moveend', function () {
-                    setView(that.vMap, that.mainMap);
-                });
-                this.mainMap.map.on('moveend', function () {
-                    setView(that.mainMap, that.vMap);
-                });
+                // var that = this;
+                // this.vMap.map.on('moveend', function () {
+                //     setView(that.vMap, that.mainMap);
+                // });
+                // this.mainMap.map.on('moveend', function () {
+                //     setView(that.mainMap, that.vMap);
+                // });
+            } else {
+                setView(this.mainMap, this.vMap);
             }
         },
         getStationId: function () {
@@ -234,6 +237,7 @@ define([
             this.mainMap.selectStation(this.newStation.attributes[config.fieldNames.stations.STATION_ID]);
 
             var onMapLoad = function () {
+                console.log('$$$$$$$$$$$$$$$$$$$$')
                 $(that.stationDialog).modal('hide');
                 domStyle.set(that.successMsg, 'display', 'none');
                 that.mainMap.stationsLyr.off('load', onMapLoad);
