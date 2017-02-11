@@ -236,6 +236,7 @@ define([
                     }
 
                     if (inProgressData.numPasses > 1) {
+                        console.log('*******app/catch/Catch:numPasses', inProgressData.numPasses);
                         for (var i = 1; i < inProgressData.numPasses; i++) {
                             that.addPass(true);
                         }
@@ -461,7 +462,7 @@ define([
             // summary:
             //      description
             console.log('app/catch/Catch:clear', arguments);
-
+            this.numPasses = 1;
             var that = this;
             return localforage.removeItem(this.cacheId).then(function () {
                 query('.btn', that.passBtnContainer).forEach(function (node) {
