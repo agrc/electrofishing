@@ -1,13 +1,32 @@
+# This is free and unencumbered software released into the public domain.
+#
+# Anyone is free to copy, modify, publish, use, compile, sell, or
+# distribute this software, either in source code form or as a compiled
+# binary, for any purpose, commercial or non-commercial, and by any
+# means.
+#
+# In jurisdictions that recognize copyright laws, the author or authors
+# of this software dedicate any and all copyright interest in the
+# software to the public domain. We make this dedication for the benefit
+# of the public at large and to the detriment of our heirs and
+# successors. We intend this dedication to be an overt act of
+# relinquishment in perpetuity of all present and future rights to this
+# software under copyright law.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+# IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+#
+# For more information, please refer to <http://unlicense.org/>
+
 # Priority dictionary using binary heaps
 # David Eppstein, UC Irvine, 8 Mar 2002
-
-# Implements a data structure that acts almost like a dictionary, with two modifications:
-# (1) D.smallest() returns the value x minimizing D[x].  For this to work correctly,
-#        all values D[x] stored in the dictionary must be comparable.
-# (2) iterating "for x in D" finds and removes the items from D in sorted order.
-#        Each item is not removed until the next item is requested, so D[x] will still
-#        return a useful value until the next iteration of the for-loop.
-# Each operation takes logarithmic amortized time.
+# https://gist.github.com/anonymous/4435950
+# http://code.activestate.com/recipes/117228/
 
 from __future__ import generators
 
@@ -72,54 +91,27 @@ Rebuilds the heap if the number of deleted items gets large, to avoid memory lea
         return self[key]
 
 
-class LinedNode(object):
-    '''Graph and utilites for dijkstras and shortestPath'''
-    graph = {}
+'''
+Dijkstra's algorithm for shortest paths
+Adapted from:
+David Eppstein, UC Irvine, 4 April 2002
+https://www.ics.uci.edu/~eppstein/161/python/dijkstra.py
+'''
 
-    def __init__(self, oid, start_point, end_point):
-        self.id = str(oid)
-        LinedNode.graph[self.id] = {}
-        self.start = start_point
-        self.end = end_point
-
-    def is_undirected_connection(self, start_point, end_point):
-        return start_point.equals(self.end) or\
-                end_point.equals(self.start) or\
-                start_point.equals(self.start) or\
-                end_point.equals(self.end)
-
-    def add_edge(self, id, weight=1):
-        LinedNode.graph[self.id][id] = weight
-
-# Dijkstra's algorithm for shortest paths
-# David Eppstein, UC Irvine, 4 April 2002
-
-# http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/117228
-
-
-def Dijkstra(G, start, end=None):
+def dijkstra_path_predecessors(G, start, end=None):
     """
-    Find shortest paths from the  start vertex to all vertices nearer than or equal to the end.
+    Find shortest paths from the start vertex to all vertices nearer than or equal to the end.
 
-    The input graph G is assumed to have the following representation:
-    A vertex can be any object that can be used as an index into a dictionary.
-    G is a dictionary, indexed by vertices.  For any vertex v, G[v] is itself a dictionary,
-    indexed by the neighbors of v.  For any edge v->w, G[v][w] is the length of the edge.
-    This is related to the representation in <http://www.python.org/doc/essays/graphs.html>
-    where Guido van Rossum suggests representing graphs as dictionaries mapping vertices
-    to lists of outgoing edges, however dictionaries of edges have many advantages over lists:
-    they can store extra information (here, the lengths), they support fast existence tests,
-    and they allow easy modification of the graph structure by edge insertion and removal.
-    Such modifications are not needed here but are important in many other graph algorithms.
-    Since dictionaries obey iterator protocol, a graph represented as described here could
-    be handed without modification to an algorithm expecting Guido's graph representation.
+    Expects a graph G in the form:
+    {keyid : {edge endpoint id: weight }}
+    example:
+    G = {
+        '64': {'66':1, '65':1},
+        '66': {'64':1},
+        '94': {'92':1, '93':1},
+        '98': {}}
 
-    Of course, G and G[v] need not be actual Python dict objects, they can be any other
-    type of object that obeys dict protocol, for instance one could use a wrapper in which vertices
-    are URLs of web pages and a call to G[v] loads the web page and finds its outgoing links.
-
-    The output is a pair (D,P) where D[v] is the distance from start to v and P[v] is the
-    predecessor of v along the shortest path from s to v.
+    G can also be LineNode.graph
 
     Dijkstra's algorithm is only guaranteed to work correctly when all edge lengths are positive.
     This code does not verify this property for all edges (only the edges examined until the end
@@ -148,14 +140,14 @@ def Dijkstra(G, start, end=None):
     return (D, P)
 
 
-def shortestPath(G, start, end):
+def shortest_path(G, start, end):
     """
     Find a single shortest path from the given start vertex to the given end vertex.
-    The input has the same conventions as Dijkstra().
+    The input has the same conventions as dijkstra_path_predecessors().
     The output is a list of the vertices in order along the shortest path.
     """
 
-    D, P = Dijkstra(G, start, end)
+    D, P = dijkstra_path_predecessors(G, start, end)
     Path = []
     while 1:
         Path.append(end)
@@ -166,30 +158,38 @@ def shortestPath(G, start, end):
     return Path
 
 
-# example,  CLR p.528
-# G = {
-#     '64': {'66':1, '65':1},
-#     '65': {'64':1, '67':1},
-#     '66': {'64':1},
-#     '67': {'65':1, '74':1},
-#     '73': {'93':1},
-#     '74': {'67':1, '92':1},
-#     '92': {'74':1, '93':1, '94':1},
-#     '93': {'92':1, '94':1, '73':1},
-#     '94': {'92':1, '93':1},
-#     '98': {}}
-#
-# directed = {
-#     '64': {'66': 4},
-#     '65': {'64': 2},
-#     '66': {},
-#     '67': {'65': 6},
-#     '73': {'93': 4},
-#     '74': {'67': 1},
-#     '92': {'74': 5},
-#     '93': {'92': 6},
-#     '94': {'92': 4},
-#     '98': {}}
+class LineNode(object):
+    '''Graph and utilites for dijkstras and shortest_path'''
+    graph = {}
 
-# print Dijkstra(directed,'93')
-# print shortestPath(directed,'93','64')
+    def __init__(self, oid, start_point, end_point, line_length=None):
+        self.id = str(oid)
+        LineNode.graph[self.id] = {}
+        self.start = start_point
+        self.end = end_point
+        self.line_length = line_length
+
+    def is_undirected_connection(self, start_point, end_point):
+        return start_point.equals(self.end) or\
+                end_point.equals(self.start) or\
+                start_point.equals(self.start) or\
+                end_point.equals(self.end)
+
+    def is_directed_connection(self, other_point, this_point):
+        return other_point.equals(this_point)
+
+    def add_edge(self, id, weight=1):
+        LineNode.graph[self.id][id] = weight
+
+
+def get_predecessor_ids(last_id, first_id, predecessors):
+    ids = [last_id]
+    if first_id not in predecessors.values():
+        return ids
+
+    current_id = last_id
+    while current_id is not first_id:
+        current_id = predecessors[current_id]
+        ids.append(current_id)
+
+    return ids

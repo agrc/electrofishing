@@ -24,7 +24,7 @@ error_message(4): string
 import arcpy
 from os import path
 from settings import *
-from dijkstras import shortestPath, LinedNode
+from dijkstras import shortest_path, LineNode
 from time import clock
 
 # get parameters
@@ -50,7 +50,6 @@ searchRadius = '100 Meters'
 splitSearchRadius = 100
 
 # fields
-fldReachCode = 'ReachCode'
 near_distance_field = 'NEAR_DIST'
 nearFidField = 'NEAR_FID'
 
@@ -114,7 +113,7 @@ def getSegment():
                 oid, shape = row
                 startPoint = shape.firstPoint
                 endPoint = shape.lastPoint
-                currentNode = LinedNode(oid, startPoint, endPoint)
+                currentNode = LineNode(oid, startPoint, endPoint)
                 for node in streamNodes:
                     if node.is_undirected_connection(startPoint, endPoint):
                         node.add_edge(currentNode.id)
@@ -122,11 +121,10 @@ def getSegment():
 
                 streamNodes.append(currentNode)
         # Find shortest path from one point intersected stream to the other
-        shortestP = shortestPath(LinedNode.graph, startStreamOid, endStreamOid)
+        shortestP = shortest_path(LineNode.graph, startStreamOid, endStreamOid)
         print shortestP
         # Get line segment between points
         query = "\"{0}\" IN ({1})".format('OBJECTID', ','.join(shortestP))
-        relevantFeaturesTime = clock()
         arcpy.SelectLayerByAttribute_management(streamsLyr, 'NEW_SELECTION', query)
         arcpy.Dissolve_management(streamsLyr, tempDissolve)
         arcpy.SplitLineAtPoint_management(tempDissolve, points, tempSplit, splitSearchRadius)
