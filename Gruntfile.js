@@ -67,12 +67,7 @@ module.exports = function (grunt) {
             }
         },
         connect: {
-            main: {
-                options: {
-                    port: 8000,
-                    base: 'src'
-                }
-            }
+            uses_defualts: {}
         },
         copy: {
             main: {

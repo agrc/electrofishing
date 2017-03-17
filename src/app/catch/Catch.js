@@ -236,7 +236,6 @@ define([
                     }
 
                     if (inProgressData.numPasses > 1) {
-                        console.log('*******app/catch/Catch:numPasses', inProgressData.numPasses);
                         for (var i = 1; i < inProgressData.numPasses; i++) {
                             that.addPass(true);
                         }
@@ -294,8 +293,7 @@ define([
 
             return row[fn.FISH_ID];
         },
-        addPassClick: function (e) {
-            console.log(e);
+        addPassClick: function () {
             this.addPass(false);
         },
         addPass: function (skipAddRow) {

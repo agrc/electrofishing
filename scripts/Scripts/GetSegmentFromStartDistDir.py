@@ -126,15 +126,16 @@ def getSegment():
                     closest = closeness
                     end_stream_oid = feature
 
+    # select streams in path and dissovle them together
     selection_ids = get_predecessor_ids(end_stream_oid, start_stream_oid, predecessors)
-
     query = "\"{0}\" IN ({1})".format('OBJECTID', ','.join(selection_ids))
     arcpy.SelectLayerByAttribute_management(streams_lyr, 'NEW_SELECTION', query)
     dissovle_line = arcpy.Dissolve_management(streams_lyr, arcpy.Geometry())
-    if len(dissovle_line) > 1:
+    if len(dissovle_line) > 1:  # something went wrong if dissovle create more than one line
         raise Exception('Stream feature could not be created')
     else:
         dissovle_line = dissovle_line[0]
+    # get a line segment at distance from input_point
     start_distance = dissovle_line.queryPointAndDistance(point_geometry)[1]
     if direction == 'up':
         end_distance = start_distance - distance
