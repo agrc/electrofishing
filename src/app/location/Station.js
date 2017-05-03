@@ -118,6 +118,9 @@ define([
             $(this.stationDialog).on('shown.bs.modal', function () {
                 that.onDialogShown();
             });
+            $(this.stationDialog).on('hidden.bs.modal', function () {
+                that.onDialogHidden();
+            });
 
             this.connect(this.submitBtn, 'click', 'onSubmit');
 
@@ -144,6 +147,13 @@ define([
             } else {
                 setView(this.mainMap, this.vMap);
             }
+        },
+        onDialogHidden: function () {
+            // summary:
+            //      fires when the user cancels new station dialog
+            console.log('app/location/Station:onDialogHidden', arguments);
+
+            this.mainMap.map.setView(this.vMap.map.getCenter(), this.vMap.map.getZoom());
         },
         getStationId: function () {
             // summary:

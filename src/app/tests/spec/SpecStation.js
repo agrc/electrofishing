@@ -32,7 +32,8 @@ require([
             testWidget.mainMap = {
                 stationsLyr: {
                     on: function () {},
-                    off: function () {}
+                    off: function () {},
+                    refresh: function () {}
                 },
                 map: {
                     setView: function () {}
