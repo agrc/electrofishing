@@ -1,5 +1,5 @@
 """
-GetSegmentFromCoords GP Service for Wildlife Projects
+GetSegmentFromCoords GP Service for Wildlife Projects.
 
 Snaps the input points to the nearest stream and returns the segment
 between them.
@@ -25,7 +25,6 @@ import arcpy
 from os import path
 from settings import *
 from dijkstras import shortest_path, LineNode
-from time import clock
 
 # get parameters
 points = arcpy.GetParameterAsText(0)
