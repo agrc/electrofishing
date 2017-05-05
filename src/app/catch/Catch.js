@@ -293,6 +293,9 @@ define([
 
             return row[fn.FISH_ID];
         },
+        addPassClick: function () {
+            this.addPass(false);
+        },
         addPass: function (skipAddRow) {
             // summary:
             //      adds a new pass and updates the grid store query
@@ -457,7 +460,7 @@ define([
             // summary:
             //      description
             console.log('app/catch/Catch:clear', arguments);
-
+            this.numPasses = 1;
             var that = this;
             return localforage.removeItem(this.cacheId).then(function () {
                 query('.btn', that.passBtnContainer).forEach(function (node) {

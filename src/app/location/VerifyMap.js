@@ -199,8 +199,14 @@ define([
             // guid: String
             //      The id of the station to be selected
             console.log('app/location/VerifyMap:selectStation', arguments);
-
-            this.startSelectedId = guid;
+            this.startSelectedId = guid.toUpperCase();
+            this.stationsLyr.eachFeature(function (l) {
+                if (l.feature.properties[config.fieldNames.stations.STATION_ID] === this.startSelectedId) {
+                    l.setIcon(this.selectedIcon);
+                } else {
+                    l.setIcon(this.defaultIcon);
+                }
+            }, this);
         },
         clearSelection: function () {
             // summary:

@@ -1,5 +1,5 @@
 """
-GetSegmentFromCoords GP Service for Wildlife Projects
+GetSegmentFromCoords GP Service for Wildlife Projects.
 
 Snaps the input points to the nearest stream and returns the segment
 between them.
@@ -24,11 +24,11 @@ error_message(4): string
 import arcpy
 from os import path
 from settings import *
-
+from dijkstras import shortest_path, LineNode
 
 # get parameters
 points = arcpy.GetParameterAsText(0)
-# points = r'Z:\Documents\Projects\Wildlife\dataentry\scripts\ToolData\TestData.gdb\StartEnd4'
+# points = r'C:\giswork\electrofishing\TempData.gdb\StartEnd_Fork'
 
 # folders and data
 streamsLyr = 'streamsLyr'
@@ -45,74 +45,124 @@ tempOutput = r'{0}\tempOutput'.format(arcpy.env.scratchGDB)
 puntData = r'{0}\puntData'.format(arcpy.env.scratchGDB)
 
 # tools parameters
-searchRadius = '150 Meters'
-splitSearchRadius = 10
+searchRadius = '100 Meters'
+splitSearchRadius = 100
 
 # fields
-fldReachCode = 'ReachCode'
+near_distance_field = 'NEAR_DIST'
+nearFidField = 'NEAR_FID'
 
-try:
-    for ds in [tempDissolve, tempSplit, tempOutput, puntData]:
-        if arcpy.Exists(ds):
-            arcpy.Delete_management(ds)
 
-    arcpy.Snap_edit(points, [[STREAMS, 'EDGE', searchRadius]])
+def makeLine(point1, point2, outputPath):
+    arcpy.CreateFeatureclass_management(arcpy.env.scratchGDB, 'puntData', 'POLYLINE', linesTemplate, "", "", utm)
 
-    arcpy.MakeFeatureLayer_management(STREAMS, streamsLyr)
+    with arcpy.da.InsertCursor(outputPath, ["SHAPE@"]) as c:
+        array = arcpy.Array([point1.firstPoint, point2.firstPoint])
+        c.insertRow([arcpy.Polyline(arcpy.Array(array))])
+    return puntData
 
-    arcpy.SelectLayerByLocation_management(streamsLyr, 'INTERSECT', points)
 
-    values = [row[0] for row in arcpy.da.SearchCursor(streamsLyr, [fldReachCode])]
-    lenValues = len(values)
-    if lenValues == 0:
-        raise Exception('No stream segments selected by snapped points!')
-    rcodes = set(values)
-    numCodes = len(rcodes)
-    if numCodes == 0:
-        raise Exception('No reach codes found!')
-    query = "\"{0}\" IN ('{1}')".format(fldReachCode, "','".join(rcodes))
-    arcpy.SelectLayerByAttribute_management(streamsLyr, 'NEW_SELECTION', query)
+def getSegment():
+    try:
+        for ds in [tempDissolve, tempSplit, tempOutput, puntData]:
+            if arcpy.Exists(ds):
+                arcpy.Delete_management(ds)
 
-    arcpy.Dissolve_management(streamsLyr, tempDissolve)
+        # Find stream nearest to input points
+        arcpy.Near_analysis(points, STREAMS, searchRadius)
+        pointGeometries = []  # Geometry of input points
+        distances = []
+        startStreamOid = None
+        endStreamOid = None
+        with arcpy.da.SearchCursor(points, [near_distance_field, nearFidField, 'SHAPE@']) as cursor:
+            for row in cursor:
+                near_distance, nearFid, point = row
+                pointGeometries.append(point)
 
-    arcpy.SplitLineAtPoint_management(tempDissolve, points, tempSplit, splitSearchRadius)
+                if near_distance >= 0:
+                    distances.append(near_distance)
 
-    with arcpy.da.SearchCursor(points, ["SHAPE@", "OID@"]) as cur:
-        coord1 = cur.next()[0]
-        coord2 = cur.next()[0]
+                if not startStreamOid:
+                    startStreamOid = str(nearFid)
+                else:
+                    endStreamOid = str(nearFid)
 
-    found = False
-    with arcpy.da.SearchCursor(tempSplit, ["SHAPE@", "OID@"]) as cur:
-        for row in cur:
-            line = row[0]
-            if (coord1.distanceTo(line.firstPoint) < splitSearchRadius and coord2.distanceTo(line.lastPoint) < splitSearchRadius or
-                    coord2.distanceTo(line.firstPoint) < splitSearchRadius and coord1.distanceTo(line.lastPoint) < splitSearchRadius):
-                oid = row[1]
-                found = True
-                break
+        streamNotFound = len(distances) is not 2
+        if streamNotFound:
+            makeLine(pointGeometries[0], pointGeometries[1], puntData)
 
-    if found is False:
-        # this is called punting :)
+            arcpy.env.outputCoordinateSystem = wgs84
+            arcpy.CopyFeatures_management(puntData, tempOutput)
 
-        arcpy.CreateFeatureclass_management(arcpy.env.scratchGDB, 'puntData', 'POLYLINE', linesTemplate, "", "", utm)
+            arcpy.SetParameter(1, tempOutput)
+            arcpy.SetParameter(2, puntData)
+            arcpy.SetParameter(3, True)
+            arcpy.SetParameter(4, '')
+            return
 
-        with arcpy.da.InsertCursor(puntData, ["SHAPE@"]) as c:
-            array = arcpy.Array([coord1.firstPoint, coord2.firstPoint])
-            c.insertRow([arcpy.Polyline(arcpy.Array(array))])
-    else:
-        arcpy.MakeFeatureLayer_management(tempSplit, tempLyr, '"OBJECTID" = {0}'.format(oid))
-        arcpy.CopyFeatures_management(tempLyr, puntData)
+        pointToPointDistance = pointGeometries[0].distanceTo(pointGeometries[1])
+        if pointToPointDistance < 500:
+            pointToPointDistance = 500
+        # Create graph of streams within pointToPointDistance of points
+        arcpy.MakeFeatureLayer_management(STREAMS, streamsLyr)
+        arcpy.SelectLayerByLocation_management(streamsLyr, 'WITHIN_A_DISTANCE', points, pointToPointDistance)
+        with arcpy.da.SearchCursor(streamsLyr, ['OID@', 'SHAPE@']) as cursor:
+            streamNodes = []
+            for row in cursor:
+                oid, shape = row
+                startPoint = shape.firstPoint
+                endPoint = shape.lastPoint
+                currentNode = LineNode(oid, startPoint, endPoint)
+                for node in streamNodes:
+                    if node.is_undirected_connection(startPoint, endPoint):
+                        node.add_edge(currentNode.id)
+                        currentNode.add_edge(node.id)
 
-    arcpy.env.outputCoordinateSystem = wgs84
-    arcpy.CopyFeatures_management(puntData, tempOutput)
+                streamNodes.append(currentNode)
+        # Find shortest path from one point intersected stream to the other
+        shortestP = shortest_path(LineNode.graph, startStreamOid, endStreamOid)
+        print shortestP
+        # Get line segment between points
+        query = "\"{0}\" IN ({1})".format('OBJECTID', ','.join(shortestP))
+        arcpy.SelectLayerByAttribute_management(streamsLyr, 'NEW_SELECTION', query)
+        arcpy.Dissolve_management(streamsLyr, tempDissolve)
+        arcpy.SplitLineAtPoint_management(tempDissolve, points, tempSplit, splitSearchRadius)
+        coord1 = pointGeometries[0]
+        coord2 = pointGeometries[1]
+        found = False
+        with arcpy.da.SearchCursor(tempSplit, ["SHAPE@", "OID@"]) as cur:
+            for row in cur:
+                line = row[0]
+                if (coord1.distanceTo(line.firstPoint) < splitSearchRadius and coord2.distanceTo(line.lastPoint) < splitSearchRadius or
+                        coord2.distanceTo(line.firstPoint) < splitSearchRadius and coord1.distanceTo(line.lastPoint) < splitSearchRadius):
+                    oid = row[1]
+                    found = True
+                    break
 
-    arcpy.SetParameter(1, tempOutput)
-    arcpy.SetParameter(2, puntData)
-    arcpy.SetParameter(3, True)
-    arcpy.SetParameter(4, '')
+        if found is False:
+            arcpy.CreateFeatureclass_management(arcpy.env.scratchGDB, 'puntData', 'POLYLINE', linesTemplate, "", "", utm)
 
-except Exception as ex:
-    arcpy.SetParameter(1, linesTemplate)
-    arcpy.SetParameter(2, linesTemplate)
-    arcpy.SetParameter(3, False)
-    arcpy.SetParameter(4, ex.message)
+            with arcpy.da.InsertCursor(puntData, ["SHAPE@"]) as c:
+                array = arcpy.Array([coord1.firstPoint, coord2.firstPoint])
+                c.insertRow([arcpy.Polyline(arcpy.Array(array))])
+        else:
+            arcpy.MakeFeatureLayer_management(tempSplit, tempLyr, '"OBJECTID" = {0}'.format(oid))
+            arcpy.CopyFeatures_management(tempLyr, puntData)
+
+        arcpy.env.outputCoordinateSystem = wgs84
+        arcpy.CopyFeatures_management(puntData, tempOutput)
+
+        arcpy.SetParameter(1, tempOutput)
+        arcpy.SetParameter(2, puntData)
+        arcpy.SetParameter(3, True)
+        arcpy.SetParameter(4, '')
+
+    except Exception as ex:
+        arcpy.SetParameter(1, linesTemplate)
+        arcpy.SetParameter(2, linesTemplate)
+        arcpy.SetParameter(3, False)
+        arcpy.SetParameter(4, ex.message)
+
+
+if __name__ == '__main__':
+    getSegment()

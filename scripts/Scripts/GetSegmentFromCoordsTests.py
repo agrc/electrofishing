@@ -1,8 +1,10 @@
+"""Tests for Electrofishing geoprocessing tools."""
 import arcpy
+from os.path import join
 
-toolbox = r'Z:\Documents\Projects\Wildlife\dataentry\scripts\Toolbox.tbx'
+toolbox = r'..\Toolbox.tbx'
 db = arcpy.env.scratchGDB
-base = r'Z:\Documents\Projects\Wildlife\dataentry\scripts\ToolData\TestData.gdb'
+base = r'..\ToolData\TestData.gdb'
 
 arcpy.ImportToolbox(toolbox)
 
@@ -15,21 +17,28 @@ layers = [
           'StartEnd6',
           'StartEnd7',
           'StartEnd8',
-          'StartEnd9'
+          'StartEnd9',
+          'StartEnd_fork',
+          'StartEnd_straight'
           ]
 
 arcpy.AddMessage('deleting previous data')
 arcpy.env.workspace = db
-fcs = arcpy.ListFeatureClasses('tempLines*')
-if fcs != None:
+arcpy.env.overwriteOutput = True
+fcs = arcpy.ListFeatureClasses('tempOutput*')
+fcs.extend(arcpy.ListFeatureClasses('puntData*'))
+if fcs is not None:
     for f in fcs:
         arcpy.Delete_management(f)
 
 for l in layers:
     arcpy.AddMessage(base + '\\' + l)
     output = arcpy.GetSegmentFromCoords(base + '\\' + l)
-    
-    arcpy.AddMessage('output: ' + str(output))
-    arcpy.CopyFeatures_management(output, l+'Lines')
-    
+    utm_result = arcpy.CopyFeatures_management(output[1], arcpy.Geometry())[0]
+    utm_expected = arcpy.CopyFeatures_management(join(base, l + '_result_utm'), arcpy.Geometry())[0]
+    if utm_result.equals(utm_expected):
+        arcpy.AddMessage(l + ' PASSED')
+    else:
+        arcpy.AddMessage(l + ' FAILED')
+
 arcpy.AddMessage('done')

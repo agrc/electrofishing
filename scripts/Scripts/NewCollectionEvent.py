@@ -59,4 +59,4 @@ except Exception as e:
 edit.stopOperation()
 edit.stopEditing(True)
 
-arcpy.Compress_management(settings.DB)
+# arcpy.Compress_management(settings.DB)

@@ -26,7 +26,7 @@ define([
         quadWord = 'opera-event-little-pinball';
         wildlifeFolder = 'http://test.mapserv.utah.gov/arcgis/rest/services/Electrofishing/';
     } else {
-        wildlifeFolder = 'http://localhost/arcgis/rest/services/Electrofishing/';
+        wildlifeFolder = '/arcgis/rest/services/Electrofishing/';
         // localhost
         xhr(require.baseUrl + 'secrets.json', {
             handleAs: 'json',
@@ -260,13 +260,6 @@ define([
                 COUNTY: 'COUNTY',
                 WaterName: 'WaterName'
             }
-        },
-
-        // idTypes: {}
-        //      used in IDGeoDef
-        idTypes: {
-            reachcode: 'reachcode',
-            waterbodyid: 'waterbodyid'
         },
 
         // missingRequiredFieldTxt: String

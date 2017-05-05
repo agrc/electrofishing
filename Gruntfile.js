@@ -67,7 +67,7 @@ module.exports = function (grunt) {
             }
         },
         connect: {
-            uses_defaults: {}
+            uses_defualts: {}
         },
         copy: {
             main: {
@@ -151,7 +151,9 @@ module.exports = function (grunt) {
                     './': 'deploy/deploy.zip'
                 },
                 options: {
-                    host: '<%= secrets.stageHost %>'
+                    host: '<%= secrets.stage.host %>',
+                    username: '<%= secrets.stage.username %>',
+                    password: '<%= secrets.stage.password %>'
                 }
             },
             prod: {
@@ -159,14 +161,14 @@ module.exports = function (grunt) {
                     './': 'deploy/deploy.zip'
                 },
                 options: {
-                    host: '<%= secrets.prodHost %>'
+                    host: '<%= secrets.prod.host %>',
+                    username: '<%= secrets.prod.username %>',
+                    password: '<%= secrets.prod.password %>'
                 }
             },
             options: {
                 path: './' + deployDir + '/',
                 srcBasePath: 'deploy/',
-                username: '<%= secrets.username %>',
-                password: '<%= secrets.password %>',
                 showProgress: true,
                 readyTimeout: 120000
             }
@@ -180,13 +182,17 @@ module.exports = function (grunt) {
             stage: {
                 command: ['cd ' + deployDir, 'unzip -o deploy.zip', 'rm deploy.zip'].join(';'),
                 options: {
-                    host: '<%= secrets.stageHost %>'
+                    host: '<%= secrets.stage.host %>',
+                    username: '<%= secrets.stage.username %>',
+                    password: '<%= secrets.stage.password %>'
                 }
             },
             prod: {
                 command: ['cd ' + deployDir, 'unzip -o deploy.zip', 'rm deploy.zip'].join(';'),
                 options: {
-                    host: '<%= secrets.prodHost %>'
+                    host: '<%= secrets.prod.host %>',
+                    username: '<%= secrets.prod.username %>',
+                    password: '<%= secrets.prod.password %>'
                 }
             }
         },

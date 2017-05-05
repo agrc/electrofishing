@@ -14,7 +14,6 @@ define([
 
     'localforage',
 
-    'app/location/IDGeoDef',
     'app/location/StartDistDirGeoDef',
     'app/location/StartEndGeoDef',
     'app/location/Station',
@@ -44,7 +43,7 @@ define([
         //      used by _InProgressCacheMixin
         cacheId: 'app/location',
 
-        // currentGeoDef: IDGeoDef || StartDistDirGeoDef || StartEndGeoDef
+        // currentGeoDef: StartDistDirGeoDef || StartEndGeoDef
         //      the currently selected geometry definition tab
         currentGeoDef: null,
 
@@ -188,6 +187,15 @@ define([
         addLineToMap: function (path) {
             // summary:
             //      adds the path to the map
+            var calculateDistance = function (line) {
+                var latLngArray = line._latlngs[0];
+                var distance = 0;
+                for (var i = 0; i < latLngArray.length - 1; i++) {
+                    distance += latLngArray[i].distanceTo(latLngArray[i + 1]);
+                }
+
+                return distance;
+            }
             console.log('app/location/Location:addLineToMap', arguments);
 
             this.verifyMapBtn.innerHTML = this.successfullyVerifiedMsg;
@@ -196,6 +204,8 @@ define([
             this.path = path;
             config.app.map.fitBounds(line.getBounds().pad(0.1));
             this.geometry = line;
+            var streamDistance = calculateDistance(this.geometry);
+            this.streamLengthTxt.value = streamDistance.toFixed();
         },
         getAdditionalCacheData: function () {
             // summary:
