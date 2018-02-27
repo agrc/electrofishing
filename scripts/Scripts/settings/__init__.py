@@ -2,7 +2,7 @@ from os import path
 
 SAMPLINGEVENTS = 'SamplingEvents'
 EVENT_DATE = 'EVENT_DATE'
-STREAMS = r'C:\MapData\dwrlakesstreams.gdb\Streams'
+STREAMS = path.join(path.dirname(__file__), '..', '..', '..', 'data', 'dwrlakesstreams.gdb', 'Streams')
 
 # BEGIN LOCAL CONFIGS
 STATIONS = path.join(path.dirname(__file__), r'Electrofishing_LOCAL as WILDADMIN.sde\Electrofishing.WILDADMIN.Stations')
