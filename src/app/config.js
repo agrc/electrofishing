@@ -26,7 +26,7 @@ define([
         quadWord = 'opera-event-little-pinball';
         wildlifeFolder = 'http://test.mapserv.utah.gov/arcgis/rest/services/Electrofishing/';
     } else {
-        wildlifeFolder = '/arcgis/rest/services/Electrofishing/';
+        wildlifeFolder = 'http://localhost/arcgis/rest/services/Electrofishing/';
         // localhost
         xhr(require.baseUrl + 'secrets.json', {
             handleAs: 'json',
