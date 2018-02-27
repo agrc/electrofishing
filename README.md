@@ -17,8 +17,8 @@ Application for recording electrofishing surveys. Built for DWR.
 # Deployment
 1. Publish `maps/MapService.mxd` as `Electrofishing/MapService`
 1. Publish `maps/Reference.mxd` as `Electrofishing/Reference`
-2. Copy `Electrofishing_Local as WILDADMIN.sde` to `scripts/settings`
-- Update `scripts/Scripts/settings/__init__.py`.
+1. Copy `Electrofishing_Local as WILDADMIN.sde` to `scripts/settings`
+1. Update `scripts/Scripts/settings/__init__.py`.
 1. Publish all tools in `scripts/Toolbox.tbx` as `Electrofishing/Toolbox`
     - **Requires ArcGIS Server Advanced**
     - Most of the test data for running the tools is in `scripts/ToolData/TestData.gdb`
