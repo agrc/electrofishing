@@ -11,19 +11,19 @@ GP Parameters:
 data(0): JSON String
 
 """
-import arcpy
-import settings
 import json
 from datetime import datetime
+
+import arcpy
+import settings
 
 
 def appendTableData(tableName, rows):
     arcpy.AddMessage('Adding row(s) to {}'.format(tableName))
-    cursor = arcpy.da.InsertCursor(tableName, rows[0].keys())
-    for row in rows:
-        cursor.insertRow([row[key] for key in row.keys()])
 
-    del cursor
+    with arcpy.da.InsertCursor(tableName, rows[0].keys()) as cursor:
+        for row in rows:
+            cursor.insertRow([row[key] for key in row.keys()])
 
 
 def appendFeatureData(feature):
@@ -31,16 +31,17 @@ def appendFeatureData(feature):
     attributes = feature['attributes']
     attributes[settings.EVENT_DATE] = datetime.strptime(attributes[settings.EVENT_DATE], '%Y-%m-%d')
     fields = attributes.keys() + ['SHAPE@JSON']
-    cursor = arcpy.da.InsertCursor(settings.SAMPLINGEVENTS, fields)
-    cursor.insertRow([attributes[key] for key in attributes.keys()] + [json.dumps(feature['geometry'])])
 
-    del cursor
+    with arcpy.da.InsertCursor(settings.SAMPLINGEVENTS, fields) as cursor:
+        cursor.insertRow([attributes[key] for key in attributes.keys()] + [json.dumps(feature['geometry'])])
+
 
 data = json.loads(arcpy.GetParameterAsText(0))
 # data = json.loads(open('TestData/NewCollectionEventData.json').read())
 
 
 arcpy.env.workspace = settings.DB
+
 edit = arcpy.da.Editor(settings.DB)
 edit.startEditing(False, True)
 edit.startOperation()
