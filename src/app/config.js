@@ -125,8 +125,8 @@ define([
 
             // reference service
             streamsLakesService: referenceService,
-            streamsFeatureService: referenceService + '/0/query',
-            lakesFeatureService: referenceService + '/1/query'
+            streamsFeatureService: referenceService + '0/query',
+            lakesFeatureService: referenceService + '1/query'
         },
 
         // tableNames: {}
