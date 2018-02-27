@@ -420,29 +420,6 @@ define([
 
             this.batchWeightTxt.focus();
         },
-        noWeight: function () {
-            // summary:
-            //      description
-            console.log('app/catch/Catch:noWeight', arguments);
-
-            this.specialWeight(config.noWeightValue);
-        },
-        tooSmall: function () {
-            // summary:
-            //      description
-            console.log('app/catch/Catch:tooSmall', arguments);
-
-            this.specialWeight(config.tooSmallValue);
-        },
-        specialWeight: function (weight) {
-            // summary:
-            //      sets the selected row's weight
-            // weight: Number
-            console.log('app/catch/Catch:specialWeight', arguments);
-
-            this.getSelectedRow().data[config.fieldNames.fish.WEIGHT] = weight;
-            this.grid.refresh();
-        },
         moreInfo: function (evt) {
             // summary:
             //     opens the more info dialog
