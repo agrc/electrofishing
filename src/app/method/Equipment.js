@@ -40,7 +40,7 @@ define([
         // requiredFields: Object[]
         //      An array of fields that need to be checked in isValid
         requiredFields: [
-            ['voltsTxt', 'Voltage']
+            ['voltsTxt']
         ],
 
 
