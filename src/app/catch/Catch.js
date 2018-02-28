@@ -10,6 +10,7 @@ define([
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
+    'dijit/form/NumberSpinner',
 
     'dojo/aspect',
     'dojo/dom-class',
@@ -40,6 +41,7 @@ define([
     _TemplatedMixin,
     _WidgetBase,
     _WidgetsInTemplateMixin,
+    NumberSpinner,
 
     aspect,
     domClass,
@@ -166,24 +168,27 @@ define([
                     autoSave: true,
                     label: 'Length (millimeters)',
                     field: fn.LENGTH,
-                    editor: 'text',
+                    editor: NumberSpinner,
                     sortable: false,
+                    autoSelect: true,
                     editOn: 'focus',
                     editorArgs: {
-                        // dgrid-input is required for dgrid save events
-                        'className': 'form-control dgrid-input',
-                        type: 'number'
+                        constraints: {
+                            min: 0
+                        }
                     }
                 }, {
                     autoSave: true,
                     label: 'Weight (grams)',
                     field: fn.WEIGHT,
-                    editor: 'text',
+                    editor: NumberSpinner,
                     sortable: false,
+                    autoSelect: true,
                     editOn: 'focus',
                     editorArgs: {
-                        'className': 'form-control dgrid-input',
-                        type: 'number'
+                        constraints: {
+                            min: 0
+                        }
                     }
                 }
             ];
@@ -327,12 +332,24 @@ define([
             //      caches the number of passes and grid data
             console.log('app/catch/Catch:cacheInProgressData', arguments);
 
+            var fn = config.fieldNames.fish;
+            var storeItems = this.store.fetchSync();
+            storeItems.forEach(function (item) {
+                if (item[fn.LENGTH] < 1 || isNaN(item[fn.LENGTH])) {
+                    item[fn.LENGTH] = null;
+                }
+
+                if (item[fn.WEIGHT] < 1 || isNaN(item[fn.WEIGHT])) {
+                    item[fn.WEIGHT] = null;
+                }
+            });
+
             localforage.setItem(this.cacheId, {
                 numPasses: this.numPasses,
 
                 // The JSON stringify/parse is to strip out the extra methods that dstore
                 // adds to the array returned from fetchSync. This messes up localforage.
-                gridData: JSON.parse(JSON.stringify(this.store.fetchSync()))
+                gridData: JSON.parse(JSON.stringify(storeItems))
             });
         },
         changePass: function (e) {
