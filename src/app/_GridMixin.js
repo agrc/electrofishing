@@ -165,17 +165,26 @@ define([
 
             this.grid.save();
 
-            if (this.getSelectedRow()) {
-                this.store.removeSync(this.getSelectedRow().data[this.idProperty]);
-
-                var row = this.getLastRow(this.getGridData());
-                if (!row) {
-                    return;
-                }
-
-                this.grid.select(row);
-                this.set('selectedRow', row);
+            var selectedRow = this.getSelectedRow();
+            if (!selectedRow) {
+                return;
             }
+
+            var data = this.getGridData();
+            if (data.length <= 1) {
+                this.clear();
+                return;
+            }
+
+            this.store.removeSync(selectedRow.data[this.idProperty]);
+
+            var row = this.getLastRow(data);
+            if (!row) {
+                return;
+            }
+
+            this.grid.select(row);
+            this.set('selectedRow', row);
         },
         getSelectedRow: function () {
             // summary:
