@@ -45,7 +45,7 @@ require([
         describe('isValid', function () {
             it('check all required fields', function () {
                 expect(testWidget.isValid())
-                    .toEqual('Missing value for Voltage!');
+                    .toEqual(true);
             });
         });
         describe('onCathodeTypeChange', function () {
