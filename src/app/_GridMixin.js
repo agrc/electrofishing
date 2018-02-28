@@ -170,7 +170,7 @@ define([
                 return;
             }
 
-            var data = this.getGridData();
+            var data = this.store.data;
             if (data.length <= 1) {
                 this.clear();
                 return;
