@@ -306,20 +306,6 @@ require([
                 expect(data[3][config.fieldNames.fish.WEIGHT]).toBe(4.5);
             });
         });
-        describe('specialWeight', function () {
-            it('apply the special weight to the selected row', function () {
-                testWidget.addRow();
-                testWidget.addRow();
-
-                var row = testWidget.grid.row(testWidget.store.data[2][fn.FISH_ID]);
-                testWidget.grid.select(row);
-                var weight = -1;
-
-                testWidget.specialWeight(weight);
-
-                expect(row.data[fn.WEIGHT]).toEqual(weight);
-            });
-        });
         describe('moreInfo', function () {
             it('doesn\'t open the dialog if no row is selected', function () {
                 spyOn(testWidget, 'getSelectedRow').and.returnValue(undefined);
