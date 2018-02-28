@@ -39,9 +39,7 @@ define([
 
         // requiredFields: Object[]
         //      An array of fields that need to be checked in isValid
-        requiredFields: [
-            ['voltsTxt']
-        ],
+        requiredFields: [],
 
 
         // passed into constructor
@@ -165,24 +163,7 @@ define([
             // returns: String (error message) | Boolean (true if valid)
             console.log('app/method/Equipment:isValid', arguments);
 
-            var that = this;
-            var requireField = function (fieldInfo) {
-                var input = that[fieldInfo[0]];
-                var name = fieldInfo[1];
-                if (input.value === '') {
-                    return dojoString.substitute(config.missingRequiredFieldTxt, [name]);
-                } else {
-                    return true;
-                }
-            }
-
-            return this.requiredFields.map(requireField).reduce(function (previous, current) {
-                if (previous === true) {
-                    return current;
-                } else {
-                    return previous;
-                }
-            });
+            return true;
         },
         onCathodeTypeChange: function (value) {
             // summary:
