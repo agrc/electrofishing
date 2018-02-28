@@ -167,6 +167,14 @@ define([
 
             if (this.getSelectedRow()) {
                 this.store.removeSync(this.getSelectedRow().data[this.idProperty]);
+
+                var row = this.getLastRow(this.getGridData());
+                if (!row) {
+                    return;
+                }
+
+                this.grid.select(row);
+                this.set('selectedRow', row);
             }
         },
         getSelectedRow: function () {
@@ -242,6 +250,16 @@ define([
 
             this.setGridData([]);
             this.addRow();
+        },
+        getLastRow: function (data) {
+            var largestRow;
+            data.forEach(function (row) {
+                if (!largestRow || row.CATCH_ID > largestRow.CATCH_ID) {
+                    largestRow = row;
+                }
+            });
+
+            return largestRow;
         }
     });
 });
