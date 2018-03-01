@@ -105,6 +105,9 @@ define([
                 }, {
                     control: this.ampsTxt,
                     fieldName: fn.AMPS
+                }, {
+                    control: this.surveyPurposeSelect,
+                    fieldName: fn.PURPOSE
                 }
             ];
 

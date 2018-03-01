@@ -177,7 +177,8 @@ define([
                 ARRAY_TYPE: 'ARRAY_TYPE',
                 NUM_NETTERS: 'NUM_NETTERS',
                 CATHODE_TYPE: 'CATHODE_TYPE',
-                TYPE: 'TYPE'
+                TYPE: 'TYPE',
+                PURPOSE: 'SURVEY_PURPOSE'
             },
             fish: {
                 FISH_ID: 'FISH_ID',
