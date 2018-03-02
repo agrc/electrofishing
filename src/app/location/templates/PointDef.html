@@ -1,22 +1,20 @@
 <div>
-    <div class="form-group">
-        <label class='control-label'>${label}</label>
+    <div class="form-inline">
+        <div class="form-group">
+            <label class="point-def__primary-label">${label}</label>
+        </div>
         <button data-dojo-attach-point='mapBtn' class='btn btn-default btn-sm' data-toggle='button'>
             <span class="glyphicon glyphicon-map-marker"></span>
         </button>
-    </div>
-    <div data-dojo-attach-point='yGroup' class="form-group">
-        <label class='control-label'>
-            <span data-dojo-attach-point='yLabel'></span>
+        <div data-dojo-attach-point='yGroup' class="form-group">
+            <label data-dojo-attach-point='yLabel'></label>
             <input data-dojo-attach-point='yBox' type='text' class='form-control'>
             <span data-dojo-attach-point='yBoxTxt' class="help-block"></span>
-        </label>
-    </div>
-    <div data-dojo-attach-point='xGroup' class="form-group">
-        <label class='control-label'>
-            <span data-dojo-attach-point='xLabel'></span>
+        </div>
+        <div data-dojo-attach-point='xGroup' class="form-group">
+            <label data-dojo-attach-point='xLabel'></label>
             <input data-dojo-attach-point='xBox' type='text' class='form-control'>
             <span data-dojo-attach-point='xBoxTxt' class='help-block'></span>
-        </label>
+        </div>
     </div>
 </div>
