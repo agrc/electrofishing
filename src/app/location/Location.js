@@ -246,7 +246,7 @@ define([
                     // this needs to be here since it sets the text on the verify btn
                     // and it needs to wait for $(that.verifyMapBtn).button('loading'); to finish
                     // which is async
-                    if (inProgressData && inProgressData['path']) { // eslint-disable-line dot-notation
+                    if (inProgressData && inProgressData.path) {
                         that.addLineToMap(inProgressData.path);
                     }
                 });
