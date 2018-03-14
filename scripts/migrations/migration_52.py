@@ -25,4 +25,10 @@ print('adding domains')
 domains.add_if_not_exists(domain, sde, 'v', 'Volume (ml)')
 domains.add_if_not_exists(domain, sde, 'w', 'Weight (g)')
 
+print('updating table schema')
+table = join(sde, 'Diet')
+
+arcpy.management.DeleteField(table, ['MEASUREMENT'])
+arcpy.management.AddField(table, field_name='MEASUREMENT', field_type='SHORT', field_alias='Measurement')
+
 print('done')
