@@ -51,25 +51,25 @@ require([
                 testWidget.onCancel(); // hide the dialog
             });
             it('sets the fish and pass id\'s in the dialog title', function () {
-                testWidget.show(guid, 'Diet');
+                testWidget.show(guid, 'Diet_tab');
 
                 expect(testWidget.catchId.innerHTML).toBe('3');
                 expect(testWidget.passId.innerHTML).toBe('1');
             });
             it('sets the current fish id', function () {
-                testWidget.show(guid, 'Diet');
+                testWidget.show(guid, 'Diet_tab');
 
                 expect(testWidget.currentFishId).toEqual(guid);
             });
             it('shows the passed in tab name', function () {
-                testWidget.show(guid, 'Tag');
+                testWidget.show(guid, 'Tag_tab');
 
                 expect(query('.tab-pane.in.active', testWidget.domNode)[0].id)
                     .toEqual('Tag_tab');
                 expect(query('.nav-tabs li.active a', testWidget.domNode)[0].hash)
                     .toEqual('#Tag_tab');
 
-                testWidget.show(guid, 'Health');
+                testWidget.show(guid, 'Health_tab');
 
                 expect(query('.tab-pane.in.active', testWidget.domNode)[0].id)
                     .toEqual('Health_tab');

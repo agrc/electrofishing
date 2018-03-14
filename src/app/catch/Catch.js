@@ -447,7 +447,7 @@ define([
 
             if (row) {
                 this.moreInfoDialog.show(row.data[config.fieldNames.fish.FISH_ID],
-                    evt.target.innerHTML.trim());
+                    evt.target.dataset.tab);
             }
         },
         clear: function () {
