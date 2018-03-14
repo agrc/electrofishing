@@ -11,7 +11,7 @@ import arcpy
 def get_domain_by_name(name, domains):
     domain = [domain for domain in domains if domain.name == name]
     if len(domain) != 1:
-        raise ('domain not found')
+        raise Exception('domain not found')
 
     return domain[0]
 
