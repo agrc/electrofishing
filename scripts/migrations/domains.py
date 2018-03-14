@@ -37,3 +37,15 @@ def delete_domains(name, codes, workspace):
 def add_values_to_domain(name, code_value_pairs, workspace):
     for code, value in code_value_pairs:
         arcpy.management.AddCodedValueToDomain(in_workspace=workspace, domain_name=name, code=code, code_description=value)
+
+
+def add_if_not_exists(domain, workspace, code, value=None):
+    if code in domain.codedValues:
+        print('skipping {}'.format(code))
+
+        return
+
+    if value is None:
+        value = code
+
+    arcpy.management.AddCodedValueToDomain(in_workspace=workspace, domain_name=domain.name, code=code, code_description=value)
