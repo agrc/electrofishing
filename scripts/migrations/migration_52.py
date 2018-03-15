@@ -31,4 +31,5 @@ table = join(sde, 'Diet')
 arcpy.management.DeleteField(table, ['MEASUREMENT'])
 arcpy.management.AddField(table, field_name='MEASUREMENT', field_type='SHORT', field_alias='Measurement')
 
+arcpy.RefreshCatalog(sde)
 print('done')

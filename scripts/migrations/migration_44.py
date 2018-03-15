@@ -36,4 +36,5 @@ new_domains = [
 for code in new_domains:
     domains.add_if_not_exists(domain, sde, code)
 
+arcpy.RefreshCatalog(sde)
 print('done')

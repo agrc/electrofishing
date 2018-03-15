@@ -49,4 +49,5 @@ print('populating domains')
 domains.add_values_to_domain('dominant_overstories', dominant_overstory, sde)
 domains.add_values_to_domain('dominant_understories', dominant_understory, sde)
 
+arcpy.RefreshCatalog(sde)
 print('done')

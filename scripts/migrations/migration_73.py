@@ -23,4 +23,5 @@ print('adding domains')
 domains.add_if_not_exists(tag_domain, sde, 'Need spray dye')
 domains.add_if_not_exists(tag_domain, sde, 'OTC')
 
+arcpy.RefreshCatalog(sde)
 print('done')
