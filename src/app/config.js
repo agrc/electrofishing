@@ -225,7 +225,8 @@ define([
                 LEUKOCRIT: 'LEUKOCRIT',
                 PLPRO: 'PLPRO',
                 FIN: 'FIN',
-                OPERCLE: 'OPERCLE'
+                OPERCLE: 'OPERCLE',
+                COLLECTION_PART: 'COLLECTION_PART'
             },
             habitat: {
                 EVENT_ID: 'EVENT_ID',

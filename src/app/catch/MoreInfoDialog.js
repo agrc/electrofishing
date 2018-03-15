@@ -2,6 +2,8 @@ define([
     'app/catch/FilteringSelectForGrid',
     'app/config',
     'app/_GridMixin',
+    './../Domains',
+    './../_ClearValuesMixin',
 
     'dgrid/Editor',
 
@@ -11,6 +13,7 @@ define([
     'dijit/_WidgetsInTemplateMixin',
 
     'dojo/dom-class',
+    'dojo/promise/all',
     'dojo/query',
     'dojo/text!app/catch/templates/MoreInfoDialog.html',
     'dojo/_base/array',
@@ -28,6 +31,8 @@ define([
     FilteringSelectForGrid,
     config,
     _GridMixin,
+    Domains,
+    _ClearValuesMixin,
 
     editor,
 
@@ -37,6 +42,7 @@ define([
     _WidgetsInTemplateMixin,
 
     domClass,
+    all,
     query,
     template,
     array,
@@ -49,7 +55,7 @@ define([
 ) {
     // summary:
     //      Form for storing diet, tag and other fish stats.
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GridMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GridMixin, _ClearValuesMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'more-info-dialog',
@@ -188,6 +194,23 @@ define([
                 }, 0);
             });
 
+            this.controlMappings = [
+                [this.collectionPartSelect, 'COLLECTION_PART']
+            ];
+
+            var defs = [];
+            var url = config.urls.healthFeatureService;
+
+            array.forEach(this.controlMappings, function (map) {
+                if (map[0].type === 'select-one') {
+                    defs.push(Domains.populateSelectWithDomainValues(map[0], url, map[1]));
+                }
+            });
+
+            all(defs).then(function () {
+                $('#Collection_tab select').combobox();
+            });
+
             localforage.getItem(this.cacheId).then(function (inProgressData) {
                 if (inProgressData) {
                     lang.mixin(that, inProgressData);
@@ -207,7 +230,7 @@ define([
             this.currentFishId = guid;
             this.health.currentFishId = guid;
             if (this.healthData[guid]) {
-                this.health.setData(this.healthData[guid][0]);
+                this.health.setData(this.healthData[guid][0], this.controlMappings);
             }
             this.tagsContainer.currentFishId = guid;
             if (this.tagsData[guid]) {
@@ -281,7 +304,8 @@ define([
                 return record;
             }, this);
             this.tagsData[this.currentFishId] = this.tagsContainer.getData();
-            var healthFeature = this.health.getData();
+
+            var healthFeature = this.health.getData(this.controlMappings);
             if (healthFeature) {
                 this.healthData[this.currentFishId] = [healthFeature];
             }
@@ -318,8 +342,11 @@ define([
 
             this.tagsContainer.clear();
             this.health.clearValues();
+            this.collectionPartSelect
 
             this.notesTxtArea.value = '';
+
+            this.inherited(arguments);
         },
         onCancel: function () {
             // summary:

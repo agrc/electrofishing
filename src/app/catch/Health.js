@@ -84,14 +84,18 @@ define([
 
             this.inherited(arguments);
         },
-        getData: function () {
+        getData: function (controlMappings) {
             // summary:
             //      builds a record set
             console.log(this.declaredClass + '::getData', arguments);
 
             var f = {};
+            var mappings = this.controlMappings;
+            if (controlMappings) {
+                mappings = this.controlMappings.concat(controlMappings);
+            }
 
-            array.forEach(this.controlMappings, function (map) {
+            array.forEach(mappings, function (map) {
                 var control = map[0];
                 f[map[1]] = (control.type === 'number') ? helpers.getNumericValue(control.value) : control.value;
             });
@@ -113,7 +117,7 @@ define([
                 return f;
             }
         },
-        setData: function (feature) {
+        setData: function (feature, controlMappings) {
             // summary:
             //      prepopulates the controls with existing data
             // feature: {}
@@ -121,7 +125,12 @@ define([
 
             var f = feature;
 
-            array.forEach(this.controlMappings, function (map) {
+            var mappings = this.controlMappings;
+            if (controlMappings) {
+                mappings = this.controlMappings.concat(controlMappings);
+            }
+
+            array.forEach(mappings, function (map) {
                 map[0].value = f[map[1]];
                 if (map[0].type === 'select-one') {
                     $(map[0]).combobox('refresh');

@@ -79,12 +79,25 @@ require([
         });
         describe('onSubmitClick', function () {
             var value = 'blah';
+            var part = 'spine';
+            function setData() {
+                function populateSelect(select, value) {
+                    domConstruct.create('option', {value: value}, select);
+                    select.value = value;
+                }
+                populateSelect(testWidget.collectionPartSelect, part);
+
+                // call this manually since we aren't waiting for lst to resolve in postCreate
+                $(testWidget.domNode).find('select').combobox();
+            }
 
             beforeEach(function () {
                 $(testWidget.health.domNode).find('select').combobox();
             });
 
             it('gathers the diet grid data', function () {
+                setData();
+
                 testWidget.currentFishId = 'b';
                 spyOn(testWidget, 'getGridData').and.returnValue([{
                     TEMP_ID: 'remove me',
