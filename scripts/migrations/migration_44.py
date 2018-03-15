@@ -36,5 +36,18 @@ new_domains = [
 for code in new_domains:
     domains.add_if_not_exists(domain, sde, code)
 
+table = join(sde, 'Health')
+field_name = 'COLLECTION_PART'
+fields = arcpy.ListFields(table)
+
+upgraded = len([field for field in fields if field.name == field_name]) > 0
+
+if not upgraded:
+    print('adding new field')
+    arcpy.management.AddField(table, field_name=field_name, field_type='TEXT', field_alias='Hard body part collection')
+
+    print('assigning domain to field')
+    arcpy.management.AssignDomainToField(table, field_name, domain_name)
+
 arcpy.RefreshCatalog(sde)
 print('done')
