@@ -2,6 +2,7 @@ define([
     'app/catch/FilteringSelectForGrid',
     'app/config',
     'app/_GridMixin',
+    './Domains',
 
     'dgrid/Editor',
 
@@ -28,6 +29,7 @@ define([
     FilteringSelectForGrid,
     config,
     _GridMixin,
+    Domains,
 
     editor,
 
@@ -188,6 +190,18 @@ define([
                 }, 0);
             });
 
+            this.controlMappings = [
+                [this.collectionPartSelect, 'COLLECTION_PART']
+            ];
+
+            var defs = [];
+
+            array.forEach(this.controlMappings, function (map) {
+                if (map[0].type === 'select-one') {
+                    defs.push(Domains.populateSelectWithDomainValues(map[0], url, map[1]));
+                }
+            });
+
             localforage.getItem(this.cacheId).then(function (inProgressData) {
                 if (inProgressData) {
                     lang.mixin(that, inProgressData);
@@ -230,14 +244,14 @@ define([
             query('.nav-tabs li', this.domNode).forEach(function (n) {
                 domClass.remove(n, 'active');
             });
-            var tb = query('a[href="#' + tabName + '_tab"]', this.domNode)[0].parentElement;
+            var tb = query('a[href="#' + tabName + '"]', this.domNode)[0].parentElement;
             domClass.add(tb, 'active');
 
             // tab contents
             query('.tab-pane', this.domNode).forEach(function (n) {
                 domClass.remove(n, 'active in');
             });
-            domClass.add(query('#' + tabName + '_tab', this.domNode)[0],
+            domClass.add(query('#' + tabName, this.domNode)[0],
                 'active in');
 
             $(this.dialog).modal('show');
@@ -247,7 +261,7 @@ define([
             setTimeout(function () {
                 that.tabContainer.scrollTop = 0;
 
-                if (tabName === 'Diet') {
+                if (tabName === 'Diet_tab') {
                     that.grid.startup();
                 }
             }, 250);
