@@ -145,6 +145,13 @@ require([
 
                 expect(testWidget.getData('health').length).toEqual(3);
             });
+            it('gathers the hard part data and adds it to health', function () {
+                setData();
+                testWidget.onSubmitClick();
+
+                var data = testWidget.getData('health')[0];
+                expect(data.COLLECTION_PART).toEqual(part);
+            });
             it('clears the dialog', function () {
                 spyOn(testWidget, 'clearValues');
 
