@@ -2,6 +2,7 @@ define([
     'app/catch/FilteringSelectForGrid',
     'app/config',
     'app/_GridMixin',
+    './Domains',
 
     'dgrid/Editor',
 
@@ -28,6 +29,7 @@ define([
     FilteringSelectForGrid,
     config,
     _GridMixin,
+    Domains,
 
     editor,
 
@@ -186,6 +188,18 @@ define([
                 window.setTimeout(function () {
                     that.submitBtn.disabled = query('.form-group.has-error', that.domNode).length > 0;
                 }, 0);
+            });
+
+            this.controlMappings = [
+                [this.collectionPartSelect, 'COLLECTION_PART']
+            ];
+
+            var defs = [];
+
+            array.forEach(this.controlMappings, function (map) {
+                if (map[0].type === 'select-one') {
+                    defs.push(Domains.populateSelectWithDomainValues(map[0], url, map[1]));
+                }
             });
 
             localforage.getItem(this.cacheId).then(function (inProgressData) {
