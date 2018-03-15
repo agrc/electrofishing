@@ -16,10 +16,11 @@ define([
             console.log('app/_ClearValuesMixin:clearValues', arguments);
 
             query('select', this.domNode).forEach(function (node) {
-                var combobox = $(node).data('combobox')
+                var combobox = $(node).data('combobox');
                 if (!combobox) {
                     return
                 }
+
                 combobox.clearTarget();
                 combobox.clearElement();
             });
