@@ -27,4 +27,4 @@ Application for recording electrofishing surveys. Built for DWR.
     - `NewCollectionEvent`
         - Test Input: **copy paste contents of** `scripts/Scripts/TestData/NewCollectionEventData.json` (minified)
 
-##### You'll likely need to manually copy `scripts/Scripts/settings/` to the server since it doesn't get copied when publishing.
+##### You'll likely need to manually copy `scripts/Scripts/settings/` and `dijkstras.py` to the server since it doesn't get copied when publishing.

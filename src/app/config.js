@@ -155,9 +155,12 @@ define([
                 GEO_DEF: 'GEO_DEF',
                 LOCATION_NOTES: 'LOCATION_NOTES',
                 EVENT_DATE: 'EVENT_DATE',
+                EVENT_TIME: 'EVENT_TIME',
                 STATION_ID: 'STATION_ID',
                 SEGMENT_LENGTH: 'SEGMENT_LENGTH',
-                NUM_PASSES: 'NUM_PASSES'
+                NUM_PASSES: 'NUM_PASSES',
+                WEATHER: 'WEATHER',
+                OBSERVERS: 'OBSERVERS'
             },
             equipment: {
                 EVENT_ID: 'EVENT_ID',
