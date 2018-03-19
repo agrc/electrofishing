@@ -1,6 +1,7 @@
 define([
     'app/config',
     'app/_InProgressCacheMixin',
+    './../Domains',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -21,6 +22,7 @@ define([
 ], function (
     config,
     _InProgressCacheMixin,
+    Domains,
 
     _TemplatedMixin,
     _WidgetBase,
@@ -101,6 +103,14 @@ define([
                 this.connect(this.currentGeoDef, 'onInvalidate', 'clearValidation');
 
             this.station.mainMap = this.verifyMap;
+
+            var that = this;
+            var promise = Domains.populateSelectWithDomainValues(this.weatherSelect,
+                config.urls.samplingEventsFeatureService,
+                config.fieldNames.samplingEvents.WEATHER);
+            promise.then(function () {
+                $(that.domNode).find('select').combobox();
+            });
 
             this.inherited(arguments);
         },
