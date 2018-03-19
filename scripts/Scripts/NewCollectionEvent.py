@@ -29,8 +29,17 @@ def appendTableData(tableName, rows):
 def appendFeatureData(feature):
     arcpy.AddMessage('Adding feature to SamplingEvents')
     attributes = feature['attributes']
-    attributes[settings.EVENT_DATE] = datetime.strptime(attributes[settings.EVENT_DATE], '%Y-%m-%d')
+    time = None
+    if ':' in attributes['EVENT_TIME']:
+        time = datetime.strptime(attributes['EVENT_TIME'], '%H:%M').time()
+    date = datetime.strptime(attributes[settings.EVENT_DATE], '%Y-%m-%d')
+    if time is not None:
+        attributes[settings.EVENT_DATE] = datetime.combine(date, time)
+    else:
+        attributes[settings.EVENT_DATE] = date
     fields = attributes.keys() + ['SHAPE@JSON']
+    fields.remove('EVENT_TIME')
+    attributes.pop('EVENT_TIME')
 
     with arcpy.da.InsertCursor(settings.SAMPLINGEVENTS, fields) as cursor:
         cursor.insertRow([attributes[key] for key in attributes.keys()] + [json.dumps(feature['geometry'])])
