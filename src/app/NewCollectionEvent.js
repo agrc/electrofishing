@@ -165,6 +165,8 @@ define([
             //        description
             console.log('app/NewCollectionEvent:onSuccessfulSubmit', arguments);
 
+            this.locationTb.verifyMap.map.setView([40.6389, -111.7034], 10);
+            $('#location').tab('show');
             this.clearReport();
 
             domClass.remove(this.successMsgContainer, 'hidden');
