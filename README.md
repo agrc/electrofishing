@@ -19,12 +19,16 @@ Application for recording electrofishing surveys. Built for DWR.
 1. Publish `maps/Reference.mxd` as `Electrofishing/Reference`
 1. Copy `Electrofishing_Local as WILDADMIN.sde` to `scripts/settings`
 1. Update `scripts/Scripts/settings/__init__.py`.
-1. Publish all tools in `scripts/Toolbox.tbx` as `Electrofishing/Toolbox`
-    - **Requires ArcGIS Server Advanced**
-    - Most of the test data for running the tools is in `scripts/ToolData/TestData.gdb`
-    - `GetSegmentFromID`
-        - `reachcode`: `16020102000938`
-    - `NewCollectionEvent`
+1. Publish all tools in `scripts/Toolbox.tbx` as `Electrofishing/Toolbox` **Requires ArcGIS Server Advanced**
+    1. `GetSegmentFromCoords`
+        - `points`: `scripts\ToolData\TestData.gdb\StartEnd_fork`
+    1. `GetSegmentFromStartDistDirt`
+        - `point`: `scripts\ToolData\TestData.gdb\Start1`
+        - `distance`: `1`
+        - `direction`: `up`
+    1. `NewCollectionEvent`
         - Test Input: **copy paste contents of** `scripts/Scripts/TestData/NewCollectionEventData.json` (minified)
+    1. `NewStation`
+        - `point`: `scripts\ToolData\TestData.gdb\NewStationTest1`
 
 ##### You'll likely need to manually copy `scripts/Scripts/settings/` and `dijkstras.py` to the server since it doesn't get copied when publishing.
