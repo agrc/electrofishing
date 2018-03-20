@@ -8,6 +8,7 @@ define([
     'dijit/_WidgetsInTemplateMixin',
 
     'dojo/dom-class',
+    'dojo/dom-construct',
     'dojo/json',
     'dojo/query',
     'dojo/request/xhr',
@@ -40,6 +41,7 @@ define([
     _WidgetsInTemplateMixin,
 
     domClass,
+    domConstruct,
     json,
     query,
     xhr,
@@ -76,6 +78,10 @@ define([
         //      archives of all submitted reports
         archivesStoreName: 'submitted_reports',
 
+        // noFish: boolean
+        //      allows submission with no fish
+        noFish: false,
+
         // archivesLocalForage: localforage instance
         //      used to manage archives in a separate instance that the inprogress stuff
         //      this allows for easy clearing of inprogress without messing with archives
@@ -98,6 +104,11 @@ define([
 
             var validator = new NumericInputValidator();
             validator.init();
+
+            var that = this;
+            this.own(topic.subscribe(config.topics.noFish, function (allowFish) {
+                that.noFish = allowFish;
+            }));
 
             this.locationTb.verifyMap.initMap();
         },
@@ -127,15 +138,21 @@ define([
 
             domClass.add(this.successMsgContainer, 'hidden');
 
-            var valid = this.validateReport();
+            var valid = this.validateReport(this.noFish);
+            domConstruct.empty(this.validateMsg);
 
             if (valid !== true) {
-                this.validateMsg.innerHTML = valid;
+                if (typeof valid === 'string' || valid instanceof String) {
+                    this.validateMsg.innerHTML = valid;
+                } else {
+                    this.validateMsg.appendChild(valid);
+                }
+
                 domClass.remove(this.validateMsg, 'hidden');
                 window.scrollTo(0,0);
                 return;
             }
-            this.validateMsg.innerHTML = '';
+
             domClass.add(this.validateMsg, 'hidden');
             $(config.app.header.submitBtn).button('loading');
 
@@ -177,7 +194,7 @@ define([
 
             $(config.app.header.submitBtn).button('reset');
         },
-        validateReport: function () {
+        validateReport: function (allowNoFish) {
             // summary:
             //      validates all of the values neccessary to submit the report to the server
             // returns: String (if invalid) || true (if valid)
@@ -205,7 +222,9 @@ define([
 
             valid = array.every(validationMethods, function (a) {
                 validationReturn = a[0].apply(a[1]);
-                if (validationReturn !== true) {
+                if (a[2] === 'catchTab' && allowNoFish) {
+                    return true;
+                } else if (validationReturn !== true) {
                     that.showTab(a[2]);
                     return false;
                 } else {
@@ -233,6 +252,7 @@ define([
                 that.habitatTb.clear();
                 that.validateMsg.innerHTML = '';
                 domClass.add(that.validateMsg, 'hidden');
+                that.noFish = false;
             });
         },
         buildFeatureObject: function () {
