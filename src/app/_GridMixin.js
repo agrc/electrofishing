@@ -1,4 +1,5 @@
 define([
+    './catch/NoFishException',
     'dgrid/Editor',
     'dgrid/Keyboard',
     'dgrid/OnDemandGrid',
@@ -13,6 +14,7 @@ define([
     'dstore/Memory',
     'dstore/Trackable'
 ], function (
+    NoFishException,
     Editor,
     Keyboard,
     DGrid,
@@ -213,7 +215,9 @@ define([
             if (this.store.data[0][this.firstColumn] !== null) {
                 return true;
             } else {
-                return this.invalidGridMsg;
+                return new NoFishException({
+                    message: this.invalidGridMsg
+                }).domNode;
             }
         },
         getGridData: function () {
