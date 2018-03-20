@@ -318,7 +318,7 @@ require([
         });
         describe('isValid', function () {
             it('requires at least one fish to be recorded', function () {
-                expect(testWidget.isValid()).toEqual(testWidget.invalidGridMsg);
+                expect(testWidget.isValid().innerText).toMatch(testWidget.invalidGridMsg);
 
                 testWidget.store.data[0][fn.SPECIES_CODE] = 'blah';
                 testWidget.grid.save();
