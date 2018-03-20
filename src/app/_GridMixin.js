@@ -225,7 +225,7 @@ define([
             //      description
             console.log('app/_GridMixin:getGridData', arguments);
 
-            var data = this.store.fetchSync();
+            var data = lang.clone(this.store.fetchSync());
 
             if (data.length > 0) {
                 // remove any empty rows
