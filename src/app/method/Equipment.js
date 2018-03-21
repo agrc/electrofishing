@@ -181,30 +181,12 @@ define([
             console.log('app/method/Equipment:wireEvents', arguments);
 
             var that = this;
-            // $(this.cathodeTypeSelect).on('change', function onChange(event) {
-            //     that.onCathodeTypeChange(event.target.value);
-            // });
-            // $(this.backpackTab).on('show.bs.tab', function setNum() {
-            //     console.info('backback tab show');
-            // });
-            // $(this.canoeTab).on('show.bs.tab', function setNum() {
-            //     console.info('canoe tab show');
-            // });
-            // $(this.raftTab).on('show.bs.tab', function setNum() {
-            //     // don't overrite a value that was set by inprogress cache
-            //     if (that.numberNettersTxt.value === '') {
-            //         that.numberNettersTxt.value = 1;
-            //     }
-            //     that.anodeShapeSelect.value = '';
-            //     $(that.anodeShapeSelect).combobox('toggle');
-            // });
-            // $(this.raftTab).on('hide.bs.tab', function setNum() {
-            //     that.numberNettersTxt.value = '';
-            // });
+            $(this.cathodeTypeSelect).on('change', function onChange(event) {
+                that.onCathodeTypeChange(event.target.value);
+            });
 
             query('.nav-pills li', this.domNode).on('click', function (event) {
                 that.typeTxt.value = event.currentTarget.dataset.type;
-                that.cacheInProgressData();
             });
 
             this.inherited(arguments);
@@ -216,12 +198,21 @@ define([
             console.info('app/method/Equipment:toggleFields', arguments);
 
             var activeTab = event.target.id.toLowerCase();
+            if (!activeTab) {
+                return;
+            }
+
             var that = this;
             setTimeout(function () {
                 that.fields.forEach(function (field) {
                     var show = field[activeTab];
+                    if (show === false) {
+                        that.clearValue(field.control);
+                    }
                     domClass.toggle(field.control.parentNode, 'hidden', !show);
-                })
+                });
+
+                that.cacheInProgressData();
             }, 100);
         },
         hydrateWithInProgressData: function () {
