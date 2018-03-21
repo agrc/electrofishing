@@ -26,5 +26,33 @@ field_name = 'SUB_BEDR'
 upgraded = len([field for field in fields if field.name == field_name]) > 0
 
 if not upgraded:
-    print('adding new field')
+    print('adding {}'.format(field_name))
     arcpy.management.AddField(table, field_name=field_name, field_type='SHORT', field_alias='Percentage of Bedrock Sediment Class')
+
+field_name = 'OXYGEN'
+upgraded = len([field for field in fields if field.name == field_name]) > 0
+
+if not upgraded:
+    print('adding {}'.format(field_name))
+    arcpy.management.AddField(table, field_name=field_name, field_type='SHORT', field_alias='Dissolved Oxygen (mg/l)')
+
+field_name = 'SOLIDS'
+upgraded = len([field for field in fields if field.name == field_name]) > 0
+
+if not upgraded:
+    print('adding {}'.format(field_name))
+    arcpy.management.AddField(table, field_name=field_name, field_type='SHORT', field_alias='Total Dissolved Solids (ppm)')
+
+field_name = 'TURBIDITY'
+upgraded = len([field for field in fields if field.name == field_name]) > 0
+
+if not upgraded:
+    print('adding {}'.format(field_name))
+    arcpy.management.AddField(table, field_name=field_name, field_type='SHORT', field_alias='Turbidity')
+
+field_name = 'ALKALINITY'
+upgraded = len([field for field in fields if field.name == field_name]) > 0
+
+if not upgraded:
+    print('adding {}'.format(field_name))
+    arcpy.management.AddField(table, field_name=field_name, field_type='SHORT', field_alias='Alkalinity (ppm CaCO3)')

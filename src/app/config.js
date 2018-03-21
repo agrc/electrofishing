@@ -261,7 +261,11 @@ define([
                 EROS: 'EROS',
                 TEMP: 'TEMP_',
                 PH: 'PH',
-                CON: 'CON'
+                CON: 'CON',
+                OXYGEN: 'OXYGEN',
+                SOLIDS: 'SOLIDS',
+                TURBIDITY: 'TURBIDITY',
+                ALKALINITY: 'ALKALINITY',
             },
             reference: {
                 COUNTY: 'COUNTY',
