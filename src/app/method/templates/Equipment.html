@@ -1,43 +1,39 @@
 <div>
     <input type='text' data-dojo-attach-point='typeTxt' class='hidden' value='backpack'>
-    <ul class="nav nav-pills">
-        <li class="active" data-type='backpack'><a href="#spec_backpack_canoebarge${id}" id="backpackTab${id}" data-toggle='tab'>Backpack</a></li>
-        <li data-type='canoebarge'><a href="#spec_backpack_canoebarge${id}" id="canoeBargeTab${id}" data-toggle='tab'>Canoe/Barge</a></li>
-        <li data-type='raftboat'><a href="#spec_raftBoat${id}" id="raftBoatTab${id}" data-toggle='tab'
-            data-dojo-attach-point='raftTab'>Raft/Boat</a></li>
+    <ul class="nav nav-pills" data-dojo-attach-event="click: toggleFields">
+        <li class="active" data-type='backpack'>
+            <a href="#" data-toggle="tab" id="Backpack">Backpack</a></li>
+        <li data-type='canoebarge'>
+            <a href="#" data-toggle="tab" id="Canoe">Canoe/Barge</a></li>
+        <li data-type='raftboat'>
+            <a href="#" data-toggle="tab" id="Raft">Raft/Boat</a></li>
     </ul>
     <div class='row'>
         <div class="form-group col-md-3">
             <label>Model</label>
             <select data-dojo-attach-point="modelSelect" class='form-control'></select>
         </div>
-        <div class="tab-content">
-            <div class="tab-pane fade in active" id="spec_backpack_canoebarge${id}">
-                <div class="form-group col-md-2">
-                    <label>Anode Shape</label>
-                    <select data-dojo-attach-point="anodeShapeSelect"
-                        class='form-control'>
-                    </select>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="spec_raftBoat${id}">
-                <div class="form-group col-md-3">
-                    <label>Array Type</label>
-                    <select data-dojo-attach-point="arrayTypeSelect" class='form-control'></select>
-                </div>
-                <div class="form-group col-md-2">
-                    <label># Netters</label>
-                    <input type="number"
-                        data-dojo-attach-point='numberNettersTxt'
-                        class='form-control'
-                        min='1'
-                        max='3'>
-                </div>
-                <div class="form-group col-md-2">
-                    <label>Cathode Type</label>
-                    <select data-dojo-attach-point='cathodeTypeSelect' class='form-control'></select>
-                </div>
-            </div>
+        <div class="form-group col-md-2">
+            <label>Anode Shape</label>
+            <select data-dojo-attach-point="anodeShapeSelect"
+                class='form-control'>
+            </select>
+        </div>
+        <div class="form-group col-md-3">
+            <label>Array Type</label>
+            <select data-dojo-attach-point="arrayTypeSelect" class='form-control'></select>
+        </div>
+        <div class="form-group col-md-2">
+            <label># Netters</label>
+            <input type="number"
+                data-dojo-attach-point='numberNettersTxt'
+                class='form-control'
+                min='1'
+                max='3'>
+        </div>
+        <div class="form-group col-md-2">
+            <label>Cathode Type</label>
+            <select data-dojo-attach-point='cathodeTypeSelect' class='form-control'></select>
         </div>
     </div>
     <div class="row">
@@ -140,6 +136,14 @@
             <select data-dojo-attach-point="surveyPurposeSelect"
                 class='form-control'>
             </select>
+        </div>
+        <div class="form-group col-md-3">
+            <label class='control-label'>Duration/Pedal Time (seconds)</label>
+            <input type="number"
+            data-dojo-attach-point='durationTxt'
+            min='1'
+            max='1000'
+            class='form-control'>
         </div>
     </div>
     <button class='btn btn-default btn-sm' data-dojo-attach-point='btn'>
