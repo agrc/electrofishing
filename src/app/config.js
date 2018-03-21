@@ -266,6 +266,7 @@ define([
                 SOLIDS: 'SOLIDS',
                 TURBIDITY: 'TURBIDITY',
                 ALKALINITY: 'ALKALINITY',
+                BACKWATER: 'BACKWATER'
             },
             reference: {
                 COUNTY: 'COUNTY',

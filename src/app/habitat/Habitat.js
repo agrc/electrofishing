@@ -132,6 +132,7 @@ define([
             f[fn.SOLIDS] = helpers.getNumericValue(this.solidsTxt.value);
             f[fn.TURBIDITY] = helpers.getNumericValue(this.turbidityTxt.value);
             f[fn.ALKALINITY] = helpers.getNumericValue(this.alkalinityTxt.value);
+            f[fn.BACKWATER] = helpers.getNumericValue(this.backwaterTxt.value);
             return [f];
         },
         onSedimentClassChange: function () {
