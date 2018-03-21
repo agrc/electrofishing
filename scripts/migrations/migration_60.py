@@ -20,3 +20,11 @@ field_name = 'PH'
 print('altering acidity alias')
 table = join(sde, table_name)
 arcpy.management.AlterField(table, field_name, new_field_alias='pH')
+
+fields = arcpy.ListFields(table)
+field_name = 'SUB_BEDR'
+upgraded = len([field for field in fields if field.name == field_name]) > 0
+
+if not upgraded:
+    print('adding new field')
+    arcpy.management.AddField(table, field_name=field_name, field_type='SHORT', field_alias='Percentage of Bedrock Sediment Class')

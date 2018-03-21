@@ -119,6 +119,7 @@ define([
             f[fn.SUB_COBB] = helpers.getNumericValue(this.cobbleTxt.value);
             f[fn.SUB_RUBB] = helpers.getNumericValue(this.rubbleTxt.value);
             f[fn.SUB_BOUL] = helpers.getNumericValue(this.boulderTxt.value);
+            f[fn.SUB_BEDR] = helpers.getNumericValue(this.bedrockTxt.value);
             f[fn.VEGD] = helpers.getNumericValue(this.vegDensityTxt.value);
             f[fn.WWID] = helpers.getNumericValue(this.wettedWidthTxt.value);
             f[fn.SIN] = helpers.getNumericValue(this.sinuosityTxt.value);
