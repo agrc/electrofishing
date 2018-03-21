@@ -128,6 +128,10 @@ define([
             f[fn.TEMP] = helpers.getNumericValue(this.waterTempTxt.value);
             f[fn.PH] = helpers.getNumericValue(this.acidityTxt.value);
             f[fn.CON] = helpers.getNumericValue(this.conductivityTxt.value);
+            f[fn.OXYGEN] = helpers.getNumericValue(this.oxygenTxt.value);
+            f[fn.SOLIDS] = helpers.getNumericValue(this.solidsTxt.value);
+            f[fn.TURBIDITY] = helpers.getNumericValue(this.turbidityTxt.value);
+            f[fn.ALKALINITY] = helpers.getNumericValue(this.alkalinityTxt.value);
             return [f];
         },
         onSedimentClassChange: function () {
