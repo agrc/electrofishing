@@ -7,6 +7,7 @@ define([
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
 
+    'dojo/dom-class',
     'dojo/query',
     'dojo/string',
     'dojo/text!app/method/templates/Equipment.html',
@@ -24,6 +25,7 @@ define([
     _TemplatedMixin,
     _WidgetBase,
 
+    domClass,
     query,
     dojoString,
     template,
@@ -59,55 +61,112 @@ define([
             this.fields = [
                 {
                     control: this.modelSelect,
-                    fieldName: fn.MODEL
+                    fieldName: fn.MODEL,
+                    backpack: true,
+                    canoe: true,
+                    raft: true
                 }, {
                     control: this.anodeShapeSelect,
-                    fieldName: fn.ANODE_SHAPE
+                    fieldName: fn.ANODE_SHAPE,
+                    backpack: true,
+                    canoe: true,
+                    raft: false
                 }, {
                     control: this.arrayTypeSelect,
-                    fieldName: fn.ARRAY_TYPE
+                    fieldName: fn.ARRAY_TYPE,
+                    backpack: false,
+                    canoe: false,
+                    raft: true
                 }, {
                     control: this.numberNettersTxt,
-                    fieldName: fn.NUM_NETTERS
+                    fieldName: fn.NUM_NETTERS,
+                    backpack: true,
+                    canoe: true,
+                    raft: true
                 }, {
                     control: this.cathodeTypeSelect,
-                    fieldName: fn.CATHODE_TYPE
+                    fieldName: fn.CATHODE_TYPE,
+                    backpack: false,
+                    canoe: true,
+                    raft: true
                 }, {
                     control: this.numberAnodesTxt,
-                    fieldName: fn.NUM_ANODES
+                    fieldName: fn.NUM_ANODES,
+                    backpack: true,
+                    canoe: true,
+                    raft: true
                 }, {
                     control: this.anodeDiameterTxt,
-                    fieldName: fn.ANODE_DIAMETER
+                    fieldName: fn.ANODE_DIAMETER,
+                    backpack: true,
+                    canoe: true,
+                    raft: true
                 }, {
                     control: this.stockDiameterTxt,
-                    fieldName: fn.STOCK_DIAMETER
+                    fieldName: fn.STOCK_DIAMETER,
+                    backpack: true,
+                    canoe: true,
+                    raft: true
                 }, {
                     control: this.cathodeLengthTxt,
-                    fieldName: fn.CATHODE_LEN
+                    fieldName: fn.CATHODE_LEN,
+                    backpack: true,
+                    canoe: true,
+                    raft: true
                 }, {
                     control: this.cathodeDiameterTxt,
-                    fieldName: fn.CATHODE_DIAMETER
+                    fieldName: fn.CATHODE_DIAMETER,
+                    backpack: true,
+                    canoe: true,
+                    raft: true
                 }, {
                     control: this.machineResistenceTxt,
-                    fieldName: fn.MACHINE_RES
+                    fieldName: fn.MACHINE_RES,
+                    backpack: true,
+                    canoe: true,
+                    raft: true
                 }, {
                     control: this.waveformSelect,
-                    fieldName: fn.WAVEFORM
+                    fieldName: fn.WAVEFORM,
+                    backpack: true,
+                    canoe: true,
+                    raft: true
                 }, {
                     control: this.voltsTxt,
-                    fieldName: fn.VOLTAGE
+                    fieldName: fn.VOLTAGE,
+                    backpack: true,
+                    canoe: true,
+                    raft: true
                 }, {
                     control: this.dutyCycleTxt,
-                    fieldName: fn.DUTY_CYCLE
+                    fieldName: fn.DUTY_CYCLE,
+                    backpack: true,
+                    canoe: true,
+                    raft: true
                 }, {
                     control: this.frequencyTxt,
-                    fieldName: fn.FREQUENCY
+                    fieldName: fn.FREQUENCY,
+                    backpack: true,
+                    canoe: true,
+                    raft: true
                 }, {
                     control: this.ampsTxt,
-                    fieldName: fn.AMPS
+                    fieldName: fn.AMPS,
+                    backpack: true,
+                    canoe: true,
+                    raft: true
                 }, {
                     control: this.surveyPurposeSelect,
-                    fieldName: fn.PURPOSE
+                    fieldName: fn.PURPOSE,
+                    backpack: true,
+                    canoe: true,
+                    raft: true
+                }, {
+                    control: this.durationTxt,
+                    fieldName: fn.DURATION,
+                    backpack: true,
+                    canoe: true,
+                    raft: true
                 }
             ];
 
@@ -126,24 +185,35 @@ define([
                 that.onCathodeTypeChange(event.target.value);
             });
 
-            $(this.raftTab).on('show.bs.tab', function setNum() {
-                // don't overrite a value that was set by inprogress cache
-                if (that.numberNettersTxt.value === '') {
-                    that.numberNettersTxt.value = 1;
-                }
-                that.anodeShapeSelect.value = '';
-                $(that.anodeShapeSelect).combobox('toggle');
-            });
-            $(this.raftTab).on('hide.bs.tab', function setNum() {
-                that.numberNettersTxt.value = '';
-            });
-
             query('.nav-pills li', this.domNode).on('click', function (event) {
                 that.typeTxt.value = event.currentTarget.dataset.type;
-                that.cacheInProgressData();
             });
 
             this.inherited(arguments);
+        },
+        toggleFields: function (event) {
+            // summary:
+            //      click event handler for toggling the equipment field options
+            // click event
+            console.info('app/method/Equipment:toggleFields', arguments);
+
+            var activeTab = event.target.id.toLowerCase();
+            if (!activeTab) {
+                return;
+            }
+
+            var that = this;
+            setTimeout(function () {
+                that.fields.forEach(function (field) {
+                    var show = field[activeTab];
+                    if (show === false) {
+                        that.clearValue(field.control);
+                    }
+                    domClass.toggle(field.control.parentNode, 'hidden', !show);
+                });
+
+                that.cacheInProgressData();
+            }, 100);
         },
         hydrateWithInProgressData: function () {
             // summary:
