@@ -6,7 +6,6 @@ module.exports = function (grunt) {
         'src/index.html'
     ];
     var gruntFile = 'GruntFile.js';
-    var eslintFiles = [jsFiles, gruntFile];
     var deployDir = 'wwwroot/electrofishing';
     var deployFiles = [
         '**',
@@ -96,7 +95,7 @@ module.exports = function (grunt) {
         },
         eslint: {
             main: {
-                src: eslintFiles
+                src: [jsFiles].concat([gruntFile])
             },
             options: {
                 configFile: '.eslintrc'
@@ -241,11 +240,11 @@ module.exports = function (grunt) {
         },
         watch: {
             eslint: {
-                files: eslintFiles,
+                files: jsFiles,
                 tasks: ['eslint']
             },
             src: {
-                files: eslintFiles.concat(otherFiles),
+                files: [jsFiles].concat(otherFiles),
                 options: {
                     livereload: true
                 }
