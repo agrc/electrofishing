@@ -56,3 +56,10 @@ upgraded = len([field for field in fields if field.name == field_name]) > 0
 if not upgraded:
     print('adding {}'.format(field_name))
     arcpy.management.AddField(table, field_name=field_name, field_type='SHORT', field_alias='Alkalinity (ppm CaCO3)')
+
+field_name = 'BACKWATER'
+upgraded = len([field for field in fields if field.name == field_name]) > 0
+
+if not upgraded:
+    print('adding {}'.format(field_name))
+    arcpy.management.AddField(table, field_name=field_name, field_type='SHORT', field_alias='Backwater Area (m2)')
