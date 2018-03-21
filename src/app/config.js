@@ -182,7 +182,8 @@ define([
                 NUM_NETTERS: 'NUM_NETTERS',
                 CATHODE_TYPE: 'CATHODE_TYPE',
                 TYPE: 'TYPE',
-                PURPOSE: 'SURVEY_PURPOSE'
+                PURPOSE: 'SURVEY_PURPOSE',
+                DURATION: 'PEDAL_TIME'
             },
             fish: {
                 FISH_ID: 'FISH_ID',
