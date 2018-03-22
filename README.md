@@ -32,3 +32,8 @@ Application for recording electrofishing surveys. Built for DWR.
         - `point`: `scripts\ToolData\TestData.gdb\NewStationTest1`
 
 ##### You'll likely need to manually copy `scripts/Scripts/settings/` and `dijkstras.py` to the server since it doesn't get copied when publishing.
+
+# Test Deployment
+1. Credentials are in the agrc wiki
+2. Deleting all fc's and tables
+3. Reimport schema from the xml file
