@@ -17,9 +17,14 @@ fields = arcpy.ListFields(table)
 
 upgraded = len([field for field in fields if field.name == field_name]) > 0
 
+#: drop the SHORT field to add the LONG field
+if upgraded:
+    arcpy.management.DeleteField(table, field_name)
+    upgraded = False
+
 if not upgraded:
     print('adding new field')
-    arcpy.management.AddField(table, field_name=field_name, field_type='SHORT', field_alias='Duration/Pedal Time in Seconds')
+    arcpy.management.AddField(table, field_name=field_name, field_type='LONG', field_alias='Duration/Pedal Time in Seconds')
 
 arcpy.RefreshCatalog(sde)
 print('done')
