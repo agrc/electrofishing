@@ -157,7 +157,7 @@ define([
                 searchField: config.fieldNames.reference.WaterName,
                 placeHolder: 'stream/lake name...',
                 contextField: config.fieldNames.reference.COUNTY,
-                maxResultsToDisplay: 30
+                maxResultsToDisplay: 50
             }, this.streamSearchDiv);
 
             if (localStorage.streamsLakesToggle === 'true') {
