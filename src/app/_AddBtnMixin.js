@@ -1,25 +1,21 @@
 define([
-    'app/config',
-    'app/Domains',
+    './_SelectPopulate',
     'app/helpers',
 
     'dojo/dom-class',
     'dojo/on',
-    'dojo/promise/all',
     'dojo/_base/array',
     'dojo/_base/declare'
 ], function (
-    config,
-    Domains,
+    _SelectPopulate,
     helpers,
 
     domClass,
     on,
-    all,
     array,
     declare
 ) {
-    return declare(null, {
+    return declare([_SelectPopulate], {
         // minusIconClass: String
         //      bootstrap icon class
         minusIconClass: 'glyphicon-minus',
@@ -33,38 +29,13 @@ define([
         //      set in post create or addAddBtnWidget of parent container
         container: null,
 
-        // featureServiceUrl: String
-        //      used to populate selects with associated coded domains
-        featureServiceUrl: null,
-
-        // fields: Object[]
-        //      config for the mapping between controls and fields
-        //      set in constructor so that we have access to config.fieldNames
-        // [{
-        //     control: '',
-        //     fieldName: ''
-        // }]
-        fields: null,
-
 
         postCreate: function () {
             // summary:
             //      dom is ready
             console.log('app/_AddBtnMixin:postCreate', arguments);
 
-            var that = this;
-            var defs = [];
-            array.forEach(this.fields, function (fld) {
-                if (fld.control.type === 'select-one') {
-                    defs.push(Domains.populateSelectWithDomainValues(fld.control,
-                        that.featureServiceUrl, fld.fieldName));
-                }
-            });
-
-            all(defs).then(function () {
-                $(that.domNode).find('select').combobox();
-            });
-
+            this.populateSelects();
             this.wireEvents();
         },
         wireEvents: function () {
