@@ -2,6 +2,7 @@ define([
     'app/config',
     'app/_InProgressCacheMixin',
     './../Domains',
+    './../_AddBtnMixin',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -23,6 +24,7 @@ define([
     config,
     _InProgressCacheMixin,
     Domains,
+    _AddBtnMixin,
 
     _TemplatedMixin,
     _WidgetBase,
@@ -36,7 +38,7 @@ define([
 
     localforage
 ) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _InProgressCacheMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _InProgressCacheMixin, _AddBtnMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'location',
