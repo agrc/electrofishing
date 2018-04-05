@@ -19,8 +19,10 @@ domain_list = arcpy.da.ListDomains(sde)
 print('getting specific domain')
 tag_domain = domains.get_domain_by_name(domain_name, domain_list)
 
+domains.delete_if_exists(tag_domain, sde, 'Need spray dye')
+
 print('adding domains')
-domains.add_if_not_exists(tag_domain, sde, 'Need spray dye')
+domains.add_if_not_exists(tag_domain, sde, 'Spray dye')
 domains.add_if_not_exists(tag_domain, sde, 'OTC')
 
 arcpy.RefreshCatalog(sde)

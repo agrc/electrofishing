@@ -41,7 +41,7 @@ def add_values_to_domain(name, code_value_pairs, workspace):
 
 def add_if_not_exists(domain, workspace, code, value=None):
     if code in domain.codedValues:
-        print('skipping {}'.format(code))
+        print('skipping add: {}'.format(code))
 
         return
 
@@ -49,3 +49,15 @@ def add_if_not_exists(domain, workspace, code, value=None):
         value = code
 
     arcpy.management.AddCodedValueToDomain(in_workspace=workspace, domain_name=domain.name, code=code, code_description=value)
+
+
+def delete_if_exists(domain, workspace, code):
+    if code not in domain.codedValues:
+        print('{} not found, skipping'.format(code))
+
+        return
+
+    value = domain.codedValues[code]
+    codes = get_codes_formatted_for_delete({code: value})
+
+    delete_domains(domain.name, codes, workspace)
