@@ -156,12 +156,6 @@ define([
                     canoe: true,
                     raft: true
                 }, {
-                    control: this.surveyPurposeSelect,
-                    fieldName: fn.PURPOSE,
-                    backpack: true,
-                    canoe: true,
-                    raft: true
-                }, {
                     control: this.durationTxt,
                     fieldName: fn.DURATION,
                     backpack: true,

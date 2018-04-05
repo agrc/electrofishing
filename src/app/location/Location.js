@@ -104,13 +104,17 @@ define([
 
             this.station.mainMap = this.verifyMap;
 
-            var that = this;
-            var promise = Domains.populateSelectWithDomainValues(this.weatherSelect,
-                config.urls.samplingEventsFeatureService,
-                config.fieldNames.samplingEvents.WEATHER);
-            promise.then(function () {
-                $(that.domNode).find('select').combobox();
-            });
+            this.fields = [
+                {
+                    control: this.weatherSelect,
+                    fieldName: config.fieldNames.samplingEvents.WEATHER
+                }, {
+                    control: this.surveyPurposeSelect,
+                    fieldName: config.fieldNames.samplingEvents.PURPOSE
+                }
+            ];
+
+            this.featureServiceUrl = config.urls.samplingEventsFeatureService;
 
             this.inherited(arguments);
         },
