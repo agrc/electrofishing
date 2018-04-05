@@ -161,6 +161,7 @@ define([
                 SEGMENT_LENGTH: 'SEGMENT_LENGTH',
                 NUM_PASSES: 'NUM_PASSES',
                 WEATHER: 'WEATHER',
+                PURPOSE: 'SURVEY_PURPOSE',
                 OBSERVERS: 'OBSERVERS'
             },
             equipment: {
@@ -182,7 +183,6 @@ define([
                 NUM_NETTERS: 'NUM_NETTERS',
                 CATHODE_TYPE: 'CATHODE_TYPE',
                 TYPE: 'TYPE',
-                PURPOSE: 'SURVEY_PURPOSE',
                 DURATION: 'PEDAL_TIME'
             },
             fish: {
