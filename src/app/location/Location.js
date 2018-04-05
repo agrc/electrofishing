@@ -2,7 +2,7 @@ define([
     'app/config',
     'app/_InProgressCacheMixin',
     './../Domains',
-    './../_AddBtnMixin',
+    './../_SelectPopulate',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -24,7 +24,7 @@ define([
     config,
     _InProgressCacheMixin,
     Domains,
-    _AddBtnMixin,
+    _SelectPopulate,
 
     _TemplatedMixin,
     _WidgetBase,
@@ -38,7 +38,7 @@ define([
 
     localforage
 ) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _InProgressCacheMixin, _AddBtnMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _InProgressCacheMixin, _SelectPopulate], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'location',
@@ -117,6 +117,8 @@ define([
             ];
 
             this.featureServiceUrl = config.urls.samplingEventsFeatureService;
+
+            this.populateSelects();
 
             this.inherited(arguments);
         },
