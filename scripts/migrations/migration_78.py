@@ -10,25 +10,25 @@ import arcpy
 import domains
 
 arcpy.env.workspace = sde = join(dirname(__file__), 'local@electrofishing.sde')
-dominant_overstory = [('as', 'Alkali sacaton'), ('ap', 'Anderson peachbush'), ('ae', 'Autum eleagus'), ('bbs', 'Basin big sagebrush'), ('bc', 'Bessy cherry'),
-                      ('bl', 'Bladdersenia'), ('br', 'Bulrush'), ('bcf', 'Bush cinquefoil'), ('car', 'Carex'), ('cs', 'Cattle saltbrush'),
-                      ('cmf', 'Creeping meadow foxtail'), ('cp', 'Desert peachbush'), ('dog', 'Dogwood'), ('dh', 'Douglas hawthorn'),
-                      ('fs', 'Fourwing saltbrush'), ('gbw', 'Great Basin wildrye'), ('iw', 'Intermediate wheatgrass'), ('kb', 'Kentucky bluegrass'),
-                      ('la', 'Leadplant amorpha'), ('ls', 'Longflower snowberry'), ('mw', 'Mammoth wildrye'), ('mbs', 'Mountain big sagebrush'),
-                      ('mr', 'Mountain rye'), ('ms', 'Mountain snowberry'), ('ow', 'Oldman wormwood'), ('pc', 'Pecking catoneaster'), ('pp', 'Pygmy peashrub'),
-                      ('rcg', 'Reed canary grass'), ('rh', 'River hawthorn'), ('rms', 'Rocky Mountain sumac'), ('rr', 'Rubber rabbitbrush'), ('rush', 'Rush'),
-                      ('ss', 'Sand sagebrush'), ('sb', 'Sandberg bluegrass'), ('sbuf', 'Silver buffaloberry'), ('ssage', 'Silver sagebrush'), ('s',
-                                                                                                                                               'Spikerush'),
-                      ('to', 'Tall oatgrass'), ('tw', 'Tall wheatgrass'), ('th', 'Tetarian honeysuckle'), ('ts', 'Torrey saltbrush'), ('uh',
-                                                                                                                                       'Utah honeysuckle'),
-                      ('ws', 'Westerm snowberry'), ('wvb', 'Western virgin bower'), ('ww', 'Western wheatgrass'), ('wbs', 'Wyoming big sagebrush')]
+dominant_understory = [('as', 'Alkali sacaton'), ('ap', 'Anderson peachbush'), ('ae', 'Autum eleagus'), ('bbs', 'Basin big sagebrush'), ('bc', 'Bessy cherry'),
+                       ('bl', 'Bladdersenia'), ('br', 'Bulrush'), ('bcf', 'Bush cinquefoil'), ('car', 'Carex'), ('cs', 'Cattle saltbrush'),
+                       ('cmf', 'Creeping meadow foxtail'), ('cp', 'Desert peachbush'), ('dog', 'Dogwood'), ('dh', 'Douglas hawthorn'),
+                       ('fs', 'Fourwing saltbrush'), ('gbw', 'Great Basin wildrye'), ('iw', 'Intermediate wheatgrass'), ('kb', 'Kentucky bluegrass'),
+                       ('la', 'Leadplant amorpha'), ('ls', 'Longflower snowberry'), ('mw', 'Mammoth wildrye'), ('mbs', 'Mountain big sagebrush'),
+                       ('mr', 'Mountain rye'), ('ms', 'Mountain snowberry'), ('ow', 'Oldman wormwood'), ('pc', 'Pecking catoneaster'), ('pp', 'Pygmy peashrub'),
+                       ('rcg', 'Reed canary grass'), ('rh', 'River hawthorn'), ('rms', 'Rocky Mountain sumac'), ('rr', 'Rubber rabbitbrush'), ('rush', 'Rush'),
+                       ('ss', 'Sand sagebrush'), ('sb', 'Sandberg bluegrass'), ('sbuf', 'Silver buffaloberry'), ('ssage', 'Silver sagebrush'), ('s',
+                                                                                                                                                'Spikerush'),
+                       ('to', 'Tall oatgrass'), ('tw', 'Tall wheatgrass'), ('th', 'Tetarian honeysuckle'), ('ts', 'Torrey saltbrush'), ('uh',
+                                                                                                                                        'Utah honeysuckle'),
+                       ('ws', 'Westerm snowberry'), ('wvb', 'Western virgin bower'), ('ww', 'Western wheatgrass'), ('wbs', 'Wyoming big sagebrush')]
 
-dominant_understory = [('ap', 'American plum'), ('bs', 'Big saltbrush'), ('btm', 'Big tooth maple'), ('be', 'Blueberry elder'), ('cg', 'Canyon grape'),
-                       ('cp', 'Carolina poplar'), ('cc', 'Chokecherry'), ('dw', 'Desert willow'), ('eb', 'Emory bacharis'), ('fc', 'Fremont cottonwood'),
-                       ('go', 'Gamble oak'), ('gc', 'Golden currant'), ('gr', 'Greasewood'), ('hack', 'Hackberry'), ('hc', 'Hopa crabapple'), ('lil', 'Lilac'),
-                       ('ma', 'Mountain ash'), ('nc', 'Narrowleaf cottonwood'), ('nml', 'New Mexico locust'), ('rt', 'Redtop'), ('rmm', 'Rocky Mountain maple'),
-                       ('rm', 'Russian mulberry'), ('ss', 'Saskatoon serviceberry'), ('slo', 'Shrub live oak'), ('sp', 'Siberian peashrub'),
-                       ('sbs', 'Skunk bush sumac'), ('wb', 'Water birch'), ('wil', 'Willow'), ('wr', 'Woods rose')]
+dominant_overstory = [('ap', 'American plum'), ('bs', 'Big saltbrush'), ('btm', 'Big tooth maple'), ('be', 'Blueberry elder'), ('cg', 'Canyon grape'),
+                      ('cp', 'Carolina poplar'), ('cc', 'Chokecherry'), ('dw', 'Desert willow'), ('eb', 'Emory bacharis'), ('fc', 'Fremont cottonwood'),
+                      ('go', 'Gamble oak'), ('gc', 'Golden currant'), ('gr', 'Greasewood'), ('hack', 'Hackberry'), ('hc', 'Hopa crabapple'), ('lil', 'Lilac'),
+                      ('ma', 'Mountain ash'), ('nc', 'Narrowleaf cottonwood'), ('nml', 'New Mexico locust'), ('rt', 'Redtop'), ('rmm', 'Rocky Mountain maple'),
+                      ('rm', 'Russian mulberry'), ('ss', 'Saskatoon serviceberry'), ('slo', 'Shrub live oak'), ('sp', 'Siberian peashrub'),
+                      ('sbs', 'Skunk bush sumac'), ('wb', 'Water birch'), ('wil', 'Willow'), ('wr', 'Woods rose')]
 
 print('getting domains')
 domain_list = arcpy.da.ListDomains(sde)
