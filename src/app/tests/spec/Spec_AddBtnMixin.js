@@ -10,7 +10,7 @@ require([
     _WidgetBase,
     _TemplatedMixin,
     domClass
-    ) {
+) {
     describe('app/_AddBtnMixin', function () {
         var TestWidget = declare([
             _WidgetBase,

@@ -2,7 +2,7 @@ require([
     'app/_SubmitJobMixin'
 ], function (
     _SubmitJobMixin
-    ) {
+) {
     describe('app/_SubmitJobMixin', function () {
         var testObject;
         beforeEach(function () {
