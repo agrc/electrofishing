@@ -40,8 +40,14 @@ define([
             this.featureServiceUrl = config.urls.tagsFeatureService;
             this.fields = [
                 {
-                    control: this.frequencySelect,
-                    fieldName: config.fieldNames.tags.FREQUENCY
+                    control: this.transponderFreqSelect,
+                    fieldName: config.fieldNames.tags.TRANSPONDER_FREQ
+                }, {
+                    control: this.transmitterFreqTxt,
+                    fieldName: config.fieldNames.tags.TRANSMITTER_FREQ
+                }, {
+                    control: this.transmitterFreqTypeSelect,
+                    fieldName: config.fieldNames.tags.TRANSMITTER_FREQ_TYPE
                 }, {
                     control: this.typeSelect,
                     fieldName: config.fieldNames.tags.TYPE

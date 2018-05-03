@@ -123,6 +123,8 @@ define([
             tagsFeatureService: wildlifeFeatureService + '5',
             habitatFeatureService: wildlifeFeatureService + '6',
             equipmentFeatureService: wildlifeFeatureService + '7',
+            anodesFeatureService: wildlifeFeatureService + '8',
+            transectFeatureService: wildlifeFeatureService + '9',
 
             // reference service
             streamsLakesService: referenceService,
@@ -138,7 +140,9 @@ define([
             health: 'Health',
             samplingEvents: 'SamplingEvents',
             tags: 'Tags',
-            equipment: 'Equipment'
+            equipment: 'Equipment',
+            andoes: 'Anodes',
+            transect: 'Transect'
         },
 
         // fieldNames: {}
@@ -206,7 +210,9 @@ define([
             tags: {
                 FISH_ID: 'FISH_ID',
                 NUMBER: 'NUMBER',
-                FREQUENCY: 'FREQUENCY',
+                TRANSPONDER_FREQ: 'TRANSPONDER_FREQ',
+                TRANSMITTER_FREQ: 'TRANSMITTER_FREQ',
+                TRANSMITTER_FREQ_TYPE: 'TRANSMITTER_FREQ_TYPE',
                 TYPE: 'TYPE',
                 LOCATION: 'LOCATION',
                 COLOR: 'COLOR',
