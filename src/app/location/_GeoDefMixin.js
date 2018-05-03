@@ -117,8 +117,7 @@ define([
                         }
                     }, function () {
                         def.reject(msg);
-                    }
-                );
+                    });
             }
 
             promises.push(getResult('segmentWGS', function (value) {

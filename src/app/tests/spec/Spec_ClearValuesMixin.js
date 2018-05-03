@@ -2,7 +2,7 @@ require([
     'app/_ClearValuesMixin'
 ], function (
     _ClearValuesMixin
-    ) {
+) {
     describe('app/_ClearValuesMixin', function () {
         var testObject;
         beforeEach(function () {

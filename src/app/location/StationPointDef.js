@@ -6,7 +6,7 @@ define([
     declare,
     PointDef,
     template
-    ) {
+) {
     return declare([PointDef], {
         templateString: template,
         baseClass: 'station-point-def',

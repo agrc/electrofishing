@@ -99,11 +99,13 @@ define([
 
             var that = this;
 
+            var initCombobox = function () {
+                $(that.streamTypeSelect).combobox();
+            };
+
             Domains.populateSelectWithDomainValues(this.streamTypeSelect,
                 config.urls.stationsFeatureService,
-                config.fieldNames.stations.STREAM_TYPE).then(function () {
-                    $(that.streamTypeSelect).combobox();
-                });
+                config.fieldNames.stations.STREAM_TYPE).then(initCombobox);
 
             this.wireEvents();
 

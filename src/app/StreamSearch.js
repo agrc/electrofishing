@@ -324,8 +324,7 @@ define([
                     if (that.map.hideLoader) {
                         that.map.hideLoader();
                     }
-                }
-            );
+                });
         },
         _processResults: function (featureSets) {
             // summary:
