@@ -145,8 +145,8 @@ require([
                 spyOn(testWidget.habitatTb, 'isValid').and.returnValue(true);
                 spyOn(testWidget, 'showTab');
 
-                expect(testWidget.validateReport()).toBe('Invalid value for Voltage (volts).')
-                expect(testWidget.showTab).toHaveBeenCalledWith('methodTab')
+                expect(testWidget.validateReport()).toBe('Invalid value for Voltage (volts).');
+                expect(testWidget.showTab).toHaveBeenCalledWith('methodTab');
             });
         });
         describe('onSuccessfulSubmit', function () {

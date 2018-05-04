@@ -147,7 +147,7 @@ define([
                     returnGeometry: false,
                     outFields: outFields,
                     f: 'json',
-                    outSR: JSON.stringify({'wkid': 4326})
+                    outSR: JSON.stringify({ wkid: 4326 })
                 }
             };
         },
@@ -258,6 +258,7 @@ define([
             // exit if there are no matches in table
             if (this.matchesList.children.length < 2) {
                 this._startSearchTimer();
+
                 return;
             }
 
@@ -289,6 +290,7 @@ define([
             // return if not enough characters
             if (searchString.length < 1) {
                 this._deleteAllTableRows(this.matchesTable);
+
                 return;
             }
 
@@ -306,7 +308,11 @@ define([
             }
 
             var that = this;
-            this.promises = all([xhr(config.urls.streamsFeatureService, this.query), xhr(config.urls.lakesFeatureService, this.query)])
+            var promises = [
+                xhr(config.urls.streamsFeatureService, this.query),
+                xhr(config.urls.lakesFeatureService, this.query)
+            ];
+            this.promises = all(promises)
                 .then(function (featureSets) {
                     // clear table
                     that._deleteAllTableRows(that.matchesTable);
@@ -410,15 +416,15 @@ define([
             // loop through all features
             array.forEach(features, function (feat) {
                 // insert new empty row
-                var row = domConstruct.create('li', {'class': 'match'}, this.msg, 'before');
+                var row = domConstruct.create('li', { class: 'match'}, this.msg, 'before');
 
                 // get match value string and bold the matching letters
                 var fString = feat.attributes[this.searchField];
                 var sliceIndex = this.textBox.value.length;
                 // add context field values
-                var matchDiv = domConstruct.create('div', {'class': 'first-cell'}, row);
+                var matchDiv = domConstruct.create('div', { class: 'first-cell' }, row);
                 matchDiv.innerHTML = fString.slice(0, sliceIndex) + fString.slice(sliceIndex).bold();
-                var cntyDiv = domConstruct.create('div', {'class': 'cnty-cell'}, row);
+                var cntyDiv = domConstruct.create('div', { class: 'cnty-cell' }, row);
                 cntyDiv.innerHTML = feat.attributes[this.contextField] || '';
                 domConstruct.create('div', {style: 'clear: both;'}, row);
                 // store layer for later retrival
@@ -484,6 +490,7 @@ define([
             xhr(row.dataset.queryUrl, this.query).then(function (featureSet) {
                 var features = featureSet.features.map(function (f) {
                     f.geometry.type = (featureSet.geometryType === 'esriGeometryPolygon') ? 'polygon' : 'polyline';
+
                     return f;
                 });
                 if (features.length === 1 || features[0].geometry.type === 'polygon') {
@@ -533,11 +540,12 @@ define([
             console.log('app/StreamSearch:getLatLngs', arguments);
 
             var prop = (graphic.geometry.type === 'polygon') ? 'rings' : 'paths';
+
             return array.map(graphic.geometry[prop][0], function (p) {
                 return [p[1], p[0]];
             });
         },
-        onZoomed: function (/*graphic*/) {
+        onZoomed: function (/* graphic */) {
             // summary:
             //      Fires after the map has been zoomed to the graphic.
             console.log('app/StreamSearch:onZoomed', arguments);
@@ -588,14 +596,14 @@ define([
                 if (a.attributes[searchField] === b.attributes[searchField]) {
                     if (a.attributes[that.contextField] < b.attributes[that.contextField]) {
                         return -1;
-                    } else {
-                        return 1;
                     }
+
+                    return 1;
                 } else if (a.attributes[searchField] < b.attributes[searchField]) {
                     return -1;
-                } else {
-                    return 1;
                 }
+
+                return 1;
             }
 
             // sort features

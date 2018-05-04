@@ -223,8 +223,8 @@ require([
                         }
                     },
                     attributes: {
-                        'NAME': name,
-                        'STREAM_TYPE': option.value
+                        NAME: name,
+                        STREAM_TYPE: option.value
                     }
                 });
             });

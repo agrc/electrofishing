@@ -46,7 +46,7 @@ define([
                 innerHTML: this.otherTxt
             }, select);
 
-            var tempValue = select.dataset[config.tempValueKey]
+            var tempValue = select.dataset[config.tempValueKey];
             if (tempValue) {
                 var isExistingOption = values.some(function checkTemp(val) {
                     return val.code === tempValue;

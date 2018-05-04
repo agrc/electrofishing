@@ -57,13 +57,14 @@ define([
             if (data.error) {
                 var msg = 'error with: ' + this.gpServiceUrl;
                 console.error(msg, data.error.message);
+
                 return false;
-            } else {
-                intId = setInterval(function () {
-                    that.checkJobStatus(data.jobId, def, intId);
-                }, 500);
-                return true;
             }
+            intId = setInterval(function () {
+                that.checkJobStatus(data.jobId, def, intId);
+            }, 500);
+
+            return true;
         },
         checkJobStatus: function (jobId, def, intId) {
             // summary:
@@ -108,6 +109,7 @@ define([
 
             function getResult(paramName, successCallback) {
                 var msg = 'There was an error getting the ' + paramName + ' result.';
+
                 return xhr(that.gpServiceUrl + '/jobs/' + jobId + '/results/' + paramName + '?', that.defaultXHRParams)
                     .then(function (results) {
                         if (results) {

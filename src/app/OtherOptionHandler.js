@@ -81,7 +81,6 @@ define([
             //      user has clicked the close button
             // param or return
             console.log('app/OtherOptionHandler:onCancel', arguments);
-
         },
         onTxtChange: function () {
             // summary:

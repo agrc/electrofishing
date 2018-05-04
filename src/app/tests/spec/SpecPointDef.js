@@ -406,12 +406,12 @@ require([
         });
         describe('setMap', function () {
             it('sets the map and fGroup properties', function () {
-                var map = {};
+                var expectMap = {};
                 var group = {};
 
-                testWidget.setMap(map, group);
+                testWidget.setMap(expectMap, group);
 
-                expect(testWidget.map).toBe(map);
+                expect(testWidget.map).toBe(expectMap);
                 expect(testWidget.fGroup).toBe(group);
             });
         });

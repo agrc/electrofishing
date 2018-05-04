@@ -115,7 +115,8 @@ define([
             var advance = function () {
                 if (that.grid.column(e.target).field === that.lastColumn) {
                     // last column
-                    if (that.grid.row(e.target).data[that.idProperty] === passData[passData.length - 1][that.idProperty]) {
+                    if (that.grid.row(e.target).data[that.idProperty] ===
+                        passData[passData.length - 1][that.idProperty]) {
                         // last row for this pass
                         that.addRow();
                     } else {
@@ -139,10 +140,10 @@ define([
                 passData = this.grid.collection.fetchSync();
                 switch (e.keyCode) {
                     case keys.TAB:
-                        if (!e.shiftKey) {
-                            advance();
-                        } else {
+                        if (e.shiftKey) {
                             retreat();
+                        } else {
+                            advance();
                         }
                         break;
                     case keys.LEFT_ARROW:
@@ -156,6 +157,8 @@ define([
                         break;
                     case keys.DOWN_ARROW:
                         Keyboard.moveFocusDown.call(that.grid, e);
+                        break;
+                    default:
                         break;
                 }
             }
@@ -175,6 +178,7 @@ define([
             var data = this.store.data;
             if (data.length <= 1) {
                 this.clear();
+
                 return;
             }
 
@@ -203,7 +207,6 @@ define([
             // summary:
             //      this needs to be implemented by the child object
             console.log('app/_GridMixin:addRow', arguments);
-
         },
         isGridValid: function () {
             // summary:
@@ -214,11 +217,11 @@ define([
             this.grid.save();
             if (this.store.data[0][this.firstColumn] !== null) {
                 return true;
-            } else {
-                return new NoFishException({
-                    message: this.invalidGridMsg
-                }).domNode;
             }
+
+            return new NoFishException({
+                message: this.invalidGridMsg
+            }).domNode;
         },
         getGridData: function () {
             // summary:
@@ -238,9 +241,9 @@ define([
                 }, this);
 
                 return data;
-            } else {
-                return [];
             }
+
+            return [];
         },
         setGridData: function (data) {
             // summary:

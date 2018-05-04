@@ -81,15 +81,15 @@ define([
             reportData[config.tableNames.fish].forEach(function filterFish(fish) {
                 var passName = fish[config.fieldNames.fish.PASS_NUM];
                 if (!passes[passName]) {
-                    passes[passName] = {}
+                    passes[passName] = {};
                 }
                 var pass = passes[passName];
 
                 var speciesName = fish[config.fieldNames.fish.SPECIES_CODE];
-                if (!pass[speciesName]) {
-                    pass[speciesName] = 1;
-                } else {
+                if (pass[speciesName]) {
                     pass[speciesName]++;
+                } else {
+                    pass[speciesName] = 1;
                 }
             });
 

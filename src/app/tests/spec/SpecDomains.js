@@ -14,7 +14,7 @@ require([
             {
                 name: 'blah',
                 code: 'blah'
-            },{
+            }, {
                 name: 'blah',
                 code: 'blah'
             }

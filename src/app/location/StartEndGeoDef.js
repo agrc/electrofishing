@@ -154,11 +154,19 @@ define([
                         }],
                         features: [
                             {
-                                geometry: {x: Math.round(start.x), y: Math.round(start.y), spatialReference: { wkid: 26912 }},
+                                geometry: {
+                                    x: Math.round(start.x),
+                                    y: Math.round(start.y),
+                                    spatialReference: { wkid: 26912 }
+                                },
                                 attributes: {OBJECTID: 1}
                             },
                             {
-                                geometry: {x: Math.round(end.x), y: Math.round(end.y), spatialReference: { wkid: 26912 }},
+                                geometry: {
+                                    x: Math.round(end.x),
+                                    y: Math.round(end.y),
+                                    spatialReference: { wkid: 26912 }
+                                },
                                 attributes: {OBJECTID: 2}
                             }
                         ]

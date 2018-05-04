@@ -102,9 +102,9 @@ define([
 
             if (dist === '') {
                 return null;
-            } else {
-                return dist;
             }
+
+            return dist;
         },
         getDirection: function () {
             // summary:

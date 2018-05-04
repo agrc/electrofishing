@@ -48,14 +48,14 @@ require([
                 topic.subscribe(config.topics.mapInit, function () {
                     fired = true;
                 });
-                config.app = {map: undefined};
+                config.app = { map: undefined };
             });
             it('should create a valid map', function () {
                 expect(testWidget.map).toBeDefined();
             });
             it('sets the config.app.map and fires global topic only if isMainMap = true', function () {
                 var testWidget2 = new VerifyMap(
-                    {isMainMap: true}, domConstruct.create('div', null, win.body()));
+                    { isMainMap: true }, domConstruct.create('div', null, win.body()));
                 testWidget2.initMap();
 
                 expect(config.app.map).toBe(testWidget2.map);
@@ -64,7 +64,7 @@ require([
                 testWidget2.destroy();
             });
             it('doesn\'t set config.app.map and fire the global topic if isMainMap = false', function () {
-                var testWidget2 = new VerifyMap({isMainMap: false});
+                var testWidget2 = new VerifyMap({ isMainMap: false });
 
                 expect(config.app.map).toBeUndefined();
                 expect(fired).toBe(false);

@@ -140,14 +140,13 @@ define([
             var setView = function (movedMap, otherMap) {
                 otherMap.map.setView(movedMap.map.getCenter(), movedMap.map.getZoom());
             };
-            if (!this.vMap) {
+            if (this.vMap) {
+                setView(this.mainMap, this.vMap);
+            } else {
                 this.vMap = new VerifyMap({isMainMap: false}, this.mapDiv);
                 setView(this.mainMap, this.vMap);
                 this.fGroup = new L.FeatureGroup().addTo(this.vMap.map);
                 this.pointDef.setMap(this.vMap.map, this.fGroup);
-
-            } else {
-                setView(this.mainMap, this.vMap);
             }
         },
         onDialogHidden: function () {
@@ -246,7 +245,7 @@ define([
                 new L.Point(this.newStation.geometry.x, this.newStation.geometry.y));
             this.mainMap.map.setView(point, 14);
             this.mainMap.selectStation(this.newStation.attributes[config.fieldNames.stations.STATION_ID]);
-            this.mainMap.stationsLyr.refresh();  // check on using stationsLyr.addFeature() instead of geoprocessing tool
+            this.mainMap.stationsLyr.refresh(); // check on using stationsLyr.addFeature() instead of geoprocessing tool
         },
         validate: function () {
             // summary:
@@ -262,6 +261,7 @@ define([
             var msg;
             var returnValue;
 
+            /* eslint-disable no-negated-condition */
             if (name === '') {
                 msg = this.validateMsgs.name;
                 returnValue = false;
@@ -280,8 +280,10 @@ define([
                 returnValue.attributes[config.fieldNames.stations.NAME] = name;
                 returnValue.attributes[config.fieldNames.stations.STREAM_TYPE] = type;
             }
+            /* eslint-enable no-negated-condition */
 
             this.validateMsg.innerHTML = msg;
+
             return returnValue;
         },
         getGUID: function () {
@@ -300,7 +302,7 @@ define([
 
             return {
                 currentGuid: this.currentGuid
-            }
+            };
         },
         hydrateWithInProgressData: function () {
             // summary:

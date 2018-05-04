@@ -33,6 +33,7 @@ define([
                     intId = setInterval(function () {
                         that.checkJobStatus(url, response.jobId, intId);
                     }, 500);
+
                     return true;
                 }
             }, function (err) {

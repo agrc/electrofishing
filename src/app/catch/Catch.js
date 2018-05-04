@@ -199,6 +199,7 @@ define([
                 if (args[0][config.fieldNames.MOREINFO]) {
                     domClass.add(row, 'bold');
                 }
+
                 return row;
             });
             this.addRow();
@@ -215,7 +216,6 @@ define([
             }, this.moreInfoDialogDiv);
             this.moreInfoDialog.startup();
 
-            var that = this;
             $('a[href="#catchTab"]').on('shown.bs.tab', function () {
                 that.grid.startup();
             });
@@ -310,7 +310,7 @@ define([
             this.grid.save();
 
             var lbl = domConstruct.create('label', {
-                'class': 'btn btn-primary',
+                class: 'btn btn-primary',
                 innerHTML: this.numPasses = this.numPasses + 1,
                 onclick: lang.hitch(this, this.changePass)
             }, this.passBtnContainer);
@@ -364,10 +364,10 @@ define([
 
             this.grid.save();
 
-            var query = {};
-            query[config.fieldNames.fish.PASS_NUM] = this.currentPass;
+            var newQuery = {};
+            newQuery[config.fieldNames.fish.PASS_NUM] = this.currentPass;
 
-            this.grid.set('collection', this.store.filter(query));
+            this.grid.set('collection', this.store.filter(newQuery));
         },
         getNumberOfPasses: function () {
             // summary:
@@ -406,7 +406,7 @@ define([
             var affectedRows = [];
             var item = data.pop();
             while (item && !item[fn.WEIGHT]) {
-                affectedRows.push(item)
+                affectedRows.push(item);
                 item = data.pop();
             }
 
@@ -414,7 +414,7 @@ define([
             var avgWeight = Formatting.round(batchWeight / affectedRows.length, 1);
             var populateValues = function (guid) {
                 var modifyItem = that.store.getSync(guid);
-                modifyItem[fn.WEIGHT] = (avgWeight === avgWeight) ? avgWeight : '0';
+                modifyItem[fn.WEIGHT] = (typeof avgWeight === 'number' && !isNaN(avgWeight)) ? avgWeight : '0';
                 that.store.putSync(modifyItem);
             };
 
@@ -456,6 +456,7 @@ define([
             console.log('app/catch/Catch:clear', arguments);
             this.numPasses = 1;
             var that = this;
+
             return localforage.removeItem(this.cacheId).then(function () {
                 query('.btn', that.passBtnContainer).forEach(function (node) {
                     if (node.innerText.trim() !== '1') {

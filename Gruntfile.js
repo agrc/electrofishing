@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 module.exports = function (grunt) {
     var jsFiles = 'src/app/**/*.js';
     var otherFiles = [
@@ -66,11 +67,16 @@ module.exports = function (grunt) {
             }
         },
         connect: {
-            uses_defualts: {}
+            uses_defaults: {}
         },
         copy: {
             main: {
-                files: [{expand: true, cwd: 'src/', src: ['*.html'], dest: 'dist/'}]
+                files: [{
+                    expand: true,
+                    cwd: 'src/',
+                    src: ['*.html'],
+                    dest: 'dist/'
+                }]
             }
         },
         dojo: {
@@ -240,7 +246,7 @@ module.exports = function (grunt) {
         },
         watch: {
             eslint: {
-                files: jsFiles,
+                files: [jsFiles].concat([gruntFile, '.eslintrc']),
                 tasks: ['eslint']
             },
             src: {

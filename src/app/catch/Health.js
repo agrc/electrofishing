@@ -112,10 +112,10 @@ define([
 
             if (empty) {
                 return null;
-            } else {
-                f[config.fieldNames.health.FISH_ID] = this.currentFishId;
-                return f;
             }
+            f[config.fieldNames.health.FISH_ID] = this.currentFishId;
+
+            return f;
         },
         setData: function (feature, controlMappings) {
             // summary:

@@ -94,20 +94,22 @@ define([
                 array.some(that.fields, function (fld) {
                     if (fld.fieldName === fieldName) {
                         control = fld.control;
+
                         return false;
                     }
                 });
+
                 return control;
             };
             for (var fn in feature) {
-                if (fn !== config.fieldNames.tags.FISH_ID) {
+                if (fn === config.fieldNames.tags.FISH_ID) {
+                    this.container.currentFishId = feature[fn];
+                } else {
                     var control = getControl(fn);
                     control.value = feature[fn];
                     if (control.type === 'select-one') {
                         $(control).combobox('refresh');
                     }
-                } else {
-                    this.container.currentFishId = feature[fn];
                 }
             }
 

@@ -40,18 +40,18 @@ define([
 
             this.wireEvents();
 
-            if (!localStorage.coordType) {
-                // default to utm83 coord type
-                this.onCoordTypeChange(config.coordTypes.utm83);
-            } else {
+            if (localStorage.coordType) {
                 $(this['coord_' + localStorage.coordType + 'Btn']).button('toggle');
                 this.onCoordTypeChange(localStorage.coordType);
+            } else {
+                // default to utm83 coord type
+                this.onCoordTypeChange(config.coordTypes.utm83);
             }
 
-            this.streamsLakesChBox.checked = (localStorage.streamsLakesToggle === 'true') ? true : false;
+            this.streamsLakesChBox.checked = (localStorage.streamsLakesToggle === 'true');
             this.onStreamsLakesChange();
 
-            this.mouseWheelChBox.checked = (localStorage.mouseWheelZooming === 'true') ? true : false;
+            this.mouseWheelChBox.checked = (localStorage.mouseWheelZooming === 'true');
             this.onMouseWheelChange();
         },
         wireEvents: function () {

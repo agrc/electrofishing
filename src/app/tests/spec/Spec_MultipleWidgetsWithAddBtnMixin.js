@@ -54,7 +54,8 @@ require([
             it('verifies the presence of AddBtnWidgetClass property', function () {
                 setClass = false;
                 expect(function () {
-                    new TestWidget();
+                    var w = new TestWidget();
+                    w.startup();
                 }).toThrow(testWidget.noAddBtnWidgetPropErrMsg);
             });
         });

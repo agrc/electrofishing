@@ -48,7 +48,8 @@ require([
             it('adds a reference to the source layer for each feature', function () {
                 testWidget._processResults(featureSets);
 
-                expect(testWidget._populateTable.calls.mostRecent().args[0][0].queryUrl).toBe(config.urls.streamsFeatureService);
+                expect(testWidget._populateTable.calls.mostRecent().args[0][0].queryUrl)
+                    .toBe(config.urls.streamsFeatureService);
             });
         });
     });

@@ -144,10 +144,10 @@ define([
 
             this.inherited(arguments);
 
-            if (!localStorage.coordType) {
-                this.onCoordTypeChange(config.coordTypes.utm83);
-            } else {
+            if (localStorage.coordType) {
                 this.onCoordTypeChange(localStorage.coordType);
+            } else {
+                this.onCoordTypeChange(config.coordTypes.utm83);
             }
         },
         postCreate: function () {
@@ -212,11 +212,11 @@ define([
             //      only for utm values
             console.log('app/location/PointDef:validate', arguments);
 
-            var numDigits;                  // the number of dijits that the box should have
-            var value = box.value;          // the value of the text box
-            var message;                    // the invalid message to be displayed
-            var helpTxtSpan;                // the span element associated with the text box
-            var groupDiv;                   // the div (class='form-group') associated with the text box
+            var numDigits; // the number of dijits that the box should have
+            var value = box.value; // the value of the text box
+            var message; // the invalid message to be displayed
+            var helpTxtSpan; // the span element associated with the text box
+            var groupDiv; // the div (class='form-group') associated with the text box
             var that = this;
 
             function setNoError() {
@@ -234,6 +234,7 @@ define([
 
             if (value.length === 0) {
                 setNoError();
+
                 return false;
             }
 
@@ -251,11 +252,11 @@ define([
                 domClass.add(groupDiv, this.validateErrorClass);
 
                 return false;
-            } else {
-                setNoError();
-
-                return true;
             }
+
+            setNoError();
+
+            return true;
         },
         onMapBtnClicked: function (evt) {
             // summary:
@@ -384,9 +385,9 @@ define([
 
             if (this.marker === null || !this.marker) {
                 return false;
-            } else {
-                return this.utm83crs.projection.project(this.marker.getLatLng());
             }
+
+            return this.utm83crs.projection.project(this.marker.getLatLng());
         },
         setMap: function (map, group) {
             // summary:
@@ -407,12 +408,9 @@ define([
 
             if (yValid && xValid) {
                 this.updateMarkerPosition();
-            } else {
-                // clear marker
-                if (this.marker) {
-                    this.fGroup.removeLayer(this.marker);
-                    this.marker = null;
-                }
+            } else if (this.marker) {
+                this.fGroup.removeLayer(this.marker);
+                this.marker = null;
             }
         }
     });

@@ -37,6 +37,7 @@ define([
 ) {
     L.esri = esriLeaflet;
     // load these script synchronously because the order matters
+
     return declare([_WidgetBase, _TemplatedMixin], {
         templateString: template,
         baseClass: 'verify-map',
@@ -96,7 +97,7 @@ define([
 
             this.map = new L.Map(this.mapDiv, {
                 keyboard: false,
-                scrollWheelZoom: (localStorage.mouseWheelZooming === 'true') ? true : false
+                scrollWheelZoom: (localStorage.mouseWheelZooming === 'true')
             });
 
             this.map.setView([40.6389, -111.7034], 10);
@@ -108,7 +109,7 @@ define([
                 } else {
                     that.map.scrollWheelZoom.disable();
                 }
-            }))
+            }));
             L.tileLayer(config.urls.googleImagery, {quadWord: config.quadWord})
                 .addTo(this.map);
             L.tileLayer(config.urls.overlay, {quadWord: config.quadWord})

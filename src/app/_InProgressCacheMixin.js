@@ -45,8 +45,8 @@ define([
             }
 
             var that = this;
-            var selectTxt = 'input[data-dojo-attach-point], textarea[data-dojo-attach-point], select[data-dojo-attach-point]';
-            this.inputs = query(selectTxt, this.domNode)
+            var txt = 'input[data-dojo-attach-point], textarea[data-dojo-attach-point], select[data-dojo-attach-point]';
+            this.inputs = query(txt, this.domNode)
                 // don't return inputs from nested widgets
                 .filter(function filter(node) {
                     return that.hasOwnProperty(node.dataset.dojoAttachPoint);
@@ -70,7 +70,7 @@ define([
             console.log('app/_InProgressCacheMixin:hydrateWithInProgressData', arguments);
 
             var that = this;
-            this.cacheId;
+
             return localforage.getItem(this.cacheId).then(function (inProgressData) {
                 if (inProgressData) {
                     that.inputs.forEach(function (node) {

@@ -193,7 +193,7 @@ define([
                     if (response.success) {
                         that.addLineToMap(response.path);
                         that.utmGeo = response.utm;
-                        that.utmGeo.spatialReference = {wkid: 26912}
+                        that.utmGeo.spatialReference = {wkid: 26912};
                         that.cacheInProgressData();
                     } else {
                         onError(response.error_message);
@@ -213,7 +213,7 @@ define([
                 }
 
                 return distance;
-            }
+            };
             console.log('app/location/Location:addLineToMap', arguments);
 
             this.verifyMapBtn.innerHTML = this.successfullyVerifiedMsg;
@@ -235,9 +235,9 @@ define([
                     utmGeo: this.utmGeo,
                     path: this.path
                 };
-            } else {
-                return {};
             }
+
+            return {};
         },
         hydrateWithInProgressData: function () {
             // summary:
@@ -316,9 +316,9 @@ define([
                 return this.invalidStreamLength;
             } else if (this.dateTxt.value === '') {
                 return this.dateRequiredMsg;
-            } else {
-                return true;
             }
+
+            return true;
         },
         clear: function () {
             // summary:

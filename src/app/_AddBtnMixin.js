@@ -114,9 +114,9 @@ define([
 
             if (empty) {
                 return null;
-            } else {
-                return this.addConstantValues(data);
             }
+
+            return this.addConstantValues(data);
         },
         addConstantValues: function (/* data */) {
             // summary:

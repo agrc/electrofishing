@@ -86,9 +86,9 @@ define([
 
             if (total === 0 || total === 100) {
                 return true;
-            } else {
-                return this.badSedClassesErrMsg;
             }
+
+            return this.badSedClassesErrMsg;
         },
         getData: function () {
             // summary:
@@ -133,6 +133,7 @@ define([
             f[fn.TURBIDITY] = helpers.getNumericValue(this.turbidityTxt.value);
             f[fn.ALKALINITY] = helpers.getNumericValue(this.alkalinityTxt.value);
             f[fn.BACKWATER] = helpers.getNumericValue(this.backwaterTxt.value);
+
             return [f];
         },
         onSedimentClassChange: function () {

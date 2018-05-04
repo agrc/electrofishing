@@ -219,7 +219,8 @@ define([
             this.inherited(arguments).then(function (inProgressData) {
                 if (inProgressData && inProgressData[that.typeTxt.dataset.dojoAttachPoint]) {
                     // manually click the corresponding pill button
-                    var selector = '.nav-pills li[data-type="' + inProgressData[that.typeTxt.dataset.dojoAttachPoint] + '"] a';
+                    var selector = '.nav-pills li[data-type="' +
+                        inProgressData[that.typeTxt.dataset.dojoAttachPoint] + '"] a';
                     query(selector, that.domNode)[0].click();
                 }
             });

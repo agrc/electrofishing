@@ -149,7 +149,8 @@ define([
                 }
 
                 domClass.remove(this.validateMsg, 'hidden');
-                window.scrollTo(0,0);
+                window.scrollTo(0, 0);
+
                 return;
             }
 
@@ -186,7 +187,7 @@ define([
             this.clearReport();
 
             domClass.remove(this.successMsgContainer, 'hidden');
-            window.scrollTo(0,0);
+            window.scrollTo(0, 0);
 
             var that = this;
             window.setTimeout(function hideSuccessMsg() {
@@ -195,7 +196,7 @@ define([
 
             $(config.app.header.submitBtn).button('reset');
         },
-        validateReport: function (allowNoFish) {
+        validateReport: function () {
             // summary:
             //      validates all of the values neccessary to submit the report to the server
             // returns: String (if invalid) || true (if valid)
@@ -218,26 +219,26 @@ define([
                 valid = this.invalidInputMsg + labels[0].textContent + '.';
                 var parentTab = labels.closest('.tab-pane')[0];
                 this.showTab(parentTab.id);
+
                 return valid;
             }
 
             valid = array.every(validationMethods, function (a) {
                 validationReturn = a[0].apply(a[1]);
-                if (a[2] === 'catchTab' && allowNoFish) {
-                    return true;
-                } else if (validationReturn !== true) {
+                if (validationReturn !== true) {
                     that.showTab(a[2]);
+
                     return false;
-                } else {
-                    return true;
                 }
+
+                return true;
             });
 
             if (valid) {
                 return true;
-            } else {
-                return validationReturn;
             }
+
+            return validationReturn;
         },
         clearReport: function () {
             // summary:
@@ -245,6 +246,7 @@ define([
             console.log('app/NewCollectionEvent:clearReport', arguments);
 
             var that = this;
+
             return localforage.clear().then(function () {
                 config.eventId = '{' + generateRandomUuid() + '}';
                 that.locationTb.clear();
@@ -297,7 +299,7 @@ define([
 
             this.validateMsg.innerHTML = this.submitErrMsg;
             domClass.remove(this.validateMsg, 'hidden');
-            window.scrollTo(0,0);
+            window.scrollTo(0, 0);
             $(config.app.header.submitBtn).button('reset');
         }
     });

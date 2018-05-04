@@ -1,7 +1,7 @@
 /* global JasmineFaviconReporter, jasmineRequire */
-var dojoConfig = {  // eslint-disable-line no-unused-vars
+var dojoConfig = { // eslint-disable-line no-unused-vars
     baseUrl: '/src/',
-    packages: ['put-selector', 'dojo',  // dojo is required here since we are defining baseUrl before loading dojo
+    packages: ['put-selector', 'dojo', // dojo is required here since we are defining baseUrl before loading dojo
         {
             name: 'agrc-jasmine-matchers',
             location: 'agrc-jasmine-matchers/src'

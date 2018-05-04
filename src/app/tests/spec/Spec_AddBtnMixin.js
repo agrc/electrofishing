@@ -17,7 +17,7 @@ require([
             _TemplatedMixin,
             _AddBtnMixin
         ], {
-            templateString: '<div><button data-dojo-attach-point="btn"><i class="glyphicon glyphicon-plus" data-dojo-attach-point="icon"></i></div>'
+            templateString: '<div><button data-dojo-attach-point="btn"><i class="glyphicon glyphicon-plus" data-dojo-attach-point="icon"></i></div>' // eslint-disable-line max-len
         });
         var testWidget;
         beforeEach(function () {

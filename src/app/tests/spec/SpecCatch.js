@@ -172,10 +172,10 @@ require([
 
                 testWidget.changePass(e);
 
-                var query = {};
-                query[fn.PASS_NUM] = 2;
+                var expectQuery = {};
+                expectQuery[fn.PASS_NUM] = 2;
 
-                expect(testWidget.store.filter).toHaveBeenCalledWith(query);
+                expect(testWidget.store.filter).toHaveBeenCalledWith(expectQuery);
             });
             it('updates the current pass', function () {
                 testWidget.changePass(e);
@@ -285,10 +285,10 @@ require([
                 expect(data[2][config.fieldNames.fish.WEIGHT]).toBe(3);
                 expect(data[3][config.fieldNames.fish.WEIGHT]).toBe(3);
             });
-            it('only assigns weights to fish without them that are consecutive starting from the bottom up', function () {
-                testWidget.addRow()
-                testWidget.addRow()
-                testWidget.addRow()
+            it('only assigns weights to fish when they are consecutive starting from the bottom up', function () {
+                testWidget.addRow();
+                testWidget.addRow();
+                testWidget.addRow();
 
                 testWidget.batchWeightTxt.value = 9;
 

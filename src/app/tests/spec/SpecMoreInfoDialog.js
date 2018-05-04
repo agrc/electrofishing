@@ -81,9 +81,9 @@ require([
             var value = 'blah';
             var part = 'spine';
             function setData() {
-                function populateSelect(select, value) {
-                    domConstruct.create('option', {value: value}, select);
-                    select.value = value;
+                function populateSelect(select, newValue) {
+                    domConstruct.create('option', {value: newValue}, select);
+                    select.value = newValue;
                 }
                 populateSelect(testWidget.collectionPartSelect, part);
 

@@ -55,9 +55,9 @@ define([
             }).reduce(function (previous, current) {
                 if (previous === true) {
                     return current;
-                } else {
-                    return previous;
                 }
+
+                return previous;
             });
         },
         initChildWidgets: function () {
@@ -80,6 +80,7 @@ define([
                     that.addAddBtnWidget();
                 }
             });
+
             return this.promise;
         },
         addAddBtnWidget: function () {

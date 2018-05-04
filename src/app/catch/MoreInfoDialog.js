@@ -172,7 +172,7 @@ define([
                     sortable: false,
                     editOn: 'focus',
                     editorArgs: {
-                        'className': 'form-control dgrid-input'
+                        className: 'form-control dgrid-input'
                     }
                 }
             ];
@@ -183,7 +183,7 @@ define([
 
             var that = this;
             $(this.dietTab).on('shown.bs.tab', function () {
-                that.grid.startup()
+                that.grid.startup();
             });
 
             query('input[type=number]', this.domNode).on('change, keyup', function () {
@@ -301,6 +301,7 @@ define([
 
             this.dietData[this.currentFishId] = array.map(this.getGridData(), function (record) {
                 delete record[this.idProperty];
+
                 return record;
             }, this);
             this.tagsData[this.currentFishId] = this.tagsContainer.getData();
@@ -338,11 +339,11 @@ define([
             //      clears everything in the dialog
             console.log('app/catch/MoreInfoDialog:clearValues', arguments);
 
-            this.setGridData([])
+            this.setGridData([]);
 
             this.tagsContainer.clear();
             this.health.clearValues();
-            this.collectionPartSelect
+            this.collectionPartSelect.value = '';
 
             this.notesTxtArea.value = '';
 
@@ -364,10 +365,13 @@ define([
             var data = [];
             for (var fishId in this[type + 'Data']) {
                 if (this[type + 'Data'].hasOwnProperty(fishId)) {
+                    /* eslint-disable no-loop-func */
                     data = data.concat(this[type + 'Data'][fishId].map(function (record) {
                         record[config.fieldNames.fish.FISH_ID] = fishId;
+
                         return record;
                     }));
+                    /* eslint-enable no-loop-func */
                 }
             }
 
