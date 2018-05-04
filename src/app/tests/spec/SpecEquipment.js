@@ -75,5 +75,33 @@ require([
                 expect(testWidget.cathodeDiameterTxt.value).toEqual('');
             });
         });
+        describe('onAnodeNumChange', function () {
+            it('adds or deletes rows to match the anode number', function () {
+                // add rows
+                var num = testWidget.numberAnodesTxt.value = 5;
+
+                testWidget.onAnodeNumChange();
+
+                expect(testWidget.grid.collection.data.length).toEqual(num);
+
+                // remove rows
+                num = testWidget.numberAnodesTxt.value = 1;
+
+                testWidget.onAnodeNumChange();
+
+                expect(testWidget.grid.collection.data.length).toEqual(num);
+            });
+        });
+        describe('addRow', function () {
+            it('adds a row to the grid', function () {
+                testWidget.addRow();
+
+                var lastRow = testWidget.grid.collection.data[0];
+
+                expect(lastRow[config.fieldNames.anodes.ANODE_DIAMETER]).toBeNull();
+                expect(lastRow[config.fieldNames.anodes.STOCK_DIAMETER]).toBeNull();
+                expect(typeof lastRow[testWidget.idProperty]).toBe('number');
+            });
+        });
     });
 });

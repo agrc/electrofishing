@@ -52,6 +52,7 @@ define([
             console.log('app/_GridMixin:initGrid', arguments);
 
             this.grid = new (declare([DGrid, Keyboard, Selection, Editor]))({
+                className: 'dgrid-autoheight',
                 selectionMode: 'single',
                 columns: columns,
                 deselectOnRefresh: false

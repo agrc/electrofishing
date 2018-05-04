@@ -160,6 +160,7 @@ define([
             var data = {};
             data[config.tableNames.samplingEvents] = this.buildFeatureObject();
             data[config.tableNames.equipment] = this.methodTb.getData();
+            data[config.tableNames.anodes] = this.methodTb.getAnodesData();
             data[config.tableNames.fish] = this.catchTb.getData();
             data[config.tableNames.diet] = this.catchTb.moreInfoDialog.getData('diet');
             data[config.tableNames.tags] = this.catchTb.moreInfoDialog.getData('tags');

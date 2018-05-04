@@ -110,6 +110,15 @@ define([
             localforage.removeItem(this.cacheId);
 
             this.inherited(arguments);
+        },
+        getAnodesData: function () {
+            // summary:
+            //      loops through all items and concatinates all of the grid data for the Anodes table
+            console.log('app/method/Method:getAnodesData', arguments);
+
+            return this.addBtnWidgets.reduce(function (sum, widget) {
+                return sum.concat(widget.getAnodesData());
+            }, []);
         }
     });
 });

@@ -141,7 +141,7 @@ define([
             samplingEvents: 'SamplingEvents',
             tags: 'Tags',
             equipment: 'Equipment',
-            andoes: 'Anodes',
+            anodes: 'Anodes',
             transect: 'Transect'
         },
 
@@ -170,13 +170,12 @@ define([
             },
             equipment: {
                 EVENT_ID: 'EVENT_ID',
+                EQUIPMENT_ID: 'EQUIPMENT_ID',
                 WAVEFORM: 'WAVEFORM',
                 VOLTAGE: 'VOLTAGE',
                 DUTY_CYCLE: 'DUTY_CYCLE',
                 FREQUENCY: 'FREQUENCY',
                 AMPS: 'AMPS',
-                ANODE_DIAMETER: 'ANODE_DIAMETER',
-                STOCK_DIAMETER: 'STOCK_DIAMETER',
                 CATHODE_LEN: 'CATHODE_LEN',
                 CATHODE_DIAMETER: 'CATHODE_DIAMETER',
                 NUM_ANODES: 'NUM_ANODES',
@@ -188,6 +187,11 @@ define([
                 CATHODE_TYPE: 'CATHODE_TYPE',
                 TYPE: 'TYPE',
                 DURATION: 'PEDAL_TIME'
+            },
+            anodes: {
+                EQUIPMENT_ID: 'EQUIPMENT_ID',
+                ANODE_DIAMETER: 'ANODE_DIAMETER',
+                STOCK_DIAMETER: 'STOCK_DIAMETER'
             },
             fish: {
                 FISH_ID: 'FISH_ID',
@@ -274,6 +278,9 @@ define([
                 TURBIDITY: 'TURBIDITY',
                 ALKALINITY: 'ALKALINITY',
                 BACKWATER: 'BACKWATER'
+            },
+            transect: {
+                // todo
             },
             reference: {
                 COUNTY: 'COUNTY',
