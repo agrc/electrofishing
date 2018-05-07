@@ -77,12 +77,12 @@ require([
 
                 var addedRow = testWidget.store.data[testWidget.store.data.length - 1];
 
-                expect(addedRow[fn.PASS_NUM]).toEqual(testWidget.currentPass);
+                expect(addedRow[fn.PASS_NUM]).toEqual(testWidget.gridTab.currentTab);
             });
             it('adds the correct id number when multiple passes are present', function () {
                 testWidget.addRow();
                 testWidget.addRow();
-                testWidget.addPass();
+                testWidget.gridTab.addTab();
 
                 var addedRow = testWidget.store.data[testWidget.store.data.length - 1];
 
@@ -114,73 +114,40 @@ require([
                 expect(newObject[config.fieldNames.fish.LENGTH_TYPE]).toBe(lengthType);
             });
         });
-        describe('addPass', function () {
+        describe('onAddPass', function () {
             it('saves the store', function () {
                 spyOn(testWidget.grid, 'save');
 
-                testWidget.addPass();
+                testWidget.onAddPass({ skipAddRow: true });
 
                 expect(testWidget.grid.save).toHaveBeenCalled();
-            });
-            it('adds a new pass button', function () {
-                var origPass = testWidget.currentPass;
-
-                testWidget.addPass();
-
-                expect(query('div[data-dojo-attach-point="passBtnContainer"] .btn', testWidget.domNode).length).toBe(2);
-                expect(testWidget.currentPass).toEqual(origPass + 1);
-            });
-            it('calls changePass on the newly created button', function () {
-                spyOn(testWidget, 'changePass');
-
-                testWidget.addPass();
-
-                expect(testWidget.changePass.calls.mostRecent().args[0].target.innerText).toBe('2');
             });
             it('adds a new row for the new pass', function () {
                 spyOn(testWidget, 'addRow');
 
-                testWidget.addPass();
+                testWidget.onAddPass({ skipAddRow: false });
 
                 expect(testWidget.addRow).toHaveBeenCalled();
             });
-            it('adds the correct number even if the pass with the highest number isnt selected', function () {
-                spyOn(testWidget, 'changePass');
-
-                testWidget.addPass();
-
-                testWidget.currentPass = 1;
-
-                testWidget.addPass();
-
-                expect(testWidget.changePass.calls.mostRecent().args[0].target.innerText).toBe('3');
-            });
         });
-        describe('changePass', function () {
-            var e = {
-                target: {innerText: '2'}
-            };
+        describe('onChangePass', function () {
             it('saves the store', function () {
                 spyOn(testWidget.grid, 'save');
 
-                testWidget.changePass(e);
+                testWidget.onChangePass();
 
                 expect(testWidget.grid.save).toHaveBeenCalled();
             });
             it('updates the grid store query', function () {
                 spyOn(testWidget.store, 'filter').and.callThrough();
+                testWidget.gridTab.currentTab = 2;
 
-                testWidget.changePass(e);
+                testWidget.onChangePass();
 
                 var expectQuery = {};
                 expectQuery[fn.PASS_NUM] = 2;
 
                 expect(testWidget.store.filter).toHaveBeenCalledWith(expectQuery);
-            });
-            it('updates the current pass', function () {
-                testWidget.changePass(e);
-
-                expect(testWidget.currentPass).toBe(2);
             });
         });
         describe('deleteRow', function () {
@@ -199,7 +166,7 @@ require([
             it('adds a new row if it\'s on the last field of the last row for that pass', function () {
                 testWidget.addRow();
                 testWidget.addRow();
-                testWidget.addPass();
+                testWidget.gridTab.addTab();
 
                 var cell = testWidget.grid.cell(
                     testWidget.store.data[testWidget.store.data.length - 1][fn.FISH_ID],
@@ -217,12 +184,12 @@ require([
             it('adds a new row on a previous pass', function () {
                 testWidget.addRow();
                 testWidget.addRow();
-                testWidget.addPass();
+                testWidget.gridTab.addTab();
                 testWidget.addRow();
-                testWidget.changePass({target: {innerText: '1'}});
+                testWidget.gridTab.changeTab({target: {innerText: '1'}});
 
                 var filter = {};
-                filter[fn.PASS_NUM] = testWidget.currentPass;
+                filter[fn.PASS_NUM] = testWidget.gridTab.currentTab;
                 var data = testWidget.store.filter(filter).fetchSync();
                 var cell = testWidget.grid.cell(data[data.length - 1][fn.FISH_ID], '8').element;
                 var e = {
@@ -326,19 +293,9 @@ require([
                 expect(testWidget.isValid()).toBe(true);
             });
         });
-        describe('getNumberOfPasses', function () {
-            it('returns the correct number of passes', function () {
-                expect(testWidget.getNumberOfPasses()).toEqual(1);
-
-                testWidget.addPass();
-                testWidget.addPass();
-
-                expect(testWidget.getNumberOfPasses()).toEqual(3);
-            });
-        });
         describe('clear', function () {
             it('clears all of the controls', function (done) {
-                testWidget.addPass();
+                testWidget.gridTab.addTab();
                 testWidget.store.data[0][fn.SPECIES_CODE] = 'blah';
                 testWidget.addRow();
                 testWidget.grid.save();

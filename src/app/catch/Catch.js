@@ -6,6 +6,7 @@ define([
     'app/config',
     'app/Domains',
     'app/_GridMixin',
+    'app/GridTab',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -37,6 +38,7 @@ define([
     config,
     Domains,
     _GridMixin,
+    GridTab,
 
     _TemplatedMixin,
     _WidgetBase,
@@ -66,14 +68,6 @@ define([
         templateString: template,
         baseClass: 'catch',
 
-
-        // currentPass: Number
-        //      The currently selected pass number
-        currentPass: 1,
-
-        // numPasses: Number
-        //      The total number of passes
-        numPasses: 1,
 
         // moreInfoDialog: app/catch/MoreInfoDialog
         moreInfoDialog: null,
@@ -108,6 +102,9 @@ define([
         //      used to cache inprogress data
         cacheId: 'app/catch/catch',
 
+        // gridTab: GridTab
+        gridTab: null,
+
         // inprogress cached data for this object
         // {
         //     numPasses: number,
@@ -132,6 +129,11 @@ define([
             // summary:
             //      dom is ready
             console.log('app/catch/Catch:postCreate', arguments);
+
+            this.gridTab = new GridTab({}, this.gridTabDiv);
+            this.gridTab.startup();
+            this.gridTab.on('change-tab', this.onChangePass.bind(this));
+            this.gridTab.on('add-tab', this.onAddPass.bind(this));
 
             var fn = config.fieldNames.fish;
             var columns = [
@@ -242,7 +244,7 @@ define([
 
                     if (inProgressData.numPasses > 1) {
                         for (var i = 1; i < inProgressData.numPasses; i++) {
-                            that.addPass(true);
+                            that.gridTab.addTab(true);
                         }
                     }
                 }
@@ -270,7 +272,7 @@ define([
 
             var fn = config.fieldNames.fish;
             var passFilter = {};
-            passFilter[fn.PASS_NUM] = this.currentPass;
+            passFilter[fn.PASS_NUM] = this.gridTab.currentTab;
             var passData = this.store.filter(passFilter).fetchSync();
             var lastRow = passData[passData.length - 1];
             var catchId = 1;
@@ -285,7 +287,7 @@ define([
 
             row[fn.FISH_ID] = '{' + generateRandomUuid() + '}';
             row[fn.EVENT_ID] = config.eventId;
-            row[fn.PASS_NUM] = this.currentPass;
+            row[fn.PASS_NUM] = this.gridTab.currentTab;
             row[fn.CATCH_ID] = catchId;
             row[fn.SPECIES_CODE] = lastSpecies;
             row[fn.LENGTH_TYPE] = lastLengthType;
@@ -298,30 +300,15 @@ define([
 
             return row[fn.FISH_ID];
         },
-        addPassClick: function () {
-            this.addPass(false);
-        },
-        addPass: function (skipAddRow) {
+        onAddPass: function (event) {
             // summary:
             //      adds a new pass and updates the grid store query
-            // skipAddRow: Boolean
-            console.log(this.declaredClass + '::addPass', arguments);
+            // event: Event Object
+            console.log('app/catch/Catch:onAddPass', arguments);
 
             this.grid.save();
 
-            var lbl = domConstruct.create('label', {
-                class: 'btn btn-primary',
-                innerHTML: this.numPasses = this.numPasses + 1,
-                onclick: lang.hitch(this, this.changePass)
-            }, this.passBtnContainer);
-            domConstruct.create('input', {
-                type: 'radio',
-                name: 'pass'
-            }, lbl);
-
-            lbl.click();
-
-            if (!skipAddRow) {
+            if (!event.skipAddRow) {
                 this.addRow();
 
                 this.cacheInProgressData();
@@ -345,27 +332,24 @@ define([
             });
 
             localforage.setItem(this.cacheId, {
-                numPasses: this.numPasses,
+                numPasses: this.getNumberOfPasses(),
 
                 // The JSON stringify/parse is to strip out the extra methods that dstore
                 // adds to the array returned from fetchSync. This messes up localforage.
                 gridData: JSON.parse(JSON.stringify(storeItems))
             });
         },
-        changePass: function (e) {
+        onChangePass: function () {
             // summary:
             //      fires when a user clicks on a pass button
             //      updates the query on the grid store to show only the appropriate
             //      fish
-            // e: Click Event
-            console.log('app/catch/Catch:changePass', arguments);
-
-            this.currentPass = parseInt(e.target.innerText, 10);
+            console.log('app/catch/Catch:onChangePass', arguments);
 
             this.grid.save();
 
             var newQuery = {};
-            newQuery[config.fieldNames.fish.PASS_NUM] = this.currentPass;
+            newQuery[config.fieldNames.fish.PASS_NUM] = this.gridTab.currentTab;
 
             this.grid.set('collection', this.store.filter(newQuery));
         },
@@ -375,7 +359,7 @@ define([
             // returns: Number
             console.log('app/catch/Catch:getNumberOfPasses', arguments);
 
-            return query('.btn', this.passBtnContainer).length;
+            return this.gridTab.getNumberOfTabs();
         },
         validateBatchForm: function () {
             // summary:
@@ -458,12 +442,7 @@ define([
             var that = this;
 
             return localforage.removeItem(this.cacheId).then(function () {
-                query('.btn', that.passBtnContainer).forEach(function (node) {
-                    if (node.innerText.trim() !== '1') {
-                        domConstruct.destroy(node);
-                    }
-                });
-                that.changePass({target: {innerText: '1'}});
+                that.gridTab.clear();
                 that.clearGrid();
                 that.moreInfoDialog.clearValues();
             });
