@@ -343,7 +343,6 @@ define([
 
             this.tagsContainer.clear();
             this.health.clearValues();
-            this.collectionPartSelect.value = '';
 
             this.notesTxtArea.value = '';
 
