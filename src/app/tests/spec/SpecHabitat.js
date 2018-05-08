@@ -155,5 +155,23 @@ require([
                     testWidget.sedTotalSpan.parentElement, 'text-danger')).toBe(false);
             });
         });
+
+        describe('getTransectData', function () {
+            it('returns the appropriate objects', function () {
+                var eventId = 'test';
+                config.eventId = eventId;
+                testWidget.transects = {
+                    1: { a: 'a', b: 'b' },
+                    2: { a: 'aa', b: 'bb'}
+                };
+
+                var data = testWidget.getTransectData();
+
+                expect(data.length).toBe(2);
+                expect(data[0].a).toBe('a');
+                expect(data[1].b).toBe('bb');
+                expect(data[1][config.fieldNames.transect.EVENT_ID]).toBe(eventId);
+            });
+        });
     });
 });

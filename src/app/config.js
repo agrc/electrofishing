@@ -41,6 +41,8 @@ define([
     var wildlifeToolbox = wildlifeFolder + 'Toolbox/GPServer/';
     var wildlifeFeatureService = wildlifeFolder + 'MapService/MapServer/';
     var referenceService = wildlifeFolder + 'Reference/MapServer/';
+    var fldEVENT_ID = 'EVENT_ID';
+    var fldTRANSECT_ID = 'TRANSECT_ID';
 
     var config = {
         // app: app.App
@@ -125,6 +127,7 @@ define([
             equipmentFeatureService: wildlifeFeatureService + '7',
             anodesFeatureService: wildlifeFeatureService + '8',
             transectFeatureService: wildlifeFeatureService + '9',
+            transectMeasurementsFeatureService: wildlifeFeatureService + '10',
 
             // reference service
             streamsLakesService: referenceService,
@@ -142,7 +145,8 @@ define([
             tags: 'Tags',
             equipment: 'Equipment',
             anodes: 'Anodes',
-            transect: 'Transect'
+            transect: 'Transect',
+            transectMeasurements: 'TransectMeasurements'
         },
 
         // fieldNames: {}
@@ -156,7 +160,7 @@ define([
                 STREAM_TYPE: 'STREAM_TYPE'
             },
             samplingEvents: {
-                EVENT_ID: 'EVENT_ID',
+                EVENT_ID: fldEVENT_ID,
                 GEO_DEF: 'GEO_DEF',
                 LOCATION_NOTES: 'LOCATION_NOTES',
                 EVENT_DATE: 'EVENT_DATE',
@@ -169,7 +173,7 @@ define([
                 OBSERVERS: 'OBSERVERS'
             },
             equipment: {
-                EVENT_ID: 'EVENT_ID',
+                EVENT_ID: fldEVENT_ID,
                 EQUIPMENT_ID: 'EQUIPMENT_ID',
                 WAVEFORM: 'WAVEFORM',
                 VOLTAGE: 'VOLTAGE',
@@ -195,7 +199,7 @@ define([
             },
             fish: {
                 FISH_ID: 'FISH_ID',
-                EVENT_ID: 'EVENT_ID',
+                EVENT_ID: fldEVENT_ID,
                 PASS_NUM: 'PASS_NUM',
                 CATCH_ID: 'CATCH_ID',
                 SPECIES_CODE: 'SPECIES_CODE',
@@ -244,12 +248,8 @@ define([
                 COLLECTION_PART: 'COLLECTION_PART'
             },
             habitat: {
-                EVENT_ID: 'EVENT_ID',
+                EVENT_ID: fldEVENT_ID,
                 BANKVEG: 'BANKVEG',
-                BWID: 'BWID',
-                DEPTR: 'DEPTR',
-                DEPTL: 'DEPTL',
-                DEPM: 'DEPM',
                 DEPMAX: 'DEPMAX',
                 DOVR: 'DOVR',
                 DUND: 'DUND',
@@ -280,7 +280,19 @@ define([
                 BACKWATER: 'BACKWATER'
             },
             transect: {
-                // todo
+                EVENT_ID: fldEVENT_ID,
+                BWID: 'BWID',
+                WWID: 'WWID',
+                STARTING_BANK: 'STARTING_BANK',
+                TRANSECT_ID: fldTRANSECT_ID,
+                TRANSECT_NUM: 'TRANSECT_NUM'
+            },
+            transectMeasurements: {
+                DEPTH: 'DEPTH',
+                VELOCITY: 'VELOCITY',
+                SUBSTRATE: 'SUBSTRATE',
+                DISTANCE_START: 'DISTANCE_START',
+                TRANSECT_ID: fldTRANSECT_ID
             },
             reference: {
                 COUNTY: 'COUNTY',

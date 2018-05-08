@@ -130,7 +130,7 @@ define([
             //      dom is ready
             console.log('app/catch/Catch:postCreate', arguments);
 
-            this.gridTab = new GridTab({}, this.gridTabDiv);
+            this.gridTab = new GridTab({ name: 'Pass' }, this.gridTabDiv);
             this.gridTab.startup();
             this.gridTab.on('change-tab', this.onChangePass.bind(this));
             this.gridTab.on('add-tab', this.onAddPass.bind(this));

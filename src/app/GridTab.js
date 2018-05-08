@@ -23,6 +23,12 @@ define([
         //      The currently selected pass number
         currentTab: 1,
 
+
+        // parameters passed in via the constructor
+        // name: String
+        //      shows up in the template
+        name: null,
+
         changeTab: function (e) {
             // summary:
             //      fires when the user clicks on a pass button

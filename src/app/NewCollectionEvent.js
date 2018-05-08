@@ -166,6 +166,8 @@ define([
             data[config.tableNames.tags] = this.catchTb.moreInfoDialog.getData('tags');
             data[config.tableNames.health] = this.catchTb.moreInfoDialog.getData('health');
             data[config.tableNames.habitat] = this.habitatTb.getData();
+            data[config.tableNames.transect] = this.habitatTb.getTransectData();
+            data[config.tableNames.transectMeasurements] = this.habitatTb.getTransectMeasurementData();
 
             var data_txt = JSON.stringify(data);
             var that = this;

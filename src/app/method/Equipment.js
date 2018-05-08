@@ -46,6 +46,7 @@ define([
     localforage
 ) {
     var FN = config.fieldNames;
+    var tempID = 'temp_id';
 
     return declare([_WidgetBase, _TemplatedMixin, _ClearValuesMixin, _AddBtnMixin, _InProgressCacheMixin, _GridMixin], {
         templateString: template,
@@ -60,6 +61,12 @@ define([
         //      defined in widget template
         gridDiv: null,
 
+        // skipNumber: Number
+        //      The number of fields to skip when you tab at the end of the row
+        //      This is to skip over the hidden fields
+        //      required for _GridMixin
+        skipNumber: 3,
+
         // lastColumn: String
         //      required for _GridMixin
         //      set in constructor
@@ -73,7 +80,11 @@ define([
         // idProperty: String
         //      required for _GridMixin, not in corresponding data table.
         //      Stripped off before the data is sent to the server.
-        idProperty: 'temp_id',
+        idProperty: tempID,
+
+        // ignoreColumn: String
+        //      the name of the column in the grid to ignore when data is sent to the server
+        ignoreColumn: tempID,
 
         // guid: Guid
         //      value that will populate EQUIPMENT_ID in the database
@@ -198,7 +209,7 @@ define([
             ];
 
             var columns = [{
-                label: 'temp_id',
+                label: this.idProperty,
                 field: this.idProperty,
                 sortable: false
             }, {
