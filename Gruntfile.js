@@ -264,7 +264,7 @@ module.exports = function (grunt) {
         },
         watch: {
             eslint: {
-                files: [jsFiles].concat([gruntFile, '.eslintrc']),
+                files: [jsFiles].concat(['.eslintrc']).concat(otherFiles),
                 tasks: ['eslint', 'jasmine:main:build', 'newer:babel', 'newer:copy:src']
             },
             src: {
