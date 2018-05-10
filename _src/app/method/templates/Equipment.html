@@ -1,0 +1,136 @@
+<div>
+    <input type="text" data-dojo-attach-point="typeTxt" class="hidden" value="backpack">
+    <ul class="nav nav-pills" data-dojo-attach-event="click: toggleFields">
+        <li class="active" data-type="backpack">
+            <a href="#" data-toggle="tab" id="Backpack">Backpack</a></li>
+        <li data-type="canoebarge">
+            <a href="#" data-toggle="tab" id="Canoe">Canoe/Barge</a></li>
+        <li data-type="raftboat">
+            <a href="#" data-toggle="tab" id="Raft">Raft/Boat</a></li>
+    </ul>
+    <div class="row">
+        <div class="form-group col-md-3">
+            <label>Model</label>
+            <select data-dojo-attach-point="modelSelect" class="form-control"></select>
+        </div>
+        <div class="form-group col-md-2">
+            <label>Anode Shape</label>
+            <select data-dojo-attach-point="anodeShapeSelect"
+                class="form-control">
+            </select>
+        </div>
+        <div class="form-group col-md-3">
+            <label>Array Type</label>
+            <select data-dojo-attach-point="arrayTypeSelect" class="form-control"></select>
+        </div>
+        <div class="form-group col-md-2">
+            <label># Netters</label>
+            <input type="number"
+                data-dojo-attach-point="numberNettersTxt"
+                class="form-control"
+                min="1"
+                max="20">
+        </div>
+        <div class="form-group col-md-2">
+            <label>Cathode Type</label>
+            <select data-dojo-attach-point="cathodeTypeSelect" class="form-control"></select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label class="control-label"># Anodes</label>
+            <input type="number"
+                data-dojo-attach-point="numberAnodesTxt"
+                data-dojo-attach-event="onchange: onAnodeNumChange"
+                value="1"
+                min="1"
+                max="5"
+                class="form-control">
+        </div>
+        <div class="col-md-8">
+            <div data-dojo-attach-point="gridDiv"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label class="control-label">Cathode Length (centimeters)</label>
+            <input type="number"
+                data-dojo-attach-point="cathodeLengthTxt"
+                min="1"
+                max="121"
+                step="0.01"
+                class="form-control">
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Cathode Diameter (centimeters)</label>
+            <input type="number"
+                data-dojo-attach-point="cathodeDiameterTxt"
+                min="0.1"
+                max="2.54"
+                step="0.01"
+                class="form-control">
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Machine Resistance (ohms)</label>
+            <input type="number"
+                data-dojo-attach-point="machineResistenceTxt"
+                class="form-control">
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label class="control-label">Waveform</label>
+            <select data-dojo-attach-point="waveformSelect"
+                class="form-control">
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Voltage (volts)</label>
+            <input type="number"
+                data-dojo-attach-point="voltsTxt"
+                min="0"
+                max="1000"
+                step="0.01"
+                class="form-control">
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Duty Cycle (%)</label>
+            <input type="number"
+                data-dojo-attach-point="dutyCycleTxt"
+                min="0"
+                max="100"
+                class="form-control">
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label class="control-label">Frequency (hertz)</label>
+            <input type="number"
+                data-dojo-attach-point="frequencyTxt"
+                min="1"
+                max="1000"
+                class="form-control">
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Amps</label>
+            <input type="number"
+                data-dojo-attach-point="ampsTxt"
+                min="0"
+                max="150"
+                step="0.1"
+                class="form-control">
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Duration/Pedal Time (seconds)</label>
+            <input type="number"
+            data-dojo-attach-point="durationTxt"
+            min="1"
+            max="7200"
+            class="form-control">
+        </div>
+    </div>
+    <button class="btn btn-default btn-sm" data-dojo-attach-point="btn">
+        <span data-dojo-attach-point="icon" class="glyphicon glyphicon-plus"></span>
+    </button>
+    <hr class="hr--bold">
+</div>

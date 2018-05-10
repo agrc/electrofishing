@@ -1,0 +1,59 @@
+<div>
+    <div data-dojo-attach-point="gridTabDiv"></div>
+    <div class="btn-right-container pull-right btn-toolbar">
+        <div class="btn-group more-info">
+            <a class="btn btn-default disabled"
+                data-dojo-attach-event="onclick: moreInfo"
+                data-tab="Diet_tab">
+                Diet</a>
+            <a class="btn btn-default disabled"
+                data-dojo-attach-event="onclick: moreInfo"
+                data-tab="Tag_tab">
+                Tag</a>
+            <a class="btn btn-default disabled"
+                data-dojo-attach-event="onclick: moreInfo"
+                data-tab="Health_tab">
+                Health</a>
+            <a class="btn btn-default disabled"
+                data-dojo-attach-event="onclick: moreInfo"
+                data-tab="Collection_tab">
+                Hard Body Parts</a>
+            <a class="btn btn-default disabled"
+                data-dojo-attach-event="onclick: moreInfo"
+                data-tab="Notes_tab">
+                Notes</a>
+        </div>
+        <div class="btn-group">
+            <a class="btn btn-info"
+                data-dojo-attach-point="batchBtn"
+                data-toggle="button"
+                data-dojo-attach-event="onclick: onBatchToggle">
+                Batch</a>
+        </div>
+        <div class="btn-group">
+            <a class="btn btn-danger"
+                data-dojo-attach-point="deleteRowBtn"
+                data-dojo-attach-event="onclick: deleteRow">
+                Delete Row</a>
+            <a class="btn btn-success"
+                data-dojo-attach-point="addRowBtn"
+                data-dojo-attach-event="onclick: addRow">
+                Add Row</a>
+        </div>
+    </div>
+    <div data-dojo-attach-point="gridDiv"></div>
+    <div class="hidden" data-dojo-attach-point="batchFormContainer">
+        <div data-dojo-attach-point="batchForm">
+            <div class="form-group">
+                <label class="control-label">Weight</label>
+                <input type="number" class="form-control"
+                    step="0.1"
+                    data-dojo-attach-point="batchWeightTxt">
+            </div>
+            <button class="btn btn-primary" disabled
+                data-dojo-attach-point="batchGoBtn"
+                data-dojo-attach-event="onclick: batch">Go</button>
+        </div>
+    </div>
+    <div data-dojo-attach-point="moreInfoDialogDiv"></div>
+</div>

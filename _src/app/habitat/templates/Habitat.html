@@ -1,0 +1,289 @@
+<div>
+    <div class="row">
+        <div class="col-md-5">
+            <h4>Entire Event Reach</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Percentage of Bank Vegetated</label>
+                <input type="number"
+                    data-dojo-attach-point="bankVegTxt"
+                    min="0"
+                    max="100"
+                    class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="control-label">Dominant Overstory</label>
+                <select data-dojo-attach-point="overstorySelect" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Dominant Understory</label>
+                <select data-dojo-attach-point="understorySelect" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Large Woody Debris (count)</label>
+                <input type="number"
+                    data-dojo-attach-point="largeWoodyDebrisTxt"
+                    min="0"
+                    max="1000"
+                    class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="control-label">Percentage of Pool Area</label>
+                <input type="number"
+                    data-dojo-attach-point="poolAreaTxt"
+                    min="0"
+                    max="100"
+                    class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="control-label">Presence of Spring</label>
+                <select data-dojo-attach-point="springSelect" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Percentage of Riffle Area</label>
+                <input type="number"
+                    data-dojo-attach-point="riffleAreaTxt"
+                    min="0"
+                    max="100"
+                    class="form-control">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Percentage of Run Area</label>
+                <input type="number"
+                    data-dojo-attach-point="runAreaTxt"
+                    min="0"
+                    max="100"
+                    class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="control-label">Backwater Area (m2)</label>
+                <input type="number"
+                    data-dojo-attach-point="backwaterTxt"
+                    min="0"
+                    max="100"
+                    class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="control-label">Vegetation Density</label>
+                <input type="number"
+                    data-dojo-attach-point="vegDensityTxt"
+                    min="0"
+                    max="100"
+                    class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="control-label">Sinuosity</label>
+                <input type="number"
+                    data-dojo-attach-point="sinuosityTxt"
+                    min="1.0"
+                    max="4.0"
+                    step="0.1"
+                    class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="control-label">Percentage of Banks Eroding</label>
+                <input type="number"
+                    data-dojo-attach-point="banksErodingTxt"
+                    min="0"
+                    max="100"
+                    class="form-control">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Water Temperature (C)</label>
+                <input type="number"
+                    data-dojo-attach-point="waterTempTxt"
+                    min="0.00"
+                    max="100.00"
+                    step="0.01"
+                    class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="control-label">pH</label>
+                <input type="number"
+                    data-dojo-attach-point="acidityTxt"
+                    min="0.0"
+                    max="14.0"
+                    step="0.1"
+                    class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="control-label">Conductivity (μs/cm)</label>
+                <input type="number"
+                    data-dojo-attach-point="conductivityTxt"
+                    min="0"
+                    max="15000"
+                    class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="control-label">Dissolved Oxygen (mg/l)</label>
+                <input type="number"
+                    data-dojo-attach-point="oxygenTxt"
+                    min="0"
+                    max="1500"
+                    class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="control-label">Total Dissolved Solids (ppm)</label>
+                <input type="number"
+                    data-dojo-attach-point="solidsTxt"
+                    min="0"
+                    max="5000"
+                    class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="control-label">Turbidity</label>
+                <input type="number"
+                    data-dojo-attach-point="turbidityTxt"
+                    min="0"
+                    max="100"
+                    class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="control-label">Alkalinity (ppm CaCO3)</label>
+                <input type="number"
+                    data-dojo-attach-point="alkalinityTxt"
+                    min="0"
+                    max="1000"
+                    class="form-control">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Sediment Class Percentages</h3>
+                    <small class="text-muted">Must add up to 100%</small>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label">Fines</label>
+                        <input type="number"
+                            data-dojo-attach-point="finesTxt"
+                            data-dojo-attach-event="onchange: onSedimentClassChange"
+                            min="0"
+                            max="100"
+                            class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Sand</label>
+                        <input type="number"
+                            data-dojo-attach-point="sandTxt"
+                            data-dojo-attach-event="onchange: onSedimentClassChange"
+                            min="0"
+                            max="100"
+                            class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Gravel</label>
+                        <input type="number"
+                            data-dojo-attach-point="gravelTxt"
+                            data-dojo-attach-event="onchange: onSedimentClassChange"
+                            min="0"
+                            max="100"
+                            class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Cobble</label>
+                        <input type="number"
+                            data-dojo-attach-point="cobbleTxt"
+                            data-dojo-attach-event="onchange: onSedimentClassChange"
+                            min="0"
+                            max="100"
+                            class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Rubble</label>
+                        <input type="number"
+                            data-dojo-attach-point="rubbleTxt"
+                            data-dojo-attach-event="onchange: onSedimentClassChange"
+                            min="0"
+                            max="100"
+                            class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Boulder</label>
+                        <input type="number"
+                            data-dojo-attach-point="boulderTxt"
+                            data-dojo-attach-event="onchange: onSedimentClassChange"
+                            min="0"
+                            max="100"
+                            class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Bedrock</label>
+                        <input type="number"
+                            data-dojo-attach-point="bedrockTxt"
+                            data-dojo-attach-event="onchange: onSedimentClassChange"
+                            min="0"
+                            max="100"
+                            class="form-control">
+                    </div>
+                    <div class="pull-right"> <!-- text-danger or text-success -->
+                        <strong>Total</strong>
+                        <span data-dojo-attach-point="sedTotalSpan" class="badge">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5">
+            <h4>Transects</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div data-dojo-attach-point="gridTabDiv"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Bankfull Width (m)</label>
+                <input type="number"
+                    data-dojo-attach-point="bankfulWidthTxt"
+                    min="0"
+                    max="1000"
+                    class="form-control">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Wetted Width (m)</label>
+                <input type="number"
+                    data-dojo-attach-point="wettedWidthTxt"
+                    min="0"
+                    max="1000"
+                    class="form-control">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Starting bank</label>
+                <select data-dojo-attach-point="startingBank" class="form-control"></select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <br>
+            <div class="btn-group">
+                <a class="btn btn-danger"
+                    data-dojo-attach-point="deleteRowBtn"
+                    data-dojo-attach-event="onclick: deleteRow">Delete Row</a>
+                <a class="btn btn-success"
+                    data-dojo-attach-point="addRowBtn"
+                    data-dojo-attach-event="onclick: addRow">Add Row</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div data-dojo-attach-point="gridDiv"></div>
+        </div>
+    </div>
+</div>

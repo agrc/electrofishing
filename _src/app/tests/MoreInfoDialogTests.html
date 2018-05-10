@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MoreInfoDialog Tests</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../resources/App.css">
+    <style>
+        html, body {
+            width: 1160px;
+            margin: 50px 10px;
+        }
+        input {
+            height: 30px !important;
+        }
+    </style>
+</head>
+<body class="claro">
+    <div class="catch">
+        <div id="testDiv"></div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script type="text/javascript" src="../../jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="../../bootstrap/dist/js/bootstrap.js"></script>
+    <script data-dojo-config="isDebug: 1" src="../../dojo/dojo.js"></script>
+    <script src="../../app/packages.js"></script>
+    <script>
+        require({baseUrl: '../../'}, [
+            'jquery',
+            'bootstrap',
+            'app/catch/MoreInfoDialog',
+            'ijit/modules/NumericInputValidator',
+            'app/config',
+            'dojo/domReady!'
+        ], function (jquery, boot, MoreInfoDialog, NumericInputValidator, config) {
+            var row = {};
+            row[config.fieldNames.fish.FISH_ID] = 'blah';
+            row[config.fieldNames.fish.CATCH_ID] = 3;
+            row[config.fieldNames.fish.PASS_NUM] = 1;
+            var store = {
+                data: [row],
+                getSync: function () {
+                    return this.data[0]
+                }
+            };
+            window.dialog = new MoreInfoDialog({catch: {store: store}}, 'testDiv');
+            window.dialog.show('blah', 'Tag_tab');
+
+            var numericValidator = new NumericInputValidator();
+            numericValidator.init();
+        });
+    </script>
+</body>
+</html>

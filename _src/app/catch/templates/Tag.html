@@ -1,0 +1,55 @@
+<div>
+    <div class="row">
+        <div class="form-group col-md-3">
+            <label>New Tag?</label>
+            <select data-dojo-attach-point="newSelect"
+                class="form-control"></select>
+        </div>
+        <div class="form-group col-md-4">
+            <label>Type</label>
+            <select data-dojo-attach-point="typeSelect"
+                class="form-control"></select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label>Tag #</label>
+            <input type="text" class="form-control"
+                data-dojo-attach-point="numberTxt">
+        </div>
+        <div class="form-group col-md-3">
+            <label>Color</label>
+            <select data-dojo-attach-point="colorSelect"
+                class="form-control"></select>
+        </div>
+        <div class="form-group col-md-4">
+            <label>Location</label>
+            <select data-dojo-attach-point="locationSelect"
+                class="form-control"></select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label>Transponder Freq. (kHz)</label>
+            <select data-dojo-attach-point="transponderFreqSelect"
+                class="form-control">
+            </select>
+        </div>
+        <div class="form-group col-md-3">
+            <label>Transmitter Freq. (kHz)</label>
+            <input type="text" class="form-control"
+                data-dojo-attach-point="transmitterFreqTxt"
+                min="1" max="3000">
+        </div>
+        <div class="form-group col-md-4">
+            <label>Transmitter Freq. Type</label>
+            <select data-dojo-attach-point="transmitterFreqTypeSelect"
+                class="form-control">
+            </select>
+        </div>
+    </div>
+    <button class="btn btn-default" data-dojo-attach-point="btn">
+        <i class="glyphicon glyphicon-plus" data-dojo-attach-point="icon"></i>
+    </button>
+    <hr>
+</div>

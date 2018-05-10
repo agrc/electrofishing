@@ -1,0 +1,17 @@
+<div>
+    <b>${name}</b>
+    <div class="btn-group" data-toggle="buttons"
+        data-dojo-attach-point="tabBtnContainer">
+        <label class="btn btn-primary active"
+            data-dojo-attach-event="onclick: changeTab">
+            <input type="radio" name="tab">
+            1
+        </label>
+    </div>
+    <button class="btn btn-default btn-sm"
+        data-dojo-attach-point="addTabBtn"
+        data-dojo-attach-event="onclick: addTabClick">
+        <i class="glyphicon glyphicon-plus"
+            data-dojo-attach-point="icon"></i>
+    </button>
+</div>
