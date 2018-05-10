@@ -298,6 +298,10 @@ module.exports = function (grunt) {
 
     grunt.registerTask('travis', [
         'eslint',
+        'clean:src',
+        'babel',
+        'stylus',
+        'copy:src',
         'connect',
         'jasmine'
     ]);
