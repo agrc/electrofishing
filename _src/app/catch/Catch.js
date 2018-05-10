@@ -475,6 +475,16 @@ define([
             });
 
             this.inherited(arguments);
+        },
+        destroyRecursive: function () {
+            // summary:
+            //      overriden to hide batch form
+            // param or return
+            console.log('app/catch/Catch:destroyRecursive', arguments);
+
+            $(this.batchBtn).popover('hide');
+
+            this.inherited(arguments);
         }
     });
 });

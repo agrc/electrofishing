@@ -247,15 +247,5 @@ require([
                 expect(value.attributes[config.fieldNames.samplingEvents.LOCATION_NOTES]).toEqual(txt);
             });
         });
-        describe('showTab', function () {
-            it('shows the passed in tab', function () {
-                var tab = 'methodTab';
-                spyOn(window, '$').and.returnValue({tab: function () {}});
-
-                testWidget.showTab(tab);
-
-                expect(window.$).toHaveBeenCalledWith('a[href="#' + tab + '"]');
-            });
-        });
     });
 });

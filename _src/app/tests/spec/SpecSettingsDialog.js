@@ -17,6 +17,10 @@ require([
         var testWidget;
         var topicMock;
         var value = config.coordTypes.utm27;
+        var destroy = function (widget) {
+            widget.destroyRecursive();
+            widget = null;
+        };
 
         // this is to prevent global topics from firing in other tests
         var oldTopic = config.topics.coordTypeToggle_onChange;
@@ -36,8 +40,7 @@ require([
             localStorage.removeItem('coordType');
         });
         afterEach(function () {
-            // testWidget.destroy();
-            testWidget = null;
+            destroy(testWidget);
             config.topics.coordTypeToggle_onChange = oldTopic;
         });
         it('should create a valid object', function () {

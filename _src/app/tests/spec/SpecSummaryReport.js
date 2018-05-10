@@ -32,6 +32,7 @@ require([
                 expect(widget).toEqual(jasmine.any(WidgetUnderTest));
             });
         });
+
         describe('displayReport', function () {
             it('generates the correct summary object', function () {
                 var data = widget.displayReport(JSON.parse(reportDataJSON));

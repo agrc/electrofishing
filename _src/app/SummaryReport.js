@@ -157,6 +157,15 @@ define([
             this.promise = null;
 
             $(this.modal).modal('hide');
+        },
+        destroyRecursive: function () {
+            // summary:
+            //      close the modal to clean up tests
+            console.log('app/SummaryReport:destroyRecursive', arguments);
+
+            $(this.modal).modal('hide');
+
+            this.inherited(arguments);
         }
     });
 });
