@@ -41,7 +41,18 @@
                 Add Row</a>
         </div>
     </div>
+
     <div data-dojo-attach-point="gridDiv"></div>
+
+    <div class="bulk-upload-container pull-right">
+        <button class="btn btn-link" data-toggle="popover"
+        data-dojo-attach-point="bulkUploadHelp">help</button>
+        <label class="btn btn-default btn-file">
+            Bulk Upload
+            <input type="file" data-dojo-attach-event="change: onBulkUploadClick">
+        </label>
+    </div>
+
     <div class="hidden" data-dojo-attach-point="batchFormContainer">
         <div data-dojo-attach-point="batchForm">
             <div class="form-group">
@@ -55,5 +66,6 @@
                 data-dojo-attach-event="onclick: batch">Go</button>
         </div>
     </div>
+
     <div data-dojo-attach-point="moreInfoDialogDiv"></div>
 </div>

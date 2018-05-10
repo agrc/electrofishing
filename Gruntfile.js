@@ -152,7 +152,8 @@ module.exports = function (grunt) {
                         'src/app/packages.js',
                         'src/app/tests/jsReporterSanitizer.js',
                         'src/app/tests/jasmineAMDErrorChecking.js',
-                        'src/jquery/dist/jquery.js'
+                        'src/jquery/dist/jquery.js',
+                        'node_modules/es6-object-assign/dist/object-assign-auto.min.js'
                     ],
                     host: 'http://localhost:8000'
                 }
@@ -264,7 +265,7 @@ module.exports = function (grunt) {
         },
         watch: {
             eslint: {
-                files: [jsFiles].concat([gruntFile, '.eslintrc']),
+                files: [jsFiles].concat(['.eslintrc']).concat(otherFiles),
                 tasks: ['eslint', 'jasmine:main:build', 'newer:babel', 'newer:copy:src']
             },
             src: {

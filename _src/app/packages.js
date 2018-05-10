@@ -9,6 +9,7 @@ require({
         'dstore',
         'handlebars',
         'ijit',
+        'papaparse',
         'proj4',
         {
             name: 'bootstrap',
