@@ -68,7 +68,7 @@ module.exports = function (grunt) {
         clean: {
             build: ['dist'],
             deploy: ['deploy'],
-            src: ['src/app']
+            src: ['src/app', 'src/ChangeLog.html', 'src/index.html']
         },
         compress: {
             main: {
