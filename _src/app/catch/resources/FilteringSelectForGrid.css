@@ -1,0 +1,11 @@
+.dijitValidationTextBox {
+  width: 100%;
+  height: 34px;
+}
+.dijitValidationTextBox input.dijitArrowButtonInner,
+.dijitValidationTextBox .dijitValidationContainer {
+  height: 32px !important;
+}
+.dijitValidationTextBox input.dijitInputInner {
+  height: 27px;
+}

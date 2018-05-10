@@ -1,0 +1,68 @@
+@import '../../bootstrap-combobox/css/bootstrap-combobox.css';
+@import '../../bootstrap/dist/css/bootstrap.css';
+@import '../../dgrid/css/dgrid.css';
+@import '../../dijit/themes/dijit.css';
+@import '../../dijit/themes/claro/claro.css';
+@import '../location/resources/Location.css';
+@import 'Header.css';
+@import 'NewCollectionEvent.css';
+@import 'SettingsDialog.css';
+@import '../location/resources/Station.css';
+@import '../location/resources/StationPointDef.css';
+@import '../method/resources/Method.css';
+@import '../catch/resources/Catch.css';
+@import 'StreamSearch.css';
+@import '../habitat/resources/Habitat.css';
+@import 'OtherOptionHandler.css';
+@import '../../toaster/dist/resources/Toaster.css';
+@import 'GridTab.css';
+.app .toaster {
+  position: fixed;
+  bottom: 15px;
+  right: 45px;
+}
+.app .main-container {
+  margin-top: 65px;
+}
+.app footer {
+  margin-right: -20px;
+  margin-left: -20px;
+  padding-left: 20px;
+}
+footer {
+  border-top: 1px solid #e5e5e5;
+  background-color: whiteSmoke;
+  padding: 16px 0;
+  margin-top: 10px;
+}
+.home-pane .btn-large {
+  margin-bottom: 10px;
+  display: block;
+}
+.hidden {
+  display: none;
+}
+.app .home-pane>.btn-lg {
+  margin-top: 10px;
+}
+.app {
+  overflow-x: hidden;
+}
+.dropdown-menu {
+  z-index: 1051; /* required to make them appear on top of bootstrap modal*/
+}
+.app .dgrid-scroller {
+  margin-top: 27px;
+}
+.app .dgrid-scroller .dgrid-cell {
+  font-size: 14px;
+  height: 27px;
+}
+.form-group .help-block {
+  margin: 0;
+}
+.required {
+  font-size: 200%;
+  font-weight: 900;
+  line-height: 0;
+}

@@ -1,0 +1,9 @@
+@import 'SettingsDialog.css';
+.header .version {
+  padding-top: 16px;
+  padding-right: 20px;
+  font-size: 14px;
+}
+.header .navbar-brand {
+  padding-right: 8px;
+}

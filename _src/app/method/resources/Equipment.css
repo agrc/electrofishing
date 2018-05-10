@@ -1,0 +1,14 @@
+.equipment .nav-pills {
+  margin-bottom: 15px;
+}
+.equipment .dgrid {
+  margin-bottom: 10px;
+}
+.equipment .dgrid .field-EQUIPMENT_ID,
+.equipment .dgrid .field-temp_id {
+  display: none;
+}
+.hr--bold {
+  border-top: 3px solid #808080;
+  border-radius: 1px;
+}

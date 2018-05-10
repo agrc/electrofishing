@@ -1,0 +1,13 @@
+.point-def input[type='text'] {
+  margin-bottom: 5px;
+}
+.point-def .help-block {
+  font-size: small;
+}
+.point-def__primary-label {
+  width: 35px;
+}
+.point-def .form-group,
+.point-def .form-group label {
+  margin-bottom: 0;
+}

@@ -1,10 +1,11 @@
 /* eslint-disable camelcase */
 module.exports = function (grunt) {
-    var jsFiles = 'src/app/**/*.js';
+    var jsFiles = '_src/app/**/*.js';
     var otherFiles = [
-        'src/app/**/*.html',
-        'src/app/**/*.css',
-        'src/index.html'
+        '_src/app/**/*.html',
+        '_src/app/**/*.css',
+        '_src/index.html',
+        '_src/ChangeLog.html'
     ];
     var gruntFile = 'GruntFile.js';
     var deployDir = 'wwwroot/electrofishing';
@@ -37,21 +38,37 @@ module.exports = function (grunt) {
     var bumpFiles = [
         'package.json',
         'bower.json',
-        'src/app/package.json',
-        'src/app/config.js'
+        '_src/app/package.json',
+        '_src/app/config.js'
     ];
 
     grunt.initConfig({
+        babel: {
+            options: {
+                sourceMap: true,
+                presets: ['latest'],
+                plugins: ['transform-remove-strict-mode']
+            },
+            src: {
+                files: [{
+                    expand: true,
+                    cwd: '_src/app/',
+                    src: ['**/*.js'],
+                    dest: 'src/app/'
+                }]
+            }
+        },
         bump: {
             options: {
                 files: bumpFiles,
-                commitFiles: bumpFiles.concat(['src/ChangeLog.html']),
+                commitFiles: bumpFiles.concat(['_src/ChangeLog.html']),
                 push: false
             }
         },
         clean: {
             build: ['dist'],
-            deploy: ['deploy']
+            deploy: ['deploy'],
+            src: ['src/app']
         },
         compress: {
             main: {
@@ -70,13 +87,14 @@ module.exports = function (grunt) {
             uses_defaults: {}
         },
         copy: {
-            main: {
-                files: [{
-                    expand: true,
-                    cwd: 'src/',
-                    src: ['*.html'],
-                    dest: 'dist/'
-                }]
+            dist: {
+                files: [{expand: true, cwd: 'src/', src: ['*.html'], dest: 'dist/'}]
+            },
+            src: {
+                expand: true,
+                cwd: '_src',
+                src: ['**/*.html', '**/*.png', '**/*.jpg', 'secrets.json', 'app/package.json'],
+                dest: 'src'
             }
         },
         dojo: {
@@ -209,7 +227,7 @@ module.exports = function (grunt) {
                 },
                 files: [{
                     expand: true,
-                    cwd: 'src/',
+                    cwd: '_src/',
                     src: ['app/**/*.styl'],
                     dest: 'src/',
                     ext: '.css'
@@ -247,7 +265,7 @@ module.exports = function (grunt) {
         watch: {
             eslint: {
                 files: [jsFiles].concat([gruntFile, '.eslintrc']),
-                tasks: ['eslint']
+                tasks: ['eslint', 'jasmine:main:build', 'newer:babel', 'newer:copy:src']
             },
             src: {
                 files: [jsFiles].concat(otherFiles),
@@ -256,8 +274,11 @@ module.exports = function (grunt) {
                 }
             },
             stylus: {
-                files: 'src/app/**/*.styl',
-                tasks: ['stylus']
+                files: '_src/app/**/*.styl',
+                tasks: ['stylus'],
+                options: {
+                    livereload: true
+                }
             }
         }
     });
@@ -265,10 +286,13 @@ module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
     grunt.registerTask('default', [
-        'jasmine:main:build',
         'eslint',
-        'connect',
+        'clean:src',
+        'babel',
         'stylus',
+        'copy:src',
+        'connect',
+        'jasmine:main:build',
         'watch'
     ]);
 
@@ -280,11 +304,14 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build-prod', [
         'clean:build',
+        'clean:src',
+        'babel',
         'stylus',
+        'copy:src',
         'newer:imagemin:main',
         'dojo:prod',
         'uglify:prod',
-        'copy:main',
+        'copy:dist',
         'processhtml:main'
     ]);
     grunt.registerTask('deploy-prod', [
@@ -295,11 +322,14 @@ module.exports = function (grunt) {
     ]);
     grunt.registerTask('build-stage', [
         'clean:build',
+        'clean:src',
+        'babel',
         'stylus',
+        'copy:src',
         'newer:imagemin:main',
         'dojo:stage',
         'uglify:stage',
-        'copy:main',
+        'copy:dist',
         'processhtml:main'
     ]);
     grunt.registerTask('deploy-stage', [

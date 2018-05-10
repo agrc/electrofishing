@@ -1,0 +1,16 @@
+.tag .form-group {
+  margin-bottom: 0;
+  padding-right: 0;
+}
+.tag .form-group label {
+  margin-bottom: 0;
+}
+.tag .row {
+  margin-bottom: 5px;
+}
+.tag .glyphicon-plus {
+  top: -1px; /* no idea why it doesn't align without this*/
+}
+.tag>.btn {
+  height: 30px;
+}
