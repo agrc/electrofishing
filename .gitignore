@@ -6,4 +6,5 @@ dist/
 node_modules/
 secrets.json
 src/
+_src/app/**/*.css
 _SpecRunner.html
