@@ -199,9 +199,11 @@ define([
 
             $(config.app.header.submitBtn).button('reset');
         },
-        validateReport: function () {
+        validateReport: function (allowNoFish) {
             // summary:
             //      validates all of the values neccessary to submit the report to the server
+            // allowNoFish: Boolean
+            //
             // returns: String (if invalid) || true (if valid)
             console.log('app/NewCollectionEvent:validateReport', arguments);
 
@@ -228,7 +230,9 @@ define([
 
             valid = array.every(validationMethods, function (a) {
                 validationReturn = a[0].apply(a[1]);
-                if (validationReturn !== true) {
+                if (a[2] === 'catchTab' && allowNoFish) {
+                    return true;
+                } else if (validationReturn !== true) {
                     that.showTab(a[2]);
 
                     return false;
