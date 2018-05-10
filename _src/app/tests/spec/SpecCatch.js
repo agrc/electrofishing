@@ -23,6 +23,8 @@ require([
 
     localforage
 ) {
+    const FN = config.fieldNames.fish;
+
     describe('app/catch/Catch', function () {
         var testWidget;
         var destroy = function (widget) {
@@ -112,6 +114,23 @@ require([
                 var newObject = testWidget.store.getSync(testWidget.addRow());
                 expect(newObject[config.fieldNames.fish.SPECIES_CODE]).toBe(species);
                 expect(newObject[config.fieldNames.fish.LENGTH_TYPE]).toBe(lengthType);
+            });
+            it('it accepts optional values to populate the row with', function () {
+                const species = 'BS';
+                const num = '1';
+                const lenType = 'STD';
+                const id = testWidget.addRow({
+                    [FN.SPECIES_CODE]: species,
+                    [FN.LENGTH_TYPE]: lenType,
+                    [FN.LENGTH]: num,
+                    [FN.WEIGHT]: num
+                });
+
+                var newObject = testWidget.store.getSync(id);
+                expect(newObject[FN.SPECIES_CODE]).toEqual(species);
+                expect(newObject[FN.LENGTH_TYPE]).toEqual(lenType);
+                expect(newObject[FN.LENGTH]).toEqual(num);
+                expect(newObject[FN.WEIGHT]).toEqual(num);
             });
         });
         describe('onAddPass', function () {

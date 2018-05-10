@@ -5,13 +5,13 @@ define([
     'app/catch/MoreInfoDialog',
     'app/config',
     'app/Domains',
-    'app/_GridMixin',
     'app/GridTab',
+    'app/_GridMixin',
 
+    'dijit/form/NumberSpinner',
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
-    'dijit/form/NumberSpinner',
 
     'dojo/aspect',
     'dojo/dom-class',
@@ -19,6 +19,7 @@ define([
     'dojo/on',
     'dojo/query',
     'dojo/store/Memory',
+    'dojo/text!app/catch/templates/BulkUploadHelp.html',
     'dojo/text!app/catch/templates/Catch.html',
     'dojo/topic',
     'dojo/_base/array',
@@ -29,6 +30,8 @@ define([
 
     'localforage',
 
+    'papaparse/papaparse',
+
     'bootstrap'
 ], function (
     Formatting,
@@ -37,13 +40,13 @@ define([
     MoreInfoDialog,
     config,
     Domains,
-    _GridMixin,
     GridTab,
+    _GridMixin,
 
+    NumberSpinner,
     _TemplatedMixin,
     _WidgetBase,
     _WidgetsInTemplateMixin,
-    NumberSpinner,
 
     aspect,
     domClass,
@@ -51,6 +54,7 @@ define([
     on,
     query,
     Memory,
+    bulkHelpHTML,
     template,
     topic,
     array,
@@ -59,10 +63,12 @@ define([
 
     generateRandomUuid,
 
-    localforage
+    localforage,
+
+    papaparse
 ) {
-    // summary:
-    //      Catch tab
+    const FN = config.fieldNames.fish;
+
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GridMixin], {
         widgetsInTemplate: true,
         templateString: template,
@@ -252,6 +258,14 @@ define([
             });
 
             this.wireBatchFormEvents();
+
+            $(this.bulkUploadHelp).popover({
+                title: 'Bulk Upload Help',
+                content: lang.replace(bulkHelpHTML, fn),
+                html: true,
+                placement: 'left',
+                trigger: 'focus'
+            });
         },
         wireBatchFormEvents: function () {
             // summary:
@@ -262,7 +276,7 @@ define([
                 on(this.batchWeightTxt, 'keyup, change', lang.hitch(this, 'validateBatchForm'))
             );
         },
-        addRow: function () {
+        addRow: function (overrides = {}) {
             // summary
             //      Adds a new empty row to the grid with the appropriate
             //      pass number and a new guid
@@ -283,16 +297,18 @@ define([
                 lastSpecies = lastRow[fn.SPECIES_CODE];
                 lastLengthType = lastRow[fn.LENGTH_TYPE];
             }
-            var row = {};
+            var row = {
+                [fn.FISH_ID]: '{' + generateRandomUuid() + '}',
+                [fn.EVENT_ID]: config.eventId,
+                [fn.PASS_NUM]: this.gridTab.currentTab,
+                [fn.CATCH_ID]: catchId,
+                [fn.SPECIES_CODE]: lastSpecies,
+                [fn.LENGTH_TYPE]: lastLengthType,
+                [fn.LENGTH]: null,
+                [fn.WEIGHT]: null
+            };
 
-            row[fn.FISH_ID] = '{' + generateRandomUuid() + '}';
-            row[fn.EVENT_ID] = config.eventId;
-            row[fn.PASS_NUM] = this.gridTab.currentTab;
-            row[fn.CATCH_ID] = catchId;
-            row[fn.SPECIES_CODE] = lastSpecies;
-            row[fn.LENGTH_TYPE] = lastLengthType;
-            row[fn.LENGTH] = null;
-            row[fn.WEIGHT] = null;
+            row = Object.assign(row, overrides);
 
             this.store.addSync(row);
 
@@ -485,6 +501,50 @@ define([
             $(this.batchBtn).popover('hide');
 
             this.inherited(arguments);
+        },
+        onBulkUploadClick: function (event) {
+            // summary:
+            //
+            // event: Event Object
+            console.log('app/catch/Catch:onBulkUploadClick', arguments);
+
+            const fileInput = event.target;
+
+            papaparse.parse(fileInput.files[0], {
+                complete: this.bulkUpload.bind(this),
+                header: true,
+                skipEmptyLines: true
+            });
+
+            // clear files so that the onchange event fires again if they upload the same file
+            fileInput.value = '';
+        },
+        bulkUpload: function (parseResults) {
+            // summary:
+            //      description
+            // parseResults: Result Object returned from papaparse.parse
+            console.log('app/catch/Catch:bulkUpload', arguments);
+
+            if (parseResults.errors.length) {
+                console.error(JSON.stringify(parseResults.errors));
+                topic.publish(config.topics.toaster, 'Error parsing CSV: ' +
+                    parseResults.errors.map(e => e.message).join('\n'));
+
+                return;
+            }
+
+            // remove the last row if it's blank
+            const visibleGridData = this.grid.collection.fetchSync();
+            const lastRow = visibleGridData[visibleGridData.length - 1];
+            const fields = [FN.SPECIES_CODE, FN.LENGTH_TYPE, FN.LENGTH, FN.WEIGHT];
+            if (lastRow && fields.every(field => lastRow[field] === null)) {
+                console.log('removed first row');
+                this.store.removeSync(lastRow[this.idProperty]);
+            }
+
+            parseResults.data.forEach(data => this.addRow(data));
+
+            this.grid.refresh();
         }
     });
 });

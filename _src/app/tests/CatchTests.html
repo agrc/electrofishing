@@ -13,11 +13,16 @@
             width: 1160px;
             margin: 50px 10px;
         }
+        .container {
+            margin: 0;
+        }
     </style>
 </head>
 <body class="claro">
     <button onclick="window.catch.clear()">Clear</button>
-    <div data-dojo-type="app/catch/Catch" id="catch"></div>
+    <div class="container">
+        <div data-dojo-type="app/catch/Catch" id="catch"></div>
+    </div>
 
     <!-- JAVASCRIPT -->
     <script type="text/javascript" src="../../jquery/dist/jquery.js"></script>
