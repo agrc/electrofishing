@@ -156,7 +156,8 @@ define([
                     editorArgs: {
                         domainFieldName: fn.SPECIES_CODE,
                         domainLayerUrl: config.urls.fishFeatureService,
-                        grid: this.grid
+                        parentId: this.id,
+                        columnIndex: 5
                     }
                 }, {
                     autoSave: true,
@@ -168,7 +169,8 @@ define([
                     editorArgs: {
                         domainFieldName: fn.LENGTH_TYPE,
                         domainLayerUrl: config.urls.fishFeatureService,
-                        grid: this.grid
+                        parentId: this.id,
+                        columnIndex: 6
                     }
                 }, {
                     autoSave: true,
@@ -228,16 +230,6 @@ define([
             $('a[href="#catchTab"]').on('hidden.bs.tab', function () {
                 $(that.batchBtn).popover('hide');
             });
-
-            this.own(
-                topic.subscribe('refocus', function () {
-                    for (var id in that.grid.selection) {
-                        if (that.grid.selection.hasOwnProperty(id)) {
-                            that.grid.edit(that.grid.cell(id, '6'));
-                        }
-                    }
-                })
-            );
 
             localforage.getItem(this.cacheId).then(function (inProgressData) {
                 if (inProgressData) {

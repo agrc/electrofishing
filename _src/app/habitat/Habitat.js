@@ -184,7 +184,8 @@ define([
                 editorArgs: {
                     domainFieldName: FN.transectMeasurements.SUBSTRATE,
                     domainLayerUrl: config.urls.transectMeasurementsFeatureService,
-                    grid: this.grid
+                    parentId: this.id,
+                    columnIndex: 4
                 }
             }, {
                 autoSave: true,

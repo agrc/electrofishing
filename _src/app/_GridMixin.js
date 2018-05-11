@@ -10,6 +10,7 @@ define([
 
     'dojo/keys',
     'dojo/on',
+    'dojo/topic',
     'dojo/_base/array',
     'dojo/_base/declare',
     'dojo/_base/lang',
@@ -28,6 +29,7 @@ define([
 
     keys,
     on,
+    topic,
     array,
     declare,
     lang,
@@ -79,6 +81,19 @@ define([
             on(this.grid, 'dgrid-deselect', lang.hitch(this, this.onRowDeselected));
 
             this.setGridData([]);
+
+            this.own(
+                topic.subscribe(`refocus_${this.id}`, (columnIndex) => {
+                    for (var id in this.grid.selection) {
+                        if (this.grid.selection.hasOwnProperty(id)) {
+                            // columnIndex needs to be a string
+                            const cell = this.grid.cell(id, columnIndex + '');
+                            console.log(cell);
+                            this.grid.edit(cell);
+                        }
+                    }
+                })
+            );
         },
         onRowSelected: function (evt) {
             // summary:
