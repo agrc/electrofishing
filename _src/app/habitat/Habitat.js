@@ -8,7 +8,6 @@ define([
     'app/_GridMixin',
     'app/_InProgressCacheMixin',
 
-    'dijit/form/NumberSpinner',
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
 
@@ -32,7 +31,6 @@ define([
     _GridMixin,
     _InProgressCacheMixin,
 
-    NumberSpinner,
     _TemplatedMixin,
     _WidgetBase,
 
@@ -153,7 +151,7 @@ define([
                 label: 'Depth (m)',
                 field: FN.transectMeasurements.DEPTH,
                 sortable: false,
-                editor: NumberSpinner,
+                editor: this.NewNumberSpinner,
                 autoSelect: true,
                 editOn: 'focus',
                 editorArgs: {
@@ -167,7 +165,7 @@ define([
                 label: 'Velocity (m/s)',
                 field: FN.transectMeasurements.VELOCITY,
                 sortable: false,
-                editor: NumberSpinner,
+                editor: this.NewNumberSpinner,
                 autoSelect: true,
                 editOn: 'focus',
                 editorArgs: {
@@ -193,7 +191,7 @@ define([
                 label: 'Distance from starting bank (m)',
                 field: FN.transectMeasurements.DISTANCE_START,
                 sortable: false,
-                editor: NumberSpinner,
+                editor: this.NewNumberSpinner,
                 autoSelect: true,
                 editOn: 'focus',
                 editorArgs: {

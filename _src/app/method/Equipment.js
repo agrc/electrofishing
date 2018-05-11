@@ -5,7 +5,6 @@ define([
     'app/_GridMixin',
     'app/_InProgressCacheMixin',
 
-    'dijit/form/NumberSpinner',
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
 
@@ -28,7 +27,6 @@ define([
     _GridMixin,
     _InProgressCacheMixin,
 
-    NumberSpinner,
     _TemplatedMixin,
     _WidgetBase,
 
@@ -220,7 +218,7 @@ define([
                 autoSave: true,
                 label: 'Anode Diameter (cm)',
                 field: FN.anodes.ANODE_DIAMETER,
-                editor: NumberSpinner,
+                editor: this.NewNumberSpinner,
                 sortable: false,
                 autoSelect: true,
                 editOn: 'focus',
@@ -234,7 +232,7 @@ define([
                 autoSave: true,
                 label: 'Stock Diameter (cm)',
                 field: FN.anodes.STOCK_DIAMETER,
-                editor: NumberSpinner,
+                editor: this.NewNumberSpinner,
                 sortable: false,
                 autoSelect: true,
                 editOn: 'focus',

@@ -8,7 +8,6 @@ define([
     'app/GridTab',
     'app/_GridMixin',
 
-    'dijit/form/NumberSpinner',
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
@@ -43,7 +42,6 @@ define([
     GridTab,
     _GridMixin,
 
-    NumberSpinner,
     _TemplatedMixin,
     _WidgetBase,
     _WidgetsInTemplateMixin,
@@ -176,7 +174,7 @@ define([
                     autoSave: true,
                     label: 'Length (millimeters)',
                     field: fn.LENGTH,
-                    editor: NumberSpinner,
+                    editor: this.NewNumberSpinner,
                     sortable: false,
                     autoSelect: true,
                     editOn: 'focus',
@@ -189,7 +187,7 @@ define([
                     autoSave: true,
                     label: 'Weight (grams)',
                     field: fn.WEIGHT,
-                    editor: NumberSpinner,
+                    editor: this.NewNumberSpinner,
                     sortable: false,
                     autoSelect: true,
                     editOn: 'focus',

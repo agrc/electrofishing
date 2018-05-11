@@ -1,9 +1,12 @@
 define([
     './catch/NoFishException',
+
     'dgrid/Editor',
     'dgrid/Keyboard',
     'dgrid/OnDemandGrid',
     'dgrid/Selection',
+
+    'dijit/form/NumberSpinner',
 
     'dojo/keys',
     'dojo/on',
@@ -15,10 +18,13 @@ define([
     'dstore/Trackable'
 ], function (
     NoFishException,
+
     Editor,
     Keyboard,
     DGrid,
     Selection,
+
+    NumberSpinner,
 
     keys,
     on,
@@ -32,6 +38,16 @@ define([
     // summary:
     //      Mixin to add dgrid to a widget.
     return declare(null, {
+        // this is to remove the default NaN value if there is an empty string
+        // it's used as a column editor in classes that use this mixin
+        NewNumberSpinner: declare([NumberSpinner], {
+            value: null,
+            _getValueAttr() {
+                const inheritedValue = this.inherited(arguments);
+
+                return isNaN(inheritedValue) ? null : inheritedValue;
+            }
+        }),
 
         // grid: DGrid
         grid: null,
