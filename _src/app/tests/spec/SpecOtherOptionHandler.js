@@ -18,7 +18,8 @@ require([
             widget = null;
         };
         var select;
-        var options = ['code1', 'code2', 'code3'];
+        const code1 = 'code1';
+        var options = [code1, 'code2', 'code3'];
 
         beforeEach(function () {
             select = domConstruct.create('select', {}, win.body());
@@ -55,6 +56,16 @@ require([
                 });
 
                 testWidget.onSubmit();
+            });
+        });
+
+        describe('onTxtChange', function () {
+            it('does not allow for an existing value to be submitted', function () {
+                testWidget.codeTxt.value = code1.toUpperCase();
+
+                testWidget.onTxtChange({});
+
+                expect(testWidget.submitBtn.disabled).toBe(true);
             });
         });
     });

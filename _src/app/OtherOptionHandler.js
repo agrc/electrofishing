@@ -84,9 +84,11 @@ define([
             // event: Event Object
             console.log('app/OtherOptionHandler:onTxtChange', arguments);
 
-            this.submitBtn.disabled = !(this.codeTxt.value.length > 0);
+            const value = this.codeTxt.value.toUpperCase();
+            this.submitBtn.disabled = !value || !(value.length > 0) ||
+                this.existingOptions.map(v => v.toUpperCase()).includes(value);
 
-            if (event.key === 'Enter') {
+            if (!this.submitBtn.disabled && event.key === 'Enter') {
                 this.onSubmit();
             }
         },
