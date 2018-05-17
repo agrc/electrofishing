@@ -63,7 +63,7 @@ define([
 
         // version: String
         //      The app version number.
-        version: '1.4.1',
+        version: '1.5.0',
 
         // coordTypes: {key:String}
         //      Coordinate types as used in app/SettingsDialoge
