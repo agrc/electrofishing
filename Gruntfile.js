@@ -150,7 +150,6 @@ module.exports = function (grunt) {
                         'src/app/tests/jasmineTestBootstrap.js',
                         'src/dojo/dojo.js',
                         'src/app/packages.js',
-                        'src/app/tests/jsReporterSanitizer.js',
                         'src/app/tests/jasmineAMDErrorChecking.js',
                         'src/jquery/dist/jquery.js',
                         'node_modules/es6-object-assign/dist/object-assign-auto.min.js'

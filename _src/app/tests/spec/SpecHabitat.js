@@ -3,15 +3,13 @@ require([
     'app/habitat/Habitat',
 
     'dojo/dom-class',
-    'dojo/dom-construct',
-    'dojo/_base/window'
+    'dojo/dom-construct'
 ], function (
     config,
     Habitat,
 
     domClass,
-    domConstruct,
-    win
+    domConstruct
 ) {
     describe('app/habitat/Habitat', function () {
         var testWidget;
@@ -20,7 +18,7 @@ require([
             widget = null;
         };
         beforeEach(function () {
-            testWidget = new Habitat({}, domConstruct.create('div', {}, win.body()));
+            testWidget = new Habitat({}, domConstruct.create('div', {}, document.body));
             testWidget.startup();
         });
         afterEach(function () {

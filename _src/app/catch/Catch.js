@@ -231,21 +231,23 @@ define([
                 $(that.batchBtn).popover('hide');
             });
 
-            localforage.getItem(this.cacheId).then(function (inProgressData) {
-                if (inProgressData) {
-                    if (inProgressData.gridData) {
-                        that.setGridData(inProgressData.gridData);
-                        that.grid.refresh();
-                    }
+            if (!window.jasmine) {
+                localforage.getItem(this.cacheId).then(function (inProgressData) {
+                    if (inProgressData) {
+                        if (inProgressData.gridData) {
+                            that.setGridData(inProgressData.gridData);
+                            that.grid.refresh();
+                        }
 
-                    if (inProgressData.numPasses > 1) {
-                        for (var i = 1; i < inProgressData.numPasses; i++) {
-                            that.gridTab.addTab(true);
+                        if (inProgressData.numPasses > 1) {
+                            for (var i = 1; i < inProgressData.numPasses; i++) {
+                                that.gridTab.addTab(true);
+                            }
                         }
                     }
-                }
-                that.store.on('add, update, delete', lang.hitch(that, 'cacheInProgressData'));
-            });
+                    that.store.on('add, update, delete', lang.hitch(that, 'cacheInProgressData'));
+                });
+            }
 
             this.wireBatchFormEvents();
 
