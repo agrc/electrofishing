@@ -60,7 +60,10 @@ define([
                 }
             });
 
-            this.hydrateWithInProgressData();
+            // don't run this in jasmine tests
+            if (!window.jasmine) {
+                this.hydrateWithInProgressData();
+            }
 
             this.inherited(arguments);
         },

@@ -8,7 +8,6 @@ define([
     'app/GridTab',
     'app/_GridMixin',
 
-    'dijit/form/NumberSpinner',
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
@@ -43,7 +42,6 @@ define([
     GridTab,
     _GridMixin,
 
-    NumberSpinner,
     _TemplatedMixin,
     _WidgetBase,
     _WidgetsInTemplateMixin,
@@ -158,7 +156,8 @@ define([
                     editorArgs: {
                         domainFieldName: fn.SPECIES_CODE,
                         domainLayerUrl: config.urls.fishFeatureService,
-                        grid: this.grid
+                        parentId: this.id,
+                        columnIndex: 5
                     }
                 }, {
                     autoSave: true,
@@ -170,13 +169,14 @@ define([
                     editorArgs: {
                         domainFieldName: fn.LENGTH_TYPE,
                         domainLayerUrl: config.urls.fishFeatureService,
-                        grid: this.grid
+                        parentId: this.id,
+                        columnIndex: 6
                     }
                 }, {
                     autoSave: true,
                     label: 'Length (millimeters)',
                     field: fn.LENGTH,
-                    editor: NumberSpinner,
+                    editor: this.NewNumberSpinner,
                     sortable: false,
                     autoSelect: true,
                     editOn: 'focus',
@@ -189,7 +189,7 @@ define([
                     autoSave: true,
                     label: 'Weight (grams)',
                     field: fn.WEIGHT,
-                    editor: NumberSpinner,
+                    editor: this.NewNumberSpinner,
                     sortable: false,
                     autoSelect: true,
                     editOn: 'focus',
@@ -231,31 +231,23 @@ define([
                 $(that.batchBtn).popover('hide');
             });
 
-            this.own(
-                topic.subscribe('refocus', function () {
-                    for (var id in that.grid.selection) {
-                        if (that.grid.selection.hasOwnProperty(id)) {
-                            that.grid.edit(that.grid.cell(id, '6'));
+            if (!window.jasmine) {
+                localforage.getItem(this.cacheId).then(function (inProgressData) {
+                    if (inProgressData) {
+                        if (inProgressData.gridData) {
+                            that.setGridData(inProgressData.gridData);
+                            that.grid.refresh();
+                        }
+
+                        if (inProgressData.numPasses > 1) {
+                            for (var i = 1; i < inProgressData.numPasses; i++) {
+                                that.gridTab.addTab(true);
+                            }
                         }
                     }
-                })
-            );
-
-            localforage.getItem(this.cacheId).then(function (inProgressData) {
-                if (inProgressData) {
-                    if (inProgressData.gridData) {
-                        that.setGridData(inProgressData.gridData);
-                        that.grid.refresh();
-                    }
-
-                    if (inProgressData.numPasses > 1) {
-                        for (var i = 1; i < inProgressData.numPasses; i++) {
-                            that.gridTab.addTab(true);
-                        }
-                    }
-                }
-                that.store.on('add, update, delete', lang.hitch(that, 'cacheInProgressData'));
-            });
+                    that.store.on('add, update, delete', lang.hitch(that, 'cacheInProgressData'));
+                });
+            }
 
             this.wireBatchFormEvents();
 

@@ -47,9 +47,8 @@ define([
             console.log('app/OtherOptionHandler:postCreate', arguments);
 
             this.existingOptions.forEach(function (option) {
-                if (option.code !== '' && option.code !== this.otherTxt) {
-                    var txt = option.name + ' (' + option.code + ')';
-                    domConstruct.create('li', {innerHTML: txt}, this.existingOptionsList);
+                if (option !== '' && option !== this.otherTxt) {
+                    domConstruct.create('li', {innerHTML: option}, this.existingOptionsList);
                 }
             }, this);
         },
@@ -71,10 +70,7 @@ define([
 
             $(this.modal).modal('hide');
 
-            this.emit('add-new-value', {
-                name: this.descTxt.value,
-                code: this.codeTxt.value
-            });
+            this.emit('add-new-value', { code: this.codeTxt.value });
         },
         onCancel: function () {
             // summary:
@@ -82,12 +78,19 @@ define([
             // param or return
             console.log('app/OtherOptionHandler:onCancel', arguments);
         },
-        onTxtChange: function () {
+        onTxtChange: function (event) {
             // summary:
             //      sets the disabled state of the submit button
+            // event: Event Object
             console.log('app/OtherOptionHandler:onTxtChange', arguments);
 
-            this.submitBtn.disabled = !(this.codeTxt.value.length > 0 && this.descTxt.value.length > 0);
+            const value = this.codeTxt.value.toUpperCase();
+            this.submitBtn.disabled = !value || !(value.length > 0) ||
+                this.existingOptions.map(v => v.toUpperCase()).includes(value);
+
+            if (!this.submitBtn.disabled && event.key === 'Enter') {
+                this.onSubmit();
+            }
         },
         destroyRecursive: function () {
             // summary:

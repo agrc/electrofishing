@@ -1,12 +1,16 @@
 define([
     './catch/NoFishException',
+
     'dgrid/Editor',
     'dgrid/Keyboard',
     'dgrid/OnDemandGrid',
     'dgrid/Selection',
 
+    'dijit/form/NumberSpinner',
+
     'dojo/keys',
     'dojo/on',
+    'dojo/topic',
     'dojo/_base/array',
     'dojo/_base/declare',
     'dojo/_base/lang',
@@ -15,13 +19,17 @@ define([
     'dstore/Trackable'
 ], function (
     NoFishException,
+
     Editor,
     Keyboard,
     DGrid,
     Selection,
 
+    NumberSpinner,
+
     keys,
     on,
+    topic,
     array,
     declare,
     lang,
@@ -32,6 +40,16 @@ define([
     // summary:
     //      Mixin to add dgrid to a widget.
     return declare(null, {
+        // this is to remove the default NaN value if there is an empty string
+        // it's used as a column editor in classes that use this mixin
+        NewNumberSpinner: declare([NumberSpinner], {
+            value: null,
+            _getValueAttr() {
+                const inheritedValue = this.inherited(arguments);
+
+                return isNaN(inheritedValue) ? null : inheritedValue;
+            }
+        }),
 
         // grid: DGrid
         grid: null,
@@ -63,6 +81,19 @@ define([
             on(this.grid, 'dgrid-deselect', lang.hitch(this, this.onRowDeselected));
 
             this.setGridData([]);
+
+            this.own(
+                topic.subscribe(`refocus_${this.id}`, (columnIndex) => {
+                    for (var id in this.grid.selection) {
+                        if (this.grid.selection.hasOwnProperty(id)) {
+                            // columnIndex needs to be a string
+                            const cell = this.grid.cell(id, columnIndex + '');
+                            console.log(cell);
+                            this.grid.edit(cell);
+                        }
+                    }
+                })
+            );
         },
         onRowSelected: function (evt) {
             // summary:

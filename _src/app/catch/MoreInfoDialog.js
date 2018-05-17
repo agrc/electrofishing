@@ -1,9 +1,10 @@
 define([
+    './../Domains',
+    './../_ClearValuesMixin',
+
     'app/catch/FilteringSelectForGrid',
     'app/config',
     'app/_GridMixin',
-    './../Domains',
-    './../_ClearValuesMixin',
 
     'dgrid/Editor',
 
@@ -13,6 +14,7 @@ define([
     'dijit/_WidgetsInTemplateMixin',
 
     'dojo/dom-class',
+    'dojo/dom-construct',
     'dojo/promise/all',
     'dojo/query',
     'dojo/text!app/catch/templates/MoreInfoDialog.html',
@@ -28,11 +30,12 @@ define([
     'app/catch/TagsContainer',
     'leaflet'
 ], function (
+    Domains,
+    _ClearValuesMixin,
+
     FilteringSelectForGrid,
     config,
     _GridMixin,
-    Domains,
-    _ClearValuesMixin,
 
     editor,
 
@@ -42,6 +45,7 @@ define([
     _WidgetsInTemplateMixin,
 
     domClass,
+    domConstruct,
     all,
     query,
     template,
@@ -179,20 +183,22 @@ define([
 
             this.initGrid(columns);
 
-            $(this.dialog).on('hidden.bs.modal', lang.hitch(this, this.clearValues));
+            this.own($(this.dialog).on('hidden.bs.modal', lang.hitch(this, this.clearValues)));
 
             var that = this;
             $(this.dietTab).on('shown.bs.tab', function () {
                 that.grid.startup();
             });
 
-            query('input[type=number]', this.domNode).on('change, keyup', function () {
+            this.own(query('input[type=number]', this.domNode).on('change, keyup', function () {
                 // bump this to the bottom of the callstack
                 // otherwise this code executes before the numericInputValidator
                 window.setTimeout(function () {
-                    that.submitBtn.disabled = query('.form-group.has-error', that.domNode).length > 0;
+                    if (that.submitBtn) {
+                        that.submitBtn.disabled = query('.form-group.has-error', that.domNode).length > 0;
+                    }
                 }, 0);
-            });
+            }));
 
             this.controlMappings = [
                 [this.collectionPartSelect, 'COLLECTION_PART']
@@ -268,6 +274,9 @@ define([
             // make sure that dialog is scrolled to the top and grid is started upd
             var that = this;
             setTimeout(function () {
+                if (!that.tabContainer) {
+                    return;
+                }
                 that.tabContainer.scrollTop = 0;
 
                 if (tabName === 'Diet_tab') {
@@ -375,6 +384,15 @@ define([
             }
 
             return data;
+        },
+        destroy: function () {
+            // summary:
+            //      clean up between tests
+            console.log('app/catch/MoreInfoDialog:destroy', arguments);
+
+            domConstruct.destroy(this.dialog);
+
+            this.inherited(arguments);
         }
     });
 });
