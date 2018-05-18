@@ -252,17 +252,19 @@ define([
             //        clears all of the values in the report
             console.log('app/NewCollectionEvent:clearReport', arguments);
 
-            var that = this;
+            const onError = (error) => {
+                topic.publish(config.topics.toaster, `Error with localforage clearing: \n ${error.message}`);
+            };
 
-            return localforage.clear().then(function () {
+            return localforage.clear().catch(onError).finally(() => {
                 config.eventId = '{' + generateRandomUuid() + '}';
-                that.locationTb.clear();
-                that.methodTb.clear();
-                that.catchTb.clear();
-                that.habitatTb.clear();
-                that.validateMsg.innerHTML = '';
-                domClass.add(that.validateMsg, 'hidden');
-                that.noFish = false;
+                this.locationTb.clear();
+                this.methodTb.clear();
+                this.catchTb.clear();
+                this.habitatTb.clear();
+                this.validateMsg.innerHTML = '';
+                domClass.add(this.validateMsg, 'hidden');
+                this.noFish = false;
             });
         },
         buildFeatureObject: function () {
