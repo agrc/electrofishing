@@ -297,7 +297,8 @@ define([
                 [fn.SPECIES_CODE]: lastSpecies,
                 [fn.LENGTH_TYPE]: lastLengthType,
                 [fn.LENGTH]: null,
-                [fn.WEIGHT]: null
+                [fn.WEIGHT]: null,
+                [fn.NOTES]: ''
             };
 
             row = Object.assign(row, overrides);
