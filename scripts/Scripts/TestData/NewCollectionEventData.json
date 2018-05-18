@@ -4,12 +4,12 @@
             "paths": [
                 [
                     [
-                        437898,
-                        4498592
+                        439307,
+                        4500547
                     ],
                     [
-                        438581,
-                        4496967
+                        437536,
+                        4496976
                     ]
                 ]
             ],
@@ -18,100 +18,160 @@
             }
         },
         "attributes": {
-            "EVENT_ID": "{8a0ec2de-29e6-4209-8d65-c8037c4e7625}",
-            "GEO_DEF": "start:{\"x\":437897.71184356825,\"y\":4498592.442110233}|end:{\"x\":438581.12828929187,\"y\":4496966.939837867}",
+            "EVENT_ID": "{1f581e32-ff55-4a0b-84bb-bf10751b8c35}",
+            "GEO_DEF": null,
             "LOCATION_NOTES": "",
-            "EVENT_DATE": "2018-05-24",
+            "EVENT_DATE": "2018-05-15",
             "EVENT_TIME": "",
             "OBSERVERS": "",
-            "WEATHER": "rain",
-            "STATION_ID": "{2E8FEC03-9FF4-42B0-8972-8A46C548A3AF}",
-            "SEGMENT_LENGTH": 1765,
+            "WEATHER": "snow",
+            "SEGMENT_LENGTH": 3990,
             "NUM_PASSES": 2
         }
     },
     "Equipment": [
         {
-            "MODEL": "Smith Root GPP 5.0",
+            "MODEL": "",
             "ANODE_SHAPE": "",
             "ARRAY_TYPE": "",
             "NUM_NETTERS": null,
             "CATHODE_TYPE": "",
-            "NUM_ANODES": 1,
+            "NUM_ANODES": 2,
             "CATHODE_LEN": null,
             "CATHODE_DIAMETER": null,
             "MACHINE_RES": null,
-            "WAVEFORM": "Pulsed AC",
+            "WAVEFORM": "",
             "VOLTAGE": null,
             "DUTY_CYCLE": null,
             "FREQUENCY": null,
             "AMPS": null,
             "PEDAL_TIME": null,
-            "EVENT_ID": "{8a0ec2de-29e6-4209-8d65-c8037c4e7625}",
+            "EVENT_ID": "{1f581e32-ff55-4a0b-84bb-bf10751b8c35}",
             "TYPE": "backpack",
-            "EQUIPMENT_ID": "{5c2ae507-722b-4123-8060-805b5225a7e2}"
+            "EQUIPMENT_ID": "{fd6a535f-2608-4e70-87db-15c65a25e6fb}"
         }
     ],
     "Anodes": [
         {
-            "EQUIPMENT_ID": "{5c2ae507-722b-4123-8060-805b5225a7e2}",
-            "ANODE_DIAMETER": 3,
-            "STOCK_DIAMETER": 2
+            "EQUIPMENT_ID": "{fd6a535f-2608-4e70-87db-15c65a25e6fb}",
+            "ANODE_DIAMETER": 1,
+            "STOCK_DIAMETER": 1
+        },
+        {
+            "EQUIPMENT_ID": "{fd6a535f-2608-4e70-87db-15c65a25e6fb}",
+            "ANODE_DIAMETER": 1,
+            "STOCK_DIAMETER": 1
         }
     ],
     "Fish": [
         {
-            "FISH_ID": "{491ada2a-bd61-4f0b-850e-fde7740f999c}",
-            "EVENT_ID": "{8a0ec2de-29e6-4209-8d65-c8037c4e7625}",
+            "FISH_ID": "{1e751514-8cde-4379-8a9d-c46c2f0b4e40}",
+            "EVENT_ID": "{cbcfb34a-a223-4d5d-8b1d-fee4b6273b93}",
             "PASS_NUM": 1,
             "CATCH_ID": 1,
-            "SPECIES_CODE": "BG",
+            "SPECIES_CODE": "BS",
             "LENGTH_TYPE": "STD",
-            "LENGTH": 3,
-            "WEIGHT": 3
+            "LENGTH": "1",
+            "WEIGHT": "1",
+            "NOTES": "basdf"
         },
         {
-            "FISH_ID": "{2b531daa-474d-462f-8d3c-6acaa3f9dfaa}",
-            "EVENT_ID": "{8a0ec2de-29e6-4209-8d65-c8037c4e7625}",
+            "FISH_ID": "{6b9632c4-60ce-4a41-853a-993f52eca245}",
+            "EVENT_ID": "{cbcfb34a-a223-4d5d-8b1d-fee4b6273b93}",
             "PASS_NUM": 1,
             "CATCH_ID": 2,
-            "SPECIES_CODE": "BG",
+            "SPECIES_CODE": "BS",
             "LENGTH_TYPE": "STD",
-            "LENGTH": null,
-            "WEIGHT": null
+            "LENGTH": "2",
+            "WEIGHT": "2",
+            "NOTES": ""
         },
         {
-            "FISH_ID": "{6048acfc-d15a-425f-8a3f-1f342a958ff6}",
-            "EVENT_ID": "{8a0ec2de-29e6-4209-8d65-c8037c4e7625}",
+            "FISH_ID": "{45951307-dda8-4a17-80f8-320876e0ad76}",
+            "EVENT_ID": "{cbcfb34a-a223-4d5d-8b1d-fee4b6273b93}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 3,
+            "SPECIES_CODE": "ANY",
+            "LENGTH_TYPE": "STD",
+            "LENGTH": "3",
+            "WEIGHT": "3",
+            "NOTES": ""
+        },
+        {
+            "FISH_ID": "{db2fce0f-d006-42d8-8e3c-419805778c79}",
+            "EVENT_ID": "{cbcfb34a-a223-4d5d-8b1d-fee4b6273b93}",
             "PASS_NUM": 2,
             "CATCH_ID": 1,
-            "SPECIES_CODE": "SC",
+            "SPECIES_CODE": "BG",
             "LENGTH_TYPE": "STD",
             "LENGTH": 3,
-            "WEIGHT": 4
+            "WEIGHT": null,
+            "NOTES": ""
         }
     ],
-    "Diet": [],
-    "Tags": [],
-    "Health": [],
+    "Diet": [
+        {
+            "FISH_ID": "{1e751514-8cde-4379-8a9d-c46c2f0b4e40}",
+            "CLASS": "Terrestrial invertebrates",
+            "MEASUREMENT_TYPE": "Count",
+            "MEASUREMENT": "3",
+            "FISH_SPECIES": "SC"
+        }
+    ],
+    "Tags": [
+        {
+            "TRANSPONDER_FREQ": "",
+            "TRANSMITTER_FREQ": null,
+            "TRANSMITTER_FREQ_TYPE": "",
+            "TYPE": "",
+            "COLOR": "",
+            "LOCATION": "",
+            "NEW_TAG": "",
+            "NUMBER": "asdf",
+            "FISH_ID": "{1e751514-8cde-4379-8a9d-c46c2f0b4e40}"
+        }
+    ],
+    "Health": [
+        {
+            "EYE": "Missing (1)",
+            "GILL": "",
+            "PSBR": "",
+            "THYMUS": "",
+            "FAT": "",
+            "SPLEEN": "",
+            "HIND": "",
+            "KIDNEY": "",
+            "LIVER": "",
+            "BILE": "",
+            "GENDER": "",
+            "REPRODUCTIVE": "",
+            "HEMATOCRIT": null,
+            "LEUKOCRIT": null,
+            "PLPRO": null,
+            "FIN": "",
+            "OPERCLE": "",
+            "COLLECTION_PART": "Cleithrum",
+            "FISH_ID": "{1e751514-8cde-4379-8a9d-c46c2f0b4e40}"
+        }
+    ],
     "Habitat": [
         {
-            "EVENT_ID": "{8a0ec2de-29e6-4209-8d65-c8037c4e7625}",
-            "BANKVEG": null,
-            "DOVR": "Canyon grape",
-            "DUND": "",
+            "EVENT_ID": "{1f581e32-ff55-4a0b-84bb-bf10751b8c35}",
+            "BANKVEG": 3,
+            "DOVR": "",
+            "DUND": "Basin big sagebrush",
             "LGWD": null,
             "POOL": null,
-            "SPNG": "Yes",
+            "SPNG": "",
             "RIFF": null,
             "RUNA": null,
-            "SUB_FINES": null,
-            "SUB_SAND": null,
-            "SUB_GRAV": null,
-            "SUB_COBB": null,
-            "SUB_RUBB": null,
-            "SUB_BOUL": null,
-            "SUB_BEDR": null,
+            "SUB_FINES": 12,
+            "SUB_SAND": 12,
+            "SUB_GRAV": 23,
+            "SUB_COBB": 43,
+            "SUB_RUBB": 1,
+            "SUB_BOUL": 1,
+            "SUB_BEDR": 8,
             "VEGD": null,
             "SIN": null,
             "EROS": null,
@@ -127,27 +187,27 @@
     ],
     "Transect": [
         {
-            "TRANSECT_ID": "{caad2aa9-95bb-4935-86c1-d02e177cd196}",
-            "BWID": 3,
-            "WWID": 3,
-            "STARTING_BANK": "River Left",
-            "EVENT_ID": "{8a0ec2de-29e6-4209-8d65-c8037c4e7625}"
+            "TRANSECT_ID": "{398351f7-8e29-495d-877d-0f49a97f0e89}",
+            "BWID": 2,
+            "WWID": 4,
+            "STARTING_BANK": "",
+            "EVENT_ID": "{1f581e32-ff55-4a0b-84bb-bf10751b8c35}"
         },
         {
-            "TRANSECT_ID": "{14c5d5f5-3a84-4c5e-8b96-734d8a87466e}",
-            "BWID": 3,
-            "WWID": null,
-            "STARTING_BANK": "",
-            "EVENT_ID": "{8a0ec2de-29e6-4209-8d65-c8037c4e7625}"
+            "TRANSECT_ID": "{e7a0dc55-ac19-48b4-849d-bdfe3a4352be}",
+            "BWID": 2,
+            "WWID": 2,
+            "STARTING_BANK": "River Left",
+            "EVENT_ID": "{1f581e32-ff55-4a0b-84bb-bf10751b8c35}"
         }
     ],
     "TransectMeasurements": [
         {
-            "TRANSECT_ID": "{caad2aa9-95bb-4935-86c1-d02e177cd196}",
+            "TRANSECT_ID": "{398351f7-8e29-495d-877d-0f49a97f0e89}",
             "DEPTH": 1,
-            "VELOCITY": 1,
-            "SUBSTRATE": "Sand",
-            "DISTANCE_START": 3
+            "VELOCITY": null,
+            "SUBSTRATE": null,
+            "DISTANCE_START": null
         }
     ]
 }
