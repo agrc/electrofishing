@@ -20,6 +20,8 @@ define([
 
     'dojox/uuid/generateRandomUuid',
 
+    'localforage',
+
     'bootstrap-combobox/js/bootstrap-combobox'
 ], function (
     FilteringSelectForGrid,
@@ -41,7 +43,9 @@ define([
     declare,
     lang,
 
-    generateRandomUuid
+    generateRandomUuid,
+
+    localforage
 ) {
     var FN = config.fieldNames;
     var tempID = 'temp_id';
@@ -291,10 +295,13 @@ define([
                 1: this.getNewTransect()
             };
 
-            this.clearGrid();
-            this.clearValues();
+            return localforage.removeItem(this.cacheId).then(() => {
+                this.gridTab.clear();
+                this.clearGrid();
+                this.clearValues();
 
-            this.onSedimentClassChange();
+                this.onSedimentClassChange();
+            });
         },
         getNewTransect: function () {
             // summary:
