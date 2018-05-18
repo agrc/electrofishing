@@ -28,7 +28,7 @@ require([
             expect(testWidget).toEqual(jasmine.any(Habitat));
         });
         describe('clear', function () {
-            it('clears all text boxes and resets all comboboxes', function () {
+            it('clears all text boxes and resets all comboboxes', function (done) {
                 testWidget.finesTxt.value = '2';
                 testWidget.vegDensityTxt.value = '2';
                 domConstruct.create('option', {
@@ -46,13 +46,15 @@ require([
                 // call this manually since we aren't waiting for lst to resolve in postCreate
                 $(testWidget.domNode).find('select').combobox();
 
-                testWidget.clear();
+                testWidget.clear().then(() => {
+                    expect(testWidget.finesTxt.value).toEqual('');
+                    expect(testWidget.vegDensityTxt.value).toEqual('');
+                    expect(testWidget.springSelect.value).toEqual('');
+                    expect(testWidget.acidityTxt.value).toEqual('');
+                    expect(testWidget.sedTotalSpan.innerHTML).toEqual('0');
 
-                expect(testWidget.finesTxt.value).toEqual('');
-                expect(testWidget.vegDensityTxt.value).toEqual('');
-                expect(testWidget.springSelect.value).toEqual('');
-                expect(testWidget.acidityTxt.value).toEqual('');
-                expect(testWidget.sedTotalSpan.innerHTML).toEqual('0');
+                    done();
+                });
             });
         });
         describe('isValid', function () {

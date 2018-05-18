@@ -100,7 +100,7 @@ require([
             it('clears the geometry property if getGeometry isnt successful', function () {
                 spyOn(testWidget.currentGeoDef, 'getGeometry').and.returnValue('blah');
                 testWidget.verifyMap.initMap();
-                testWidget.geometry = 'hello';
+                testWidget.geometry = null;
 
                 testWidget.validateGeometry();
 
