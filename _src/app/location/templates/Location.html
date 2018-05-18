@@ -1,70 +1,70 @@
 <div>
     <h4>Water Body</h4>
-    <div data-dojo-attach-point='verifyMap' data-dojo-type='app/location/VerifyMap' data-dojo-props='isMainMap:true' class='v-map'></div>
-    <div data-dojo-type="app/location/Station" data-dojo-attach-point='station'></div>
+    <div data-dojo-attach-point="verifyMap" data-dojo-type="app/location/VerifyMap" data-dojo-props="isMainMap:true" class="v-map"></div>
+    <div data-dojo-type="app/location/Station" data-dojo-attach-point="station"></div>
     <h4>Stream Reach</h4>
-    <ul class='nav nav-pills'>
-        <li class='active'>
-            <a id='startEndTab' href='#loc_startend' data-toggle='tab'>Start | End</a>
+    <ul class="nav nav-pills">
+        <li class="active">
+            <a id="startEndTab" href="#loc_startend" data-toggle="tab">Start | End</a>
         </li>
         <li>
-            <a id='startDistDirTab' href='#loc_startdistdir' data-toggle='tab'>Start | Distance | Direction</a>
+            <a id="startDistDirTab" href="#loc_startdistdir" data-toggle="tab">Start | Distance | Direction</a>
         </li>
     </ul>
-    <div class='tab-content'>
-        <div class='tab-pane fade in active' id='loc_startend'>
-            <div data-dojo-attach-point='startEndGeoDef' data-dojo-type='app/location/StartEndGeoDef'></div>
+    <div class="tab-content">
+        <div class="tab-pane fade in active" id="loc_startend">
+            <div data-dojo-attach-point="startEndGeoDef" data-dojo-type="app/location/StartEndGeoDef"></div>
         </div>
-        <div class='tab-pane fade' id='loc_startdistdir'>
-            <div data-dojo-attach-point='startDistDirGeoDef' data-dojo-type='app/location/StartDistDirGeoDef'></div>
+        <div class="tab-pane fade" id="loc_startdistdir">
+            <div data-dojo-attach-point="startDistDirGeoDef" data-dojo-type="app/location/StartDistDirGeoDef"></div>
         </div>
     </div>
-    <button data-dojo-attach-point='verifyMapBtn' class='btn btn-success' data-loading-text='Verifying...this may take a few seconds.'>Verify Location</button>
-    <div class="alert alert-danger hidden" data-dojo-attach-point='validateMsg'></div>
+    <button data-dojo-attach-point="verifyMapBtn" class="btn btn-success" data-loading-text="Verifying...this may take a few seconds.">Verify Location</button>
+    <div class="alert alert-danger hidden" data-dojo-attach-point="validateMsg"></div>
 
     <div class="row">
         <div class="form-group col-md-6">
-            <label class='control-label'>Stream Length (meters)</label>
-            <span class="text-danger required">*</span><input type="number" data-dojo-attach-point="streamLengthTxt" class='form-control'/>
+            <label class="control-label">Stream Length (meters)</label>
+            <span class="text-danger required">*</span><input type="number" data-dojo-attach-point="streamLengthTxt" class="form-control"/>
         </div>
     </div>
 
     <div class="row">
         <div class="form-group col-md-3">
-            <label class='control-label'>Collection Date</label>
-            <span class="text-danger required">*</span><input type="date" data-dojo-attach-point='dateTxt' class='form-control'/>
+            <label class="control-label">Collection Date</label>
+            <span class="text-danger required">*</span><input type="date" data-dojo-attach-point="dateTxt" class="form-control"/>
         </div>
         <div class="form-group col-md-3">
-            <label class='control-label'>Collection Time</label>
-            <input type="time" data-dojo-attach-point='timeTxt' class='form-control'/>
+            <label class="control-label">Collection Time</label>
+            <input type="time" data-dojo-attach-point="timeTxt" class="form-control"/>
         </div>
     </div>
     <div class="row">
         <div class="form-group col-md-6">
             <label class="control-label">Survey Purpose (Purpose of Collection)</label>
-            <select data-dojo-attach-point="surveyPurposeSelect" class='form-control'>
+            <select data-dojo-attach-point="surveyPurposeSelect" class="form-control">
             </select>
         </div>
     </div>
     <div class="row">
         <div class="form-group col-md-6">
-            <label class='control-label'>Weather</label>
-            <select data-dojo-attach-point='weatherSelect' class='form-control'>
+            <label class="control-label">Weather</label>
+            <select data-dojo-attach-point="weatherSelect" class="form-control">
             </select>
         </div>
     </div>
 
     <div class="row">
         <div class="form-group col-md-6">
-            <label class='control-label'>Additional Location Notes (optional)</label>
-            <textarea rows="4" data-dojo-attach-point='additionalNotesTxt' class='form-control'></textarea>
+            <label class="control-label">Additional Location Notes (optional)</label>
+            <textarea rows="4" data-dojo-attach-point="additionalNotesTxt" class="form-control"></textarea>
         </div>
     </div>
 
     <div class="row">
         <div class="form-group col-md-6">
-            <label class='control-label'>Observers</label>
-            <textarea rows="4" data-dojo-attach-point='observersTxt' class='form-control'></textarea>
+            <label class="control-label">Observers</label>
+            <textarea rows="4" data-dojo-attach-point="observersTxt" class="form-control"></textarea>
         </div>
     </div>
 
