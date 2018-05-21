@@ -37,12 +37,12 @@ require([
             it('generates the correct summary object', function () {
                 var data = widget.displayReport(JSON.parse(reportDataJSON));
 
-                expect(data.passes.length).toBe(3);
+                expect(data.passes.length).toBe(2);
                 expect(data.passes[0].name).toBe('1');
                 expect(data.passes[0].species.length).toBe(2);
-                expect(data.passes[0].species[0].name).toBe('BH');
+                expect(data.passes[0].species[0].name).toBe('BS');
                 expect(data.passes[0].species[0].count).toBe(2);
-                expect(data.passes[0].species[1].count).toBe(3);
+                expect(data.passes[0].species[1].count).toBe(1);
             });
         });
     });

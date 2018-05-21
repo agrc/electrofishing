@@ -36,7 +36,6 @@ define([
     esriLeaflet
 ) {
     L.esri = esriLeaflet;
-    // load these script synchronously because the order matters
 
     return declare([_WidgetBase, _TemplatedMixin], {
         templateString: template,
