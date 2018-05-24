@@ -56,6 +56,34 @@ require([
             });
         });
 
+        describe('removeTab', function () {
+            it('removes the last tab button', function () {
+                testWidget.addTab();
+                testWidget.addTab();
+
+                testWidget.currentTab = 1;
+
+                testWidget.removeTab();
+
+                expect(query('div[data-dojo-attach-point="tabBtnContainer"] .btn', testWidget.domNode).length).toBe(2);
+            });
+            it('doesn\'t remove the first tab', function () {
+                testWidget.removeTab();
+
+                expect(query('div[data-dojo-attach-point="tabBtnContainer"] .btn', testWidget.domNode).length).toBe(1);
+            });
+            it('selects the next highest grid tab number', function () {
+                testWidget.addTab();
+                testWidget.addTab();
+
+                testWidget.currentTab = 1;
+
+                testWidget.removeTab();
+
+                expect(testWidget.currentTab).toBe(2);
+            });
+        });
+
         describe('changeTab', function () {
             var e = {
                 target: {innerText: '2'}
@@ -66,6 +94,7 @@ require([
                 expect(testWidget.currentTab).toBe(2);
             });
         });
+
         describe('getNumberOfTabs', function () {
             it('returns the correct number of tabs', function () {
                 expect(testWidget.getNumberOfTabs()).toEqual(1);

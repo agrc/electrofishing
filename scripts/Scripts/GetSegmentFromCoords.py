@@ -21,14 +21,15 @@ error_message(4): string
     only populated if success is false
 """
 
-import arcpy
 from os import path
+
+import arcpy
+from dijkstras import LineNode, shortest_path
 from settings import *
-from dijkstras import shortest_path, LineNode
 
 # get parameters
 points = arcpy.GetParameterAsText(0)
-# points = r'C:\giswork\electrofishing\TempData.gdb\StartEnd_Fork'
+# points = r'\\Mac\Projects\electrofishing\scripts\ToolData\TestData.gdb\StartEnd10933'
 
 # folders and data
 streamsLyr = 'streamsLyr'
@@ -103,6 +104,7 @@ def getSegment():
         pointToPointDistance = pointGeometries[0].distanceTo(pointGeometries[1])
         if pointToPointDistance < 500:
             pointToPointDistance = 500
+
         # Create graph of streams within pointToPointDistance of points
         arcpy.MakeFeatureLayer_management(STREAMS, streamsLyr)
         arcpy.SelectLayerByLocation_management(streamsLyr, 'WITHIN_A_DISTANCE', points, pointToPointDistance)
@@ -119,9 +121,13 @@ def getSegment():
                         currentNode.add_edge(node.id)
 
                 streamNodes.append(currentNode)
+
         # Find shortest path from one point intersected stream to the other
-        shortestP = shortest_path(LineNode.graph, startStreamOid, endStreamOid)
-        print shortestP
+        try:
+            shortestP = shortest_path(LineNode.graph, startStreamOid, endStreamOid)
+        except KeyError:
+            raise Exception('Problem with stream geometry. Check that all stream directions are correct and remove all multipart features.')
+
         # Get line segment between points
         query = "\"{0}\" IN ({1})".format('OBJECTID', ','.join(shortestP))
         arcpy.SelectLayerByAttribute_management(streamsLyr, 'NEW_SELECTION', query)
@@ -158,10 +164,11 @@ def getSegment():
         arcpy.SetParameter(4, '')
 
     except Exception as ex:
+        print(ex)
         arcpy.SetParameter(1, linesTemplate)
         arcpy.SetParameter(2, linesTemplate)
         arcpy.SetParameter(3, False)
-        arcpy.SetParameter(4, ex.message)
+        arcpy.SetParameter(4, ex)
 
 
 if __name__ == '__main__':

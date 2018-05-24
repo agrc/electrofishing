@@ -18,6 +18,7 @@ define([
     return {
         otherTxt: '[other]',
         _errMsgs: agrcDomains._errMsgs,
+        responses: {},
         populateSelectWithDomainValues: function (select, featureServiceUrl, fieldName) {
             // summary:
             //      Adds a listener for the other option being selected

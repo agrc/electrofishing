@@ -155,7 +155,8 @@ module.exports = function (grunt) {
                         'src/jquery/dist/jquery.js',
                         'src/bootstrap/dist/js/bootstrap.js'
                     ],
-                    host: 'http://localhost:8000'
+                    host: 'http://localhost:8000',
+                    version: '2.5.1'
                 }
             }
         },

@@ -138,6 +138,7 @@ define([
             this.gridTab.startup();
             this.gridTab.on('change-tab', this.onChangePass.bind(this));
             this.gridTab.on('add-tab', this.onAddPass.bind(this));
+            this.gridTab.on('remove-tab', this.onRemovePass.bind(this));
 
             var fn = config.fieldNames.fish;
             var columns = [
@@ -323,6 +324,26 @@ define([
                 this.cacheInProgressData();
             }
         },
+        onRemovePass: function (event) {
+            // summary:
+            //      removes the last pass and updates the grid store query
+            // event: Event Object
+            console.log('app/catch/Catch:onRemovePass', arguments);
+
+            this.store.filter(this.getPassFilter(event.tabNum))
+                .forEach(item => this.store.removeSync(item[this.idProperty]));
+        },
+        getPassFilter: function (passNum) {
+            // summary:
+            //      returns an object suitable to pass to store.filter that filters the data
+            //      by the passed in pass number
+            // passNum: Number
+            console.log('app/catch/Catch:getPassFilter', arguments);
+
+            return {
+                [config.fieldNames.fish.PASS_NUM]: passNum
+            };
+        },
         cacheInProgressData: function () {
             // summary:
             //      caches the number of passes and grid data
@@ -357,10 +378,7 @@ define([
 
             this.grid.save();
 
-            var newQuery = {};
-            newQuery[config.fieldNames.fish.PASS_NUM] = this.gridTab.currentTab;
-
-            this.grid.set('collection', this.store.filter(newQuery));
+            this.grid.set('collection', this.store.filter(this.getPassFilter(this.gridTab.currentTab)));
         },
         getNumberOfPasses: function () {
             // summary:
