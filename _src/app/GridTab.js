@@ -74,13 +74,37 @@ define([
             lbl.click();
 
             this.emit('add-tab', { skipAddRow: skipAddRow });
+
+            this.removeTabBtn.disabled = false;
         },
-        addTabClick: function () {
+        onAddTabClick: function () {
             // summary:
-            //      Fired when user clicks the plus button
-            console.log('app/GridTab:addTabClick', arguments);
+            //      make sure that undefined is passed for skipAddRow to addTab
+            // param or return
+            console.log('app/GridTab:onAddTabClick', arguments);
 
             this.addTab();
+        },
+        removeTab: function () {
+            // summary:
+            //      removes a tab from this widget
+            console.log('app/GridTab:removeTab', arguments);
+
+            const children = this.tabBtnContainer.children;
+
+            if (children.length > 1) {
+                this.emit('remove-tab', { tabNum: this.getNumberOfTabs() });
+
+                const tab = children[children.length - 1];
+                domConstruct.destroy(tab);
+
+                if (children.length === 1) {
+                    this.removeTabBtn.disabled = true;
+                }
+
+                const tabs = query('label', this.tabBtnContainer);
+                tabs[tabs.length - 1].click();
+            }
         },
         getNumberOfTabs: function () {
             // summary:

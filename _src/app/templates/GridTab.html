@@ -8,10 +8,18 @@
             1
         </label>
     </div>
-    <button class="btn btn-default btn-sm"
-        data-dojo-attach-point="addTabBtn"
-        data-dojo-attach-event="onclick: addTabClick">
-        <i class="glyphicon glyphicon-plus"
-            data-dojo-attach-point="icon"></i>
-    </button>
+    <div class="btn-group">
+        <button class="btn btn-default btn-sm"
+            data-dojo-attach-point="removeTabBtn"
+            disabled
+            data-dojo-attach-event="onclick: removeTab">
+            <i class="glyphicon glyphicon-minus"
+                data-dojo-attach-point="icon"></i>
+        </button>
+        <button class="btn btn-default btn-sm"
+            data-dojo-attach-event="onclick: onAddTabClick">
+            <i class="glyphicon glyphicon-plus"
+                data-dojo-attach-point="icon"></i>
+        </button>
+    </div>
 </div>

@@ -378,5 +378,18 @@ require([
                 });
             });
         });
+
+        describe('onRemovePass', function () {
+            it('removes data associated with the pass from the store grid', function () {
+                testWidget.gridTab.addTab();
+                testWidget.addRow();
+
+                expect(testWidget.store.fetchSync().length).toBe(3);
+
+                testWidget.onRemovePass({ tabNum: 2 });
+
+                expect(testWidget.store.fetchSync().length).toBe(1);
+            });
+        });
     });
 });

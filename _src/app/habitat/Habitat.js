@@ -121,6 +121,7 @@ define([
             this.gridTab = new GridTab({ name: '' }, this.gridTabDiv);
             this.gridTab.startup();
             this.gridTab.on('add-tab', this.onAddTransect.bind(this));
+            this.gridTab.on('remove-tab', this.onRemoveTransect.bind(this));
             this.gridTab.on('change-tab', this.onChangeTransect.bind(this));
 
             var that = this;
@@ -220,18 +221,18 @@ define([
         addRow: function () {
             // summary:
             //      adds a new blank row to the transect measurements grid
-            console.log('app/method/Equipment:addRow', arguments);
+            console.log('app/habitat/Habitat:addRow', arguments);
 
-            var data = {};
+            var data = {
+                [this.idProperty]: Math.random(),
+                [FN.transectMeasurements.TRANSECT_ID]: this.getCurrentTransect()[FN.transect.TRANSECT_ID],
+                [FN.transectMeasurements.DEPTH]: null,
+                [FN.transectMeasurements.VELOCITY]: null,
+                [FN.transectMeasurements.SUBSTRATE]: null,
+                [FN.transectMeasurements.DISTANCE_START]: null
+            };
 
-            data[this.idProperty] = Math.random();
-            data[FN.transectMeasurements.TRANSECT_ID] = this.getCurrentTransect()[FN.transect.TRANSECT_ID];
-            data[FN.transectMeasurements.DEPTH] = null;
-            data[FN.transectMeasurements.VELOCITY] = null;
-            data[FN.transectMeasurements.SUBSTRATE] = null;
-            data[FN.transectMeasurements.DISTANCE_START] = null;
-
-            this.grid.collection.add(data);
+            this.store.addSync(data);
 
             this.grid.focus(this.grid.cell(data[this.idProperty], '2'));
         },
@@ -334,36 +335,36 @@ define([
             //      NewCollectionEvent service
             console.log('app/habitat/Habitat:getData', arguments);
 
-            var f = {};
             var fn = config.fieldNames.habitat;
-
-            f[fn.EVENT_ID] = config.eventId;
-            f[fn.BANKVEG] = helpers.getNumericValue(this.bankVegTxt.value);
-            f[fn.DOVR] = this.overstorySelect.value;
-            f[fn.DUND] = this.understorySelect.value;
-            f[fn.LGWD] = helpers.getNumericValue(this.largeWoodyDebrisTxt.value);
-            f[fn.POOL] = helpers.getNumericValue(this.poolAreaTxt.value);
-            f[fn.SPNG] = this.springSelect.value;
-            f[fn.RIFF] = helpers.getNumericValue(this.riffleAreaTxt.value);
-            f[fn.RUNA] = helpers.getNumericValue(this.runAreaTxt.value);
-            f[fn.SUB_FINES] = helpers.getNumericValue(this.finesTxt.value);
-            f[fn.SUB_SAND] = helpers.getNumericValue(this.sandTxt.value);
-            f[fn.SUB_GRAV] = helpers.getNumericValue(this.gravelTxt.value);
-            f[fn.SUB_COBB] = helpers.getNumericValue(this.cobbleTxt.value);
-            f[fn.SUB_RUBB] = helpers.getNumericValue(this.rubbleTxt.value);
-            f[fn.SUB_BOUL] = helpers.getNumericValue(this.boulderTxt.value);
-            f[fn.SUB_BEDR] = helpers.getNumericValue(this.bedrockTxt.value);
-            f[fn.VEGD] = helpers.getNumericValue(this.vegDensityTxt.value);
-            f[fn.SIN] = helpers.getNumericValue(this.sinuosityTxt.value);
-            f[fn.EROS] = helpers.getNumericValue(this.banksErodingTxt.value);
-            f[fn.TEMP] = helpers.getNumericValue(this.waterTempTxt.value);
-            f[fn.PH] = helpers.getNumericValue(this.acidityTxt.value);
-            f[fn.CON] = helpers.getNumericValue(this.conductivityTxt.value);
-            f[fn.OXYGEN] = helpers.getNumericValue(this.oxygenTxt.value);
-            f[fn.SOLIDS] = helpers.getNumericValue(this.solidsTxt.value);
-            f[fn.TURBIDITY] = helpers.getNumericValue(this.turbidityTxt.value);
-            f[fn.ALKALINITY] = helpers.getNumericValue(this.alkalinityTxt.value);
-            f[fn.BACKWATER] = helpers.getNumericValue(this.backwaterTxt.value);
+            var f = {
+                [fn.EVENT_ID]: config.eventId,
+                [fn.BANKVEG]: helpers.getNumericValue(this.bankVegTxt.value),
+                [fn.DOVR]: this.overstorySelect.value,
+                [fn.DUND]: this.understorySelect.value,
+                [fn.LGWD]: helpers.getNumericValue(this.largeWoodyDebrisTxt.value),
+                [fn.POOL]: helpers.getNumericValue(this.poolAreaTxt.value),
+                [fn.SPNG]: this.springSelect.value,
+                [fn.RIFF]: helpers.getNumericValue(this.riffleAreaTxt.value),
+                [fn.RUNA]: helpers.getNumericValue(this.runAreaTxt.value),
+                [fn.SUB_FINES]: helpers.getNumericValue(this.finesTxt.value),
+                [fn.SUB_SAND]: helpers.getNumericValue(this.sandTxt.value),
+                [fn.SUB_GRAV]: helpers.getNumericValue(this.gravelTxt.value),
+                [fn.SUB_COBB]: helpers.getNumericValue(this.cobbleTxt.value),
+                [fn.SUB_RUBB]: helpers.getNumericValue(this.rubbleTxt.value),
+                [fn.SUB_BOUL]: helpers.getNumericValue(this.boulderTxt.value),
+                [fn.SUB_BEDR]: helpers.getNumericValue(this.bedrockTxt.value),
+                [fn.VEGD]: helpers.getNumericValue(this.vegDensityTxt.value),
+                [fn.SIN]: helpers.getNumericValue(this.sinuosityTxt.value),
+                [fn.EROS]: helpers.getNumericValue(this.banksErodingTxt.value),
+                [fn.TEMP]: helpers.getNumericValue(this.waterTempTxt.value),
+                [fn.PH]: helpers.getNumericValue(this.acidityTxt.value),
+                [fn.CON]: helpers.getNumericValue(this.conductivityTxt.value),
+                [fn.OXYGEN]: helpers.getNumericValue(this.oxygenTxt.value),
+                [fn.SOLIDS]: helpers.getNumericValue(this.solidsTxt.value),
+                [fn.TURBIDITY]: helpers.getNumericValue(this.turbidityTxt.value),
+                [fn.ALKALINITY]: helpers.getNumericValue(this.alkalinityTxt.value),
+                [fn.BACKWATER]: helpers.getNumericValue(this.backwaterTxt.value)
+            };
 
             return [f];
         },
@@ -403,8 +404,7 @@ define([
             this.grid.save();
 
             var transect = this.getCurrentTransect();
-            var newQuery = {};
-            newQuery[FN.transectMeasurements.TRANSECT_ID] = transect[FN.transect.TRANSECT_ID];
+            const newQuery = this.getTransectFilter(transect[FN.transect.TRANSECT_ID]);
 
             this.grid.set('collection', this.store.filter(newQuery));
 
@@ -419,6 +419,17 @@ define([
                 this.clearValue(this.startingBank);
             }
         },
+        getTransectFilter: function (transectNum) {
+            // summary:
+            //      returns an object suitable to pass to store.filter that filters the data
+            //      by the passed in transect number
+            // transectNum: Number
+            console.log('app/habitat/Habitat:getTransectFilter', arguments);
+
+            return {
+                [config.fieldNames.transect.TRANSECT_ID]: transectNum
+            };
+        },
         onAddTransect: function (event) {
             // summary:
             //      fires when the user clicks on the add transect button
@@ -432,6 +443,17 @@ define([
 
                 this.cacheInProgressData();
             }
+        },
+        onRemoveTransect: function (event) {
+            // summary:
+            //      remove the last transect and updates the grid store
+            // event: Event Object with tabNum property
+            console.log('app/habitat/Habitat:onRemoveTransect', arguments);
+
+            this.store.filter(this.getTransectFilter(event.tabNum))
+                .forEach(item => this.store.removeSync(item[this.idProperty]));
+
+            delete this.transects[event.tabNum];
         },
         getCurrentTransect: function () {
             // summary:

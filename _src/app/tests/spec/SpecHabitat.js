@@ -173,5 +173,17 @@ require([
                 expect(data[1][config.fieldNames.transect.EVENT_ID]).toBe(eventId);
             });
         });
+
+        describe('onRemoveTransect', function () {
+            it('removes the transect object', function () {
+                testWidget.gridTab.addTab();
+
+                expect(testWidget.transects[2]).toBeDefined();
+
+                testWidget.gridTab.removeTab();
+
+                expect(testWidget.transects[2]).not.toBeDefined();
+            });
+        });
     });
 });
