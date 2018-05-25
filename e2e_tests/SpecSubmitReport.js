@@ -4,8 +4,15 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000;
 describe('SubmitReport', function () {
     let browser;
     let page;
+
+    // this variable is used because jasmine doesn't provide a way to get the current spec name
+    let screenshotName;
     beforeAll(async () => {
-        browser = await puppeteer.launch({ headless: !process.env.DEBUG, slowMo: 200 });
+        browser = await puppeteer.launch({
+            headless: !process.env.DEBUG,
+            slowMo: 200
+        });
+        // browser = await puppeteer.launch();
         page = await browser.newPage();
         await page.setViewport({ width: 1000, height: 1200 });
     });
@@ -15,10 +22,12 @@ describe('SubmitReport', function () {
     });
 
     it('page loads', async () => {
+        screenshotName = 'pageLoad';
         await page.waitForSelector('body.loaded');
     });
 
     it('submit report', async () => {
+        screenshotName = 'submitReport';
         await page.waitForSelector('body.loaded');
 
         // select station
@@ -44,7 +53,13 @@ describe('SubmitReport', function () {
 
         await page.type('[data-dojo-attach-point="dateTxt"]', '03/15/2018');
 
-        await page.type('[data-dojo-attach-point="weatherSelect"]', 's');
+        await page.$eval('[data-dojo-attach-point="weatherSelect"]', node => {
+            node.value = 'clear';
+        });
+        await page.$eval('[data-dojo-attach-point="surveyPurposeSelect"]', node => {
+            node.value = 'Catch and Effort';
+        });
+        await page.type('[data-dojo-attach-point="observersTxt"]', 'some people');
 
         await page.click('a[href="#methodTab"]');
 
@@ -78,13 +93,23 @@ describe('SubmitReport', function () {
         await page.keyboard.type('1');
 
         await page.click('[data-dojo-attach-point="submitBtn"]');
+        await page.screenshot({
+            path: 'e2e_tests/screenshots/afterSubmit.jpg',
+            fullPage: true
+        });
+
         await page.click('[data-testid="summaryConfirmBtn"]');
 
         await page.waitForSelector('[data-dojo-attach-point="successMsgContainer"]:not(.hidden)');
-        //
-        // await new Promise((resolve) => {
-        //     setTimeout(resolve, 50000);
-        // });
+    });
+
+    afterEach(async () => {
+        if (process.env.DEBUG) {
+            await page.screenshot({
+                path: `e2e_tests/screenshots/${screenshotName}.jpg`,
+                fullPage: true
+            });
+        }
     });
 
     afterAll(async () => {

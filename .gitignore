@@ -1,10 +1,11 @@
+_SpecRunner.html
+_src/app/**/*.css
 .grunt/
 *.pyc
 *.sde
 deploy/deploy.zip
 dist/
+e2e_tests/screenshots/*.jpg
 node_modules/
 secrets.json
 src/
-_src/app/**/*.css
-_SpecRunner.html
