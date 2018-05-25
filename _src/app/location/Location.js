@@ -1,8 +1,9 @@
 define([
-    'app/config',
-    'app/_InProgressCacheMixin',
     './../Domains',
     './../_SelectPopulate',
+
+    'app/config',
+    'app/_InProgressCacheMixin',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -10,6 +11,7 @@ define([
 
     'dojo/dom-class',
     'dojo/query',
+    'dojo/string',
     'dojo/text!app/location/templates/Location.html',
     'dojo/topic',
     'dojo/_base/declare',
@@ -21,10 +23,11 @@ define([
     'app/location/Station',
     'app/location/VerifyMap'
 ], function (
-    config,
-    _InProgressCacheMixin,
     Domains,
     _SelectPopulate,
+
+    config,
+    _InProgressCacheMixin,
 
     _TemplatedMixin,
     _WidgetBase,
@@ -32,6 +35,7 @@ define([
 
     domClass,
     query,
+    dojoString,
     template,
     topic,
     declare,
@@ -65,19 +69,11 @@ define([
 
         // invalidLocationMsg: String
         //      see hasValidLocation
-        invalidLocationMsg: 'No valid location defined! You may need to verify the location.',
+        invalidLocationMsg: 'No valid stream reach defined! You may need to verify the location.',
 
         // invalidStationMsg: String
         //      see hasValidLocation
         invalidStationMsg: 'Please define a station!',
-
-        // invalidStreamLength: String
-        //      see hasValidLocation
-        invalidStreamLength: 'Please specify a stream length!',
-
-        // dateRequiredMsg: String
-        //      see hasValidLocation
-        dateRequiredMsg: 'Please specify a collection date!',
 
         // utmGeo: ESRI Geometry Feature
         //      the geometry of the stream segment in utm
@@ -87,10 +83,16 @@ define([
         //      description
         geoDef: null,
 
+        // requiredFields: String[]
+        //      a list of dojo attach point names that are associated with required fields
+        requiredFields: null,
+
         constructor: function () {
             // summary:
             //    description
             console.log('app/location/Location:constructor', arguments);
+
+            this.requiredFields = ['streamLengthTxt', 'dateTxt', 'surveyPurposeSelect', 'observersTxt'];
         },
         postCreate: function () {
             // summary:
@@ -313,13 +315,25 @@ define([
                 return this.invalidLocationMsg;
             } else if (this.station.stationTxt.value.length === 0) {
                 return this.invalidStationMsg;
-            } else if (this.streamLengthTxt.value.length === 0) {
-                return this.invalidStreamLength;
-            } else if (this.dateTxt.value === '') {
-                return this.dateRequiredMsg;
             }
 
-            return true;
+            const requireField = (attachPointName) => {
+                const input = this[attachPointName];
+                const labelTxt = query('label', input.parentElement)[0].innerText;
+                if (input.value === '' || input.value === 0) {
+                    return dojoString.substitute(config.missingRequiredFieldTxt, [labelTxt]);
+                }
+
+                return true;
+            };
+
+            return this.requiredFields.map(requireField).reduce((previous, current) => {
+                if (previous === true) {
+                    return current;
+                }
+
+                return previous;
+            });
         },
         clear: function () {
             // summary:

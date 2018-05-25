@@ -11,7 +11,6 @@ define([
     'dojo/dom-class',
     'dojo/dom-style',
     'dojo/query',
-    'dojo/string',
     'dojo/text!app/method/templates/Equipment.html',
     'dojo/_base/declare',
 
@@ -33,7 +32,6 @@ define([
     domClass,
     domStyle,
     query,
-    dojoString,
     template,
     declare,
 

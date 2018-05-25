@@ -181,6 +181,12 @@ require([
                 testWidget.station.stationTxt.value = s;
                 testWidget.streamLengthTxt.value = 500;
                 testWidget.dateTxt = '01/20/1980';
+                domConstruct.create('option', {
+                    innerHTML: s,
+                    value: s
+                }, testWidget.surveyPurposeSelect);
+                testWidget.surveyPurposeSelect.value = s;
+                testWidget.observersTxt = s;
 
                 expect(testWidget.hasValidLocation()).toBe(true);
             });
@@ -201,7 +207,7 @@ require([
                 $(testWidget.station.stationTxt).combobox('refresh');
                 testWidget.station.stationTxt.value = s;
 
-                expect(testWidget.hasValidLocation()).toEqual(testWidget.invalidStreamLength);
+                expect(testWidget.hasValidLocation()).toMatch(/Missing value/);
             });
         });
         describe('clear', function () {
