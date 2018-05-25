@@ -61,6 +61,7 @@ define([
             }
         },
         getCodedValues: agrcDomains.getCodedValues,
+        makeRequest: agrcDomains.makeRequest,
         onOtherSelected: function (select) {
             // summary:
             //      fires when a select is changed to the "other" option
