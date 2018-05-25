@@ -353,7 +353,6 @@ define([
                 [fn.SUB_RUBB]: helpers.getNumericValue(this.rubbleTxt.value),
                 [fn.SUB_BOUL]: helpers.getNumericValue(this.boulderTxt.value),
                 [fn.SUB_BEDR]: helpers.getNumericValue(this.bedrockTxt.value),
-                [fn.VEGD]: helpers.getNumericValue(this.vegDensityTxt.value),
                 [fn.SIN]: helpers.getNumericValue(this.sinuosityTxt.value),
                 [fn.EROS]: helpers.getNumericValue(this.banksErodingTxt.value),
                 [fn.TEMP]: helpers.getNumericValue(this.waterTempTxt.value),

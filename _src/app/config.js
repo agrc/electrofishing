@@ -265,7 +265,6 @@ define([
                 SUB_RUBB: 'SUB_RUBB',
                 SUB_BOUL: 'SUB_BOUL',
                 SUB_BEDR: 'SUB_BEDR',
-                VEGD: 'VEGD',
                 WWID: 'WWID',
                 SIN: 'SIN',
                 VEL: 'VEL',

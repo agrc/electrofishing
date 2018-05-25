@@ -30,7 +30,6 @@ require([
         describe('clear', function () {
             it('clears all text boxes and resets all comboboxes', function (done) {
                 testWidget.finesTxt.value = '2';
-                testWidget.vegDensityTxt.value = '2';
                 domConstruct.create('option', {
                     innerHTML: '',
                     value: ''
@@ -48,7 +47,6 @@ require([
 
                 testWidget.clear().then(() => {
                     expect(testWidget.finesTxt.value).toEqual('');
-                    expect(testWidget.vegDensityTxt.value).toEqual('');
                     expect(testWidget.springSelect.value).toEqual('');
                     expect(testWidget.acidityTxt.value).toEqual('');
                     expect(testWidget.sedTotalSpan.innerHTML).toEqual('0');
@@ -86,7 +84,6 @@ require([
         describe('getData', function () {
             it('returns a valid record set object', function () {
                 testWidget.finesTxt.value = 2;
-                testWidget.vegDensityTxt.value = 3;
                 domConstruct.create('option', {
                     innerHTML: '',
                     value: ''
@@ -102,7 +99,6 @@ require([
                 var f = data[0];
 
                 expect(f[config.fieldNames.habitat.SUB_FINES]).toEqual(2);
-                expect(f[config.fieldNames.habitat.VEGD]).toEqual(3);
                 expect(f[config.fieldNames.habitat.SPNG]).toEqual('blah');
                 expect(f[config.fieldNames.habitat.PH]).toEqual(4);
             });
