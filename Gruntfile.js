@@ -7,6 +7,7 @@ module.exports = function (grunt) {
         '_src/index.html',
         '_src/ChangeLog.html'
     ];
+    const e2e_files = 'e2e_tests/**/*.js';
     var gruntFile = 'GruntFile.js';
     var deployDir = 'wwwroot/electrofishing';
     var deployFiles = [
@@ -119,10 +120,18 @@ module.exports = function (grunt) {
         },
         eslint: {
             main: {
-                src: [jsFiles].concat([gruntFile])
+                src: [jsFiles].concat([gruntFile]).concat([e2e_files])
             },
             options: {
                 configFile: '.eslintrc'
+            }
+        },
+        exec: {
+            main: {
+                cmd: 'node node_modules/jasmine/bin/jasmine.js --config=e2e_tests/support/jasmine.json'
+            },
+            debug: {
+                cmd: 'DEBUG=true node node_modules/jasmine/bin/jasmine.js --config=e2e_tests/support/jasmine.json'
             }
         },
         imagemin: {
@@ -281,6 +290,10 @@ module.exports = function (grunt) {
                 options: {
                     livereload: true
                 }
+            },
+            e2etests: {
+                files: e2e_files,
+                tasks: ['exec:debug']
             }
         }
     });
@@ -297,6 +310,8 @@ module.exports = function (grunt) {
         'jasmine:main:build',
         'watch'
     ]);
+
+    grunt.registerTask('e2etests', ['exec:debug', 'watch:e2etests']);
 
     grunt.registerTask('travis', [
         'eslint',

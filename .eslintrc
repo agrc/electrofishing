@@ -9,6 +9,7 @@
         "no-alert": "off"
     },
     "globals": {
-        "L": false
+        "L": false,
+        "Promise": true
     }
 }

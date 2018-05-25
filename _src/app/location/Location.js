@@ -217,6 +217,7 @@ define([
             console.log('app/location/Location:addLineToMap', arguments);
 
             this.verifyMapBtn.innerHTML = this.successfullyVerifiedMsg;
+            this.verifyMapBtn.dataset.successful = true;
 
             var line = L.polyline(path, {color: 'red'}).addTo(config.app.map);
             this.path = path;
