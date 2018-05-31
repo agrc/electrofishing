@@ -27,7 +27,8 @@ def appendTableData(tableName, rows):
 
 
 def appendFeatureData(feature):
-    arcpy.AddMessage('Adding feature to SamplingEvents')
+    arcpy.AddMessage('Adding feature to SamplingEvents {}'.format(feature))
+
     attributes = feature['attributes']
     time = None
     if ':' in attributes['EVENT_TIME']:
