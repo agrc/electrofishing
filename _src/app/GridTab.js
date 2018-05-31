@@ -91,9 +91,11 @@ define([
             console.log('app/GridTab:removeTab', arguments);
 
             const children = this.tabBtnContainer.children;
+            const deleteTabNum = this.getNumberOfTabs();
+            const confirmDeleteMessage = `Are you sure that you want to delete ${this.name} #${deleteTabNum} ?`;
 
-            if (children.length > 1) {
-                this.emit('remove-tab', { tabNum: this.getNumberOfTabs() });
+            if (children.length > 1 && window.confirm(confirmDeleteMessage)) {
+                this.emit('remove-tab', { tabNum: deleteTabNum });
 
                 const tab = children[children.length - 1];
                 domConstruct.destroy(tab);

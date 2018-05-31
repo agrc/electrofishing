@@ -15,6 +15,7 @@ var dojoConfig = { // eslint-disable-line no-unused-vars
         'dojo-undef-api': true
     }
 };
+window.confirm = () => true;
 
 // for jasmine-favicon-reporter
 jasmine.getEnv().addReporter(new JasmineFaviconReporter());

@@ -118,7 +118,7 @@ define([
             //      dom is ready
             console.log('app/habitat/Habitat:postCreate', arguments);
 
-            this.gridTab = new GridTab({ name: '' }, this.gridTabDiv);
+            this.gridTab = new GridTab({ name: 'transect' }, this.gridTabDiv);
             this.gridTab.startup();
             this.gridTab.on('add-tab', this.onAddTransect.bind(this));
             this.gridTab.on('remove-tab', this.onRemoveTransect.bind(this));
