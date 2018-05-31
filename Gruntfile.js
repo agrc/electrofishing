@@ -37,6 +37,7 @@ module.exports = function (grunt) {
         };
     }
     var bumpFiles = [
+        'package-lock.json',
         'package.json',
         'bower.json',
         '_src/app/package.json',
