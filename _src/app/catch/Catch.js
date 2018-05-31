@@ -66,6 +66,7 @@ define([
     papaparse
 ) {
     const FN = config.fieldNames.fish;
+    const COUNT = 'COUNT';
 
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GridMixin], {
         widgetsInTemplate: true,
@@ -199,6 +200,19 @@ define([
                             min: 0
                         }
                     }
+                }, {
+                    autoSave: true,
+                    label: 'Count',
+                    field: COUNT,
+                    editor: this.NewNumberSpinner,
+                    sortable: false,
+                    autoSelect: true,
+                    editOn: 'focus',
+                    editorArgs: {
+                        constraints: {
+                            min: 1
+                        }
+                    }
                 }
             ];
 
@@ -299,6 +313,7 @@ define([
                 [fn.LENGTH_TYPE]: lastLengthType,
                 [fn.LENGTH]: null,
                 [fn.WEIGHT]: null,
+                [COUNT]: 1,
                 [fn.NOTES]: ''
             };
 
