@@ -48,6 +48,7 @@ def appendFeatureData(feature):
 
 data = json.loads(arcpy.GetParameterAsText(0))
 # data = json.loads(open('TestData/NewCollectionEventData.json').read())
+arcpy.AddMessage('Received Data: {}'.format(data))
 
 
 arcpy.env.workspace = settings.DB
