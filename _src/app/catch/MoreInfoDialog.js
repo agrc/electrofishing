@@ -393,6 +393,33 @@ define([
             domConstruct.destroy(this.dialog);
 
             this.inherited(arguments);
+        },
+        clear() {
+            // summary:
+            //      clears all data for this widget
+            console.log('app/catch/MoreInfoDialog:clear', arguments);
+
+            this.dietData = {};
+            this.tagsData = {};
+            this.healthData = {};
+
+            this.clearValues();
+
+            this.cacheInProgressData();
+        },
+        removeFish(fishId) {
+            // summary:
+            //      removes all data associated with the fish
+            // fishId: String (guid)
+            console.log('app/catch/MoreInfoDialog:removeFish', arguments);
+
+            [this.dietData, this.tagsData, this.healthData].forEach(data => {
+                if (data[fishId]) {
+                    delete data[fishId];
+                }
+            });
+
+            this.cacheInProgressData();
         }
     });
 });

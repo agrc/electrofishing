@@ -205,5 +205,51 @@ require([
                 expect(data.length).toBe(1);
             });
         });
+        describe('clear', function () {
+            it('clears all of the stored data for this widget', function () {
+                const populatedObject = { a: 1 };
+                const emptyJson = '{}';
+
+                testWidget.dietData = populatedObject;
+                testWidget.tagsData = populatedObject;
+                testWidget.healthData = populatedObject;
+
+                testWidget.clear();
+
+                expect(JSON.stringify(testWidget.dietData)).toEqual(emptyJson);
+                expect(JSON.stringify(testWidget.tagsData)).toEqual(emptyJson);
+                expect(JSON.stringify(testWidget.healthData)).toEqual(emptyJson);
+            });
+        });
+        describe('removeFish', function () {
+            it('removes all data associated with the fish', function () {
+                const populatedObject = { a: 1, b: 2 };
+                const bOnlyJson = '{"b":2}';
+
+                testWidget.dietData = populatedObject;
+                testWidget.tagsData = populatedObject;
+                testWidget.healthData = populatedObject;
+
+                testWidget.removeFish('a');
+
+                expect(JSON.stringify(testWidget.dietData)).toEqual(bOnlyJson);
+                expect(JSON.stringify(testWidget.tagsData)).toEqual(bOnlyJson);
+                expect(JSON.stringify(testWidget.healthData)).toEqual(bOnlyJson);
+            });
+            it('can handle fish ids for which there is no data', function () {
+                const populatedObject = { a: 1, b: 2 };
+                const unchangedJson = '{"a":1,"b":2}';
+
+                testWidget.dietData = populatedObject;
+                testWidget.tagsData = populatedObject;
+                testWidget.healthData = populatedObject;
+
+                testWidget.removeFish('c');
+
+                expect(JSON.stringify(testWidget.dietData)).toEqual(unchangedJson);
+                expect(JSON.stringify(testWidget.tagsData)).toEqual(unchangedJson);
+                expect(JSON.stringify(testWidget.healthData)).toEqual(unchangedJson);
+            });
+        });
     });
 });
