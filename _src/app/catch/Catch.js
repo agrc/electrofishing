@@ -326,12 +326,14 @@ define([
         },
         onRemovePass: function (event) {
             // summary:
-            //      removes the last pass and updates the grid store query
+            //      removes the associated pass data from the grid and more info dialog data
             // event: Event Object
             console.log('app/catch/Catch:onRemovePass', arguments);
 
-            this.store.filter(this.getPassFilter(event.tabNum))
-                .forEach(item => this.store.removeSync(item[this.idProperty]));
+            this.store.filter(this.getPassFilter(event.tabNum)).forEach(item => {
+                this.moreInfoDialog.removeFish(item[this.idProperty]);
+                this.store.removeSync(item[this.idProperty]);
+            });
         },
         getPassFilter: function (passNum) {
             // summary:
@@ -463,7 +465,7 @@ define([
         },
         clear: function () {
             // summary:
-            //      description
+            //      clears all data associated with this widget and it's child widgets
             console.log('app/catch/Catch:clear', arguments);
             this.numPasses = 1;
             var that = this;
@@ -471,7 +473,7 @@ define([
             return localforage.removeItem(this.cacheId).then(function () {
                 that.gridTab.clear();
                 that.clearGrid();
-                that.moreInfoDialog.clearValues();
+                that.moreInfoDialog.clear();
             });
         },
         isValid: function () {
@@ -556,6 +558,17 @@ define([
             parseResults.data.forEach(data => this.addRow(data));
 
             this.grid.refresh();
+        },
+        deleteRow() {
+            // summary:
+            //      overriden from _GridMixin to add the removal of the fish from the more info dialog
+            console.log('app/catch/Catch', arguments);
+
+            const selectedRow = this.getSelectedRow();
+
+            this.moreInfoDialog.removeFish(selectedRow.data[FN.FISH_ID]);
+
+            this.inherited(arguments);
         }
     });
 });
