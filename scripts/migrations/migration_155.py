@@ -25,7 +25,7 @@ def recreate_field(table, field_infos):
 
 table_name = 'Equipment'
 field_infos = [
-    ('VOLTAGE', 'Voltage', 5, 6),  #: min 0, max 1000, steps .01
+    ('VOLTAGE', 'Voltage', 6, 2),  #: min 0, max 1000, steps .01
     ('AMPS', 'Amps', 4, 1),  #: min 0, max 150, steps .1
     ('CATHODE_LEN', 'Cathode Length', 5, 2),  #: min 1, max 305, steps .01
     ('CATHODE_DIAMETER', 'Cathode Diameter', 3, 2),  #: min 0.1, max 2.54 steps .01
