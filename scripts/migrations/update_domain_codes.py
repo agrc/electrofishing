@@ -72,8 +72,15 @@ for domain_name in domains_in_data:
 
         #: translate codes into descriptions in data
         print('calculating new values')
+        expression = 'translate(!{}!)'.format(field.name)
         code_block = dedent("""
             from json import loads
             lookup = loads('{}')
+
+            def translate(value):
+                try:
+                    return lookup[value]
+                except:
+                    return None
         """.format(dumps(coded_values)))
-        arcpy.management.CalculateField(dataset, field.name, 'lookup[!{}!]'.format(field.name), code_block=code_block)
+        arcpy.management.CalculateField(dataset, field.name, expression, code_block=code_block)
