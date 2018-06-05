@@ -170,6 +170,66 @@ require([
             });
         });
 
+        describe('wetted width and start distance', () => {
+            it('is valid with undefined wetted width value', () => {
+                let wettedWidth;
+
+                testWidget.store.data[0] = { DEPTH: 1, DISTANCE_START: null };
+                testWidget.store.data[1] = { DEPTH: 10, DISTANCE_START: 9 };
+
+                const valid = testWidget._validateWidth(wettedWidth);
+
+                expect(valid.result).toBe(true);
+                expect(valid.message).toContain('does not have a value');
+            });
+            it('is valid with null wetted width value', () => {
+                const wettedWidth = null;
+
+                testWidget.store.data[0] = { DEPTH: 1, DISTANCE_START: null };
+                testWidget.store.data[1] = { DEPTH: 10, DISTANCE_START: 9 };
+
+                const valid = testWidget._validateWidth(wettedWidth);
+
+                expect(valid.result).toBe(true);
+                expect(valid.message).toContain('does not have a value');
+            });
+            it('is valid when start distances are empty', () => {
+                const wettedWidth = 10;
+
+                testWidget.store.data[0] = { DEPTH: 1, DISTANCE_START: null };
+                testWidget.store.data[1] = { DEPTH: 10, DISTANCE_START: null };
+
+                const valid = testWidget._validateWidth(wettedWidth);
+
+                expect(valid.result).toBe(true);
+                expect(valid.message).toBeNull();
+            });
+            it('is valid when wetted width value is greater than all start distances', () => {
+                const wettedWidth = 10;
+
+                testWidget.store.data[0] = { DEPTH: 1, DISTANCE_START: null };
+                testWidget.store.data[1] = { DEPTH: 10, DISTANCE_START: 9 };
+                testWidget.store.data[2] = { DEPTH: 10, DISTANCE_START: 3.01 };
+
+                const valid = testWidget._validateWidth(wettedWidth);
+
+                expect(valid.result).toBe(true);
+                expect(valid.message).toBeNull();
+            });
+            it('is not valid when wetted width value is smaller than any start distances', () => {
+                const wettedWidth = 10;
+
+                testWidget.store.data[0] = { DEPTH: 1, DISTANCE_START: 11 };
+                testWidget.store.data[1] = { DEPTH: 10, DISTANCE_START: 9 };
+                testWidget.store.data[2] = { DEPTH: 10, DISTANCE_START: 3.01 };
+
+                const valid = testWidget._validateWidth(wettedWidth);
+
+                expect(valid.result).toBe(false);
+                expect(valid.message).toContain('cannot be greater than');
+            });
+        });
+
         describe('onRemoveTransect', function () {
             it('removes the transect object', function () {
                 testWidget.gridTab.addTab();

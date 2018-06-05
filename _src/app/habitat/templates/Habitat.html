@@ -250,6 +250,7 @@
                 <label class="control-label">Wetted Width (m)</label>
                 <input type="number"
                     data-dojo-attach-point="wettedWidthTxt"
+                    data-dojo-attach-event="change:onWidthChange"
                     step="0.01"
                     min="0"
                     max="1000"
@@ -262,8 +263,7 @@
                 <select data-dojo-attach-point="startingBank" class="form-control"></select>
             </div>
         </div>
-        <div class="col-md-3">
-            <br>
+        <div class="col-md-3" style="margin-top:25px">
             <div class="btn-group">
                 <a class="btn btn-danger"
                     data-dojo-attach-point="deleteRowBtn"
