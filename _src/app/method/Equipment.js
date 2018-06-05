@@ -57,6 +57,11 @@ define([
         //      defined in widget template
         gridDiv: null,
 
+        // autoAdvance: Boolean
+        //      create a new row if user tabs past last column
+        //      override the property of _GridMixin
+        autoAdvance: false,
+
         // skipNumber: Number
         //      The number of fields to skip when you tab at the end of the row
         //      This is to skip over the hidden fields
