@@ -13,10 +13,12 @@ define([
 
     'dojo/DeferredList',
     'dojo/dom-class',
+    'dojo/on',
     'dojo/query',
     'dojo/text!./templates/Habitat.html',
     'dojo/_base/declare',
     'dojo/_base/lang',
+    'dojo/topic',
 
     'dojox/uuid/generateRandomUuid',
 
@@ -38,10 +40,12 @@ define([
 
     DeferredList,
     domClass,
+    on,
     query,
     template,
     declare,
     lang,
+    topic,
 
     generateRandomUuid,
 
@@ -208,12 +212,23 @@ define([
                 }
             }];
             this.initGrid(columns);
+
+            this.own(
+                on(this.grid, 'keyup', () => {
+                    this.showValidation(this.wettedWidthTxt.valueAsNumber);
+                }),
+                on(this.grid, 'dgrid-datachange', () => {
+                    this.showValidation(this.wettedWidthTxt.valueAsNumber);
+                })
+            );
+
             this.addRow();
 
             // relayout grid once tab has been shown
             // this prevents the headers from being overlapped by the first row
             $('a[href="#habitatTab"]').one('shown.bs.tab', function () {
                 this.grid.startup();
+                this.showValidation(this.wettedWidthTxt.valueAsNumber);
             }.bind(this));
 
             this.inherited(arguments);
@@ -233,7 +248,6 @@ define([
             };
 
             this.store.addSync(data);
-
             this.grid.focus(this.grid.cell(data[this.idProperty], '2'));
         },
         hydrateWithInProgressData: function () {
@@ -418,6 +432,14 @@ define([
                 this.clearValue(this.startingBank);
             }
         },
+        onWidthChange() {
+            // summary:
+            //      checks the distance from shore against the width value
+            // toasts a warning if the user needs to do something
+            console.info('app/habitat/Habitat:onWidthChange', arguments);
+
+            this.showValidation(this.wettedWidthTxt.valueAsNumber);
+        },
         getTransectFilter: function (transectNum) {
             // summary:
             //      returns an object suitable to pass to store.filter that filters the data
@@ -483,6 +505,68 @@ define([
 
                 return lang.mixin(this.transects[key], obj);
             }.bind(this));
+        },
+        showValidation(width) {
+            // summary:
+            //      shows validation messages
+            console.info('app/habitat/Habitat:showValidation', arguments);
+
+            const validation = this._validateWidth(width);
+
+            domClass.remove(this.validateMsg, 'alert-info alert-danger');
+            domClass.add(this.validateMsg, 'hidden');
+
+            let type = 'danger';
+            if (validation.result) {
+                type = 'info';
+            }
+
+            if (validation.message) {
+                domClass.add(this.validateMsg, `alert alert-${type}`);
+                domClass.remove(this.validateMsg, 'hidden');
+                this.validateMsg.innerHTML = validation.message;
+            } else {
+                domClass.add(this.validateMsg, 'hidden');
+            }
+        },
+        _validateWidth(wettedWidth) {
+            // summary:
+            //      vlidation function
+            // boolean
+            console.info('app/habitat/Habitat:_validateWidth', arguments);
+
+            if (!wettedWidth) {
+                let message = null;
+
+                const hasStartDistances = this.store.data.some(row => {
+                    return row[FN.transectMeasurements.DISTANCE_START];
+                });
+
+                if (hasStartDistances) {
+                    message = 'Wetted Width does not have a value. Remember that the ' +
+                             'distance from starting bank needs to be less than the wetted width.';
+                }
+
+                return {
+                    result: true,
+                    message: message
+                };
+            }
+
+            const isValid = this.store.data.every(row => {
+                const start = row[FN.transectMeasurements.DISTANCE_START];
+
+                return !isNaN(start) && start < wettedWidth;
+            });
+
+            let message = isValid ?
+                null :
+                'The distance from the starting bank cannot be greater than the wetted width.';
+
+            return {
+                result: isValid,
+                message: message
+            };
         }
     });
 });
