@@ -54,6 +54,10 @@ define([
         // grid: DGrid
         grid: null,
 
+        // autoAdvance: Boolean
+        //      create a new row if user tabs past last column
+        autoAdvance: true,
+
         // store: DStore
         //      the store that is used to populate the grid
         store: null,
@@ -150,7 +154,9 @@ define([
                     if (that.grid.row(e.target).data[that.idProperty] ===
                         passData[passData.length - 1][that.idProperty]) {
                         // last row for this pass
-                        that.addRow();
+                        if (that.autoAdvance) {
+                            that.addRow();
+                        }
                     } else {
                         // skip fields
                         Keyboard.moveFocusHorizontal.call(that.grid, e, that.skipNumber);
