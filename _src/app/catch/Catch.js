@@ -473,7 +473,9 @@ define([
             //      description
             console.log('app/catch/Catch:onBatchToggle', arguments);
 
-            this.batchWeightTxt.focus();
+            window.setTimeout(() => {
+                this.batchWeightTxt.focus();
+            }, 100);
         },
         moreInfo: function (evt) {
             // summary:
