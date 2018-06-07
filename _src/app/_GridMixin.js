@@ -143,9 +143,7 @@ define([
             var modifierKeys = [
                 keys.TAB,
                 keys.LEFT_ARROW,
-                keys.UP_ARROW,
-                keys.RIGHT_ARROW,
-                keys.DOWN_ARROW
+                keys.RIGHT_ARROW
             ];
 
             var advance = function () {
@@ -189,12 +187,6 @@ define([
                         break;
                     case keys.RIGHT_ARROW:
                         advance();
-                        break;
-                    case keys.UP_ARROW:
-                        Keyboard.moveFocusUp.call(that.grid, e);
-                        break;
-                    case keys.DOWN_ARROW:
-                        Keyboard.moveFocusDown.call(that.grid, e);
                         break;
                     default:
                         break;
