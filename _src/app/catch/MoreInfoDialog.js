@@ -172,11 +172,14 @@ define([
                     autoSave: true,
                     label: 'Measurement',
                     field: config.fieldNames.diet.MEASUREMENT,
-                    editor: 'text',
+                    editor: this.NewNumberSpinner,
+                    autoSelect: true,
                     sortable: false,
                     editOn: 'focus',
                     editorArgs: {
-                        className: 'form-control dgrid-input'
+                        constraints: {
+                            min: 0
+                        }
                     }
                 }
             ];
