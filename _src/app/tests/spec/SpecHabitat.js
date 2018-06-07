@@ -226,7 +226,7 @@ require([
                 const valid = testWidget._validateWidth(wettedWidth);
 
                 expect(valid.result).toBe(false);
-                expect(valid.message).toContain('cannot be greater than');
+                expect(valid.message).toContain('less than');
             });
         });
 
