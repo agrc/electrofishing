@@ -211,17 +211,8 @@ define([
                     }
                 }
             }];
+
             this.initGrid(columns);
-
-            this.own(
-                on(this.grid, 'keyup', () => {
-                    this.showValidation(this.wettedWidthTxt.valueAsNumber);
-                }),
-                on(this.grid, 'dgrid-datachange', () => {
-                    this.showValidation(this.wettedWidthTxt.valueAsNumber);
-                })
-            );
-
             this.addRow();
 
             // relayout grid once tab has been shown
@@ -231,7 +222,28 @@ define([
                 this.showValidation(this.wettedWidthTxt.valueAsNumber);
             }.bind(this));
 
+            this._trackStore();
+
             this.inherited(arguments);
+        },
+        _trackStore() {
+            // summary:
+            //      sets up the events to track the store
+            // param or return
+            console.info('app/habitat/Habitat:_trackStore', arguments);
+
+            if (this._storeEvent) {
+                this._storeEvent.remove();
+                this._storeEvent = null;
+            }
+
+            this._storeEvent = this.store.on('add, update, delete', () => {
+                this.showValidation(this.wettedWidthTxt.valueAsNumber);
+            });
+
+            this.own(
+                this._storeEvent
+            );
         },
         addRow: function () {
             // summary:
@@ -259,6 +271,8 @@ define([
                 if (inProgressData) {
                     if (inProgressData.gridData) {
                         this.setGridData(inProgressData.gridData);
+                        // setGridData creates a new store. Set up the events again
+                        this._trackStore();
                         this.grid.refresh();
                     }
 
