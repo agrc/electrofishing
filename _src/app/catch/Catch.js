@@ -66,7 +66,6 @@ define([
     papaparse
 ) {
     const FN = config.fieldNames.fish;
-    const COUNT = 'COUNT';
 
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GridMixin], {
         widgetsInTemplate: true,
@@ -116,6 +115,9 @@ define([
         //     gridData: object[]
         // }
 
+        // COUNT: string
+        //      name of the Count field in the grid
+        COUNT: 'COUNT',
 
         constructor: function () {
             // summary:
@@ -203,7 +205,7 @@ define([
                 }, {
                     autoSave: true,
                     label: 'Count',
-                    field: COUNT,
+                    field: this.COUNT,
                     editor: this.NewNumberSpinner,
                     sortable: false,
                     autoSelect: true,
@@ -305,7 +307,7 @@ define([
                 lastLengthType = lastRow[fn.LENGTH_TYPE];
             }
             var row = {
-                [fn.FISH_ID]: '{' + generateRandomUuid() + '}',
+                [fn.FISH_ID]: this.getNewFishId(),
                 [fn.EVENT_ID]: config.eventId,
                 [fn.PASS_NUM]: this.gridTab.currentTab,
                 [fn.CATCH_ID]: catchId,
@@ -313,7 +315,7 @@ define([
                 [fn.LENGTH_TYPE]: lastLengthType,
                 [fn.LENGTH]: null,
                 [fn.WEIGHT]: null,
-                [COUNT]: 1,
+                [this.COUNT]: 1,
                 [fn.NOTES]: ''
             };
 
@@ -324,6 +326,14 @@ define([
             this.grid.focus(this.grid.cell(row[fn.FISH_ID], '5'));
 
             return row[fn.FISH_ID];
+        },
+        getNewFishId() {
+            // summary
+            //      returns a new fish id string
+            // returns: string
+            console.log('app/catch/Catch:getNewFishId', arguments);
+
+            return '{' + generateRandomUuid() + '}';
         },
         onAddPass: function (event) {
             // summary:
@@ -504,7 +514,23 @@ define([
             //      packages up the grid data as a record set
             console.log('app/catch/Catch:getData', arguments);
 
-            return this.getGridData();
+            return this.getGridData().reduce((expandedRows, nextRow) => {
+                let count = nextRow[this.COUNT];
+                delete nextRow[this.COUNT];
+                if (count === 1) {
+                    expandedRows.push(nextRow);
+                } else {
+                    while (count > 0) {
+                        nextRow[FN.FISH_ID] = this.getNewFishId();
+
+                        expandedRows.push(lang.clone(nextRow));
+
+                        count = count - 1;
+                    }
+                }
+
+                return expandedRows;
+            }, []);
         },
         _setSelectedRowAttr: function (row) {
             // summary:

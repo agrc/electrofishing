@@ -391,5 +391,48 @@ require([
                 expect(testWidget.store.fetchSync().length).toBe(1);
             });
         });
+
+        describe('getData', function () {
+            it('duplicates rows with count > 1', function () {
+                const rows = [
+                    // fish id, count
+                    [1, 1],
+                    [2, 1],
+                    [3, 5],
+                    [4, 1]
+                ];
+
+                rows.forEach(row => {
+                    const [fishId, count] = row;
+                    testWidget.store.addSync({
+                        [FN.FISH_ID]: fishId,
+                        [FN.EVENT_ID]: 'blah',
+                        [FN.PASS_NUM]: 1,
+                        [FN.CATCH_ID]: 'blah',
+                        [FN.SPECIES_CODE]: 'BT',
+                        [FN.LENGTH_TYPE]: null,
+                        [FN.LENGTH]: null,
+                        [FN.WEIGHT]: null,
+                        [testWidget.COUNT]: count,
+                        [FN.NOTES]: ''
+                    });
+                });
+
+                const submissionRows = testWidget.getData();
+                console.log(submissionRows);
+
+                expect(submissionRows.length).toBe(9);
+
+                // make sure that unique fish ids were created
+                const uniqueIds = submissionRows.reduce((set, nextRow) => {
+                    set.add(nextRow[FN.FISH_ID]);
+
+                    return set;
+                }, new Set());
+                expect(uniqueIds.size).toBe(9);
+
+                expect(submissionRows[0][testWidget.COUNT]).toBeUndefined();
+            });
+        });
     });
 });
