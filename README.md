@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/agrc/electrofishing.svg?branch=master)](https://travis-ci.org/agrc/electrofishing)
+[![Build Status](https://travis-ci.com/agrc/electrofishing.svg?branch=master)](https://travis-ci.com/agrc/electrofishing)
 
 # electro fishing
 Application for recording electrofishing surveys. Built for DWR.
