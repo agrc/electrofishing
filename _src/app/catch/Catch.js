@@ -483,7 +483,7 @@ define([
 
             var row = this.getSelectedRow();
 
-            if (row) {
+            if (row && row.data[this.COUNT] === 1) {
                 this.moreInfoDialog.show(row.data[config.fieldNames.fish.FISH_ID],
                     evt.target.dataset.tab);
             }
