@@ -561,7 +561,7 @@ define([
 
             let message = isValid ?
                 null :
-                'The distance from the starting bank cannot be greater than the wetted width.';
+                'The distance from the starting bank needs to be less than the wetted width.';
 
             return {
                 result: isValid,
