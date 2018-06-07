@@ -443,7 +443,7 @@ define([
 
             var affectedRows = [];
             var item = data.pop();
-            while (item && !item[fn.WEIGHT]) {
+            while (item && item[this.COUNT] === 1 && !item[fn.WEIGHT]) {
                 affectedRows.push(item);
                 item = data.pop();
             }
