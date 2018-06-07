@@ -100,7 +100,6 @@ require([
 
                 var addedRow = testWidget.store.data[testWidget.store.data.length - 1];
 
-                console.log(testWidget.store.data);
                 expect(addedRow[fn.CATCH_ID]).toBe(3);
             });
             it('remembers the species code and length type', function () {
@@ -288,6 +287,27 @@ require([
 
                 expect(data[0][config.fieldNames.fish.WEIGHT]).toBe(null);
                 expect(data[1][config.fieldNames.fish.WEIGHT]).toBe(5);
+                expect(data[2][config.fieldNames.fish.WEIGHT]).toBe(4.5);
+                expect(data[3][config.fieldNames.fish.WEIGHT]).toBe(4.5);
+            });
+            it('it does not affect rows with count > 1', function () {
+                testWidget.addRow({
+                    [testWidget.COUNT]: 2
+                });
+                testWidget.addRow();
+                testWidget.addRow();
+
+                testWidget.batchWeightTxt.value = 9;
+
+                var data = testWidget.store.data;
+                data.forEach(function (d) {
+                    d[config.fieldNames.fish.SPECIES_CODE] = 'a';
+                });
+
+                testWidget.batch();
+
+                expect(data[0][config.fieldNames.fish.WEIGHT]).toBe(null);
+                expect(data[1][config.fieldNames.fish.WEIGHT]).toBe(null);
                 expect(data[2][config.fieldNames.fish.WEIGHT]).toBe(4.5);
                 expect(data[3][config.fieldNames.fish.WEIGHT]).toBe(4.5);
             });
