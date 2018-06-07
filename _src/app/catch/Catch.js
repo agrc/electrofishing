@@ -520,8 +520,17 @@ define([
                 if (count === 1) {
                     expandedRows.push(nextRow);
                 } else {
+                    const weight = nextRow[FN.WEIGHT];
+                    let averageWeight;
+                    if (weight) {
+                        averageWeight = nextRow[FN.WEIGHT] / count;
+                    }
                     while (count > 0) {
                         nextRow[FN.FISH_ID] = this.getNewFishId();
+
+                        if (weight) {
+                            nextRow[FN.WEIGHT] = averageWeight;
+                        }
 
                         expandedRows.push(lang.clone(nextRow));
 
