@@ -80,7 +80,7 @@ define([
         //      The number of fields to skip when you tab at the end of the row
         //      This is to skip over the hidden fields
         //      required for _GridMixin
-        skipNumber: 6,
+        skipNumber: 7,
 
         // lastColumn: String
         //      required for _GridMixin
