@@ -419,7 +419,6 @@ require([
                 });
 
                 const submissionRows = testWidget.getData();
-                console.log(submissionRows);
 
                 expect(submissionRows.length).toBe(9);
 
@@ -432,6 +431,40 @@ require([
                 expect(uniqueIds.size).toBe(9);
 
                 expect(submissionRows[0][testWidget.COUNT]).toBeUndefined();
+            });
+            it('batch weights for duplicate rows', function () {
+                const averageCatchID = 'averageCatch';
+                const rows = [
+                    // fish id, weight, count, catchID
+                    [1, 1, 1, 'blah'],
+                    [2, 2, 1, 'blah'],
+                    [3, 10, 3, averageCatchID],
+                    [4, 4, 1, 'blah']
+                ];
+
+                rows.forEach(row => {
+                    const [fishId, weight, count, catchID] = row;
+                    testWidget.store.addSync({
+                        [FN.FISH_ID]: fishId,
+                        [FN.EVENT_ID]: 'blah',
+                        [FN.PASS_NUM]: 1,
+                        [FN.CATCH_ID]: catchID,
+                        [FN.SPECIES_CODE]: 'BT',
+                        [FN.LENGTH_TYPE]: null,
+                        [FN.LENGTH]: null,
+                        [FN.WEIGHT]: weight,
+                        [testWidget.COUNT]: count,
+                        [FN.NOTES]: ''
+                    });
+                });
+
+                const submissionRows = testWidget.getData();
+
+                submissionRows.forEach(row => {
+                    if (row[FN.CATCH_ID] === averageCatchID) {
+                        expect(row[FN.WEIGHT]).toBeCloseTo(3.33, 2);
+                    }
+                });
             });
         });
     });
