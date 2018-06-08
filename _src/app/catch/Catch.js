@@ -130,7 +130,7 @@ define([
             this.lastColumn = fn.WEIGHT;
             this.firstColumn = fn.SPECIES_CODE;
             this.idProperty = fn.FISH_ID;
-            this.ignoreColumn = config.fieldNames.MOREINFO;
+            this.ignoreColumn = [config.fieldNames.MOREINFO, 'isTrusted'];
         },
         postCreate: function () {
             // summary:

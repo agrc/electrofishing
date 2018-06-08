@@ -267,7 +267,16 @@ define([
                 }
 
                 data.forEach(function removeIgnoreFields(d) {
-                    delete d[this.ignoreColumn];
+                    let ignoreColumn = this.ignoreColumn;
+                    if (!Array.isArray(this.ignoreColumn)) {
+                        ignoreColumn = [this.ignoreColumn];
+                    }
+
+                    ignoreColumn.forEach(column => {
+                        if (d[column]) {
+                            delete d[column];
+                        }
+                    });
                 }, this);
 
                 return data;
