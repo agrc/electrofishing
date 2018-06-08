@@ -1,0 +1,359 @@
+{
+    "SamplingEvents": {
+        "geometry": {
+            "paths": [
+                [
+                    [
+                        463502.7472000001,
+                        4493214.657199999
+                    ],
+                    [
+                        463497.3099999996,
+                        4493209.220000001
+                    ],
+                    [
+                        463455.7792999996,
+                        4493201.133300001
+                    ]
+                ]
+            ],
+            "spatialReference": {
+                "wkid": 26912
+            }
+        },
+        "attributes": {
+            "EVENT_ID": "{031dca27-b37e-4d2d-847f-5d5b9e0fe093}",
+            "GEO_DEF": "start:{\"x\":463455.55925876985,\"y\":4493200.233695918}|dist:50|dir:up",
+            "LOCATION_NOTES": "",
+            "EVENT_DATE": "2018-06-08",
+            "EVENT_TIME": "",
+            "OBSERVERS": "hi",
+            "WEATHER": "",
+            "STATION_ID": "{e9d9745d-505c-415e-8029-4c807fd1e9a2}",
+            "SEGMENT_LENGTH": 50,
+            "NUM_PASSES": 1
+        }
+    },
+    "Equipment": [
+        {
+            "MODEL": "",
+            "ANODE_SHAPE": "",
+            "ARRAY_TYPE": "",
+            "NUM_NETTERS": null,
+            "CATHODE_TYPE": "",
+            "NUM_ANODES": 1,
+            "CATHODE_LEN": null,
+            "CATHODE_DIAMETER": null,
+            "MACHINE_RES": null,
+            "WAVEFORM": "",
+            "VOLTAGE": null,
+            "DUTY_CYCLE": null,
+            "FREQUENCY": null,
+            "AMPS": null,
+            "PEDAL_TIME": null,
+            "EVENT_ID": "{031dca27-b37e-4d2d-847f-5d5b9e0fe093}",
+            "TYPE": "raftboat",
+            "EQUIPMENT_ID": "{4d83f676-9ecd-4c51-86c8-0ea5c0aa714b}"
+        }
+    ],
+    "Anodes": [],
+    "Fish": [
+        {
+            "FISH_ID": "{5c764b14-404b-45d1-8e36-dab0814eb662}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 1,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": 4,
+            "WEIGHT": 0.5714285714285714,
+            "NOTES": ""
+        },
+        {
+            "FISH_ID": "{84b7a5e0-fc21-400c-83db-a2ef0aad4fdb}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 1,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": 4,
+            "WEIGHT": 0.5714285714285714,
+            "NOTES": ""
+        },
+        {
+            "FISH_ID": "{54be933d-d912-431d-8a01-cf08702ab566}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 1,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": 4,
+            "WEIGHT": 0.5714285714285714,
+            "NOTES": ""
+        },
+        {
+            "FISH_ID": "{0a8e72d3-beac-4e4b-806d-3ccf42a08462}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 1,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": 4,
+            "WEIGHT": 0.5714285714285714,
+            "NOTES": ""
+        },
+        {
+            "FISH_ID": "{1f8e469f-26a1-4967-80cb-2bd2f3629776}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 1,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": 4,
+            "WEIGHT": 0.5714285714285714,
+            "NOTES": ""
+        },
+        {
+            "FISH_ID": "{340435ca-fbe6-4666-83c4-be5b9a7891f6}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 1,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": 4,
+            "WEIGHT": 0.5714285714285714,
+            "NOTES": ""
+        },
+        {
+            "FISH_ID": "{0964fa00-a36d-41b7-8142-37aca997047d}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 1,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": 4,
+            "WEIGHT": 0.5714285714285714,
+            "NOTES": ""
+        },
+        {
+            "FISH_ID": "{0495d01b-3a96-401b-8f9a-07edaeef444b}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 2,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": null,
+            "WEIGHT": null,
+            "NOTES": "",
+            "isTrusted": true
+        },
+        {
+            "FISH_ID": "{9be3bb87-02f0-4d6e-8fdb-82762882d00d}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 3,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": null,
+            "WEIGHT": null,
+            "NOTES": ""
+        },
+        {
+            "FISH_ID": "{92dea6fd-278b-407c-86c5-f32d401d6af6}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 4,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": null,
+            "WEIGHT": 1.5,
+            "NOTES": ""
+        },
+        {
+            "FISH_ID": "{8d7a8299-acee-4b36-8662-7c33f060c34b}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 4,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": null,
+            "WEIGHT": 1.5,
+            "NOTES": ""
+        },
+        {
+            "FISH_ID": "{ff0211a1-cf0e-466e-8599-f00a5dc499d0}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 5,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": null,
+            "WEIGHT": 3,
+            "NOTES": ""
+        },
+        {
+            "FISH_ID": "{b9f65703-8dd4-40ac-8c8a-e0261bfabfdd}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 6,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": null,
+            "WEIGHT": 3,
+            "NOTES": ""
+        },
+        {
+            "FISH_ID": "{46e59a95-c40c-4d42-83d9-f8f4f687ee5b}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 7,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": null,
+            "WEIGHT": 24.6,
+            "NOTES": ""
+        },
+        {
+            "FISH_ID": "{cf5c7063-0794-4467-89dd-7d2ba38e3a0a}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 8,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": null,
+            "WEIGHT": 24.6,
+            "NOTES": ""
+        },
+        {
+            "FISH_ID": "{ad1d151e-81db-4ee1-8784-f15804fa0eac}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 9,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": null,
+            "WEIGHT": 24.6,
+            "NOTES": ""
+        },
+        {
+            "FISH_ID": "{f5293fc5-90cd-4ebe-80bf-b8dd1dc6673b}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 10,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": null,
+            "WEIGHT": 24.6,
+            "NOTES": ""
+        },
+        {
+            "FISH_ID": "{41632394-d805-4160-80dc-7f3b64e7027a}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 11,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": null,
+            "WEIGHT": 24.6,
+            "NOTES": ""
+        },
+        {
+            "FISH_ID": "{79b4549f-b68b-426d-81d7-8d67875d234c}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 12,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": null,
+            "WEIGHT": 5,
+            "NOTES": ""
+        },
+        {
+            "FISH_ID": "{e06c5aec-dd31-46ec-8c88-4c5d3bc8ff24}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 13,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": null,
+            "WEIGHT": 5,
+            "NOTES": ""
+        },
+        {
+            "FISH_ID": "{afc6e542-f312-4f15-8c27-6831a329f286}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 14,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": null,
+            "WEIGHT": 5,
+            "NOTES": ""
+        },
+        {
+            "FISH_ID": "{45aaa105-d286-4066-8d91-56156e0a2885}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 15,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": null,
+            "WEIGHT": 5,
+            "NOTES": ""
+        },
+        {
+            "FISH_ID": "{21e8d36a-4112-46de-844c-8bd3dfb9c1d9}",
+            "EVENT_ID": "{2cbee7f1-d2d7-4e90-82d9-5f8119e283f7}",
+            "PASS_NUM": 1,
+            "CATCH_ID": 16,
+            "SPECIES_CODE": "BHBK",
+            "LENGTH_TYPE": "TOT",
+            "LENGTH": null,
+            "WEIGHT": 5,
+            "NOTES": ""
+        }
+    ],
+    "Diet": [],
+    "Tags": [],
+    "Health": [],
+    "Habitat": [
+        {
+            "EVENT_ID": "{031dca27-b37e-4d2d-847f-5d5b9e0fe093}",
+            "BANKVEG": null,
+            "DOVR": "",
+            "DUND": "",
+            "LGWD": null,
+            "POOL": null,
+            "SPNG": "",
+            "RIFF": null,
+            "RUNA": null,
+            "SUB_FINES": null,
+            "SUB_SAND": null,
+            "SUB_GRAV": null,
+            "SUB_COBB": null,
+            "SUB_RUBB": null,
+            "SUB_BOUL": null,
+            "SUB_BEDR": null,
+            "SIN": null,
+            "EROS": null,
+            "TEMP_": null,
+            "PH": null,
+            "CON": null,
+            "OXYGEN": null,
+            "SOLIDS": null,
+            "TURBIDITY": null,
+            "ALKALINITY": null,
+            "BACKWATER": null
+        }
+    ],
+    "Transect": [
+        {
+            "TRANSECT_ID": "{856bdfc5-debd-4419-82eb-9d060b9c3e41}",
+            "BWID": null,
+            "WWID": 4.01,
+            "STARTING_BANK": "",
+            "EVENT_ID": "{031dca27-b37e-4d2d-847f-5d5b9e0fe093}"
+        }
+    ],
+    "TransectMeasurements": []
+}
