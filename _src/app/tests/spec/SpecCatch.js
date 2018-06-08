@@ -114,11 +114,11 @@ require([
                 expect(newObject[config.fieldNames.fish.SPECIES_CODE]).toBe(species);
                 expect(newObject[config.fieldNames.fish.LENGTH_TYPE]).toBe(lengthType);
             });
-            it('it accepts optional values to populate the row with', function () {
+            it('accepts optional values to populate the row with', function () {
                 const species = 'BS';
                 const num = '1';
                 const lenType = 'STD';
-                const id = testWidget.addRow({
+                const id = testWidget.addRow(null, {
                     [FN.SPECIES_CODE]: species,
                     [FN.LENGTH_TYPE]: lenType,
                     [FN.LENGTH]: num,
@@ -290,8 +290,8 @@ require([
                 expect(data[2][config.fieldNames.fish.WEIGHT]).toBe(4.5);
                 expect(data[3][config.fieldNames.fish.WEIGHT]).toBe(4.5);
             });
-            it('it does not affect rows with count > 1', function () {
-                testWidget.addRow({
+            it('does not affect rows with count > 1', function () {
+                testWidget.addRow(null, {
                     [testWidget.COUNT]: 2
                 });
                 testWidget.addRow();
