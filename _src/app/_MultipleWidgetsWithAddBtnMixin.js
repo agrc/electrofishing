@@ -54,15 +54,15 @@ define([
             console.log('app/_MultipleWidgetsWithAddBtnMixin:addAddBtnWidget', arguments);
 
             if (id === null || id === undefined) {
-                id = this.equipmentCounter;
-                this.equipmentCounter += 1;
+                id = this.widgetCounter;
+                this.widgetCounter += 1;
             }
 
             var widget = new this.AddBtnWidgetClass(
                 {
                     container: this,
                     // for local caching of Method only, doesn't hurt moreinfodialog
-                    cacheId: id || this.equipmentCounter
+                    cacheId: id || this.widgetCounter
                 },
                 domConstruct.create('div', {}, this.addBtnWidgetsContainer)
             );
