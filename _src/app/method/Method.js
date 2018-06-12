@@ -41,9 +41,9 @@ define([
         //      the equipment ids for linking to local storage
         equipmentIds: null,
 
-        // equipmentCounter: unique number for counting equipment widgets
+        // widgetCounter: unique number for counting equipment widgets
         //      used to build cacheId's in _MultipleWidgetsWithAddBtnMixin
-        equipmentCounter: 2,
+        widgetCounter: 2,
 
         constructor: function () {
             // summary:
@@ -83,7 +83,7 @@ define([
             this.promise = localforage.getItem(this.cacheId).then((ids) => {
                 if (ids && ids.length > 0) {
                     this.equipmentIds = ids;
-                    this.equipmentCounter = Math.max(...this.equipmentIds) + 1;
+                    this.widgetCounter = Math.max(...this.equipmentIds) + 1;
                     this.createEquipments(this.equipmentIds);
                 } else {
                     this.equipmentIds = [1];
