@@ -67,31 +67,21 @@ define([
 
             this.inherited(arguments);
         },
-        hydrateWithInProgressData: function () {
+        hydrateWithInProgressData: function (data) {
             // summary:
             //      populates the controls with in progress cached data
             console.log('app/_InProgressCacheMixin:hydrateWithInProgressData', arguments);
 
-            var that = this;
+            if (data) {
+                return new Promise((resolve) => {
+                    this._setFields(data);
+                    resolve(data);
+                });
+            }
 
-            return localforage.getItem(`${this.cachePrefix}_${this.cacheId}`).then(function (inProgressData) {
+            return localforage.getItem(`${this.cachePrefix}_${this.cacheId}`).then((inProgressData) => {
                 if (inProgressData) {
-                    that.inputs.forEach(function (node) {
-                        if (node.dataset.dojoAttachPoint in inProgressData) {
-                            if (node.tagName === 'SELECT' && node.children.length === 0) {
-                                node.dataset[config.tempValueKey] = inProgressData[node.dataset.dojoAttachPoint];
-                            } else {
-                                node.value = inProgressData[node.dataset.dojoAttachPoint];
-                            }
-
-                            // fire onchange for inputs involved with NumericInputValidator
-                            on.emit(node, 'change', {bubbles: false});
-
-                            if (node.tagName === 'SELECT') {
-                                $(node).combobox('refresh');
-                            }
-                        }
-                    });
+                    this._setFields(inProgressData);
                 }
 
                 return inProgressData;
@@ -126,6 +116,29 @@ define([
             console.log('app/_InProgressCacheMixin:getAdditionalCacheData', arguments);
 
             return {};
+        },
+        _setFields(data) {
+            // summary:
+            //      description
+            // param or return
+            console.info('app/_InProgressCacheMixin:_setFields', arguments);
+
+            this.inputs.forEach((node) => {
+                if (node.dataset.dojoAttachPoint in data) {
+                    if (node.tagName === 'SELECT' && node.children.length === 0) {
+                        node.dataset[config.tempValueKey] = data[node.dataset.dojoAttachPoint];
+                    } else {
+                        node.value = data[node.dataset.dojoAttachPoint];
+                    }
+
+                    // fire onchange for inputs involved with NumericInputValidator
+                    on.emit(node, 'change', {bubbles: false});
+
+                    if (node.tagName === 'SELECT') {
+                        $(node).combobox('refresh');
+                    }
+                }
+            });
         }
     });
 });
