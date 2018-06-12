@@ -26,7 +26,7 @@ require([
 
         describe('initChildWidgets', function () {
             it('creates multiple existing widgets if there is cached in progress data', function (done) {
-                localforage.setItem(Method.prototype.cacheId, 3).then(function () {
+                localforage.setItem(Method.prototype.cacheId, [1, 2, 3]).then(function () {
                     testWidget.addBtnWidgets = [];
 
                     testWidget.initChildWidgets().then(function () {

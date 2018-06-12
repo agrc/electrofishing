@@ -48,16 +48,21 @@ define([
 
             this.addAddBtnWidget();
         },
-        addAddBtnWidget: function () {
+        addAddBtnWidget: function (id) {
             // summary:
             //      Fires when the add button is pressed on the _addBtn widget
             console.log('app/_MultipleWidgetsWithAddBtnMixin:addAddBtnWidget', arguments);
+
+            if (id === null || id === undefined) {
+                id = this.equipmentCounter;
+                this.equipmentCounter += 1;
+            }
 
             var widget = new this.AddBtnWidgetClass(
                 {
                     container: this,
                     // for local caching of Method only, doesn't hurt moreinfodialog
-                    cacheId: this.cacheId + '_' + this.addBtnWidgets.length
+                    cacheId: id || this.equipmentCounter
                 },
                 domConstruct.create('div', {}, this.addBtnWidgetsContainer)
             );
