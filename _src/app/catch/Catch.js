@@ -130,7 +130,7 @@ define([
             this.lastColumn = fn.WEIGHT;
             this.firstColumn = fn.SPECIES_CODE;
             this.idProperty = fn.FISH_ID;
-            this.ignoreColumn = [config.fieldNames.MOREINFO, 'isTrusted'];
+            this.ignoreColumn = config.fieldNames.MOREINFO;
         },
         postCreate: function () {
             // summary:
@@ -285,7 +285,7 @@ define([
                 on(this.batchWeightTxt, 'keyup, change', lang.hitch(this, 'validateBatchForm'))
             );
         },
-        addRow: function (overrides = {}) {
+        addRow: function (event, overrides = {}) {
             // summary
             //      Adds a new empty row to the grid with the appropriate
             //      pass number and a new guid
@@ -607,7 +607,7 @@ define([
                 this.store.removeSync(lastRow[this.idProperty]);
             }
 
-            parseResults.data.forEach(data => this.addRow(data));
+            parseResults.data.forEach(data => this.addRow(null, data));
 
             this.grid.refresh();
         },
