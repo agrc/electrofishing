@@ -92,6 +92,11 @@ describe('SubmitReport', function () {
         await page.keyboard.press('Tab');
         await page.keyboard.type('1');
 
+        // add fish notes
+        await page.click('[data-tab="Notes_tab"]');
+        await page.type('[data-dojo-attach-point="notesTxtArea"]', 'test notes');
+        await page.click('.more-info-dialog [data-dojo-attach-point="submitBtn"]');
+
         await page.click('[data-dojo-attach-point="submitBtn"]');
         await page.screenshot({
             path: 'e2e_tests/screenshots/afterSubmit.jpg',
