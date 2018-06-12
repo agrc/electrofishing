@@ -26,13 +26,16 @@ require([
 
         describe('initChildWidgets', function () {
             it('creates multiple existing widgets if there is cached in progress data', function (done) {
-                localforage.setItem(Method.prototype.cacheId, [1, 2, 3]).then(function () {
-                    testWidget.addBtnWidgets = [];
+                console.warn(`setting ${Method.prototype.cacheId} to [1, 2, 3]`);
+                localforage.clear().then(() => {
+                    localforage.setItem(Method.prototype.cacheId, [1, 2, 3]).then(function () {
+                        testWidget.addBtnWidgets = [];
 
-                    testWidget.initChildWidgets().then(function () {
-                        expect(testWidget.addBtnWidgets.length).toBe(3);
+                        testWidget.initChildWidgets().then(function () {
+                            expect(testWidget.addBtnWidgets.length).toBe(3);
 
-                        done();
+                            done();
+                        });
                     });
                 });
             });

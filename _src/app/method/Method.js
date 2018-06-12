@@ -52,6 +52,11 @@ define([
             console.log('app/method/Method:constructor', arguments);
 
             this.AddBtnWidgetClass = Equipment;
+            localforage.getItem(this.cacheId).then((ids) => {
+                if (!ids) {
+                    localforage.setItem(this.cacheId, []);
+                }
+            });
         },
         isValid: function () {
             // summary:
@@ -79,23 +84,20 @@ define([
                 if (ids && ids.length > 0) {
                     this.equipmentIds = ids;
                     this.equipmentCounter = Math.max(...this.equipmentIds) + 1;
-                    this.createEquipmentsAndUpdateLocalStorage(this.equipmentIds);
-
-                    // reset cache number to be correct
+                    this.createEquipments(this.equipmentIds);
                 } else {
                     this.equipmentIds = [1];
                     this.addAddBtnWidget(1);
                 }
-
-                localforage.setItem(this.cacheId, this.equipmentIds);
             });
 
             return this.promise;
         },
-        createEquipmentsAndUpdateLocalStorage: function (equipmentIds) {
+        createEquipments: function (equipmentIds) {
             // summary:
-            //      add additional functionality to base method to cache in progress data
-            console.log('app/method/Method:createEquipmentsAndUpdateLocalStorage', arguments);
+            //      creates equipments with their ids from the
+            //      existing local storage array
+            console.log('app/method/Method:createEquipments', arguments);
 
             equipmentIds.forEach((id) => this.addAddBtnWidget(id, true));
 
@@ -103,8 +105,8 @@ define([
         },
         addAddBtnWidget(id, skipStorageUpdate) {
             // summary:
-            //      description
-            // param or return
+            //      calls into _MultipleWidgetsWithAddBtnMixin to cretae the widget
+            //      adds the widget cache id the main local storage if skipStorageUpdate is unset
             console.info('app/method/Method:addAddBtnWidget', arguments);
 
             const widget = this.inherited(arguments);
@@ -114,9 +116,22 @@ define([
             }
 
             localforage.getItem(this.cacheId).then((ids) => {
+                if (!ids) {
+                    ids = [];
+                }
+
+                const lastId = ids[ids.length - 1];
                 ids.push(widget.cacheId);
 
                 localforage.setItem(this.cacheId, ids);
+
+                if (ids.length <= 1) {
+                    return;
+                }
+
+                localforage.getItem(`${widget.cachePrefix}_${lastId}`).then((data) => {
+                    widget.hydrateWithInProgressData(data);
+                });
             });
         },
         onRemoveAddBtnWidget: function (widget) {
