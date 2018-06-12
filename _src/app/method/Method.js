@@ -37,6 +37,14 @@ define([
         //      used to build cacheId's in _MultipleWidgetsWithAddBtnMixin
         cacheId: 'app/method',
 
+        // equipmentIds: [number ]
+        //      the equipment ids for linking to local storage
+        equipmentIds: null,
+
+        // equipmentCounter: unique number for counting equipment widgets
+        //      used to build cacheId's in _MultipleWidgetsWithAddBtnMixin
+        equipmentCounter: 2,
+
         constructor: function () {
             // summary:
             //      description
@@ -67,39 +75,62 @@ define([
             //      adds additional widgets if there is in progress data that has been cached
             console.log('app/method/Method:initChildWidgets', arguments);
 
-            var that = this;
-            this.promise = localforage.getItem(this.cacheId).then(function (childWidgetsNum) {
-                if (childWidgetsNum && childWidgetsNum > 0) {
-                    for (var i = 0; i < childWidgetsNum; i++) {
-                        that.addAddBtnWidget();
-                    }
+            this.promise = localforage.getItem(this.cacheId).then((ids) => {
+                if (ids && ids.length > 0) {
+                    this.equipmentIds = ids;
+                    this.equipmentCounter = Math.max(...this.equipmentIds) + 1;
+                    this.createEquipmentsAndUpdateLocalStorage(this.equipmentIds);
 
                     // reset cache number to be correct
-                    localforage.setItem(that.cacheId, childWidgetsNum);
                 } else {
-                    that.addAddBtnWidget();
+                    this.equipmentIds = [1];
+                    this.addAddBtnWidget(1);
                 }
+
+                localforage.setItem(this.cacheId, this.equipmentIds);
             });
 
             return this.promise;
         },
-        addAddBtnWidget: function () {
+        createEquipmentsAndUpdateLocalStorage: function (equipmentIds) {
             // summary:
             //      add additional functionality to base method to cache in progress data
-            console.log('app/method/Method:addAddBtnWidget', arguments);
+            console.log('app/method/Method:createEquipmentsAndUpdateLocalStorage', arguments);
 
-            this.inherited(arguments);
+            equipmentIds.forEach((id) => this.addAddBtnWidget(id, true));
 
-            localforage.setItem(this.cacheId, this.addBtnWidgets.length);
+            localforage.setItem(this.cacheId, equipmentIds);
         },
-        onRemoveAddBtnWidget: function () {
+        addAddBtnWidget(id, skipStorageUpdate) {
+            // summary:
+            //      description
+            // param or return
+            console.info('app/method/Method:addAddBtnWidget', arguments);
+
+            const widget = this.inherited(arguments);
+
+            if (skipStorageUpdate === true) {
+                return;
+            }
+
+            localforage.getItem(this.cacheId).then((ids) => {
+                ids.push(widget.cacheId);
+
+                localforage.setItem(this.cacheId, ids);
+            });
+        },
+        onRemoveAddBtnWidget: function (widget) {
             // summary:
             //      add additional functionality to base method to cache in progress data
             console.log('app/method/Method:onRemoveAddBtnWidget', arguments);
 
             this.inherited(arguments);
 
-            localforage.setItem(this.cacheId, this.addBtnWidgets.length);
+            localforage.getItem(this.cacheId).then((ids) => {
+                ids.splice(ids.indexOf(widget.cacheId), 1);
+
+                localforage.setItem(this.cacheId, ids);
+            });
         },
         clear: function () {
             // summary:

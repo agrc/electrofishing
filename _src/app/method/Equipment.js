@@ -98,6 +98,9 @@ define([
         //      set by _MultipleWidgetsWithAddBtnMixin
         cacheId: null,
 
+        // cachePrefix: String
+        cachePrefix: 'app/method',
+
 
         constructor: function () {
             // summary:
@@ -412,7 +415,7 @@ define([
             //      remove cached in progress data item
             console.log('app/method/Equipment:onRemove', arguments);
 
-            localforage.removeItem(this.cacheId);
+            localforage.removeItem(`${this.cachePrefix}_${this.cacheId}`);
 
             this.inherited(arguments);
         },

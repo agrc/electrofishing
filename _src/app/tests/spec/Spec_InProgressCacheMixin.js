@@ -42,6 +42,7 @@ require([
             localforage.clear().then(function () {
                 testWidget = new TestWidget({
                     cacheId: 'TestWidget',
+                    cachePrefix: 'jasmine',
                     template: testTemplate
                 }, domConstruct.create('div', null, document.body));
                 testWidget.startup();
@@ -61,7 +62,7 @@ require([
             testWidget.select.value = selectValue;
 
             testWidget.cacheInProgressData().then(function () {
-                localforage.getItem(testWidget.cacheId).then(function (value) {
+                localforage.getItem(`${testWidget.cachePrefix}_${testWidget.cacheId}`).then(function (value) {
                     expect(value.someBox).toBe(someValue);
                     expect(value.anotherBox).toBe(anotherValue);
                     expect(value.textArea).toBe(textAreaValue);
@@ -80,6 +81,7 @@ require([
         });
         it('populates values if there is existing cached data', function (done) {
             var cacheId = 'testId';
+            var cachePrefix = 'jasmine';
             var testWidget2;
             var assert = function () {
                 expect(testWidget2.someBox.value).toBe(someValue);
@@ -93,13 +95,16 @@ require([
                 done();
             };
             var createWidget = function () {
-                testWidget2 = new TestWidget({cacheId: cacheId}, domConstruct.create('div', null, document.body));
+                testWidget2 = new TestWidget({
+                    cacheId,
+                    cachePrefix
+                }, domConstruct.create('div', null, document.body));
                 testWidget2.startup();
 
                 testWidget2.hydrateWithInProgressData().then(assert, onError);
             };
 
-            localforage.setItem(cacheId, {
+            localforage.setItem(`${cachePrefix}_${cacheId}`, {
                 someBox: someValue,
                 anotherBox: anotherValue,
                 textArea: textAreaValue,

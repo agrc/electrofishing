@@ -40,7 +40,7 @@ define([
             //      set up
             console.log('app/_InProgressCacheMixin:postCreate', arguments);
 
-            if (!this.cacheId || this.cacheId.length === 0) {
+            if (this.cacheId === null || this.cacheId === undefined) {
                 throw new Error(this.missingCacheIdError);
             }
 
@@ -74,7 +74,7 @@ define([
 
             var that = this;
 
-            return localforage.getItem(this.cacheId).then(function (inProgressData) {
+            return localforage.getItem(`${this.cachePrefix}_${this.cacheId}`).then(function (inProgressData) {
                 if (inProgressData) {
                     that.inputs.forEach(function (node) {
                         if (node.dataset.dojoAttachPoint in inProgressData) {
@@ -109,7 +109,7 @@ define([
 
             data = lang.mixin(data, this.getAdditionalCacheData());
 
-            return localforage.setItem(this.cacheId, data)
+            return localforage.setItem(`${this.cachePrefix}_${this.cacheId}`, data)
                 .then(null, lang.partial(lang.hitch(this, 'onError'), 'caching data.'));
         },
         onError: function (error, message) {
