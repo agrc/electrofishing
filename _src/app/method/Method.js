@@ -154,6 +154,7 @@ define([
             console.log('app/method/Method:clear', arguments);
 
             localforage.removeItem(this.cacheId);
+            this.widgetCounter = 1;
 
             this.inherited(arguments);
         },
