@@ -185,7 +185,6 @@ define([
                 NUM_ANODES: 'NUM_ANODES',
                 MACHINE_RES: 'MACHINE_RES',
                 MODEL: 'MODEL',
-                ANODE_SHAPE: 'ANODE_SHAPE',
                 ARRAY_TYPE: 'ARRAY_TYPE',
                 NUM_NETTERS: 'NUM_NETTERS',
                 CATHODE_TYPE: 'CATHODE_TYPE',
@@ -195,6 +194,7 @@ define([
             anodes: {
                 EQUIPMENT_ID: 'EQUIPMENT_ID',
                 ANODE_DIAMETER: 'ANODE_DIAMETER',
+                ANODE_SHAPE: 'ANODE_SHAPE',
                 STOCK_DIAMETER: 'STOCK_DIAMETER'
             },
             fish: {

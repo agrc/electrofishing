@@ -4,6 +4,7 @@ define([
     'app/_ClearValuesMixin',
     'app/_GridMixin',
     'app/_InProgressCacheMixin',
+    'app/catch/FilteringSelectForGrid',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -25,6 +26,7 @@ define([
     _ClearValuesMixin,
     _GridMixin,
     _InProgressCacheMixin,
+    FilteringSelectForGrid,
 
     _TemplatedMixin,
     _WidgetBase,
@@ -125,12 +127,6 @@ define([
                     backpack: true,
                     canoe: true,
                     raft: true
-                }, {
-                    control: this.anodeShapeSelect,
-                    fieldName: FN.equipment.ANODE_SHAPE,
-                    backpack: true,
-                    canoe: true,
-                    raft: false
                 }, {
                     control: this.arrayTypeSelect,
                     fieldName: FN.equipment.ARRAY_TYPE,
@@ -248,6 +244,19 @@ define([
                         max: 2.54,
                         step: 0.01
                     }
+                }
+            }, {
+                autoSave: true,
+                label: 'Anode Shape',
+                field: FN.anodes.ANODE_SHAPE,
+                editor: FilteringSelectForGrid,
+                sortable: false,
+                autoSelect: true,
+                editOn: 'focus',
+                editorArgs: {
+                    domainFieldName: FN.anodes.ANODE_SHAPE,
+                    domainLayerUrl: this.featureServiceUrl,
+                    parentId: this.id
                 }
             }];
             this.initGrid(columns);
