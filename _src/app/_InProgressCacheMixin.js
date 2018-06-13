@@ -99,7 +99,12 @@ define([
 
             data = lang.mixin(data, this.getAdditionalCacheData());
 
-            return localforage.setItem(`${this.cachePrefix}_${this.cacheId}`, data)
+            let cacheId = this.cacheId;
+            if (this.cachePrefix) {
+                cacheId = `${this.cachePrefix}_${this.cacheId}`;
+            }
+
+            return localforage.setItem(cacheId, data)
                 .then(null, lang.partial(lang.hitch(this, 'onError'), 'caching data.'));
         },
         onError: function (error, message) {
