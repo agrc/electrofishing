@@ -112,7 +112,7 @@ define([
             this.guid = '{' + generateRandomUuid() + '}';
 
             this.firstColumn = FN.anodes.ANODE_DIAMETER;
-            this.lastColumn = FN.anodes.STOCK_DIAMETER;
+            this.lastColumn = FN.anodes.ANODE_SHAPE;
         },
         postCreate: function () {
             // summary:
