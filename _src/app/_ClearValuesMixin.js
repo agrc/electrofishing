@@ -34,7 +34,8 @@ define([
             console.log('app/_ClearValuesMixin:clearValues', arguments);
 
             query('select', this.domNode).forEach(this.clearValue);
-            query('input[type="number"], input[type="text"]', this.domNode).forEach(this.clearValue);
+            query('input[type="number"], input[type="text"], input[type="time"], input[type="date"], textarea',
+                this.domNode).forEach(this.clearValue);
         }
     });
 });

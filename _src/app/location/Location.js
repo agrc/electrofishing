@@ -3,6 +3,7 @@ define([
     './../_SelectPopulate',
 
     'app/config',
+    'app/_ClearValuesMixin',
     'app/_InProgressCacheMixin',
 
     'dijit/_TemplatedMixin',
@@ -27,6 +28,7 @@ define([
     _SelectPopulate,
 
     config,
+    _ClearValuesMixin,
     _InProgressCacheMixin,
 
     _TemplatedMixin,
@@ -42,7 +44,16 @@ define([
 
     localforage
 ) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _InProgressCacheMixin, _SelectPopulate], {
+    const mixins = [
+        _WidgetBase,
+        _TemplatedMixin,
+        _WidgetsInTemplateMixin,
+        _InProgressCacheMixin,
+        _SelectPopulate,
+        _ClearValuesMixin
+    ];
+
+    return declare(mixins, {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'location',
@@ -160,8 +171,7 @@ define([
             geoDefID = evt.target.id.slice(0, -3) + 'GeoDef';
             this.currentGeoDef = this[geoDefID];
             this.disconnect(this.invalidateConnectHandle);
-            this.invalidateConnectHandle =
-                this.connect(this.currentGeoDef, 'onInvalidate', 'clearValidation');
+            this.invalidateConnectHandle = this.connect(this.currentGeoDef, 'onInvalidate', 'clearValidation');
             this.clearValidation();
         },
         validateGeometry: function () {
@@ -304,6 +314,8 @@ define([
             if (this.geometry) {
                 config.app.map.removeLayer(this.geometry);
                 this.geometry = null;
+                this.utmGeo = null;
+                this.path = null;
             }
         },
         hasValidLocation: function () {
@@ -343,9 +355,7 @@ define([
             this.clearValidation();
             this.station.clear();
             this.currentGeoDef.clearGeometry();
-            this.streamLengthTxt.value = '';
-            this.additionalNotesTxt.value = '';
-            this.dateTxt.value = '';
+            this.clearValues();
         },
         destroy: function () {
             // summary:
