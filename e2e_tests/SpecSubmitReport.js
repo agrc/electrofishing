@@ -19,6 +19,7 @@ describe('SubmitReport', function () {
 
     beforeEach(async () => {
         await page.goto('http://localhost/projects/electrofishing/src/');
+        // await page.goto('http://test.mapserv.utah.gov/electrofishing');
     });
 
     it('page loads', async () => {
