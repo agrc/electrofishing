@@ -31,7 +31,10 @@ var profile = {
             copyOnly: function () {
                 return false;
             }
-        }
+        },
+        trees: [
+            ['.', '.', /(\/\.)|(.html)/]
+        ]
     }, {
         name: 'localforage',
         resourceTags: {
@@ -49,24 +52,24 @@ var profile = {
     }, {
         name: 'agrc',
         trees: [
-          ['.', '.', /(\/\.)|(~$)|(widgets|resources)/]
+            ['.', '.', /(\/\.)|(~$)|(widgets|resources)/]
         ]
     }, {
         name: 'handlebars',
         trees: [
-          ['.', '.', /(\/\.)|(~$)|(.*\.amd\.js)/]
+            ['.', '.', /(\/\.)|(~$)|(.*\.amd\.js)/]
         ]
     }, {
         name: 'ijit',
         trees: [
-          ['.', '.', /(\/\.)|(~$)|(resources|themes|widgets|_MustacheTemplateMixin|Identify)/]
+            ['.', '.', /(\/\.)|(~$)|(resources|themes|widgets|_MustacheTemplateMixin|Identify)/]
         ]
     }, {
         name: 'toaster',
         location: './toaster',
         main: 'dist/Toaster',
         trees: [
-          ['.', '.', /(\/\.)|(~$)|(src|Gruntfile|tsconfig|bower|map$)/]
+            ['.', '.', /(\/\.)|(~$)|(src|Gruntfile|tsconfig|bower|map$)/]
         ]
     }],
     staticHasFeatures: {

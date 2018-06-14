@@ -10,7 +10,6 @@ require({
         'handlebars',
         'ijit',
         'papaparse',
-        'proj4',
         {
             name: 'bootstrap',
             location: './bootstrap',
