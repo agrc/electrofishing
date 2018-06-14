@@ -255,7 +255,7 @@ define([
                 editOn: 'focus',
                 editorArgs: {
                     domainFieldName: FN.anodes.ANODE_SHAPE,
-                    domainLayerUrl: this.featureServiceUrl,
+                    domainLayerUrl: config.urls.anodesFeatureService,
                     parentId: this.id
                 }
             }];
