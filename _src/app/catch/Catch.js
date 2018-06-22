@@ -80,7 +80,7 @@ define([
         //      The number of fields to skip when you tab at the end of the row
         //      This is to skip over the hidden fields
         //      required for _GridMixin
-        skipNumber: 7,
+        skipNumber: 6,
 
         // lastColumn: String
         //      required for _GridMixin
@@ -127,7 +127,7 @@ define([
 
             var fn = config.fieldNames.fish;
 
-            this.lastColumn = fn.WEIGHT;
+            this.lastColumn = this.COUNT;
             this.firstColumn = fn.SPECIES_CODE;
             this.idProperty = fn.FISH_ID;
             this.ignoreColumn = config.fieldNames.MOREINFO;

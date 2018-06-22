@@ -188,7 +188,7 @@ require([
 
                 var cell = testWidget.grid.cell(
                     testWidget.store.data[testWidget.store.data.length - 1][fn.FISH_ID],
-                    '8').element;
+                    '9').element;
                 var e = {
                     keyCode: keys.TAB,
                     target: cell,
@@ -209,7 +209,7 @@ require([
                 var filter = {};
                 filter[fn.PASS_NUM] = testWidget.gridTab.currentTab;
                 var data = testWidget.store.filter(filter).fetchSync();
-                var cell = testWidget.grid.cell(data[data.length - 1][fn.FISH_ID], '8').element;
+                var cell = testWidget.grid.cell(data[data.length - 1][fn.FISH_ID], '9').element;
                 var e = {
                     keyCode: keys.TAB,
                     target: cell,
