@@ -253,7 +253,10 @@ define([
             console.log('app/NewCollectionEvent:clearReport', arguments);
 
             const onError = (error) => {
-                topic.publish(config.topics.toaster, `Error with localforage clearing: \n ${error.message}`);
+                topic.publish(config.topics.toaster, {
+                    type: 'danger',
+                    message: `Error with localforage clearing: \n ${error.message}`
+                });
             };
 
             return localforage.clear().catch(onError).finally(() => {
