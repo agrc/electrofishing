@@ -113,7 +113,10 @@ define([
             // error: Error
             console.log('app/_InProgressCacheMixin:onError', arguments);
 
-            topic.publish(config.topics.toaster, 'Error ' + message + ' ' + error.message);
+            topic.publish(config.topics.toaster, {
+                type: 'danger',
+                message: 'Error ' + message + ' ' + error.message
+            });
         },
         getAdditionalCacheData: function () {
             // summary:

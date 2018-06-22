@@ -592,8 +592,10 @@ define([
 
             if (parseResults.errors.length) {
                 console.error(JSON.stringify(parseResults.errors));
-                topic.publish(config.topics.toaster, 'Error parsing CSV: ' +
-                    parseResults.errors.map(e => e.message).join('\n'));
+                topic.publish(config.topics.toaster, {
+                    type: 'danger',
+                    message: 'Error parsing CSV: ' + parseResults.errors.map(e => e.message).join('\n')
+                });
 
                 return;
             }
