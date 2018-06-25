@@ -115,7 +115,7 @@ define([
 
             topic.publish(config.topics.toaster, {
                 type: 'danger',
-                message: 'Error ' + message + ' ' + error.message
+                message: `Error with in-progress caching: ${message}; ${error.message}`
             });
         },
         getAdditionalCacheData: function () {
