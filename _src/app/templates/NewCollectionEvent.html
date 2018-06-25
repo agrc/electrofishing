@@ -2,12 +2,13 @@
     <div class="alert alert-danger hidden" data-dojo-attach-point="validateMsg"></div>
     <div class="alert alert-success hidden" data-dojo-attach-point="successMsgContainer">
         The report has been submitted successfully.
+        <button class="btn btn-success pull-right" data-dojo-attach-event="click: onSuccessMessageClose">Close</button>
     </div>
-    <div class='tab-content'>
-        <div class='tab-pane fade in active' id='locationTab'>
-            <div data-dojo-attach-point='locationTb' data-dojo-type='app/location/Location'></div>
+    <div class="tab-content">
+        <div class="tab-pane fade in active" id="locationTab">
+            <div data-dojo-attach-point="locationTb" data-dojo-type="app/location/Location"></div>
         </div>
-        <div class='tab-pane fade' id='methodTab'>
+        <div class="tab-pane fade" id="methodTab">
             <div data-dojo-attach-point="methodTb" data-dojo-type="app/method/Method"></div>
         </div>
         <div class="tab-pane fade" id="catchTab">
@@ -17,5 +18,5 @@
             <div data-dojo-attach-point="habitatTb" data-dojo-type="app/habitat/Habitat"></div>
         </div>
     </div>
-    <div data-dojo-attach-point="reportSummary" data-dojo-type='app/SummaryReport'></div>
+    <div data-dojo-attach-point="reportSummary" data-dojo-type="app/SummaryReport"></div>
 </div>

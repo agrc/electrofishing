@@ -198,12 +198,12 @@ define([
                 });
             }, 500);
 
-            var that = this;
-            window.setTimeout(function hideSuccessMsg() {
-                domClass.add(that.successMsgContainer, 'hidden');
-            }, 15000);
-
             $(config.app.header.submitBtn).button('reset');
+        },
+        onSuccessMessageClose() {
+            // summary:
+            //      closes the success confirmation dialog
+            domClass.add(this.successMsgContainer, 'hidden');
         },
         validateReport: function (allowNoFish) {
             // summary:
