@@ -71,6 +71,12 @@ var profile = {
         trees: [
             ['.', '.', /(\/\.)|(~$)|(src|Gruntfile|tsconfig|bower|map$)/]
         ]
+    }, {
+        name: 'esri-leaflet',
+        location: './esri-leaflet',
+        trees: [
+            ['.', '.', /(\/\.)|(~$)|(profiles|src)/]
+        ]
     }],
     staticHasFeatures: {
         'dojo-trace-api': 0,
