@@ -18,9 +18,9 @@ define([
     var quadWord = '';
     var wildlifeFolder;
     if (has('agrc-build') === 'prod') {
-        // ??
-        quadWord = '??';
-        wildlifeFolder = '/proxy/proxy.jsp?http://dwrmapserv.utah.gov/dwrarcgis/rest/services/Aquatics/';
+        // for DWR user
+        quadWord = 'profile-action-albino-panel';
+        wildlifeFolder = 'https://udwrgis.utah.gov/arcgis/rest/services/Electrofishing/';
     } else if (has('agrc-build') === 'stage') {
         // test.mapserv.utah.gov
         quadWord = 'opera-event-little-pinball';
