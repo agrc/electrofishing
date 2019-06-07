@@ -32,7 +32,6 @@
     "Equipment": [
         {
             "MODEL": "",
-            "ANODE_SHAPE": "",
             "ARRAY_TYPE": "",
             "NUM_NETTERS": null,
             "CATHODE_TYPE": "",
@@ -55,12 +54,14 @@
         {
             "EQUIPMENT_ID": "{fd6a535f-2608-4e70-87db-15c65a25e6fb}",
             "ANODE_DIAMETER": 1,
-            "STOCK_DIAMETER": 1
+            "STOCK_DIAMETER": 1,
+            "ANODE_SHAPE": ""
         },
         {
             "EQUIPMENT_ID": "{fd6a535f-2608-4e70-87db-15c65a25e6fb}",
             "ANODE_DIAMETER": 1,
-            "STOCK_DIAMETER": 1
+            "STOCK_DIAMETER": 1,
+            "ANODE_SHAPE": ""
         }
     ],
     "Fish": [
