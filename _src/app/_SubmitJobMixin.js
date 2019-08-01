@@ -23,7 +23,10 @@ define([
             var params = {
                 data: data,
                 handleAs: 'json',
-                method: 'POST'
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': null
+                }
             };
 
             return xhr(url + '/submitJob', params).then(function (response) {
@@ -52,7 +55,10 @@ define([
             var params = {
                 data: {f: 'json'},
                 handleAs: 'json',
-                method: 'POST'
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': null
+                }
             };
 
             xhr(url + '/jobs/' + jobId, params).then(function (jobStatus) {

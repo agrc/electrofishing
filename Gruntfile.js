@@ -8,8 +8,8 @@ module.exports = function (grunt) {
         '_src/ChangeLog.html'
     ];
     const e2e_files = 'e2e_tests/**/*.js';
-    var gruntFile = 'GruntFile.js';
-    var deployDir = 'wwwroot/electrofishing';
+    var gruntFile = 'Gruntfile.js';
+    var deployDir = 'dwrefdb/dataentry';
     var deployFiles = [
         '**',
         '!**/*.uncompressed.js',
@@ -182,53 +182,41 @@ module.exports = function (grunt) {
         secrets: secrets,
         sftp: {
             stage: {
-                files: {
-                    './': 'deploy/deploy.zip'
-                },
+                files: [{
+                    expand: true,
+                    cwd: 'dist',
+                    src: deployFiles,
+                    dest: './'
+                }],
                 options: {
-                    host: '<%= secrets.stage.host %>',
-                    username: '<%= secrets.stage.username %>',
-                    password: '<%= secrets.stage.password %>'
+                    createDirectories: true
                 }
             },
-            prod: {
-                files: {
-                    './': 'deploy/deploy.zip'
-                },
-                options: {
-                    host: '<%= secrets.prod.host %>',
-                    username: '<%= secrets.prod.username %>',
-                    password: '<%= secrets.prod.password %>'
-                }
+            appPackageOnly: {
+                files: [{
+                    expand: true,
+                    cwd: 'dist/app',
+                    src: deployFiles,
+                    dest: './app'
+                }, {
+                    expand: true,
+                    cwd: 'dist',
+                    src: ['*.html'],
+                    dest: './'
+                }, {
+                    expand: true,
+                    cwd: 'dist/dojo',
+                    src: 'dojo.*',
+                    dest: './dojo'
+                }]
             },
             options: {
-                path: './' + deployDir + '/',
-                srcBasePath: 'deploy/',
+                host: '<%= secrets.stageHost %>',
+                path: `./${deployDir}/`,
+                srcBasePath: 'dist/',
                 showProgress: true,
-                readyTimeout: 120000
-            }
-        },
-        sshexec: {
-            options: {
                 username: '<%= secrets.username %>',
-                password: '<%= secrets.password %>',
-                readyTimeout: 120000
-            },
-            stage: {
-                command: ['cd ' + deployDir, 'unzip -o deploy.zip', 'rm deploy.zip'].join(';'),
-                options: {
-                    host: '<%= secrets.stage.host %>',
-                    username: '<%= secrets.stage.username %>',
-                    password: '<%= secrets.stage.password %>'
-                }
-            },
-            prod: {
-                command: ['cd ' + deployDir, 'unzip -o deploy.zip', 'rm deploy.zip'].join(';'),
-                options: {
-                    host: '<%= secrets.prod.host %>',
-                    username: '<%= secrets.prod.username %>',
-                    password: '<%= secrets.prod.password %>'
-                }
+                password: '<%= secrets.password %>'
             }
         },
         stylus: {
@@ -338,9 +326,7 @@ module.exports = function (grunt) {
     ]);
     grunt.registerTask('deploy-prod', [
         'clean:deploy',
-        'compress:main',
-        'sftp:prod',
-        'sshexec:prod'
+        'compress:main'
     ]);
     grunt.registerTask('build-stage', [
         'clean:build',
@@ -355,9 +341,9 @@ module.exports = function (grunt) {
         'processhtml:main'
     ]);
     grunt.registerTask('deploy-stage', [
-        'clean:deploy',
-        'compress:main',
-        'sftp:stage',
-        'sshexec:stage'
+        'sftp:stage'
+    ]);
+    grunt.registerTask('deploy-app-only', [
+        'sftp:appPackageOnly'
     ]);
 };

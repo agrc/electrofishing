@@ -15,7 +15,6 @@ define([
     'dojo/request/xhr',
     'dojo/text!./templates/StreamSearch.html',
     'dojo/_base/array',
-    'dojo/_base/Color',
     'dojo/_base/declare',
     'dojo/_base/lang',
     'dojo/_base/sniff'
@@ -36,7 +35,6 @@ define([
     xhr,
     template,
     array,
-    Color,
     declare,
     lang
 ) {
@@ -148,6 +146,9 @@ define([
                     outFields: outFields,
                     f: 'json',
                     outSR: JSON.stringify({ wkid: 4326 })
+                },
+                headers: {
+                    'X-Requested-With': null
                 }
             };
         },

@@ -30,6 +30,7 @@ Application for recording electrofishing surveys. Built for DWR.
         - Test Input: **copy paste contents of** `scripts/Scripts/TestData/NewCollectionEventData.json` (minified)
     1. `NewStation`
         - `point`: `scripts\ToolData\TestData.gdb\NewStationTest1`
+    1. Copy `./data` to `<ArcGISServerDirectory>directories\arcgissystem\arcgisinput\ElectrofishingTest\Toolbox.GPServer\extracted`.
 
 ##### You'll likely need to manually copy `scripts/Scripts/settings/` and `dijkstras.py` to the server since it doesn't get copied when publishing.
 

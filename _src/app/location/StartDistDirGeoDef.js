@@ -185,7 +185,10 @@ define([
                     distance: distance,
                     direction: direction
                 },
-                handleAs: 'json'
+                handleAs: 'json',
+                headers: {
+                    'X-Requested-With': null
+                }
             };
         }
     });

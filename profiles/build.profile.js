@@ -1,4 +1,4 @@
-/*eslint-disable no-unused-vars*/
+/* eslint-disable no-unused-vars */
 var profile = {
     basePath: '../src',
     action: 'release',
@@ -76,6 +76,12 @@ var profile = {
         location: './esri-leaflet',
         trees: [
             ['.', '.', /(\/\.)|(~$)|(profiles|src)/]
+        ]
+    }, {
+        name: 'papaparse',
+        location: './papaparse',
+        trees: [
+            ['.', '.', /(\/\.)|(~$)|(docs|Gruntfile|bower)/]
         ]
     }],
     staticHasFeatures: {

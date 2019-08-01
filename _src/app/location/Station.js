@@ -9,13 +9,10 @@ define([
     'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
 
-    'dojo/dom-construct',
     'dojo/dom-style',
     'dojo/json',
-    'dojo/request/xhr',
     'dojo/text!app/location/templates/Station.html',
     'dojo/topic',
-    'dojo/_base/array',
     'dojo/_base/declare',
 
     'dojox/uuid/generateRandomUuid',
@@ -33,13 +30,10 @@ define([
     _WidgetBase,
     _WidgetsInTemplateMixin,
 
-    domConstruct,
     domStyle,
     json,
-    xhr,
     template,
     topic,
-    array,
     declare,
 
     generateRandomUuid

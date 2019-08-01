@@ -9,14 +9,11 @@ define([
 
     'dojo/dom-class',
     'dojo/dom-construct',
-    'dojo/json',
     'dojo/query',
-    'dojo/request/xhr',
     'dojo/text!app/templates/NewCollectionEvent.html',
     'dojo/topic',
     'dojo/_base/array',
     'dojo/_base/declare',
-    'dojo/_base/fx',
     'dojo/_base/lang',
 
     'dojox/uuid/generateRandomUuid',
@@ -42,14 +39,11 @@ define([
 
     domClass,
     domConstruct,
-    json,
     query,
-    xhr,
     template,
     topic,
     array,
     declare,
-    fx,
     lang,
 
     generateRandomUuid,

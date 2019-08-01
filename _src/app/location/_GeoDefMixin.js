@@ -20,7 +20,10 @@ define([
         // defaultXHRParams: {}
         defaultXHRParams: {
             query: {f: 'json'},
-            handleAs: 'json'
+            handleAs: 'json',
+            headers: {
+                'X-Requested-With': null
+            }
         },
 
         // geoDef: String

@@ -11,8 +11,8 @@ DATAPATH = path.join(DB, 'Electrofishing.WILDADMIN.')
 # END LOCAL CONFIGS
 
 # BEGIN TEST SERVER CONFIGS
-# STATIONS = path.join(path.dirname(__file__), r'Wildlife_TEST as WildAdmin.sde\Wildlife.WILDADMIN.Stations')
-# DB = path.join(path.dirname(__file__), r'Wildlife_TEST as WildAdmin.sde')
+# STATIONS = path.join(path.dirname(__file__), r'ELECTROFISHING_TEST as WildAdmin.sde\Wildlife.WILDADMIN.Stations')
+# DB = path.join(path.dirname(__file__), r'ELECTROFISHING_TEST as WildAdmin.sde')
 # DATAPATH = path.join(DB, 'Wildlife.WILDADMIN.')
 # END TEST SERVER CONFIGS
 

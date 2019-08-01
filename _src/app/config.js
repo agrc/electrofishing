@@ -15,16 +15,14 @@ define([
 
     localforage
 ) {
-    var quadWord = '';
+    var quadWord = 'patent-window-address-asia';
     var wildlifeFolder;
     if (has('agrc-build') === 'prod') {
         // for DWR user
-        quadWord = 'profile-action-albino-panel';
         wildlifeFolder = 'https://udwrgis.utah.gov/arcgis/rest/services/Electrofishing/';
     } else if (has('agrc-build') === 'stage') {
-        // test.mapserv.utah.gov
-        quadWord = 'opera-event-little-pinball';
-        wildlifeFolder = 'http://test.mapserv.utah.gov/arcgis/rest/services/Electrofishing/';
+        // dwrapps.dev.utah.gov
+        wildlifeFolder = 'https://udwrgis.utah.gov/arcgis/rest/services/ElectrofishingTest/';
     } else {
         wildlifeFolder = 'http://localhost/arcgis/rest/services/Electrofishing/';
         // localhost

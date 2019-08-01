@@ -172,7 +172,10 @@ define([
                         ]
                     })
                 },
-                handleAs: 'json'
+                handleAs: 'json',
+                headers: {
+                    'X-Requested-With': null
+                }
             };
         }
     });
