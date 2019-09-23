@@ -1,9 +1,11 @@
 {
   "cSpell.words": [
     "BWID",
+    "Combobox",
     "HEMATOCRIT",
     "LEUKOCRIT",
     "MOREINFO",
+    "Msgs",
     "PLPRO",
     "PSBR",
     "UDWR",
@@ -11,6 +13,7 @@
     "coord",
     "mapinited",
     "moveend",
+    "unproject",
     "zoomend"
   ],
   "python.pythonPath": "/usr/local/opt/python/libexec/bin/python"

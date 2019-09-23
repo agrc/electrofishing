@@ -44,7 +44,7 @@ define([
         baseClass: 'station',
 
         // stationsObj: {}
-        //      The stations as an object with guid's as the keys
+        //      The stations as an object with GUIDs as the keys
         stationsObj: {},
 
         // vMap: app/location/VerifyMap
