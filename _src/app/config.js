@@ -64,7 +64,7 @@ define([
         version: '1.8.2',
 
         // coordTypes: {key:String}
-        //      Coordinate types as used in app/SettingsDialoge
+        //      Coordinate types as used in app/SettingsDialog
         coordTypes: {
             utm83: 'utm83',
             ll: 'll',
