@@ -86,8 +86,6 @@ define([
                 shadowUrl: config.urls.markerShadow
             });
             this.defaultIcon = new L.Icon.Default();
-
-            this.own(topic.subscribe(config.topics.streamsLakes_toggle, lang.hitch(this, 'toggleStreamsLakes')));
         },
         initMap: function () {
             // summary:
@@ -147,6 +145,49 @@ define([
                 }
             }).addTo(this.map);
 
+            this.streamsLyr = L.esri.featureLayer({
+                url: config.urls.streamsFeatureService
+            }).addTo(this.map);
+            this.lakesLyr = L.esri.featureLayer({
+                url: config.urls.lakesFeatureService
+            }).addTo(this.map);
+
+            let labelsAreVisible = false;
+            let labelCache = {};
+            const toggleLabels = visible => {
+                if (!labelsAreVisible && !visible) {
+                    return;
+                }
+                labelCache = {};
+                this.map.eachLayer(layer => {
+                    const tooltip = layer.getTooltip();
+                    if (tooltip) {
+                        layer.unbindTooltip();
+                    }
+                });
+                console.log('toggleLabels', visible);
+                this.streamsLyr.eachFeature(layer => {
+                    const label = layer.feature.properties[config.fieldNames.reference.WaterName];
+                    if (!this.map.hasLayer(layer)) {
+                        return;
+                    }
+                    if (this.map.getBounds().contains(layer.getCenter()) && !labelCache[label]) {
+                        layer.unbindTooltip().bindTooltip(label, {
+                            permanent: visible
+                        });
+                        labelCache[label] = true;
+                    }
+                });
+            };
+            const refreshTooltips = () => {
+                const zoom = this.map.getZoom();
+                console.log('zoom', zoom);
+                toggleLabels(zoom >= config.labelsMinZoom);
+            };
+            this.map.on({
+                moveend: refreshTooltips
+            });
+
             if (this.isMainMap) {
                 config.app.map = this.map;
                 topic.publish(config.topics.mapInit);
@@ -159,29 +200,6 @@ define([
                 contextField: config.fieldNames.reference.COUNTY,
                 maxResultsToDisplay: 50
             }, this.streamSearchDiv);
-
-            if (localStorage.streamsLakesToggle === 'true') {
-                this.toggleStreamsLakes(true);
-            }
-        },
-        toggleStreamsLakes: function (visible) {
-            // summary:
-            //      creates and toggles the streams and lakes layer
-            // visible: Boolean
-            console.log('app/location/VerifyMap:toggleStreamsLakes', arguments);
-
-            if (visible && !this.streamsLakesLyr) {
-                this.streamsLakesLyr = L.esri.dynamicMapLayer({
-                    url: config.urls.streamsLakesService,
-                    format: 'png32'
-                });
-            }
-
-            if (visible) {
-                this.streamsLakesLyr.addTo(this.map);
-            } else {
-                this.streamsLakesLyr.remove();
-            }
         },
         destroy: function () {
             // summary:

@@ -310,8 +310,8 @@ define([
 
             var that = this;
             var promises = [
-                xhr(config.urls.streamsFeatureService, this.query),
-                xhr(config.urls.lakesFeatureService, this.query)
+                xhr(`${config.urls.streamsFeatureService}/query`, this.query),
+                xhr(`${config.urls.lakesFeatureService}/query`, this.query)
             ];
             this.promises = all(promises)
                 .then(function (featureSets) {
@@ -348,8 +348,8 @@ define([
                     features.push(f);
                 });
             };
-            addLayerProp(featureSets[0].features, config.urls.streamsFeatureService);
-            addLayerProp(featureSets[1].features, config.urls.lakesFeatureService);
+            addLayerProp(featureSets[0].features, `${config.urls.streamsFeatureService}/query`);
+            addLayerProp(featureSets[1].features, `${config.urls.lakesFeatureService}/query`);
 
             // remove duplicates
             features = this._sortArray(this._removeDuplicateResults(features));

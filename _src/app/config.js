@@ -77,6 +77,9 @@ define([
         //      used by _InProgressCacheMixin
         tempValueKey: 'tempValue',
 
+        // labelsMinZoom: number
+        labelsMinZoom: 13,
+
         // topics: {key:String}
         //      Global dojo/topic topics used in the app
         topics: {
@@ -89,7 +92,6 @@ define([
             onSubmitReportClick: 'header_onSubmitReportClick',
             onCancelReportClick: 'header_onCancelReportClick',
             mouseWheelZooming_onChange: 'app_mouseWheelZooming',
-            streamsLakes_toggle: 'verifyMap_streamsLakes_toggle',
             toaster: 'app/Toaster',
             noFish: '1'
         },
@@ -128,9 +130,8 @@ define([
             transectMeasurementsFeatureService: wildlifeFeatureService + '10',
 
             // reference service
-            streamsLakesService: referenceService,
-            streamsFeatureService: referenceService + '0/query',
-            lakesFeatureService: referenceService + '1/query'
+            streamsFeatureService: referenceService + '0',
+            lakesFeatureService: referenceService + '1'
         },
 
         // tableNames: {}
