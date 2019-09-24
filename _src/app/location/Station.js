@@ -171,7 +171,10 @@ define([
             this.streamLakeInput.value = '';
 
             this.mainMap.clearSelection();
-            this.vMap.clearSelection();
+
+            if (this.vMap) {
+                this.vMap.clearSelection();
+            }
         },
         onError: function () {
             // summary:
