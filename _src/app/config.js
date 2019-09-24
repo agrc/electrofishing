@@ -80,6 +80,10 @@ define([
         // labelsMinZoom: number
         labelsMinZoom: 13,
 
+        colors: {
+            selected: '#D1E600'
+        },
+
         // topics: {key:String}
         //      Global dojo/topic topics used in the app
         topics: {
@@ -156,7 +160,8 @@ define([
             stations: {
                 NAME: 'NAME',
                 STATION_ID: 'STATION_ID',
-                STREAM_TYPE: 'STREAM_TYPE'
+                STREAM_TYPE: 'STREAM_TYPE',
+                WATER_ID: 'WATER_ID'
             },
             samplingEvents: {
                 EVENT_ID: fldEVENT_ID,
@@ -294,7 +299,8 @@ define([
             },
             reference: {
                 COUNTY: 'COUNTY',
-                WaterName: 'WaterName'
+                WaterName: 'WaterName',
+                Permanent_Identifier: 'Permanent_Identifier'
             }
         },
 

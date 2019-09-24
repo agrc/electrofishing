@@ -13,12 +13,6 @@ define([
 
         constructor: function () {
             console.log(this.declaredClass + '::constructor', arguments);
-        },
-        onOtherMapBtnClicked: function () {
-            // summary:
-            //      overridden to not do anything since it's the only widget for
-            //      this dialog
-            console.log(this.declaredClass + '::onOtherMapBtnClicked', arguments);
         }
     });
 });

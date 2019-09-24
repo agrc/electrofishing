@@ -9,6 +9,7 @@ define([
     'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
 
+    'dojo/dom-class',
     'dojo/dom-style',
     'dojo/json',
     'dojo/text!app/location/templates/Station.html',
@@ -30,6 +31,7 @@ define([
     _WidgetBase,
     _WidgetsInTemplateMixin,
 
+    domClass,
     domStyle,
     json,
     template,
@@ -60,7 +62,8 @@ define([
         validateMsgs: {
             name: 'A station name is required!',
             type: 'A stream type is required!',
-            point: 'A valid point location is required!'
+            point: 'A valid point location is required!',
+            waterId: 'A stream or lake must be selected!'
         },
 
         // newStationErrMsg: String;
@@ -125,6 +128,8 @@ define([
                 that.currentGuid = params[1];
                 that.cacheInProgressData();
             }));
+
+            this.own(topic.subscribe(config.topics.pointDef_onBtnClick, this.onPointDefSelected.bind(this)));
         },
         onDialogShown: function () {
             // summary:
@@ -159,12 +164,14 @@ define([
         },
         clear: function () {
             // summary:
-            //        clears the textbox value
+            //        clears the textbox values and map selections
             console.log('app/location/Station:clear', arguments);
 
             this.stationTxt.value = '';
+            this.streamLakeInput.value = '';
 
             this.mainMap.clearSelection();
+            this.vMap.clearSelection();
         },
         onError: function () {
             // summary:
@@ -229,6 +236,8 @@ define([
             $(this.streamTypeSelect).data('combobox').clearTarget();
             $(this.streamTypeSelect).data('combobox').clearElement();
             this.pointDef.clear();
+            this.streamLakeInput.value = '';
+            this.onPointDefSelected();
 
             topic.publish(config.topics.onStationClick, [
                 this.newStation.attributes[config.fieldNames.stations.NAME],
@@ -250,6 +259,7 @@ define([
             console.log('app/location/Station:validate', arguments);
 
             var name = this.stationNameTxt.value.trim();
+            const waterId = this.streamLakeInput.value.trim();
             var type = this.streamTypeSelect.value;
             var point = this.pointDef.getPoint();
             var msg;
@@ -265,6 +275,8 @@ define([
             } else if (!point) {
                 msg = this.validateMsgs.point;
                 returnValue = false;
+            } else if (waterId === '') {
+                msg = this.validateMsgs.waterId;
             } else {
                 msg = '';
                 returnValue = {
@@ -273,6 +285,7 @@ define([
                 };
                 returnValue.attributes[config.fieldNames.stations.NAME] = name;
                 returnValue.attributes[config.fieldNames.stations.STREAM_TYPE] = type;
+                returnValue.attributes[config.fieldNames.stations.WATER_ID] = waterId;
             }
             /* eslint-enable no-negated-condition */
 
@@ -310,6 +323,44 @@ define([
                     that.mainMap.selectStation(that.currentGuid);
                 }
             });
+        },
+        onToggleStreamLake() {
+            // summary:
+            //      fires when the user clicks the stream lake button
+            console.log('app/location/Station:onToggleStreamLake', arguments);
+
+            if (!domClass.contains(this.streamLakeBtn, 'active')) {
+                // button is being selected...
+                topic.publish(config.topics.pointDef_onBtnClick, this);
+                this.vMap.streamsLyr.on('click', this.onWaterBodyClick.bind(this));
+                this.vMap.lakesLyr.on('click', this.onWaterBodyClick.bind(this));
+            }
+        },
+        onPointDefSelected() {
+            // summary:
+            //      The user has selected the point def button (not unselected)
+            console.log('app/location/Station:onPointDefSelected', arguments);
+
+            // unselected stream lake button
+            domClass.remove(this.streamLakeBtn, 'active');
+
+            if (this.vMap) {
+                this.vMap.streamsLyr.off('click', this.onWaterBodyClick.bind(this));
+                this.vMap.lakesLyr.off('click', this.onWaterBodyClick.bind(this));
+            }
+        },
+        onWaterBodyClick(event) {
+            // summary:
+            //      The user has clicks on a stream or lake feature on the map
+            console.log('app/location/Station:onWaterBodyClick', arguments);
+
+            this.vMap.streamsLyr.resetStyle();
+            this.vMap.lakesLyr.resetStyle();
+
+            event.layer.setStyle({ color: config.colors.selected });
+
+            this.streamLakeInput.value =
+                event.layer.feature.properties[config.fieldNames.reference.Permanent_Identifier];
         }
     });
 });

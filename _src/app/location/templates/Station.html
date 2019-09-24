@@ -31,6 +31,19 @@
                         </div>
                     </div>
                     <div data-dojo-type="app/location/StationPointDef" data-dojo-attach-point='pointDef'></div>
+                    <div class="stream-lake-button-container form-inline">
+                        <label>Stream/Lake</label>
+                        <div class="form-group">
+                            <button type="button" data-dojo-attach-point="streamLakeBtn"
+                                class="btn btn-default btn-sm" data-toggle="button"
+                                data-dojo-attach-event="click: onToggleStreamLake">
+                                <span class="glyphicon glyphicon-map-marker"></span>
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            <input data-dojo-attach-point="streamLakeInput" class="form-control" type="text" disabled>
+                        </div>
+                    </div>
                     <div data-dojo-attach-point="mapDiv"></div>
                 </div>
                 <div class="modal-footer">

@@ -236,6 +236,8 @@ define([
             this.stationsLyr.eachFeature(function (l) {
                 l.setIcon(this.defaultIcon);
             }, this);
+            this.streamsLyr.resetStyle();
+            this.streamsLyr.resetStyle();
         }
     });
 });

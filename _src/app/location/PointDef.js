@@ -77,9 +77,9 @@ define([
         //      The bootstrap css class to add when there is a validate error
         validateErrorClass: 'has-error',
 
-        // validateDijits: {}
+        // validateDigits: {}
         //      stores the number of digits there should be for utm values
-        validateDijits: {
+        validateDigits: {
             utmY: 7,
             utmX: 6
         },
@@ -208,11 +208,11 @@ define([
         },
         validate: function (box) {
             // summary:
-            //      Validates the passed in text box for number of dijits for
+            //      Validates the passed in text box for number of digits for
             //      only for utm values
             console.log('app/location/PointDef:validate', arguments);
 
-            var numDigits; // the number of dijits that the box should have
+            var numDigits; // the number of digits that the box should have
             var value = box.value; // the value of the text box
             var message; // the invalid message to be displayed
             var helpTxtSpan; // the span element associated with the text box
@@ -239,7 +239,7 @@ define([
             }
 
             // determine if this is x or y box
-            numDigits = (box === this.yBox) ? this.validateDijits.utmY : this.validateDijits.utmX;
+            numDigits = (box === this.yBox) ? this.validateDigits.utmY : this.validateDigits.utmX;
 
             if (value.length < numDigits) {
                 message = this.validateMsgs.tooShort;

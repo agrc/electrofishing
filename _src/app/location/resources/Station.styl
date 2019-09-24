@@ -1,35 +1,31 @@
-.station .modal .modal-dialog {
-    width: 80%;
-}
-.station .modal input {
-    width: 100%;
-    display: block;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    min-height: 30px;
-}
-.station [data-dojo-attach-point='mapDiv'] {
-    width: 100%;
-    height: 250px;
-}
-.station .verify-map {
-    width: 100%;
-    height: 100%;
-}
-.station .modal-body form {
-    margin-bottom: 0;
-}
-.station .modal-body {
-    max-height: 530px;
-}
-.station .combobox-container {
-    width: 300px;
-}
-.station [data-dojo-attach-point='successMsg'] {
-    display: none;
-}
-.station h4 {
-    margin: 0;
-}
+.station
+    [data-dojo-attach-point='mapDiv']
+        width 100%
+        height 250px
+    .modal
+        input {
+            width 100%
+            display block
+            -webkit-box-sizing border-box
+            -moz-box-sizing border-box
+            -ms-box-sizing border-box
+            box-sizing border-box
+            min-height 30px
+        }
+        .modal-dialog
+            width 80%
+        .modal-body
+            form
+                margin-bottom 0
+            .stream-lake-button-container
+                margin-bottom 15px
+                input
+                    width 305px
+                    margin-left 10px
+            .verify-map
+                width 100%
+                height 100%
+            .combobox-container
+                width 300px
+        [data-dojo-attach-point='successMsg']
+            display none
