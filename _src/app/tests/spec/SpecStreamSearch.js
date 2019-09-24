@@ -49,7 +49,7 @@ require([
                 testWidget._processResults(featureSets);
 
                 expect(testWidget._populateTable.calls.mostRecent().args[0][0].queryUrl)
-                    .toBe(config.urls.streamsFeatureService);
+                    .toMatch(config.urls.streamsFeatureService);
             });
         });
     });

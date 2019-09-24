@@ -22,6 +22,11 @@ require([
     describe('app/location/Station', function () {
         var testWidget;
         var point;
+        const layerMock = {
+            on() {},
+            off() {},
+            refresh() {}
+        };
         beforeEach(function () {
             config.app = {map: {
                 options: {crs: {projection: {unproject: function () {}}}},
@@ -30,17 +35,16 @@ require([
             point = {x: 428861, y: 4496470};
             testWidget = new Station();
             testWidget.mainMap = {
-                stationsLyr: {
-                    on: function () {},
-                    off: function () {},
-                    refresh: function () {}
-                },
+                stationsLyr: layerMock,
                 map: {
                     setView: function () {}
                 },
+                streamsLyr: layerMock,
+                lakesLyr: layerMock,
                 selectStation: function () {},
                 clearSelection: function () {}
             };
+            testWidget.vMap = testWidget.mainMap;
         });
         afterEach(function () {
             testWidget.destroy();
@@ -167,9 +171,11 @@ require([
         describe('validate', function () {
             var name;
             var option;
+            const waterId = '1';
             function setToValid() {
                 testWidget.stationNameTxt.value = name;
                 testWidget.streamTypeSelect.value = 'blah';
+                testWidget.streamLakeInput.value = waterId;
             }
             beforeEach(function () {
                 option = domConstruct.create('option', {value: 'blah'});
@@ -200,7 +206,7 @@ require([
                 expect(testWidget.validate()).toBe(false);
                 expect(testWidget.validateMsg.innerHTML).toBe(testWidget.validateMsgs.type);
             });
-            it('displays an invalid message if there is no locaiton defined', function () {
+            it('displays an invalid message if there is no location defined', function () {
                 setToValid();
                 spyOn(testWidget.pointDef, 'getPoint').and.returnValue(false);
 
@@ -224,7 +230,8 @@ require([
                     },
                     attributes: {
                         NAME: name,
-                        STREAM_TYPE: option.value
+                        STREAM_TYPE: option.value,
+                        WATER_ID: waterId
                     }
                 });
             });

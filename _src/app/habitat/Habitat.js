@@ -128,24 +128,7 @@ define([
             this.gridTab.on('remove-tab', this.onRemoveTransect.bind(this));
             this.gridTab.on('change-tab', this.onChangeTransect.bind(this));
 
-            var that = this;
-            var lst = new DeferredList([
-                Domains.populateSelectWithDomainValues(this.springSelect,
-                    config.urls.habitatFeatureService,
-                    config.fieldNames.habitat.SPNG),
-                Domains.populateSelectWithDomainValues(this.overstorySelect,
-                    config.urls.habitatFeatureService,
-                    config.fieldNames.habitat.DOVR),
-                Domains.populateSelectWithDomainValues(this.understorySelect,
-                    config.urls.habitatFeatureService,
-                    config.fieldNames.habitat.DUND),
-                Domains.populateSelectWithDomainValues(this.startingBank,
-                    config.urls.transectFeatureService,
-                    config.fieldNames.transect.STARTING_BANK)
-            ]);
-            lst.then(function () {
-                $(that.domNode).find('select').combobox();
-            });
+            this.loadComboboxes();
 
             var columns = [{
                 label: this.idProperty,
@@ -225,6 +208,25 @@ define([
             this._trackStore();
 
             this.inherited(arguments);
+        },
+        loadComboboxes() {
+            var lst = new DeferredList([
+                Domains.populateSelectWithDomainValues(this.springSelect,
+                    config.urls.habitatFeatureService,
+                    config.fieldNames.habitat.SPNG),
+                Domains.populateSelectWithDomainValues(this.overstorySelect,
+                    config.urls.habitatFeatureService,
+                    config.fieldNames.habitat.DOVR),
+                Domains.populateSelectWithDomainValues(this.understorySelect,
+                    config.urls.habitatFeatureService,
+                    config.fieldNames.habitat.DUND),
+                Domains.populateSelectWithDomainValues(this.startingBank,
+                    config.urls.transectFeatureService,
+                    config.fieldNames.transect.STARTING_BANK)
+            ]);
+            lst.then(() => {
+                $(this.domNode).find('select').combobox();
+            });
         },
         _trackStore() {
             // summary:

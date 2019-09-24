@@ -18,7 +18,9 @@ require([
             widget = null;
         };
         beforeEach(function () {
-            testWidget = new Habitat({}, domConstruct.create('div', {}, document.body));
+            testWidget = new Habitat({
+                loadComboBoxes() {}
+            }, domConstruct.create('div', {}, document.body));
             testWidget.startup();
         });
         afterEach(function () {

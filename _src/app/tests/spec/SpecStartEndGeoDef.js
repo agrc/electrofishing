@@ -21,6 +21,7 @@ require([
         var testWidget;
         beforeEach(function () {
             testWidget = new StartEndGeoDef();
+            testWidget.checkJobStatus = () => {};
         });
         afterEach(function () {
             testWidget = null;
@@ -117,7 +118,7 @@ require([
                     done();
                 }, 501);
             });
-            it('returns true if there wasnt an error', function () {
+            it('returns true if there wasn\'t an error', function () {
                 expect(testWidget.onGetSegsCallback({})).toBe(true);
             });
         });
