@@ -2,14 +2,12 @@ define([
     'dojo/aspect',
     'dojo/dom-construct',
     'dojo/_base/array',
-    'dojo/_base/declare',
-    'dojo/_base/lang'
+    'dojo/_base/declare'
 ], function (
     aspect,
     domConstruct,
     array,
-    declare,
-    lang
+    declare
 ) {
     // summary:
     //      Used to manage multiple _AddBtnWidget's
@@ -85,8 +83,8 @@ define([
             console.log('app/_MultipleWidgetsWithAddBtnMixin:wireAddBtnWidgetOnAdd', arguments);
 
             this.own(
-                aspect.after(widget, 'onAdd', lang.hitch(this, 'addAddBtnWidget')),
-                aspect.before(widget, 'onRemove', lang.partial(lang.hitch(this, 'onRemoveAddBtnWidget'), widget))
+                aspect.after(widget, 'onAdd', () => this.addAddBtnWidget(null, true)),
+                aspect.before(widget, 'onRemove', () => this.onRemoveAddBtnWidget(widget))
             );
         },
         onRemoveAddBtnWidget: function (widget) {

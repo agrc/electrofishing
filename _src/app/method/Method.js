@@ -105,7 +105,7 @@ define([
         },
         addAddBtnWidget(id, skipStorageUpdate) {
             // summary:
-            //      calls into _MultipleWidgetsWithAddBtnMixin to cretae the widget
+            //      calls into _MultipleWidgetsWithAddBtnMixin to create the widget
             //      adds the widget cache id the main local storage if skipStorageUpdate is unset
             console.info('app/method/Method:addAddBtnWidget', arguments);
 
