@@ -59,6 +59,7 @@ define([
             console.log('app/App:postCreate', arguments);
 
             this.newEvent = new NewCollectionEvent({}, this.newEventDiv);
+            this.newEvent.startup();
 
             document.body.className += ' loaded';
 

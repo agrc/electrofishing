@@ -152,10 +152,15 @@ define([
                 url: config.urls.lakesFeatureService
             }).addTo(this.map);
 
+            let largerSymbolsAreVisible = false;
             let labelsAreVisible = false;
             let labelCache = {};
-            const toggleLabels = visible => {
-                if (!labelsAreVisible && !visible) {
+            const toggleLabelsAndStyle = zoom => {
+                console.log('zoom', zoom);
+                const labelsShouldBeVisible = zoom >= config.labelsMinZoom;
+                const largerSymbolsShouldBeVisible = zoom >= config.largerSymbolsMinZoom;
+                if (!labelsAreVisible && !labelsShouldBeVisible &&
+                    !largerSymbolsAreVisible && !largerSymbolsShouldBeVisible) {
                     return;
                 }
                 labelCache = {};
@@ -165,27 +170,32 @@ define([
                         layer.unbindTooltip();
                     }
                 });
-                console.log('toggleLabels', visible);
-                this.streamsLyr.eachFeature(layer => {
-                    const label = layer.feature.properties[config.fieldNames.reference.WaterName];
-                    if (!this.map.hasLayer(layer)) {
-                        return;
-                    }
-                    if (this.map.getBounds().contains(layer.getCenter()) && !labelCache[label]) {
-                        layer.unbindTooltip().bindTooltip(label, {
-                            permanent: visible
+
+                [this.streamsLyr, this.lakesLyr].forEach(featureLayer => {
+                    featureLayer.eachFeature(layer => {
+                        if (!this.map.hasLayer(layer)) {
+                            return;
+                        }
+
+                        // update labels
+                        const label = layer.feature.properties[config.fieldNames.reference.WaterName];
+                        if (this.map.getBounds().contains(layer.getCenter()) && !labelCache[label]) {
+                            layer.unbindTooltip().bindTooltip(label, {
+                                permanent: labelsShouldBeVisible
+                            });
+                            labelCache[label] = true;
+                        }
+
+                        // update style
+                        layer.setStyle({
+                            weight: (largerSymbolsShouldBeVisible) ?
+                                config.largerLineSymbolWidth : config.defaultLineSymbolWidth
                         });
-                        labelCache[label] = true;
-                    }
+                    });
                 });
             };
-            const refreshTooltips = () => {
-                const zoom = this.map.getZoom();
-                console.log('zoom', zoom);
-                toggleLabels(zoom >= config.labelsMinZoom);
-            };
             this.map.on({
-                moveend: refreshTooltips
+                moveend: () => toggleLabelsAndStyle(this.map.getZoom())
             });
 
             if (this.isMainMap) {

@@ -128,8 +128,6 @@ define([
             this.gridTab.on('remove-tab', this.onRemoveTransect.bind(this));
             this.gridTab.on('change-tab', this.onChangeTransect.bind(this));
 
-            this.loadComboboxes();
-
             var columns = [{
                 label: this.idProperty,
                 field: this.idProperty,
@@ -206,6 +204,13 @@ define([
             }.bind(this));
 
             this._trackStore();
+
+            this.inherited(arguments);
+        },
+        startup() {
+            console.log('app/habitat/Habitat:startup', arguments);
+
+            this.loadComboboxes();
 
             this.inherited(arguments);
         },

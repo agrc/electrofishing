@@ -106,6 +106,11 @@ define([
 
             this.locationTb.verifyMap.initMap();
         },
+        startup() {
+            console.log('app/NewCollectionEvent:startup', arguments);
+
+            this.habitatTb.startup();
+        },
         wireEvents: function () {
             // summary:
             //      description

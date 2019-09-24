@@ -21,4 +21,4 @@ window.confirm = () => true;
 jasmine.getEnv().addReporter(new JasmineFaviconReporter());
 jasmine.getEnv().addReporter(new jasmineRequire.JSReporter2());
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;

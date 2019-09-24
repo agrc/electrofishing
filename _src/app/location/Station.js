@@ -354,8 +354,8 @@ define([
             //      The user has clicks on a stream or lake feature on the map
             console.log('app/location/Station:onWaterBodyClick', arguments);
 
-            this.vMap.streamsLyr.resetStyle();
-            this.vMap.lakesLyr.resetStyle();
+            this.vMap.streamsLyr.setStyle({ color: config.colors.default });
+            this.vMap.lakesLyr.setStyle({ color: config.colors.default });
 
             event.layer.setStyle({ color: config.colors.selected });
 

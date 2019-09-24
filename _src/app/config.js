@@ -80,7 +80,14 @@ define([
         // labelsMinZoom: number
         labelsMinZoom: 13,
 
+        // largerSymbolsMinZoom: number
+        largerSymbolsMinZoom: 14,
+
+        largerLineSymbolWidth: 6,
+        defaultLineSymbolWidth: 3,
+
         colors: {
+            default: '#3388ff',
             selected: '#D1E600'
         },
 
