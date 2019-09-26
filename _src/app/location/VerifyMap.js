@@ -117,6 +117,16 @@ define([
                 offset: [0, -40],
                 autoPan: false
             });
+            const replaceNulls = obj => {
+                const newObject = {};
+                for (var prop in obj) {
+                    if (obj.hasOwnProperty(prop)) {
+                        newObject[prop] = (obj[prop] === null || obj[prop] === undefined) ? '' : obj[prop];
+                    }
+                }
+
+                return newObject;
+            };
             this.stationsLyr = L.esri.featureLayer({
                 url: config.urls.stationsFeatureService,
                 onEachFeature: function (geojson, layer) {
@@ -124,7 +134,7 @@ define([
                         layer.setIcon(that.selectedIcon);
                     }
                     layer.on('mouseover', function () {
-                        popup.setContent(dojoString.substitute(stationPopupTemplate, geojson.properties))
+                        popup.setContent(dojoString.substitute(stationPopupTemplate, replaceNulls(geojson.properties)))
                             .setLatLng([geojson.geometry.coordinates[1], geojson.geometry.coordinates[0]])
                             .openOn(that.map);
                     }).on('mouseout', function () {
