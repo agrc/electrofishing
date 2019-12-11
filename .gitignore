@@ -3,10 +3,10 @@ _src/app/**/*.css
 .grunt/
 *.pyc
 *.sde
-deploy/deploy.zip
 dist/
 e2e_tests/screenshots/*.jpg
 node_modules/
 secrets.json
 src/
 scripts/Scripts/settings/ImportLog
+deploy/*
