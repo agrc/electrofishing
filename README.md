@@ -15,9 +15,11 @@ Application for recording electrofishing surveys. Built for DWR.
 - Register all feature classes and tables as versioned with the option to move edits
 
 # Deployment
-1. Publish `maps/MapService.mxd` as `Electrofishing/MapService`
-1. Publish `maps/Reference.mxd` as `Electrofishing/Reference`
-1. Copy `Electrofishing_Local as WILDADMIN.sde` to `scripts/settings`
+1. Publish `maps/MapService.mxd` as `Electrofishing/MapService` (making sure that it is pointed at the correct database)
+    1. max number of records returned: 5000
+    1. feature access: create, query and update
+    1. dynamic workspace referencing the sde database ID: ElectrofishingQuery
+1. Publish `maps/Reference.mxd` as `Electrofishing/Reference` (making sure that it is pointed at the correct database)
 1. Update `scripts/Scripts/settings/__init__.py`.
 1. Publish all tools in `scripts/Toolbox.tbx` as `Electrofishing/Toolbox` **Requires ArcGIS Server Advanced**
     1. `GetSegmentFromCoords`
