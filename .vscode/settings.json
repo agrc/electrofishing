@@ -13,6 +13,7 @@
     "clrk",
     "coord",
     "ellps",
+    "fishsample",
     "latlng",
     "mapinited",
     "moveend",

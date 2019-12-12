@@ -9,7 +9,7 @@ module.exports = function (grunt) {
     ];
     const e2e_files = 'e2e_tests/**/*.js';
     var gruntFile = 'Gruntfile.js';
-    var deployDir = 'dwrefdb/dataentry';
+    var deployDir = 'fishsample/dataentry';
     var deployFiles = [
         '**',
         '!**/*.uncompressed.js',
