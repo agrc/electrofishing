@@ -1,6 +1,6 @@
 {
     "name": "app",
-    "version": "1.9.2",
+    "version": "1.9.3",
     "main": "main",
     "description": "electrofishing",
     "homepage": "https://github.com/agrc/electrofishing",
