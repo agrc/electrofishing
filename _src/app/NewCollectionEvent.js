@@ -290,6 +290,7 @@ define([
             atts[fn.EVENT_DATE] = this.locationTb.dateTxt.value;
             atts[fn.EVENT_TIME] = this.locationTb.timeTxt.value;
             atts[fn.OBSERVERS] = this.locationTb.observersTxt.value;
+            atts[fn.PURPOSE] = this.locationTb.surveyPurposeSelect.value;
             atts[fn.WEATHER] = this.locationTb.weatherSelect.value;
             atts[fn.STATION_ID] = this.locationTb.station.getStationId();
             atts[fn.SEGMENT_LENGTH] = helpers.getNumericValue(this.locationTb.streamLengthTxt.value);
