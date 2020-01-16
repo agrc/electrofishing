@@ -3,9 +3,9 @@
 # electro fishing
 Application for recording electrofishing surveys. Built for DWR.
 
-Development: [https://dwrapps.dev.utah.gov/dwrefdb/dataentry/](https://dwrapps.dev.utah.gov/dwrefdb/dataentry/)
+Staging: [https://dwrapps.dev.utah.gov/dwrefdb/dataentry/](https://dwrapps.dev.utah.gov/dwrefdb/dataentry/)
 
-Production: [https://dwrapps.utah.gov/dwrefdb/dataentry/](https://dwrapps.utah.gov/dwrefdb/dataentry/)
+Production: [https://dwrapps.utah.gov/fishsample/dataentry/](https://dwrapps.utah.gov/fishsample/dataentry/)
 
 # Database
 - [Database Design](https://docs.google.com/spreadsheets/d/1_LhNljqvb9GMxpMWlx_CnQo9FuZ5MNwoO3jzTORcxn0/edit#gid=0)
