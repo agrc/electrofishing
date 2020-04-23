@@ -3,8 +3,8 @@ New Collection Event Service for Wildlife Project
 
 Accepts a JSON object with all collection event event data. See scripts/Scripts/TestData/NewCollectionEventData.json for an example.
 
-I tried doing this with feature/record sets as inputs and using the Append tool to add the data.
-However, it would return successful but not add the data as expected. Thus the InsertCursor solution.
+We are using pyodbc and insert statements against versioned views because this handles mutiple edit sessions
+much better than insert cursors.
 
 GP Parameters:
 *input
@@ -16,50 +16,26 @@ import json
 
 import arcpy
 import settings
+import pyodbc
 
 
-def appendTableData(tableName, rows):
-    arcpy.AddMessage('Adding row(s) to {}'.format(tableName))
-
-    fields = list(rows[0].keys())
-    field_set = set(fields)
-    with arcpy.da.InsertCursor(tableName, fields) as cursor:
-        for row in rows:
-            row_fields = list(row.keys())
-
-            uhoh = field_set ^ set(row_fields)
-
-            if len(uhoh) != 0:
-                message = 'fields do not match: {}'.format(','.join(uhoh))
-                arcpy.AddWarning(message)
-
-                raise Exception(message)
-
-            cursor.insertRow([row[key] for key in row_fields])
-
-
-def appendFeatureData(feature):
-    arcpy.AddMessage('Adding feature to SamplingEvents {}'.format(feature))
-
-    attributes = feature['attributes']
+def clean_up_time(attributes):
     time = None
-
     if ':' in attributes['EVENT_TIME']:
-        time = datetime.datetime.strptime(attributes['EVENT_TIME'], '%H:%M').time()
+        time = datetime.datetime.strptime(attributes['EVENT_TIME'],
+                                          '%H:%M').time()
 
-    date = datetime.datetime.strptime(attributes[settings.EVENT_DATE], '%Y-%m-%d')
+    date = datetime.datetime.strptime(attributes[settings.EVENT_DATE],
+                                      '%Y-%m-%d')
 
     if time is not None:
         attributes[settings.EVENT_DATE] = datetime.datetime.combine(date, time)
     else:
         attributes[settings.EVENT_DATE] = date
 
-    fields = list(attributes.keys()) + ['SHAPE@JSON']
-    fields.remove('EVENT_TIME')
     attributes.pop('EVENT_TIME')
 
-    with arcpy.da.InsertCursor(settings.SAMPLINGEVENTS, fields) as cursor:
-        cursor.insertRow([attributes[key] for key in list(attributes.keys())] + [json.dumps(feature['geometry'])])
+    return attributes
 
 
 data = json.loads(arcpy.GetParameterAsText(0))
@@ -68,29 +44,53 @@ data = json.loads(arcpy.GetParameterAsText(0))
 # data = json.loads(open('TestData/NewCollectionEventData3.json').read())
 arcpy.AddMessage('Received Data: {}'.format(data))
 
-arcpy.env.workspace = settings.DB
 
-edit = arcpy.da.Editor(settings.DB)
-edit.startEditing(False, True)
-edit.startOperation()
+def format_value(value):
+    if value is None:
+        return 'NULL'
+    elif isinstance(value, basestring):
+        return '\'' + value + '\''
+    elif isinstance(value, datetime.datetime):
+        return '\'' + str(value) + '\''
 
-try:
-    versioned = arcpy.Describe(list(data.keys())[0]).isVersioned
-    if not versioned:
-        arcpy.AddError('Data is versioned: {}'.format(versioned))
+    return str(value)
 
-    for table in list(data.keys()):
-        if table == settings.SAMPLINGEVENTS:
-            appendFeatureData(data[table])
-        elif len(data[table]) > 0:
-            appendTableData(table, data[table])
-except Exception as e:
-    arcpy.AddError(e)
-    edit.abortOperation()
-    edit.stopEditing(False)
-    raise e
 
-edit.stopOperation()
-edit.stopEditing(True)
+def format_geometry(json):
+    coords = [str(pair[0]) + ' ' + str(pair[1]) for pair in json['paths'][0]]
 
-# arcpy.Compress_management(settings.DB)
+    return 'geometry::STGeomFromText(\'LINESTRING ({})\', {})'.format(
+        ', '.join(coords), json['spatialReference']['wkid'])
+
+
+connection_string = 'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={};DATABASE={};UID={};PWD={}'.format(
+    settings.INSTANCE, settings.DATABASE_NAME, settings.USERNAME,
+    settings.PASSWORD)
+connection = pyodbc.connect(connection_string)
+cursor = connection.cursor()
+
+
+def make_insert(table, attributes, shape=None):
+    fields = attributes.keys()
+    values = [format_value(value) for value in attributes.values()]
+
+    if shape is not None:
+        fields.append('SHAPE')
+        values.append(shape)
+
+    statement = 'INSERT INTO [WILDADMIN].[{}_evw] ({}) VALUES ({})'.format(
+        table, ', '.join(fields), ', '.join(values))
+    arcpy.AddMessage(statement)
+    cursor.execute(statement)
+
+
+for table in data:
+    if table == settings.SAMPLINGEVENTS:
+        attributes = clean_up_time(data[table]['attributes'])
+        shape = format_geometry(data[table]['geometry'])
+        make_insert(table, attributes, shape)
+    else:
+        for attributes in data[table]:
+            make_insert(table, attributes)
+
+cursor.commit()

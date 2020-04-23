@@ -11,3 +11,4 @@ src/
 scripts/Scripts/settings/ImportLog
 deploy/*
 .DS_Store
+scripts/Scripts/settings/secrets.py

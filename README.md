@@ -16,7 +16,7 @@ Production: [https://dwrapps.utah.gov/fishsample/dataentry/](https://dwrapps.uta
 - Save connection as `Electrofishing_LOCAL as WILDADMIN.sde`
 - right click > `import xml yada yada`
 - Reference xml file above
-- Register all feature classes and tables as versioned with the option to move edits
+- Register all feature classes and tables as versioned *without* the option to move edits direct to base
 
 # Deployment
 1. Publish `maps/MapService.mxd` as `Electrofishing/MapService` (making sure that it is pointed at the correct database)
@@ -24,7 +24,10 @@ Production: [https://dwrapps.utah.gov/fishsample/dataentry/](https://dwrapps.uta
     1. feature access: create, query and update
     1. dynamic workspace referencing the sde database ID: ElectrofishingQuery
 1. Publish `maps/Reference.mxd` as `Electrofishing/Reference` (making sure that it is pointed at the correct database)
+1. `pip install pyodbc` into ArcGIS Server python instance.
+1. Install ODBC Driver 17 for SQL Server.
 1. Update `scripts/Scripts/settings/__init__.py`.
+1. Create `scripts/Scripts/settings/secrets.py`.
 1. Publish all tools in `scripts/Toolbox.tbx` as `Electrofishing/Toolbox` **Requires ArcGIS Server Advanced**
     1. `GetSegmentFromCoords`
         - `points`: `scripts\ToolData\TestData.gdb\StartEnd_fork`

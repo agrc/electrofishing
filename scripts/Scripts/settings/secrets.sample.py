@@ -1,0 +1,3 @@
+USERNAME = ''
+PASSWORD = ''
+INSTANCE = '(local)'
