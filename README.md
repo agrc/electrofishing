@@ -1,24 +1,26 @@
-[![Build Status](https://travis-ci.com/agrc/electrofishing.svg?branch=master)](https://travis-ci.com/agrc/electrofishing)
+# Electrofishing [![Build Status](https://travis-ci.com/agrc/electrofishing.svg?branch=master)](https://travis-ci.com/agrc/electrofishing)
 
-# electro fishing
 Application for recording electrofishing surveys. Built for DWR.
 
 Staging: [https://dwrapps.dev.utah.gov/dwrefdb/dataentry/](https://dwrapps.dev.utah.gov/dwrefdb/dataentry/)
 
 Production: [https://dwrapps.utah.gov/fishsample/dataentry/](https://dwrapps.utah.gov/fishsample/dataentry/)
 
-# Database
+## Database
+
 - [Database Design](https://docs.google.com/spreadsheets/d/1_LhNljqvb9GMxpMWlx_CnQo9FuZ5MNwoO3jzTORcxn0/edit#gid=0)
 - XML Workspace Document: `data/DATABASESCHEMA.XML`
 
-#### Installation
+### Installation
+
 - [Create SDE database](http://wiki.agrc.utah.gov/sql-server-set-up-on-dev-machine/)
 - Save connection as `Electrofishing_LOCAL as WILDADMIN.sde`
 - right click > `import xml yada yada`
 - Reference xml file above
 - Register all feature classes and tables as versioned *without* the option to move edits direct to base
 
-# Deployment
+## Deployment
+
 1. Publish `maps/MapService.mxd` as `Electrofishing/MapService` (making sure that it is pointed at the correct database)
     1. max number of records returned: 5000
     1. feature access: create, query and update
@@ -41,7 +43,8 @@ Production: [https://dwrapps.utah.gov/fishsample/dataentry/](https://dwrapps.uta
         - `point`: `scripts\ToolData\TestData.gdb\NewStationTest1`
     1. Copy `scripts/Scripts/settings` & `dijkstras.py` to `<ArcGISServerDirectory>directories\arcgissystem\arcgisinput\Electrofishing\Toolbox.GPServer\extracted\v101\scripts`.
 
-# Test Deployment
+## Test Deployment
+
 1. Credentials are in the agrc wiki
-2. Deleting all fc's and tables
+2. Deleting all feature classes and tables
 3. Reimport schema from the xml file
