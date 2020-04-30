@@ -1,6 +1,6 @@
 {
   "name": "electrofishing",
-  "version": "1.9.4",
+  "version": "1.9.5",
   "devDependencies": {
     "babel-core": "6.26.3",
     "babel-plugin-transform-remove-strict-mode": "0.0.2",
