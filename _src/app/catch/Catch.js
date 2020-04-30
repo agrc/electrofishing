@@ -578,7 +578,8 @@ define([
             papaparse.parse(fileInput.files[0], {
                 complete: this.bulkUpload.bind(this),
                 header: true,
-                skipEmptyLines: true
+                skipEmptyLines: true,
+                dynamicTyping: true
             });
 
             // clear files so that the onchange event fires again if they upload the same file
