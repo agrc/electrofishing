@@ -33,13 +33,15 @@
     "grunt-ssh": "^0.12.9",
     "jasmine": "3.1.0",
     "load-grunt-tasks": "^3.5.2",
-    "puppeteer": "1.13.0"
+    "puppeteer": "1.13.0",
+    "sass": "^1.29.0"
   },
   "scripts": {
-    "start": "export BABEL_ENV=development && npx babel --watch --out-dir src/react-app _src/react-app & grunt",
-    "build": "export BABEL_ENV=production && npm run babel-react && grunt build-prod",
-    "build-stage": "export BABEL_ENV=test && npm run babel-react && grunt build-stage",
-    "babel-react": "npx babel --out-dir src/react-app _src/react-app",
+    "start": "sass _src/react-app:src/react-app --watch & export BABEL_ENV=development && babel --watch --out-dir src/react-app _src/react-app & grunt",
+    "build": "export BABEL_ENV=production && npm run sass && npm run babel-react && grunt build-prod",
+    "build-stage": "export BABEL_ENV=test && npm run sass && npm run babel-react && grunt build-stage",
+    "babel-react": "babel --out-dir src/react-app _src/react-app",
+    "sass": "sass _src/react-app:src/react-app",
     "test": "grunt travis",
     "deploy": "grunt deploy-prod",
     "deploy-stage": "grunt deploy-stage",
