@@ -153,8 +153,9 @@ module.exports = function (grunt) {
             main: {
                 options: {
                     specs: ['src/app/**/Spec*.js'],
-                    // specs: ['src/app/tests/spec/SpecMoreInfoDialog.js'],
                     vendor: [
+                        'https://unpkg.com/react@17/umd/react.development.js',
+                        'https://unpkg.com/react-dom@17/umd/react-dom.development.js',
                         'src/jasmine-favicon-reporter/vendor/favico.js',
                         'src/jasmine-favicon-reporter/jasmine-favicon-reporter.js',
                         'src/jasmine-jsreporter/jasmine-jsreporter.js',
