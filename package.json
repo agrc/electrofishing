@@ -45,7 +45,7 @@
     "build-stage": "export BABEL_ENV=test && npm run sass && npm run babel-react && grunt build-stage",
     "babel-react": "babel --out-dir src/react-app _src/react-app",
     "sass": "sass _src/react-app:src/react-app",
-    "test": "grunt travis",
+    "test": "npm run babel-react && grunt travis",
     "deploy": "grunt deploy-prod",
     "deploy-stage": "grunt deploy-stage",
     "deploy-stage-app-only": "grunt deploy-stage-app-only"
