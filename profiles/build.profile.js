@@ -83,6 +83,11 @@ var profile = {
         trees: [
             ['.', '.', /(\/\.)|(~$)|(docs|Gruntfile|bower)/]
         ]
+    }, {
+        name: 'react-app',
+        resourceTags: {
+            amd: () => true
+        }
     }],
     staticHasFeatures: {
         'dojo-trace-api': 0,

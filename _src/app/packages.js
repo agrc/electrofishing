@@ -10,6 +10,7 @@ require({
         'handlebars',
         'ijit',
         'papaparse',
+        'react-app',
         {
             name: 'bootstrap',
             location: './bootstrap',

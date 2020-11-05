@@ -200,6 +200,11 @@ module.exports = function (grunt) {
                     dest: './app'
                 }, {
                     expand: true,
+                    cwd: 'dist/react-app',
+                    src: deployFiles,
+                    dest: './react-app'
+                }, {
+                    expand: true,
                     cwd: 'dist',
                     src: ['*.html'],
                     dest: './'

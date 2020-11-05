@@ -6,13 +6,23 @@
         "no-underscore-dangle": "off",
         "object-property-newline": "off",
         "camelcase": "off",
-        "no-alert": "off"
+        "no-alert": "off",
+        "indent": "off",
+        "no-invalid-this": "off"
     },
     "globals": {
         "L": false,
-        "Promise": true
+        "Promise": true,
+        "ReactDOM": true,
+        "React": true
     },
     "env": {
         "es6": true
+    },
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
     }
 }
