@@ -100,7 +100,7 @@ require([
 
                 expect(lastRow[config.fieldNames.anodes.ANODE_DIAMETER]).toBeNull();
                 expect(lastRow[config.fieldNames.anodes.STOCK_DIAMETER]).toBeNull();
-                expect(typeof lastRow[testWidget.idProperty]).toBe('number');
+                expect(lastRow[testWidget.idProperty]).toEqual(jasmine.any(Number));
             });
         });
     });
