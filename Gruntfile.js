@@ -273,7 +273,8 @@ module.exports = function (grunt) {
                 tasks: ['eslint', 'jasmine:main:build', 'newer:babel', 'newer:copy:src']
             },
             src: {
-                files: [jsFiles].concat(otherFiles).map(path => path.replace('_src', 'src')),
+                files: [jsFiles].concat(otherFiles).map(path => path.replace('_src', 'src'))
+                    .concat(['src/react-app/**/*.*']),
                 options: {
                     livereload: true
                 }
