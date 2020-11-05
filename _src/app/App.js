@@ -12,7 +12,8 @@ define([
 
     'toaster',
 
-    'app/Header',
+    'react-app/components/Header',
+
     'app/SettingsDialog',
     'bootstrap',
     'dijit/layout/ContentPane',
@@ -30,7 +31,9 @@ define([
     template,
     declare,
 
-    Toaster
+    Toaster,
+
+    Header
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         // summary:
@@ -67,6 +70,8 @@ define([
             var toaster = new Toaster.default(null, domConstruct.create('div', null, this.domNode));
             /* eslint-enable new-cap */
             toaster.startup();
+
+            ReactDOM.render(React.createElement(Header.default), this.header);
         }
     });
 });
