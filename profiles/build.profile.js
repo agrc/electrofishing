@@ -86,7 +86,7 @@ var profile = {
     }, {
         name: 'react-app',
         resourceTags: {
-            amd: () => true
+            amd: (filename) => /\.js/.test(filename)
         }
     }],
     staticHasFeatures: {
