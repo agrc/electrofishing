@@ -50,3 +50,11 @@ Production: [https://dwrapps.utah.gov/fishsample/dataentry/](https://dwrapps.uta
 1. Credentials are in the agrc wiki
 2. Deleting all feature classes and tables
 3. Reimport schema from the xml file
+
+## Development
+
+`npm start` and open [http://localhost:8000/src/](http://localhost:8000/src/)
+
+### Storybook
+
+`npm run storybook` (requires `npm start` to already be running)

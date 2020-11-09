@@ -9,13 +9,21 @@
     "@babel/plugin-transform-parameters": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-react": "^7.12.5",
+    "@storybook/addon-actions": "^6.0.28",
+    "@storybook/addon-essentials": "^6.0.28",
+    "@storybook/addon-links": "^6.0.28",
+    "@storybook/react": "^6.0.28",
     "babel-core": "6.26.3",
+    "babel-loader": "^8.1.0",
     "babel-plugin-transform-remove-strict-mode": "0.0.2",
     "babel-preset-latest": "^6.24.1",
+    "core-js": "^3.7.0",
+    "dojo-webpack-plugin": "^2.8.18",
     "es6-object-assign": "1.1.0",
     "eslint": "^4.19.1",
     "eslint-config-agrc": "1.2.0",
     "eslint-plugin-html": "4.0.3",
+    "eslint-plugin-react": "^7.21.5",
     "grunt": "^1.0.1",
     "grunt-babel": "^8.0.0",
     "grunt-bump": "^0.8.0",
@@ -37,10 +45,12 @@
     "jasmine": "3.1.0",
     "load-grunt-tasks": "^3.5.2",
     "puppeteer": "1.13.0",
+    "react-is": "^17.0.1",
     "sass": "^1.29.0"
   },
   "scripts": {
-    "start": "sass _src/react-app:src/react-app --watch & export BABEL_ENV=development && babel --watch --out-dir src/react-app _src/react-app & grunt",
+    "start": "sass _src/react-app:src/react-app --watch & npm run babel-react-watch & grunt",
+    "babel-react-watch": "export BABEL_ENV=development && babel --watch --out-dir src/react-app _src/react-app",
     "build": "export BABEL_ENV=production && npm run sass && npm run babel-react && grunt build-prod",
     "build-stage": "export BABEL_ENV=test && npm run sass && npm run babel-react && grunt build-stage",
     "babel-react": "babel --out-dir src/react-app _src/react-app",
@@ -48,6 +58,7 @@
     "test": "npm run babel-react && grunt travis",
     "deploy": "grunt deploy-prod",
     "deploy-stage": "grunt deploy-stage",
-    "deploy-stage-app-only": "grunt deploy-stage-app-only"
+    "deploy-stage-app-only": "grunt deploy-stage-app-only",
+    "storybook": "start-storybook -p 6006 --no-dll"
   }
 }
