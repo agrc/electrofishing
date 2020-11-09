@@ -1,5 +1,8 @@
 {
-    "extends": "agrc",
+    "extends": [
+        "agrc",
+        "plugin:react/recommended"
+    ],
     "rules": {
         "no-magic-numbers": "off",
         "object-curly-spacing": "off",

@@ -23,6 +23,11 @@ var profile = {
         }
     },
     packages: [{
+        name: 'react-app',
+        trees: [
+            ['.', '.', /(\/\.)|(.stories.js)/]
+        ]
+    }, {
         name: 'proj4',
         resourceTags: {
             amd: function () {
