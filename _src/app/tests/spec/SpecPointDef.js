@@ -4,7 +4,7 @@ require([
 
     'dojo/dom-class',
     'dojo/dom-construct',
-    'dojo/topic'
+    'pubsub-js'
 ], function (
     config,
     PointDef,
@@ -77,7 +77,7 @@ require([
 
                 testWidget.wireEvents();
 
-                topic.publish(config.topics.coordTypeToggle_onChange, config.coordTypes.utm83);
+                topic.publishSync(config.topics.coordTypeToggle_onChange, config.coordTypes.utm83);
 
                 expect(testWidget.onCoordTypeChange).toHaveBeenCalled();
             });

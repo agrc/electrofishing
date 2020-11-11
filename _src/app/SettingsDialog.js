@@ -7,7 +7,7 @@ define([
 
     'dojo/query',
     'dojo/text!app/templates/SettingsDialog.html',
-    'dojo/topic',
+    'pubsub-js',
     'dojo/_base/declare'
 ], function (
     config,
@@ -73,7 +73,7 @@ define([
             // store in localStorage
             localStorage.coordType = type;
 
-            topic.publish(config.topics.coordTypeToggle_onChange, type);
+            topic.publishSync(config.topics.coordTypeToggle_onChange, type);
         },
         onMouseWheelChange: function () {
             // summary:
@@ -82,7 +82,7 @@ define([
 
             localStorage.mouseWheelZooming = this.mouseWheelChBox.checked;
 
-            topic.publish(config.topics.mouseWheelZooming_onChange, this.mouseWheelChBox.checked);
+            topic.publishSync(config.topics.mouseWheelZooming_onChange, this.mouseWheelChBox.checked);
         }
     });
 });

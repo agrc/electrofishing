@@ -4,7 +4,6 @@ define([
     'app/catch/FilteringSelectForGrid',
     'app/catch/MoreInfoDialog',
     'app/config',
-    'app/Domains',
     'app/GridTab',
     'app/_GridMixin',
 
@@ -14,14 +13,11 @@ define([
 
     'dojo/aspect',
     'dojo/dom-class',
-    'dojo/dom-construct',
     'dojo/on',
     'dojo/query',
-    'dojo/store/Memory',
     'dojo/text!app/catch/templates/BulkUploadHelp.html',
     'dojo/text!app/catch/templates/Catch.html',
     'dojo/topic',
-    'dojo/_base/array',
     'dojo/_base/declare',
     'dojo/_base/lang',
 
@@ -38,7 +34,6 @@ define([
     FilteringSelectForGrid,
     MoreInfoDialog,
     config,
-    Domains,
     GridTab,
     _GridMixin,
 
@@ -48,14 +43,11 @@ define([
 
     aspect,
     domClass,
-    domConstruct,
     on,
     query,
-    Memory,
     bulkHelpHTML,
     template,
-    topic,
-    array,
+    dojoTopic,
     declare,
     lang,
 
@@ -593,7 +585,7 @@ define([
 
             if (parseResults.errors.length) {
                 console.error(JSON.stringify(parseResults.errors));
-                topic.publish(config.topics.toaster, {
+                dojoTopic.publish(config.topics.toaster, {
                     type: 'danger',
                     message: 'Error parsing CSV: ' + parseResults.errors.map(e => e.message).join('\n')
                 });

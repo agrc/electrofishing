@@ -79,7 +79,7 @@ describe('SubmitReport', function () {
         await page.keyboard.press('Tab');
         await page.keyboard.type('2');
         await page.keyboard.press('Tab');
-        await page.keyboard.type('2');
+        await page.keyboard.type('R');
 
         await page.click('a[href="#catchTab"]');
 

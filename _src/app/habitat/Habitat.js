@@ -13,12 +13,10 @@ define([
 
     'dojo/DeferredList',
     'dojo/dom-class',
-    'dojo/on',
     'dojo/query',
     'dojo/text!./templates/Habitat.html',
     'dojo/_base/declare',
     'dojo/_base/lang',
-    'dojo/topic',
 
     'dojox/uuid/generateRandomUuid',
 
@@ -40,12 +38,10 @@ define([
 
     DeferredList,
     domClass,
-    on,
     query,
     template,
     declare,
     lang,
-    topic,
 
     generateRandomUuid,
 

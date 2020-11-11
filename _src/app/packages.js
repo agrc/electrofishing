@@ -34,6 +34,10 @@ require({
             location: './localforage/dist',
             main: 'localforage'
         }, {
+            name: 'pubsub-js',
+            location: '../node_modules/pubsub-js',
+            main: 'src/pubsub'
+        }, {
             name: 'proj4',
             location: './proj4/dist',
             main: 'proj4'

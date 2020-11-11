@@ -2,17 +2,15 @@ require([
     'app/config',
     'app/location/Station',
 
-    'dojo/dom-class',
     'dojo/dom-construct',
     'dojo/dom-style',
-    'dojo/topic',
+    'pubsub-js',
 
     'stubmodule'
 ], function (
     config,
     Station,
 
-    domClass,
     domConstruct,
     domStyle,
     topic,
@@ -83,7 +81,7 @@ require([
                 var value = 'blah';
                 testWidget.stations = [value];
 
-                topic.publish(config.topics.onStationClick, [value]);
+                topic.publishSync(config.topics.onStationClick, [value]);
 
                 expect(testWidget.stationTxt.value).toEqual(value);
             });

@@ -1,6 +1,7 @@
 define([
     'app/config',
     'app/location/_GeoDefMixin',
+    'app/_SubscriptionsMixin',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -11,7 +12,7 @@ define([
     'dojo/json',
     'dojo/request/xhr',
     'dojo/text!app/location/templates/StartEndGeoDef.html',
-    'dojo/topic',
+    'pubsub-js',
     'dojo/_base/array',
     'dojo/_base/declare',
     'dojo/_base/lang',
@@ -20,6 +21,7 @@ define([
 ], function (
     config,
     _GeoDefMixin,
+    _SubscriptionsMixin,
 
     _TemplatedMixin,
     _WidgetBase,
@@ -35,7 +37,7 @@ define([
     declare,
     lang
 ) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GeoDefMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GeoDefMixin, _SubscriptionsMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'start-end-geodef',
@@ -86,7 +88,7 @@ define([
 
             var that = this;
 
-            this.own(
+            this.addSubscription(
                 topic.subscribe(config.topics.mapInit, function () {
                     that.featureGroup = new L.FeatureGroup().addTo(config.app.map);
                     that.startPointDef.setMap(config.app.map, that.featureGroup);

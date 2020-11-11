@@ -5,7 +5,7 @@ require([
     'dojo/Deferred',
     'dojo/dom-class',
     'dojo/dom-construct',
-    'dojo/topic',
+    'pubsub-js',
     'dojo/_base/window'
 ], function (
     config,
@@ -38,19 +38,19 @@ require([
             });
             it('subscribe to onDistanceChange and update the stream length field', function () {
                 var dist = '500';
-                topic.publish(config.topics.startDistDirGeoDef_onDistanceChange, dist);
+                topic.publishSync(config.topics.startDistDirGeoDef_onDistanceChange, dist);
 
                 expect(testWidget.streamLengthTxt.value).toEqual(dist);
             });
             it('inits the map', function () {
-                topic.publish(config.topics.newCollectionEvent);
+                topic.publishSync(config.topics.newCollectionEvent);
 
                 expect(testWidget.verifyMap.initMap).toHaveBeenCalled();
             });
-            it('doesnt init the map twice', function () {
+            it('does not init the map twice', function () {
                 testWidget.verifyMap.map = {remove: function () {}};
 
-                topic.publish(config.topics.newCollectionEvent);
+                topic.publishSync(config.topics.newCollectionEvent);
 
                 expect(testWidget.verifyMap.initMap).not.toHaveBeenCalled();
             });

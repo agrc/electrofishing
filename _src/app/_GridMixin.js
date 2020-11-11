@@ -1,5 +1,6 @@
 define([
-    './catch/NoFishException',
+    'app/catch/NoFishException',
+    'app/_SubscriptionsMixin',
 
     'dgrid/Editor',
     'dgrid/Keyboard',
@@ -10,7 +11,7 @@ define([
 
     'dojo/keys',
     'dojo/on',
-    'dojo/topic',
+    'pubsub-js',
     'dojo/_base/array',
     'dojo/_base/declare',
     'dojo/_base/lang',
@@ -19,6 +20,7 @@ define([
     'dstore/Trackable'
 ], function (
     NoFishException,
+    _SubscriptionsMixin,
 
     Editor,
     Keyboard,
@@ -39,7 +41,7 @@ define([
 ) {
     // summary:
     //      Mixin to add dgrid to a widget.
-    return declare(null, {
+    return declare([_SubscriptionsMixin], {
         // this is to remove the default NaN value if there is an empty string
         // it's used as a column editor in classes that use this mixin
         NewNumberSpinner: declare([NumberSpinner], {
@@ -80,14 +82,16 @@ define([
                 deselectOnRefresh: false
             }, this.gridDiv);
 
-            on(this.grid, 'keydown', lang.hitch(this, this.onGridKeydown));
-            on(this.grid, 'dgrid-select', lang.hitch(this, this.onRowSelected));
-            on(this.grid, 'dgrid-deselect', lang.hitch(this, this.onRowDeselected));
+            this.own(
+                on(this.grid, 'keydown', lang.hitch(this, this.onGridKeydown)),
+                on(this.grid, 'dgrid-select', lang.hitch(this, this.onRowSelected)),
+                on(this.grid, 'dgrid-deselect', lang.hitch(this, this.onRowDeselected))
+            );
 
             this.setGridData([]);
 
-            this.own(
-                topic.subscribe(`refocus_${this.id}`, (columnIndex) => {
+            this.addSubscription(
+                topic.subscribe(`refocus_${this.id}`, (_, columnIndex) => {
                     for (var id in this.grid.selection) {
                         if (this.grid.selection.hasOwnProperty(id)) {
                             // columnIndex needs to be a string
