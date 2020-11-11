@@ -1,5 +1,5 @@
 import config from 'app/config';
-import topic from 'dojo/topic';
+import topic from 'pubsub-js';
 
 export default function Header() {
   return (
@@ -34,14 +34,14 @@ export default function Header() {
           </li>
         </ul>
         <button
-          onClick={() => topic.publish(config.topics.onSubmitReportClick)}
+          onClick={() => topic.publishSync(config.topics.onSubmitReportClick)}
           data-loading-text="submitting report..."
           className="btn btn-success navbar-btn"
         >
           Submit Report
         </button>
         <button
-          onClick={() => topic.publish(config.topics.onSubmitReportClick)}
+          onClick={() => topic.publishSync(config.topics.onCancelReportClick)}
           className="btn btn-default navbar-btn"
         >
           Cancel

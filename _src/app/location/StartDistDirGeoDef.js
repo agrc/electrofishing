@@ -1,6 +1,7 @@
 define([
     'app/config',
     'app/location/_GeoDefMixin',
+    'app/_SubscriptionsMixin',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -12,13 +13,14 @@ define([
     'dojo/query',
     'dojo/request/xhr',
     'dojo/text!app/location/templates/StartDistDirGeoDef.html',
-    'dojo/topic',
+    'pubsub-js',
     'dojo/_base/declare',
 
     'app/location/PointDef'
 ], function (
     config,
     _GeoDefMixin,
+    _SubscriptionsMixin,
 
     _TemplatedMixin,
     _WidgetBase,
@@ -33,7 +35,7 @@ define([
     topic,
     declare
 ) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GeoDefMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GeoDefMixin, _SubscriptionsMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'start-dist-dir',
@@ -73,11 +75,13 @@ define([
 
             var that = this;
 
-            this.own(
+            this.addSubscription(
                 topic.subscribe(config.topics.mapInit, function () {
                     that.featureGroup = new L.FeatureGroup().addTo(config.app.map);
                     that.startPointDef.setMap(config.app.map, that.featureGroup);
-                }),
+                })
+            );
+            this.own(
                 aspect.before(this.startPointDef, 'updateMarkerPosition', function () {
                     that.onInvalidate();
                 }),
@@ -98,7 +102,7 @@ define([
 
             var dist = this.distanceBox.value;
 
-            topic.publish(config.topics.startDistDirGeoDef_onDistanceChange, dist);
+            topic.publishSync(config.topics.startDistDirGeoDef_onDistanceChange, dist);
 
             if (dist === '') {
                 return null;

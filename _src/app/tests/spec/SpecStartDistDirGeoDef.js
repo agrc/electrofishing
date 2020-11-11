@@ -6,7 +6,7 @@ require([
     'dojo/dom-class',
     'dojo/json',
     'dojo/on',
-    'dojo/topic'
+    'pubsub-js'
 ], function (
     config,
     StartDistDirGeoDef,
@@ -41,7 +41,7 @@ require([
             it('subscribes to the mapInit topic and creates a feature group', function () {
                 spyOn(testWidget.startPointDef, 'setMap');
 
-                topic.publish(config.topics.mapInit);
+                topic.publishSync(config.topics.mapInit);
 
                 expect(testWidget.featureGroup).toBeDefined();
                 expect(testWidget.startPointDef.setMap).toHaveBeenCalled();
@@ -113,7 +113,7 @@ require([
             it('publishes the streamDistance topic', function () {
                 var value = '500';
                 var publishedValue;
-                topic.subscribe(config.topics.startDistDirGeoDef_onDistanceChange, function (dist) {
+                topic.subscribe(config.topics.startDistDirGeoDef_onDistanceChange, function (_, dist) {
                     publishedValue = dist;
                 });
 

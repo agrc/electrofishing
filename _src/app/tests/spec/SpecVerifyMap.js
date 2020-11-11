@@ -3,15 +3,13 @@ require([
     'app/location/VerifyMap',
 
     'dojo/dom-construct',
-    'dojo/dom-style',
-    'dojo/topic',
+    'pubsub-js',
     'dojo/_base/window'
 ], function (
     config,
     VerifyMap,
 
     domConstruct,
-    domStyle,
     topic,
     win
 ) {

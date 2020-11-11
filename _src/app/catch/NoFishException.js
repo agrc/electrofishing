@@ -6,7 +6,7 @@ define([
     'dojo/text!./templates/NoFishException.html',
     'dojo/_base/declare',
 
-    'dojo/topic'
+    'pubsub-js'
 ], function (
     config,
 
@@ -33,7 +33,7 @@ define([
             //      publish a topic to allow validation to be skipped for not finding a fish
             console.info('app/catch/NoFishException:AllowSkip', arguments);
 
-            topic.publish(config.topics.noFish, event.target.checked);
+            topic.publishSync(config.topics.noFish, event.target.checked);
         }
     });
 });

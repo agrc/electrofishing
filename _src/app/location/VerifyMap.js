@@ -1,18 +1,16 @@
 define([
     'app/config',
     'app/StreamSearch',
+    'app/_SubscriptionsMixin',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
 
-    'dojo/dom-style',
     'dojo/string',
     'dojo/text!app/location/templates/VerifyMap.html',
     'dojo/text!app/templates/StationPopupTemplate.html',
-    'dojo/topic',
-    'dojo/_base/array',
+    'pubsub-js',
     'dojo/_base/declare',
-    'dojo/_base/lang',
 
     'esri-leaflet/dist/esri-leaflet-debug',
 
@@ -20,24 +18,22 @@ define([
 ], function (
     config,
     StreamSearch,
+    _SubscriptionsMixin,
 
     _TemplatedMixin,
     _WidgetBase,
 
-    domStyle,
     dojoString,
     template,
     stationPopupTemplate,
     topic,
-    array,
     declare,
-    lang,
 
     esriLeaflet
 ) {
     L.esri = esriLeaflet;
 
-    return declare([_WidgetBase, _TemplatedMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _SubscriptionsMixin], {
         templateString: template,
         baseClass: 'verify-map',
 
@@ -100,7 +96,7 @@ define([
             this.map.setView([40.6389, -111.7034], 10);
 
             var that = this;
-            this.own(topic.subscribe(config.topics.mouseWheelZooming_onChange, function (enable) {
+            this.addSubscription(topic.subscribe(config.topics.mouseWheelZooming_onChange, function (_, enable) {
                 if (enable) {
                     that.map.scrollWheelZoom.enable();
                 } else {
@@ -140,7 +136,7 @@ define([
                     }).on('mouseout', function () {
                         that.map.closePopup();
                     }).on('click', function () {
-                        topic.publish(
+                        topic.publishSync(
                             config.topics.onStationClick,
                             [
                                 geojson.properties[config.fieldNames.stations.NAME],
@@ -210,7 +206,7 @@ define([
 
             if (this.isMainMap) {
                 config.app.map = this.map;
-                topic.publish(config.topics.mapInit);
+                topic.publishSync(config.topics.mapInit);
             }
 
             this.streamSearch = new StreamSearch({

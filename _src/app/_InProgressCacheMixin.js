@@ -113,7 +113,7 @@ define([
             // error: Error
             console.log('app/_InProgressCacheMixin:onError', arguments);
 
-            topic.publish(config.topics.toaster, {
+            topic.publishSync(config.topics.toaster, {
                 type: 'danger',
                 message: `Error with in-progress caching: ${message}; ${error.message}`
             });

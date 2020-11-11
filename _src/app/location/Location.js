@@ -1,10 +1,9 @@
 define([
-    './../Domains',
-    './../_SelectPopulate',
-
-    'app/config',
     'app/_ClearValuesMixin',
     'app/_InProgressCacheMixin',
+    'app/_SelectPopulate',
+    'app/_SubscriptionsMixin',
+    'app/config',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -14,7 +13,7 @@ define([
     'dojo/query',
     'dojo/string',
     'dojo/text!app/location/templates/Location.html',
-    'dojo/topic',
+    'pubsub-js',
     'dojo/_base/declare',
 
     'localforage',
@@ -24,12 +23,11 @@ define([
     'app/location/Station',
     'app/location/VerifyMap'
 ], function (
-    Domains,
-    _SelectPopulate,
-
-    config,
     _ClearValuesMixin,
     _InProgressCacheMixin,
+    _SelectPopulate,
+    _SubscriptionsMixin,
+    config,
 
     _TemplatedMixin,
     _WidgetBase,
@@ -50,7 +48,8 @@ define([
         _WidgetsInTemplateMixin,
         _InProgressCacheMixin,
         _SelectPopulate,
-        _ClearValuesMixin
+        _ClearValuesMixin,
+        _SubscriptionsMixin
     ];
 
     return declare(mixins, {
@@ -148,10 +147,14 @@ define([
                 }),
                 this.connect(this.verifyMapBtn, 'click', function () {
                     that.validateGeometry();
-                }),
-                topic.subscribe(config.topics.startDistDirGeoDef_onDistanceChange, function (dist) {
+                })
+            );
+            this.addSubscription(
+                topic.subscribe(config.topics.startDistDirGeoDef_onDistanceChange, function (_, dist) {
                     that.streamLengthTxt.value = dist;
-                }),
+                })
+            );
+            this.addSubscription(
                 topic.subscribe(config.topics.newCollectionEvent, function () {
                     if (!that.verifyMap.map) {
                         that.verifyMap.initMap();

@@ -1,19 +1,20 @@
 define([
     'app/config',
+    'app/_SubscriptionsMixin',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
 
     'dojo/dom-class',
     'dojo/text!app/location/templates/PointDef.html',
-    'dojo/topic',
+    'pubsub-js',
     'dojo/_base/declare',
-    'dojo/_base/lang',
 
     'proj4',
     'proj4leaflet'
 ], function (
     config,
+    _SubscriptionsMixin,
 
     _TemplatedMixin,
     _WidgetBase,
@@ -21,10 +22,9 @@ define([
     domClass,
     template,
     topic,
-    declare,
-    lang
+    declare
 ) {
-    return declare([_WidgetBase, _TemplatedMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _SubscriptionsMixin], {
         templateString: template,
         baseClass: 'point-def',
 
@@ -174,9 +174,11 @@ define([
             //      description
             console.log('app/location/PointDef:wireEvents', arguments);
 
-            this.own(
-                topic.subscribe(config.topics.coordTypeToggle_onChange, lang.hitch(this, this.onCoordTypeChange)),
-                topic.subscribe(config.topics.pointDef_onBtnClick, lang.hitch(this, this.onOtherMapBtnClicked))
+            this.addSubscription(
+                topic.subscribe(config.topics.coordTypeToggle_onChange, (_, type) => this.onCoordTypeChange(type)),
+            );
+            this.addSubscription(
+                topic.subscribe(config.topics.pointDef_onBtnClick, (_, widget) => this.onOtherMapBtnClicked(widget))
             );
 
             // validate text boxes
@@ -281,7 +283,7 @@ define([
             this.yBox.disabled = disabled;
             this.xBox.disabled = disabled;
 
-            topic.publish(config.topics.pointDef_onBtnClick, this);
+            topic.publishSync(config.topics.pointDef_onBtnClick, this);
         },
         onOtherMapBtnClicked: function (widget) {
             // summary:

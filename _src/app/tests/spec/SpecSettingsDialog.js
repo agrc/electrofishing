@@ -27,11 +27,11 @@ require([
         beforeEach(function (done) {
             config.topics.coordTypeToggle_onChange = 'blah';
             topicMock = {
-                publish: jasmine.createSpy('publish'),
+                publishSync: jasmine.createSpy('publish'),
                 subscribe: jasmine.createSpy('subscribe')
             };
             stubmodule('app/SettingsDialog', {
-                'dojo/topic': topicMock
+                'pubsub-js': topicMock
             }).then(function (StubbedModule) {
                 testWidget = new StubbedModule({}, domConstruct.create('div', {}, document.body));
                 done();
@@ -97,8 +97,9 @@ require([
             it('should call topic.publish with correct topic from config', function () {
                 testWidget.onCoordTypeChange(value);
 
-                expect(topicMock.publish.calls.mostRecent().args[1]).toEqual(value);
-                expect(topicMock.publish.calls.mostRecent().args[0]).toEqual(config.topics.coordTypeToggle_onChange);
+                expect(topicMock.publishSync.calls.mostRecent().args[1]).toEqual(value);
+                expect(topicMock.publishSync.calls.mostRecent().args[0])
+                    .toEqual(config.topics.coordTypeToggle_onChange);
             });
             it('should set the currentType property', function () {
                 testWidget.onCoordTypeChange(value);

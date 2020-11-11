@@ -92,7 +92,7 @@ define([
         },
 
         // topics: {key:String}
-        //      Global dojo/topic topics used in the app
+        //      Global pubsub-js topics used in the app
         topics: {
             coordTypeToggle_onChange: 'coordTypeToggle_onChange',
             pointDef_onBtnClick: 'pointDef_onBtnClick',

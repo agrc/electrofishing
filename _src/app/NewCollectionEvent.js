@@ -2,6 +2,7 @@ define([
     'app/config',
     'app/helpers',
     'app/_SubmitJobMixin',
+    'app/_SubscriptionsMixin',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -11,6 +12,7 @@ define([
     'dojo/dom-construct',
     'dojo/query',
     'dojo/text!app/templates/NewCollectionEvent.html',
+    'pubsub-js',
     'dojo/topic',
     'dojo/_base/array',
     'dojo/_base/declare',
@@ -32,6 +34,7 @@ define([
     config,
     helpers,
     _SubmitJobMixin,
+    _SubscriptionsMixin,
 
     _TemplatedMixin,
     _WidgetBase,
@@ -42,6 +45,7 @@ define([
     query,
     template,
     topic,
+    dojoTopic,
     array,
     declare,
     lang,
@@ -52,7 +56,7 @@ define([
 
     localforage
 ) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _SubmitJobMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _SubmitJobMixin, _SubscriptionsMixin], {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'new-collection-event',
@@ -100,9 +104,11 @@ define([
             validator.init();
 
             var that = this;
-            this.own(topic.subscribe(config.topics.noFish, function (allowFish) {
-                that.noFish = allowFish;
-            }));
+            this.addSubscription(
+                topic.subscribe(config.topics.noFish, function (_, allowFish) {
+                    that.noFish = allowFish;
+                })
+            );
 
             this.locationTb.verifyMap.initMap();
         },
@@ -116,8 +122,10 @@ define([
             //      description
             console.log('app/NewCollectionEvent:wireEvents', arguments);
 
-            this.own(
+            this.addSubscription(
                 topic.subscribe(config.topics.onSubmitReportClick, lang.hitch(this, 'onSubmit')),
+            );
+            this.addSubscription(
                 topic.subscribe(config.topics.onCancelReportClick, lang.hitch(this, 'onCancel'))
             );
         },
@@ -258,7 +266,7 @@ define([
             console.log('app/NewCollectionEvent:clearReport', arguments);
 
             const onError = (error) => {
-                topic.publish(config.topics.toaster, {
+                dojoTopic.publish(config.topics.toaster, {
                     type: 'danger',
                     message: `Error with localforage clearing: \n ${error.message}`
                 });

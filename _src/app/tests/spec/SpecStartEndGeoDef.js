@@ -4,7 +4,7 @@ require([
 
     'dojo/Deferred',
     'dojo/json',
-    'dojo/topic',
+    'pubsub-js',
 
     'stubmodule'
 ], function (
@@ -41,7 +41,7 @@ require([
 
                 config.app = {map: {addLayer: function () {}}};
 
-                topic.publish(config.topics.mapInit);
+                topic.publishSync(config.topics.mapInit);
 
                 expect(testWidget.featureGroup).toBeDefined();
                 expect(testWidget.startPointDef.setMap).toHaveBeenCalled();

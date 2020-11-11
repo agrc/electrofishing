@@ -4,6 +4,7 @@ define([
     'app/location/VerifyMap',
     'app/_InProgressCacheMixin',
     'app/_SubmitJobMixin',
+    'app/_SubscriptionsMixin',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -13,7 +14,7 @@ define([
     'dojo/dom-style',
     'dojo/json',
     'dojo/text!app/location/templates/Station.html',
-    'dojo/topic',
+    'pubsub-js',
     'dojo/_base/declare',
 
     'dojox/uuid/generateRandomUuid',
@@ -26,6 +27,7 @@ define([
     VerifyMap,
     _InProgressCacheMixin,
     _SubmitJobMixin,
+    _SubscriptionsMixin,
 
     _TemplatedMixin,
     _WidgetBase,
@@ -40,7 +42,16 @@ define([
 
     generateRandomUuid
 ) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _SubmitJobMixin, _InProgressCacheMixin], {
+    const mixins = [
+        _WidgetBase,
+        _TemplatedMixin,
+        _WidgetsInTemplateMixin,
+        _SubmitJobMixin,
+        _InProgressCacheMixin,
+        _SubscriptionsMixin
+    ];
+
+    return declare(mixins, {
         widgetsInTemplate: true,
         templateString: template,
         baseClass: 'station',
@@ -123,13 +134,17 @@ define([
 
             this.connect(this.submitBtn, 'click', 'onSubmit');
 
-            this.own(topic.subscribe(config.topics.onStationClick, function (params) {
-                that.stationTxt.value = params[0];
-                that.currentGuid = params[1];
-                that.cacheInProgressData();
-            }));
+            this.addSubscription(
+                topic.subscribe(config.topics.onStationClick, function (_, params) {
+                    that.stationTxt.value = params[0];
+                    that.currentGuid = params[1];
+                    that.cacheInProgressData();
+                })
+            );
 
-            this.own(topic.subscribe(config.topics.pointDef_onBtnClick, this.onPointDefSelected.bind(this)));
+            this.addSubscription(
+                topic.subscribe(config.topics.pointDef_onBtnClick, this.onPointDefSelected.bind(this))
+            );
         },
         onDialogShown: function () {
             // summary:
@@ -242,7 +257,7 @@ define([
             this.streamLakeInput.value = '';
             this.onPointDefSelected();
 
-            topic.publish(config.topics.onStationClick, [
+            topic.publishSync(config.topics.onStationClick, [
                 this.newStation.attributes[config.fieldNames.stations.NAME],
                 this.newStation.attributes[config.fieldNames.stations.STATION_ID]
             ]);
@@ -334,7 +349,7 @@ define([
 
             if (!domClass.contains(this.streamLakeBtn, 'active')) {
                 // button is being selected...
-                topic.publish(config.topics.pointDef_onBtnClick, this);
+                topic.publishSync(config.topics.pointDef_onBtnClick, this);
                 this.vMap.streamsLyr.on('click', this.onWaterBodyClick.bind(this));
                 this.vMap.lakesLyr.on('click', this.onWaterBodyClick.bind(this));
             }

@@ -8,8 +8,7 @@ define([
 
     'dojo/dom-construct',
     'dojo/store/Memory',
-    'dojo/topic',
-    'dojo/_base/array',
+    'pubsub-js',
     'dojo/_base/declare'
 ], function (
     Domains,
@@ -22,7 +21,6 @@ define([
     domConstruct,
     Memory,
     topic,
-    array,
     declare
 ) {
     return declare([FilteringSelect], {
@@ -112,7 +110,7 @@ define([
             //      it is lost when the OtherOptionsHandler dialog opens
             console.log('app/catch/FilteringSelect:refocusGridCell', arguments);
 
-            topic.publish(`refocus_${this.parentId}`, this.columnIndex);
+            topic.publishSync(`refocus_${this.parentId}`, this.columnIndex);
         },
 
         destroyOtherOptionHandler: function () {
