@@ -61,6 +61,9 @@ define([
             //      Fires when
             console.log('app/App:postCreate', arguments);
 
+            // this needs to be called before NewCollectionEvent...or else the grid has issues (empty)
+            ReactDOM.render(React.createElement(Header.default), this.header);
+
             this.newEvent = new NewCollectionEvent({}, this.newEventDiv);
             this.newEvent.startup();
 
@@ -70,8 +73,6 @@ define([
             var toaster = new Toaster.default(null, domConstruct.create('div', null, this.domNode));
             /* eslint-enable new-cap */
             toaster.startup();
-
-            ReactDOM.render(React.createElement(Header.default), this.header);
         }
     });
 });
