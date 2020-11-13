@@ -7,7 +7,9 @@ define([
     'dojo/_base/declare',
     'dojo/_base/lang',
 
-    'localforage'
+    'localforage',
+
+    'react-toastify'
 ], function (
     config,
 
@@ -17,7 +19,9 @@ define([
     declare,
     lang,
 
-    localforage
+    localforage,
+
+    toastify
 ) {
     return declare([], {
         // inputs: InputDomNode[]
@@ -113,10 +117,7 @@ define([
             // error: Error
             console.log('app/_InProgressCacheMixin:onError', arguments);
 
-            topic.publishSync(config.topics.toaster, {
-                type: 'danger',
-                message: `Error with in-progress caching: ${message}; ${error.message}`
-            });
+            toastify.toast.error(`Error with in-progress caching: ${message}; ${error.message}`);
         },
         getAdditionalCacheData: function () {
             // summary:
