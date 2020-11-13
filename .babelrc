@@ -3,6 +3,7 @@
   "plugins": [
     "@babel/plugin-transform-modules-amd",
     "@babel/plugin-transform-parameters",
-    "@babel/plugin-transform-destructuring"
+    "@babel/plugin-transform-destructuring",
+    "transform-node-env-inline"
   ]
 }

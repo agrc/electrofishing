@@ -15,6 +15,7 @@
     "@storybook/react": "^6.0.28",
     "babel-core": "6.26.3",
     "babel-loader": "^8.1.0",
+    "babel-plugin-transform-node-env-inline": "^0.4.3",
     "babel-plugin-transform-remove-strict-mode": "0.0.2",
     "babel-preset-latest": "^6.24.1",
     "core-js": "^3.7.0",
@@ -49,17 +50,18 @@
     "sass": "^1.29.0"
   },
   "scripts": {
-    "start": "sass _src/react-app:src/react-app --watch & npm run babel-react-watch & grunt",
+    "babel-deps": "bash ./build_deps.sh",
     "babel-react-watch": "export BABEL_ENV=development && babel --watch --out-dir src/react-app _src/react-app",
-    "build": "export BABEL_ENV=production && npm run sass && npm run babel-react && grunt build-prod",
-    "build-stage": "export BABEL_ENV=test && npm run sass && npm run babel-react && grunt build-stage",
     "babel-react": "babel --out-dir src/react-app _src/react-app",
-    "sass": "sass _src/react-app:src/react-app",
-    "test": "npm run babel-react && grunt travis",
-    "deploy": "grunt deploy-prod",
-    "deploy-stage": "grunt deploy-stage",
+    "build-stage": "export BABEL_ENV=test && npm run babel-deps && npm run sass && npm run babel-react && grunt build-stage",
+    "build": "export BABEL_ENV=production && npm run babel-deps && npm run sass && npm run babel-react && grunt build-prod",
     "deploy-stage-app-only": "grunt deploy-stage-app-only",
-    "storybook": "start-storybook -p 6006 --no-dll"
+    "deploy-stage": "grunt deploy-stage",
+    "deploy": "grunt deploy-prod",
+    "sass": "sass _src/react-app:src/react-app",
+    "start": "npm run babel-deps && sass _src/react-app:src/react-app --watch & npm run babel-react-watch & grunt",
+    "storybook": "start-storybook -p 6006 --no-dll",
+    "test": "npm run babel-react && grunt travis"
   },
   "dependencies": {
     "pubsub-js": "^1.9.0"
