@@ -14,11 +14,11 @@ describe('SubmitReport', function () {
         });
         // browser = await puppeteer.launch();
         page = await browser.newPage();
-        await page.setViewport({ width: 1000, height: 1200 });
+        await page.setViewport({ width: 1200, height: 1200 });
     });
 
     beforeEach(async () => {
-        await page.goto('http://localhost/projects/electrofishing/src/');
+        await page.goto('http://localhost:8000/src/');
         // await page.goto('http://test.mapserv.utah.gov/electrofishing');
     });
 
@@ -73,9 +73,6 @@ describe('SubmitReport', function () {
         const firstCell = await page.$('.equipment .dgrid-scroller table td.field-ANODE_DIAMETER');
         await firstCell.click();
         await firstCell.type('1');
-
-        await page.keyboard.press('Tab');
-        await page.keyboard.type('1');
         await page.keyboard.press('Tab');
         await page.keyboard.type('2');
         await page.keyboard.press('Tab');
@@ -98,7 +95,7 @@ describe('SubmitReport', function () {
         await page.type('[data-dojo-attach-point="notesTxtArea"]', 'test notes');
         await page.click('.more-info-dialog [data-dojo-attach-point="submitBtn"]');
 
-        await page.click('[data-dojo-attach-point="submitBtn"]');
+        await page.click('.header button.btn-success');
         await page.screenshot({
             path: 'e2e_tests/screenshots/afterSubmit.jpg',
             fullPage: true
