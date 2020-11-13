@@ -10,7 +10,9 @@ define([
     'dojo/text!app/templates/App.html',
     'dojo/_base/declare',
 
-    'toaster',
+    'react',
+
+    'react-dom',
 
     'react-app/components/Header',
 
@@ -31,7 +33,9 @@ define([
     template,
     declare,
 
-    Toaster,
+    React,
+
+    ReactDOM,
 
     Header
 ) {

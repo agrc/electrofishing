@@ -1,3 +1,4 @@
+import React from 'react';
 import config from 'app/config';
 import topic from 'pubsub-js';
 

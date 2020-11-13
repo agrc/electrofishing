@@ -46,9 +46,13 @@ require({
             location: './Proj4Leaflet/src',
             main: 'proj4leaflet'
         }, {
-            name: 'toaster',
-            location: './toaster',
-            main: 'dist/Toaster'
+            name: 'react',
+            location: '../node_modules/react/umd',
+            main: 'react.development'
+        }, {
+            name: 'react-dom',
+            location: '../node_modules/react-dom/umd',
+            main: 'react-dom.development'
         }
     ]
 });
