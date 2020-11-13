@@ -17,7 +17,6 @@ define([
     'dojo/query',
     'dojo/text!app/catch/templates/BulkUploadHelp.html',
     'dojo/text!app/catch/templates/Catch.html',
-    'dojo/topic',
     'dojo/_base/declare',
     'dojo/_base/lang',
 
@@ -26,6 +25,8 @@ define([
     'localforage',
 
     'papaparse/papaparse',
+
+    'react-toastify',
 
     'bootstrap'
 ], function (
@@ -47,7 +48,6 @@ define([
     query,
     bulkHelpHTML,
     template,
-    dojoTopic,
     declare,
     lang,
 
@@ -55,7 +55,9 @@ define([
 
     localforage,
 
-    papaparse
+    papaparse,
+
+    toastify
 ) {
     const FN = config.fieldNames.fish;
 
@@ -551,7 +553,7 @@ define([
         },
         destroyRecursive: function () {
             // summary:
-            //      overriden to hide batch form
+            //      overridden to hide batch form
             // param or return
             console.log('app/catch/Catch:destroyRecursive', arguments);
 
@@ -585,10 +587,7 @@ define([
 
             if (parseResults.errors.length) {
                 console.error(JSON.stringify(parseResults.errors));
-                dojoTopic.publish(config.topics.toaster, {
-                    type: 'danger',
-                    message: 'Error parsing CSV: ' + parseResults.errors.map(e => e.message).join('\n')
-                });
+                toastify.toast.error('Error parsing CSV: ' + parseResults.errors.map(e => e.message).join('\n'));
 
                 return;
             }
@@ -608,7 +607,7 @@ define([
         },
         deleteRow() {
             // summary:
-            //      overriden from _GridMixin to add the removal of the fish from the more info dialog
+            //      overridden from _GridMixin to add the removal of the fish from the more info dialog
             console.log('app/catch/Catch', arguments);
 
             const selectedRow = this.getSelectedRow();

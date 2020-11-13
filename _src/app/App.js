@@ -6,13 +6,14 @@ define([
     'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
 
-    'dojo/dom-construct',
     'dojo/text!app/templates/App.html',
     'dojo/_base/declare',
 
     'react',
 
     'react-dom',
+
+    'react-toastify',
 
     'react-app/components/Header',
 
@@ -29,13 +30,14 @@ define([
     _WidgetBase,
     _WidgetsInTemplateMixin,
 
-    domConstruct,
     template,
     declare,
 
     React,
 
     ReactDOM,
+
+    toastify,
 
     Header
 ) {
@@ -73,10 +75,7 @@ define([
 
             document.body.className += ' loaded';
 
-            /* eslint-disable new-cap */
-            var toaster = new Toaster.default(null, domConstruct.create('div', null, this.domNode));
-            /* eslint-enable new-cap */
-            toaster.startup();
+            ReactDOM.render(React.createElement(toastify.ToastContainer), this.toaster);
         }
     });
 });

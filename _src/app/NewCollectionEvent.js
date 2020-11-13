@@ -24,6 +24,8 @@ define([
 
     'localforage',
 
+    'react-toastify',
+
     'app/catch/Catch',
     'app/habitat/Habitat',
     'app/location/Location',
@@ -54,7 +56,9 @@ define([
 
     NumericInputValidator,
 
-    localforage
+    localforage,
+
+    toastify
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _SubmitJobMixin, _SubscriptionsMixin], {
         widgetsInTemplate: true,
@@ -266,10 +270,7 @@ define([
             console.log('app/NewCollectionEvent:clearReport', arguments);
 
             const onError = (error) => {
-                dojoTopic.publish(config.topics.toaster, {
-                    type: 'danger',
-                    message: `Error with localforage clearing: \n ${error.message}`
-                });
+                toastify.toast.error(`Error with localforage clearing: \n ${error.message}`);
             };
 
             return localforage.clear().catch(onError).finally(() => {

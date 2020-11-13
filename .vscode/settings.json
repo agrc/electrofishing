@@ -17,6 +17,7 @@
     "latlng",
     "mapinited",
     "moveend",
+    "toastify",
     "unproject",
     "zoomend"
   ],

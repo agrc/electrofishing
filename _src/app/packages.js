@@ -46,6 +46,10 @@ require({
             location: './Proj4Leaflet/src',
             main: 'proj4leaflet'
         }, {
+            name: 'react-toastify',
+            location: './react-toastify',
+            main: 'react-toastify.esm'
+        }, {
             name: 'react',
             location: '../node_modules/react/umd',
             main: 'react.development'
@@ -53,6 +57,18 @@ require({
             name: 'react-dom',
             location: '../node_modules/react-dom/umd',
             main: 'react-dom.development'
+        }, {
+            name: 'react-transition-group',
+            location: '../node_modules/react-transition-group/dist',
+            main: 'react-transition-group'
+        }, {
+            name: 'prop-types',
+            location: '../node_modules/prop-types',
+            main: 'prop-types'
+        }, {
+            name: 'clsx',
+            location: '../node_modules/clsx/dist',
+            main: 'clsx.min'
         }
     ]
 });

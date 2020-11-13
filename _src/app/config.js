@@ -103,7 +103,6 @@ define([
             onSubmitReportClick: 'header_onSubmitReportClick',
             onCancelReportClick: 'header_onCancelReportClick',
             mouseWheelZooming_onChange: 'app_mouseWheelZooming',
-            toaster: 'app/Toaster',
             noFish: '1'
         },
 

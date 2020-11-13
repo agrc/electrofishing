@@ -25,7 +25,6 @@
     "esri-leaflet": "2.3.0",
     "stubmodule": "^0.6",
     "localforage": "~1.4.3",
-    "toaster": "agrc-toaster#~1.0.1",
     "handlebars": "~4.0.5",
     "papaparse": "^4.4.0"
   },
