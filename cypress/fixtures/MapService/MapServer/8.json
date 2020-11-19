@@ -1,0 +1,101 @@
+{
+  "currentVersion": 10.51,
+  "id": 8,
+  "name": "Anodes",
+  "type": "Table",
+  "description": null,
+  "hasAttachments": false,
+  "htmlPopupType": "esriServerHTMLPopupTypeNone",
+  "displayField": "ANODE_DIAMETER",
+  "typeIdField": null,
+  "subtypeFieldName": null,
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "esriFieldTypeOID",
+      "alias": "OBJECTID",
+      "domain": null
+    },
+    {
+      "name": "ANODE_DIAMETER",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Anode Diameter: Maximum Opening",
+      "domain": null
+    },
+    {
+      "name": "STOCK_DIAMETER",
+      "type": "esriFieldTypeDouble",
+      "alias": "Stock Diameter: X-section of anode stock",
+      "domain": null
+    },
+    {
+      "name": "EQUIPMENT_ID",
+      "type": "esriFieldTypeGUID",
+      "alias": "Equipment ID",
+      "length": 38,
+      "domain": null
+    },
+    {
+      "name": "ANODE_SHAPE",
+      "type": "esriFieldTypeString",
+      "alias": "Anode Shape",
+      "length": 10,
+      "domain": {
+        "type": "codedValue",
+        "name": "anode_shapes",
+        "codedValues": [
+          { "name": "Round", "code": "Round" },
+          { "name": "Diamond", "code": "Diamond" },
+          { "name": "Square net", "code": "Square net" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    }
+  ],
+  "indexes": [
+    {
+      "name": "R12_SDE_ROWID_UK",
+      "fields": "OBJECTID",
+      "isAscending": true,
+      "isUnique": true,
+      "description": ""
+    },
+    {
+      "name": "G44EQUIPMENT_ID",
+      "fields": "EQUIPMENT_ID",
+      "isAscending": true,
+      "isUnique": false,
+      "description": ""
+    }
+  ],
+  "subtypes": [],
+  "relationships": [
+    {
+      "id": 8,
+      "name": "Equipment",
+      "relatedTableId": 7,
+      "role": "esriRelRoleDestination",
+      "keyField": "EQUIPMENT_ID",
+      "cardinality": "esriRelCardinalityOneToMany",
+      "composite": true
+    }
+  ],
+  "capabilities": "Map,Query,Data",
+  "maxRecordCount": 5000,
+  "supportsStatistics": true,
+  "supportsAdvancedQueries": true,
+  "supportedQueryFormats": "JSON, AMF",
+  "isDataVersioned": true,
+  "advancedQueryCapabilities": {
+    "useStandardizedQueries": false,
+    "supportsStatistics": true,
+    "supportsOrderBy": true,
+    "supportsDistinct": true,
+    "supportsPagination": true,
+    "supportsTrueCurve": false,
+    "supportsReturningQueryExtent": true,
+    "supportsQueryWithDistance": true,
+    "supportsSqlExpression": true
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "currentVersion": 10.51,
+  "id": 10,
+  "name": "TransectMeasurements",
+  "type": "Table",
+  "description": null,
+  "hasAttachments": false,
+  "htmlPopupType": "esriServerHTMLPopupTypeNone",
+  "displayField": "SUBSTRATE",
+  "typeIdField": null,
+  "subtypeFieldName": null,
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "esriFieldTypeOID",
+      "alias": "OBJECTID",
+      "domain": null
+    },
+    {
+      "name": "DEPTH",
+      "type": "esriFieldTypeDouble",
+      "alias": "Depth",
+      "domain": null
+    },
+    {
+      "name": "VELOCITY",
+      "type": "esriFieldTypeDouble",
+      "alias": "Velocity",
+      "domain": null
+    },
+    {
+      "name": "SUBSTRATE",
+      "type": "esriFieldTypeString",
+      "alias": "Substrate",
+      "length": 10,
+      "domain": {
+        "type": "codedValue",
+        "name": "substrate_types",
+        "codedValues": [
+          { "name": "Fines", "code": "Fines" },
+          { "name": "Sand", "code": "Sand" },
+          { "name": "Gravel", "code": "Gravel" },
+          { "name": "Cobble", "code": "Cobble" },
+          { "name": "Rubble", "code": "Rubble" },
+          { "name": "Boulder", "code": "Boulder" },
+          { "name": "Bedrock", "code": "Bedrock" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "DISTANCE_START",
+      "type": "esriFieldTypeDouble",
+      "alias": "Distance from starting bank",
+      "domain": null
+    },
+    {
+      "name": "TRANSECT_ID",
+      "type": "esriFieldTypeGUID",
+      "alias": "Transect ID",
+      "length": 38,
+      "domain": null
+    }
+  ],
+  "indexes": [
+    {
+      "name": "R20_SDE_ROWID_UK",
+      "fields": "OBJECTID",
+      "isAscending": true,
+      "isUnique": true,
+      "description": ""
+    },
+    {
+      "name": "G52TRANSECT_ID",
+      "fields": "TRANSECT_ID",
+      "isAscending": true,
+      "isUnique": false,
+      "description": ""
+    }
+  ],
+  "subtypes": [],
+  "relationships": [
+    {
+      "id": 9,
+      "name": "Transect",
+      "relatedTableId": 9,
+      "role": "esriRelRoleDestination",
+      "keyField": "TRANSECT_ID",
+      "cardinality": "esriRelCardinalityOneToMany",
+      "composite": true
+    }
+  ],
+  "capabilities": "Map,Query,Data",
+  "maxRecordCount": 5000,
+  "supportsStatistics": true,
+  "supportsAdvancedQueries": true,
+  "supportedQueryFormats": "JSON, AMF",
+  "isDataVersioned": true,
+  "advancedQueryCapabilities": {
+    "useStandardizedQueries": false,
+    "supportsStatistics": true,
+    "supportsOrderBy": true,
+    "supportsDistinct": true,
+    "supportsPagination": true,
+    "supportsTrueCurve": false,
+    "supportsReturningQueryExtent": true,
+    "supportsQueryWithDistance": true,
+    "supportsSqlExpression": true
+  }
+}

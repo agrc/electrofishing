@@ -18,11 +18,15 @@
     "babel-plugin-transform-node-env-inline": "^0.4.3",
     "babel-plugin-transform-remove-strict-mode": "0.0.2",
     "babel-preset-latest": "^6.24.1",
+    "concurrently": "^5.3.0",
     "core-js": "^3.7.0",
+    "cypress": "^5.6.0",
+    "cypress-plugin-tab": "^1.0.5",
     "dojo-webpack-plugin": "^2.8.18",
     "es6-object-assign": "1.1.0",
     "eslint": "^4.19.1",
     "eslint-config-agrc": "1.2.0",
+    "eslint-plugin-cypress": "^2.11.2",
     "eslint-plugin-html": "4.0.3",
     "eslint-plugin-react": "^7.21.5",
     "grunt": "^1.0.1",
@@ -39,7 +43,6 @@
     "grunt-contrib-watch": "1.0.1",
     "grunt-dojo": "^1.1.2",
     "grunt-eslint": "^20.1.0",
-    "grunt-exec": "3.0.0",
     "grunt-newer": "^1.2.0",
     "grunt-processhtml": "^0.4.1",
     "grunt-ssh": "^0.12.9",
@@ -47,7 +50,8 @@
     "load-grunt-tasks": "^3.5.2",
     "puppeteer": "1.13.0",
     "react-is": "^17.0.1",
-    "sass": "^1.29.0"
+    "sass": "^1.29.0",
+    "start-server-and-test": "^1.11.5"
   },
   "scripts": {
     "babel-deps": "bash ./build_deps.sh",
@@ -55,13 +59,15 @@
     "babel-react": "babel --out-dir src/react-app _src/react-app",
     "build-stage": "export BABEL_ENV=test && npm run babel-deps && npm run sass && npm run babel-react && grunt build-stage",
     "build": "export BABEL_ENV=production && npm run babel-deps && npm run sass && npm run babel-react && grunt build-prod",
+    "cypress:run": "start-server-and-test 'npm start' http://localhost:8000 'cypress run'",
+    "cypress:open": "concurrently \"npm start\" \"cypress open\"",
     "deploy-stage-app-only": "grunt deploy-stage-app-only",
     "deploy-stage": "grunt deploy-stage",
     "deploy": "grunt deploy-prod",
     "sass": "sass _src/react-app:src/react-app",
     "start": "npm run babel-deps && sass _src/react-app:src/react-app --watch & npm run babel-react-watch & grunt",
     "storybook": "start-storybook -p 6006 --no-dll",
-    "test": "npm run babel-deps && npm run babel-react && grunt travis"
+    "test": "npm run babel-deps && npm run babel-react && grunt travis && npm run cypress:run"
   },
   "dependencies": {
     "pubsub-js": "^1.9.0",

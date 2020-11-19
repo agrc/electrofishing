@@ -14,9 +14,12 @@
     "coord",
     "ellps",
     "fishsample",
+    "geodef",
     "latlng",
     "mapinited",
     "moveend",
+    "scroller",
+    "testid",
     "toastify",
     "unproject",
     "zoomend"

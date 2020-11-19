@@ -1,0 +1,45 @@
+{
+  "jobId": "j921b79f4fb4e42199223b46fa469e176",
+  "jobStatus": "esriJobSucceeded",
+  "results": {
+    "segmentWGS": { "paramUrl": "results/segmentWGS" },
+    "segmentUTM": { "paramUrl": "results/segmentUTM" },
+    "success": { "paramUrl": "results/success" },
+    "error_message": { "paramUrl": "results/error_message" }
+  },
+  "inputs": { "points": { "paramUrl": "inputs/points" } },
+  "messages": [
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "Executing (GetSegmentFromCoords): GetSegmentFromCoords \"Feature Set\""
+    },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "Start Time: Thu Nov 19 11:58:25 2020"
+    },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "Executing (GetSegmentFromCoords): GetSegmentFromCoords \"Feature Set\""
+    },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "Start Time: Thu Nov 19 11:58:25 2020"
+    },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "Running script GetSegmentFromCoords..."
+    },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "Completed script GetSegmentFromCoords..."
+    },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "Succeeded at Thu Nov 19 11:58:28 2020 (Elapsed Time: 2.05 seconds)"
+    },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "Succeeded at Thu Nov 19 11:58:28 2020 (Elapsed Time: 2.05 seconds)"
+    }
+  ]
+}

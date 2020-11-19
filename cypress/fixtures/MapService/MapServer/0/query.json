@@ -1,0 +1,61 @@
+{
+  "displayFieldName": "NAME",
+  "fieldAliases": {
+    "OBJECTID": "OBJECTID",
+    "NAME": "Station Name",
+    "STATION_ID": "Station ID",
+    "STREAM_TYPE": "Stream Type",
+    "WATER_ID": "Water-body ID"
+  },
+  "geometryType": "esriGeometryPoint",
+  "spatialReference": { "wkid": 4326, "latestWkid": 4326 },
+  "fields": [
+    { "name": "OBJECTID", "type": "esriFieldTypeOID", "alias": "OBJECTID" },
+    {
+      "name": "NAME",
+      "type": "esriFieldTypeString",
+      "alias": "Station Name",
+      "length": 50
+    },
+    {
+      "name": "STATION_ID",
+      "type": "esriFieldTypeGUID",
+      "alias": "Station ID",
+      "length": 38
+    },
+    {
+      "name": "STREAM_TYPE",
+      "type": "esriFieldTypeString",
+      "alias": "Stream Type",
+      "length": 25
+    },
+    {
+      "name": "WATER_ID",
+      "type": "esriFieldTypeString",
+      "alias": "Water-body ID",
+      "length": 40
+    }
+  ],
+  "features": [
+    {
+      "attributes": {
+        "OBJECTID": 536,
+        "NAME": "Oquirrh1",
+        "STATION_ID": "{D188791B-B4E7-4054-8227-5637B2557736}",
+        "STREAM_TYPE": "wcs",
+        "WATER_ID": null
+      },
+      "geometry": { "x": -112.127174, "y": 40.651461 }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 537,
+        "NAME": "Oquirrh2",
+        "STATION_ID": "{7FFA56D0-347D-49D7-803A-FF6308AFB251}",
+        "STREAM_TYPE": "wcs",
+        "WATER_ID": null
+      },
+      "geometry": { "x": -112.11905, "y": 40.58939 }
+    }
+  ]
+}

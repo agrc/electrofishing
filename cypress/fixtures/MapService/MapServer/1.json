@@ -1,0 +1,266 @@
+{
+  "currentVersion": 10.51,
+  "id": 1,
+  "name": "SamplingEvents",
+  "type": "Feature Layer",
+  "description": "",
+  "geometryType": "esriGeometryPolyline",
+  "sourceSpatialReference": { "wkid": 26912, "latestWkid": 26912 },
+  "copyrightText": "",
+  "parentLayer": null,
+  "subLayers": [],
+  "minScale": 0,
+  "maxScale": 0,
+  "drawingInfo": {
+    "renderer": {
+      "type": "simple",
+      "symbol": {
+        "type": "esriSLS",
+        "style": "esriSLSSolid",
+        "color": [79, 167, 255, 255],
+        "width": 4
+      },
+      "label": "",
+      "description": ""
+    },
+    "transparency": 0,
+    "labelingInfo": null
+  },
+  "defaultVisibility": true,
+  "extent": {
+    "xmin": -1.2682701780486763e7,
+    "ymin": 4489653.511823603,
+    "xmax": -1.2181764402025947e7,
+    "ymax": 5151163.447348011,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "hasAttachments": false,
+  "htmlPopupType": "esriServerHTMLPopupTypeAsHTMLText",
+  "displayField": "GEO_DEF",
+  "typeIdField": null,
+  "subtypeFieldName": null,
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "esriFieldTypeOID",
+      "alias": "OBJECTID",
+      "domain": null
+    },
+    {
+      "name": "EVENT_ID",
+      "type": "esriFieldTypeGUID",
+      "alias": "Event ID",
+      "length": 38,
+      "domain": null
+    },
+    {
+      "name": "GEO_DEF",
+      "type": "esriFieldTypeString",
+      "alias": "Geomtry Definition String",
+      "length": 1000,
+      "domain": null
+    },
+    {
+      "name": "LOCATION_NOTES",
+      "type": "esriFieldTypeString",
+      "alias": "Location Notes",
+      "length": 1000,
+      "domain": null
+    },
+    {
+      "name": "EVENT_DATE",
+      "type": "esriFieldTypeDate",
+      "alias": "Event Date",
+      "length": 8,
+      "domain": null
+    },
+    {
+      "name": "STATION_ID",
+      "type": "esriFieldTypeGUID",
+      "alias": "Station ID",
+      "length": 38,
+      "domain": null
+    },
+    {
+      "name": "SHAPE",
+      "type": "esriFieldTypeGeometry",
+      "alias": "SHAPE",
+      "domain": null
+    },
+    {
+      "name": "SHAPE.STLength()",
+      "type": "esriFieldTypeDouble",
+      "alias": "SHAPE.STLength()",
+      "domain": null
+    },
+    {
+      "name": "SEGMENT_LENGTH",
+      "type": "esriFieldTypeInteger",
+      "alias": "Stream Length",
+      "domain": null
+    },
+    {
+      "name": "NUM_PASSES",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Number of Passes",
+      "domain": null
+    },
+    {
+      "name": "WEATHER",
+      "type": "esriFieldTypeString",
+      "alias": "Weather Condition",
+      "length": 255,
+      "domain": {
+        "type": "codedValue",
+        "name": "weather_condition",
+        "codedValues": [
+          { "name": "sunny", "code": "sunny" },
+          { "name": "partly cloudy", "code": "partly cloudy" },
+          { "name": "partly sunny", "code": "partly sunny" },
+          { "name": "overcast", "code": "overcast" },
+          { "name": "rain", "code": "rain" },
+          { "name": "sleet", "code": "sleet" },
+          { "name": "snow", "code": "snow" },
+          { "name": "clear", "code": "clear" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "OBSERVERS",
+      "type": "esriFieldTypeString",
+      "alias": "Observers",
+      "length": 255,
+      "domain": null
+    },
+    {
+      "name": "SURVEY_PURPOSE",
+      "type": "esriFieldTypeString",
+      "alias": "Survey Purpose",
+      "length": 255,
+      "domain": {
+        "type": "codedValue",
+        "name": "survey_purpose",
+        "codedValues": [
+          { "name": "Depletion estimate", "code": "Depletion estimate" },
+          { "name": "Mark-Recapture", "code": "Mark-Recapture" },
+          { "name": "Disease certification", "code": "Disease certification" },
+          { "name": "Presence/absence", "code": "Presence/absence" },
+          { "name": "Fish community", "code": "Fish community" },
+          { "name": "Fish propagation", "code": "Fish propagation" },
+          { "name": "Catch and Effort", "code": "Catch and Effort" },
+          {
+            "name": "Non-native fish removal",
+            "code": "Non-native fish removal"
+          },
+          { "name": "Genetics", "code": "Genetics" },
+          { "name": "Other", "code": "Other" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    }
+  ],
+  "indexes": [
+    {
+      "name": "R21_pk",
+      "fields": "OBJECTID",
+      "isAscending": true,
+      "isUnique": true,
+      "description": ""
+    },
+    {
+      "name": "G53EVENT_ID",
+      "fields": "EVENT_ID",
+      "isAscending": true,
+      "isUnique": false,
+      "description": ""
+    },
+    {
+      "name": "G53STATION_ID",
+      "fields": "STATION_ID",
+      "isAscending": true,
+      "isUnique": false,
+      "description": ""
+    },
+    {
+      "name": "S3_idx",
+      "fields": "SHAPE",
+      "isAscending": true,
+      "isUnique": true,
+      "description": ""
+    }
+  ],
+  "subtypes": [],
+  "relationships": [
+    {
+      "id": 1,
+      "name": "Equipment",
+      "relatedTableId": 7,
+      "role": "esriRelRoleOrigin",
+      "keyField": "EVENT_ID",
+      "cardinality": "esriRelCardinalityOneToMany",
+      "composite": true
+    },
+    {
+      "id": 2,
+      "name": "Fish",
+      "relatedTableId": 2,
+      "role": "esriRelRoleOrigin",
+      "keyField": "EVENT_ID",
+      "cardinality": "esriRelCardinalityOneToMany",
+      "composite": true
+    },
+    {
+      "id": 3,
+      "name": "Habitat",
+      "relatedTableId": 6,
+      "role": "esriRelRoleOrigin",
+      "keyField": "EVENT_ID",
+      "cardinality": "esriRelCardinalityOneToOne",
+      "composite": true
+    },
+    {
+      "id": 4,
+      "name": "Transect",
+      "relatedTableId": 9,
+      "role": "esriRelRoleOrigin",
+      "keyField": "EVENT_ID",
+      "cardinality": "esriRelCardinalityOneToMany",
+      "composite": true
+    },
+    {
+      "id": 0,
+      "name": "Stations",
+      "relatedTableId": 0,
+      "role": "esriRelRoleDestination",
+      "keyField": "STATION_ID",
+      "cardinality": "esriRelCardinalityOneToMany",
+      "composite": false
+    }
+  ],
+  "canModifyLayer": true,
+  "canScaleSymbols": false,
+  "hasLabels": false,
+  "capabilities": "Map,Query,Data",
+  "maxRecordCount": 5000,
+  "supportsStatistics": true,
+  "supportsAdvancedQueries": true,
+  "supportedQueryFormats": "JSON, AMF, geoJSON",
+  "isDataVersioned": true,
+  "ownershipBasedAccessControlForFeatures": { "allowOthersToQuery": true },
+  "advancedQueryCapabilities": {
+    "useStandardizedQueries": false,
+    "supportsStatistics": true,
+    "supportsOrderBy": true,
+    "supportsDistinct": true,
+    "supportsPagination": true,
+    "supportsTrueCurve": true,
+    "supportsReturningQueryExtent": true,
+    "supportsQueryWithDistance": true,
+    "supportsSqlExpression": true
+  },
+  "supportsDatumTransformation": true,
+  "dateFieldsTimeReference": null
+}

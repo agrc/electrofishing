@@ -1,0 +1,31 @@
+{
+  "paramName": "segmentUTM",
+  "dataType": "GPFeatureRecordSetLayer",
+  "value": {
+    "displayFieldName": "",
+    "geometryType": "esriGeometryPolyline",
+    "spatialReference": { "wkid": 26912, "latestWkid": 26912 },
+    "fields": [
+      { "name": "OBJECTID", "type": "esriFieldTypeOID", "alias": "OBJECTID" },
+      {
+        "name": "SHAPE_Length",
+        "type": "esriFieldTypeDouble",
+        "alias": "SHAPE_Length"
+      }
+    ],
+    "features": [
+      {
+        "attributes": { "OBJECTID": 1, "SHAPE_Length": 40171.759682642733 },
+        "geometry": {
+          "paths": [
+            [
+              [453297, 4500331],
+              [493467, 4499955]
+            ]
+          ]
+        }
+      }
+    ],
+    "exceededTransferLimit": false
+  }
+}

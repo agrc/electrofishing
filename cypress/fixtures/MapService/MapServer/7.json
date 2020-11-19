@@ -1,0 +1,252 @@
+{
+  "currentVersion": 10.51,
+  "id": 7,
+  "name": "Equipment",
+  "type": "Table",
+  "description": null,
+  "hasAttachments": false,
+  "htmlPopupType": "esriServerHTMLPopupTypeNone",
+  "displayField": "WAVEFORM",
+  "typeIdField": null,
+  "subtypeFieldName": null,
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "esriFieldTypeOID",
+      "alias": "OBJECTID",
+      "domain": null
+    },
+    {
+      "name": "EVENT_ID",
+      "type": "esriFieldTypeGUID",
+      "alias": "Event ID",
+      "length": 38,
+      "domain": null
+    },
+    {
+      "name": "WAVEFORM",
+      "type": "esriFieldTypeString",
+      "alias": "Waveform",
+      "length": 17,
+      "domain": {
+        "type": "codedValue",
+        "name": "waveforms",
+        "codedValues": [
+          { "name": "Alternate current", "code": "ac" },
+          { "name": "Direct current", "code": "dc" },
+          { "name": "Burst", "code": "b" },
+          { "name": "Pulsed DC", "code": "pc" },
+          { "name": "Pulsed AC", "code": "pa" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "VOLTAGE",
+      "type": "esriFieldTypeSingle",
+      "alias": "Voltage",
+      "domain": null
+    },
+    {
+      "name": "DUTY_CYCLE",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Duty Cycle",
+      "domain": null
+    },
+    {
+      "name": "FREQUENCY",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Frequency",
+      "domain": null
+    },
+    {
+      "name": "AMPS",
+      "type": "esriFieldTypeSingle",
+      "alias": "Amps",
+      "domain": null
+    },
+    {
+      "name": "CATHODE_LEN",
+      "type": "esriFieldTypeSingle",
+      "alias": "Cathode length",
+      "domain": null
+    },
+    {
+      "name": "CATHODE_DIAMETER",
+      "type": "esriFieldTypeSingle",
+      "alias": "Cathode diameter",
+      "domain": null
+    },
+    {
+      "name": "NUM_ANODES",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "# Anodes",
+      "domain": null
+    },
+    {
+      "name": "MACHINE_RES",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Machine-specific resistence",
+      "domain": null
+    },
+    {
+      "name": "MODEL",
+      "type": "esriFieldTypeString",
+      "alias": "MODEL",
+      "length": 18,
+      "domain": {
+        "type": "codedValue",
+        "name": "equipment_models",
+        "codedValues": [
+          { "name": "Smith Root B-12", "code": "srb12" },
+          { "name": "Smith Root LR-24", "code": "srlr24" },
+          { "name": "Smith Root LR-20", "code": "srlr20" },
+          { "name": "Smith Root GPP 5.0", "code": "srg5" },
+          { "name": "Smith Root GPP 2.5", "code": "srg2" },
+          { "name": "Smith Root GPP 7.5", "code": "srg7" },
+          { "name": "Smith Root GPP 9.0", "code": "srg9" },
+          { "name": "Smith Root VVP 15B", "code": "srv15" },
+          { "name": "Coffelt VVP-15", "code": "cv15" },
+          { "name": "Coffelt VVP MK 22", "code": "cm22" },
+          { "name": "Smith Root 1.5KVA", "code": "sr15k" },
+          { "name": "Smith Root VI-A", "code": "srv" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "ARRAY_TYPE",
+      "type": "esriFieldTypeString",
+      "alias": "ARRAY_TYPE",
+      "length": 20,
+      "domain": {
+        "type": "codedValue",
+        "name": "array_types",
+        "codedValues": [
+          { "name": "Wisconsin ring array", "code": "wr" },
+          { "name": "Spherical array", "code": "sa" },
+          { "name": "Round anode", "code": "ra" },
+          { "name": "Diamond anode", "code": "da" },
+          { "name": "Square net anode", "code": "sn" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "NUM_NETTERS",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "NUM_NETTERS",
+      "domain": null
+    },
+    {
+      "name": "CATHODE_TYPE",
+      "type": "esriFieldTypeString",
+      "alias": "CATHODE_TYPE",
+      "length": 8,
+      "domain": {
+        "type": "codedValue",
+        "name": "cathode_types",
+        "codedValues": [
+          { "name": "Boat", "code": "b" },
+          { "name": "Non-boat", "code": "nb" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "TYPE",
+      "type": "esriFieldTypeString",
+      "alias": "TYPE",
+      "length": 11,
+      "domain": {
+        "type": "codedValue",
+        "name": "equipment_type",
+        "codedValues": [
+          { "name": "Backpack", "code": "backpack" },
+          { "name": "Canoe/Barge", "code": "canoebarge" },
+          { "name": "Raft/Boat", "code": "raftboat" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "PEDAL_TIME",
+      "type": "esriFieldTypeInteger",
+      "alias": "Duration/Pedal Time in Seconds",
+      "domain": null
+    },
+    {
+      "name": "EQUIPMENT_ID",
+      "type": "esriFieldTypeGUID",
+      "alias": "Equipment ID",
+      "length": 38,
+      "domain": null
+    }
+  ],
+  "indexes": [
+    {
+      "name": "R14_SDE_ROWID_UK",
+      "fields": "OBJECTID",
+      "isAscending": true,
+      "isUnique": true,
+      "description": ""
+    },
+    {
+      "name": "G46EQUIPMENT_ID",
+      "fields": "EQUIPMENT_ID",
+      "isAscending": true,
+      "isUnique": false,
+      "description": ""
+    },
+    {
+      "name": "G46EVENT_ID",
+      "fields": "EVENT_ID",
+      "isAscending": true,
+      "isUnique": false,
+      "description": ""
+    }
+  ],
+  "subtypes": [],
+  "relationships": [
+    {
+      "id": 8,
+      "name": "Anodes",
+      "relatedTableId": 8,
+      "role": "esriRelRoleOrigin",
+      "keyField": "EQUIPMENT_ID",
+      "cardinality": "esriRelCardinalityOneToMany",
+      "composite": true
+    },
+    {
+      "id": 1,
+      "name": "SamplingEvents",
+      "relatedTableId": 1,
+      "role": "esriRelRoleDestination",
+      "keyField": "EVENT_ID",
+      "cardinality": "esriRelCardinalityOneToMany",
+      "composite": true
+    }
+  ],
+  "capabilities": "Map,Query,Data",
+  "maxRecordCount": 5000,
+  "supportsStatistics": true,
+  "supportsAdvancedQueries": true,
+  "supportedQueryFormats": "JSON, AMF",
+  "isDataVersioned": true,
+  "advancedQueryCapabilities": {
+    "useStandardizedQueries": false,
+    "supportsStatistics": true,
+    "supportsOrderBy": true,
+    "supportsDistinct": true,
+    "supportsPagination": true,
+    "supportsTrueCurve": false,
+    "supportsReturningQueryExtent": true,
+    "supportsQueryWithDistance": true,
+    "supportsSqlExpression": true
+  }
+}

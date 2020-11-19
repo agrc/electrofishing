@@ -4,7 +4,6 @@ _src/app/**/*.css
 *.pyc
 *.sde
 dist/
-e2e_tests/screenshots/*.jpg
 node_modules/
 secrets.json
 src/

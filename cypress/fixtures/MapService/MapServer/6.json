@@ -1,0 +1,323 @@
+{
+  "currentVersion": 10.51,
+  "id": 6,
+  "name": "Habitat",
+  "type": "Table",
+  "description": null,
+  "hasAttachments": false,
+  "htmlPopupType": "esriServerHTMLPopupTypeNone",
+  "displayField": "DOVR",
+  "typeIdField": null,
+  "subtypeFieldName": null,
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "esriFieldTypeOID",
+      "alias": "OBJECTID",
+      "domain": null
+    },
+    {
+      "name": "EVENT_ID",
+      "type": "esriFieldTypeGUID",
+      "alias": "Event ID",
+      "length": 38,
+      "domain": null
+    },
+    {
+      "name": "BANKVEG",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Percentage of Bank Vegatated",
+      "domain": null
+    },
+    {
+      "name": "DOVR",
+      "type": "esriFieldTypeString",
+      "alias": "Dominant Overstory",
+      "length": 22,
+      "domain": {
+        "type": "codedValue",
+        "name": "dominant_overstories",
+        "codedValues": [
+          { "name": "American plum", "code": "ap" },
+          { "name": "Big saltbrush", "code": "bs" },
+          { "name": "Big tooth maple", "code": "btm" },
+          { "name": "Blueberry elder", "code": "be" },
+          { "name": "Canyon grape", "code": "cg" },
+          { "name": "Carolina poplar", "code": "cp" },
+          { "name": "Chokecherry", "code": "cc" },
+          { "name": "Desert willow", "code": "dw" },
+          { "name": "Emory bacharis", "code": "eb" },
+          { "name": "Fremont cottonwood", "code": "fc" },
+          { "name": "Gamble oak", "code": "go" },
+          { "name": "Golden currant", "code": "gc" },
+          { "name": "Greasewood", "code": "gr" },
+          { "name": "Hackberry", "code": "hack" },
+          { "name": "Hopa crabapple", "code": "hc" },
+          { "name": "Lilac", "code": "lil" },
+          { "name": "Mountain ash", "code": "ma" },
+          { "name": "Narrowleaf cottonwood", "code": "nc" },
+          { "name": "New Mexico locust", "code": "nml" },
+          { "name": "Redtop", "code": "rt" },
+          { "name": "Rocky Mountain maple", "code": "rmm" },
+          { "name": "Russian mulberry", "code": "rm" },
+          { "name": "Saskatoon serviceberry", "code": "ss" },
+          { "name": "Shrub live oak", "code": "slo" },
+          { "name": "Siberian peashrub", "code": "sp" },
+          { "name": "Skunk bush sumac", "code": "sbs" },
+          { "name": "Water birch", "code": "wb" },
+          { "name": "Willow", "code": "wil" },
+          { "name": "Woods rose", "code": "wr" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "DUND",
+      "type": "esriFieldTypeString",
+      "alias": "Dominant Understory",
+      "length": 23,
+      "domain": {
+        "type": "codedValue",
+        "name": "dominant_understories",
+        "codedValues": [
+          { "name": "Alkali sacaton", "code": "as" },
+          { "name": "Anderson peachbush", "code": "ap" },
+          { "name": "Autum eleagus", "code": "ae" },
+          { "name": "Basin big sagebrush", "code": "bbs" },
+          { "name": "Bessy cherry", "code": "bc" },
+          { "name": "Bladdersenia", "code": "bl" },
+          { "name": "Bulrush", "code": "br" },
+          { "name": "Bush cinquefoil", "code": "bcf" },
+          { "name": "Carex", "code": "car" },
+          { "name": "Cattle saltbrush", "code": "cs" },
+          { "name": "Creeping meadow foxtail", "code": "cmf" },
+          { "name": "Desert peachbush", "code": "cp" },
+          { "name": "Dogwood", "code": "dog" },
+          { "name": "Douglas hawthorn", "code": "dh" },
+          { "name": "Fourwing saltbrush", "code": "fs" },
+          { "name": "Great Basin wildrye", "code": "gbw" },
+          { "name": "Intermediate wheatgrass", "code": "iw" },
+          { "name": "Kentucky bluegrass", "code": "kb" },
+          { "name": "Leadplant amorpha", "code": "la" },
+          { "name": "Longflower snowberry", "code": "ls" },
+          { "name": "Mammoth wildrye", "code": "mw" },
+          { "name": "Mountain big sagebrush", "code": "mbs" },
+          { "name": "Mountain rye", "code": "mr" },
+          { "name": "Mountain snowberry", "code": "ms" },
+          { "name": "Oldman wormwood", "code": "ow" },
+          { "name": "Pecking catoneaster", "code": "pc" },
+          { "name": "Pygmy peashrub", "code": "pp" },
+          { "name": "Reed canary grass", "code": "rcg" },
+          { "name": "River hawthorn", "code": "rh" },
+          { "name": "Rocky Mountain sumac", "code": "rms" },
+          { "name": "Rubber rabbitbrush", "code": "rr" },
+          { "name": "Rush", "code": "rush" },
+          { "name": "Sand sagebrush", "code": "ss" },
+          { "name": "Sandberg bluegrass", "code": "sb" },
+          { "name": "Silver buffaloberry", "code": "sbuf" },
+          { "name": "Silver sagebrush", "code": "ssage" },
+          { "name": "Spikerush", "code": "s" },
+          { "name": "Tall oatgrass", "code": "to" },
+          { "name": "Tall wheatgrass", "code": "tw" },
+          { "name": "Tetarian honeysuckle", "code": "th" },
+          { "name": "Torrey saltbrush", "code": "ts" },
+          { "name": "Utah honeysuckle", "code": "uh" },
+          { "name": "Westerm snowberry", "code": "ws" },
+          { "name": "Western virgin bower", "code": "wvb" },
+          { "name": "Western wheatgrass", "code": "ww" },
+          { "name": "Wyoming big sagebrush", "code": "wbs" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "LGWD",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Large Woody Debris",
+      "domain": null
+    },
+    {
+      "name": "POOL",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Percentage of Pool Area",
+      "domain": null
+    },
+    {
+      "name": "SPNG",
+      "type": "esriFieldTypeString",
+      "alias": "Presence of Spring",
+      "length": 3,
+      "domain": {
+        "type": "codedValue",
+        "name": "true_false",
+        "codedValues": [
+          { "name": "No", "code": "No" },
+          { "name": "Yes", "code": "Yes" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "RIFF",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Percentage of Riffle Area",
+      "domain": null
+    },
+    {
+      "name": "RUNA",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Percentage of Run Area",
+      "domain": null
+    },
+    {
+      "name": "SUB_FINES",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Percentage of Fines Sediment Class",
+      "domain": null
+    },
+    {
+      "name": "SUB_SAND",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Percentage of Sands Sediment Class",
+      "domain": null
+    },
+    {
+      "name": "SUB_GRAV",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Percentage of Gravel Sediment Class",
+      "domain": null
+    },
+    {
+      "name": "SUB_COBB",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Percentage of Cobble Sediment Class",
+      "domain": null
+    },
+    {
+      "name": "SUB_RUBB",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Percentage of Rubble Sediment Class",
+      "domain": null
+    },
+    {
+      "name": "SUB_BOUL",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Percentage of Boulder Sediment Class",
+      "domain": null
+    },
+    {
+      "name": "SIN",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Sinuosity",
+      "domain": null
+    },
+    {
+      "name": "EROS",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Percentage of Banks Eroding",
+      "domain": null
+    },
+    {
+      "name": "TEMP_",
+      "type": "esriFieldTypeSingle",
+      "alias": "Water Temperature",
+      "domain": null
+    },
+    {
+      "name": "PH",
+      "type": "esriFieldTypeSingle",
+      "alias": "Acidity",
+      "domain": null
+    },
+    {
+      "name": "CON",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Conductivity",
+      "domain": null
+    },
+    {
+      "name": "SUB_BEDR",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Percentage of Bedrock Sediment Class",
+      "domain": null
+    },
+    {
+      "name": "OXYGEN",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Dissolved Oxygen (mg/l)",
+      "domain": null
+    },
+    {
+      "name": "SOLIDS",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Total Dissolved Solids (ppm)",
+      "domain": null
+    },
+    {
+      "name": "TURBIDITY",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Turbidity",
+      "domain": null
+    },
+    {
+      "name": "ALKALINITY",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Alkalinity (ppm CaCO3)",
+      "domain": null
+    },
+    {
+      "name": "BACKWATER",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Backwater Area (m2)",
+      "domain": null
+    }
+  ],
+  "indexes": [
+    {
+      "name": "R16_SDE_ROWID_UK",
+      "fields": "OBJECTID",
+      "isAscending": true,
+      "isUnique": true,
+      "description": ""
+    },
+    {
+      "name": "G48EVENT_ID",
+      "fields": "EVENT_ID",
+      "isAscending": true,
+      "isUnique": false,
+      "description": ""
+    }
+  ],
+  "subtypes": [],
+  "relationships": [
+    {
+      "id": 3,
+      "name": "SamplingEvent",
+      "relatedTableId": 1,
+      "role": "esriRelRoleDestination",
+      "keyField": "EVENT_ID",
+      "cardinality": "esriRelCardinalityOneToOne",
+      "composite": true
+    }
+  ],
+  "capabilities": "Map,Query,Data",
+  "maxRecordCount": 5000,
+  "supportsStatistics": true,
+  "supportsAdvancedQueries": true,
+  "supportedQueryFormats": "JSON, AMF",
+  "isDataVersioned": true,
+  "advancedQueryCapabilities": {
+    "useStandardizedQueries": false,
+    "supportsStatistics": true,
+    "supportsOrderBy": true,
+    "supportsDistinct": true,
+    "supportsPagination": true,
+    "supportsTrueCurve": false,
+    "supportsReturningQueryExtent": true,
+    "supportsQueryWithDistance": true,
+    "supportsSqlExpression": true
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "currentVersion": 10.51,
+  "id": 0,
+  "name": "Stations",
+  "type": "Feature Layer",
+  "description": "",
+  "geometryType": "esriGeometryPoint",
+  "sourceSpatialReference": { "wkid": 26912, "latestWkid": 26912 },
+  "copyrightText": "",
+  "parentLayer": null,
+  "subLayers": [],
+  "minScale": 0,
+  "maxScale": 0,
+  "drawingInfo": {
+    "renderer": {
+      "type": "simple",
+      "symbol": {
+        "type": "esriPMS",
+        "url": "1af7423d00e5aadde30244c17dba51e9",
+        "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAYhJREFUOI1jYaAyYMElUesu2awmy+CMTe73X26mC/ffTZ904N1Cogys9JbsSLCXylAS5+LHZeFhCWa5vwwM/6ceeLcIr4EVnpJdKfZS6UriXHy4DGNgYGCw1RCT/MfA0M7AwMCAbCiKgZWeQr0pTlIpSmL4DYMBew0xqf//Gdr+MDD8n3ng3WIUAyvchSakOComKYlx8RJjGAw4aIpJ///H0M7AwMA488C7RXADTVSEApXESTMMBhy1xaTvvPybzsCAZCArIzlGIQAby++/DAx4kg25YNRAKhp4+v7XG3Zav6QFuNmYSTXk7stvH68++nUSxcCWrc99GBgYNhV5y7kKkmDo3ZffPk3efX/BxN3vSlEMZGBg+N2y9bkfIwPDhkJvOXdiDL334tvnqTvvL5q4710BTAw9DH83b33uz8TCsD7fXc4Tn6H3X377PGXn/UX9+97lIotji5Q/jRufBzAwMKwxkuU2wmbYHwYGhqO3323r3/cuB10OVyz/bdz4PBCX6/ABqicbAGQZfMTuWZyBAAAAAElFTkSuQmCC",
+        "contentType": "image/png",
+        "width": 15,
+        "height": 15,
+        "angle": 0,
+        "xoffset": 0,
+        "yoffset": 0
+      },
+      "label": "",
+      "description": ""
+    },
+    "transparency": 0,
+    "labelingInfo": null
+  },
+  "defaultVisibility": true,
+  "extent": {
+    "xmin": -1.2705972114707856e7,
+    "ymin": 4454561.808005483,
+    "xmax": -1.2141303802048825e7,
+    "ymax": 5159005.137694016,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "hasAttachments": false,
+  "htmlPopupType": "esriServerHTMLPopupTypeAsHTMLText",
+  "displayField": "NAME",
+  "typeIdField": null,
+  "subtypeFieldName": null,
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "esriFieldTypeOID",
+      "alias": "OBJECTID",
+      "domain": null
+    },
+    {
+      "name": "NAME",
+      "type": "esriFieldTypeString",
+      "alias": "Station Name",
+      "length": 50,
+      "domain": null
+    },
+    {
+      "name": "STATION_ID",
+      "type": "esriFieldTypeGUID",
+      "alias": "Station ID",
+      "length": 38,
+      "domain": null
+    },
+    {
+      "name": "STREAM_TYPE",
+      "type": "esriFieldTypeString",
+      "alias": "Stream Type",
+      "length": 25,
+      "domain": {
+        "type": "codedValue",
+        "name": "stream_types",
+        "codedValues": [
+          { "name": "Coldwater river", "code": "cr" },
+          { "name": "Wadeable coldwater stream", "code": "wcs" },
+          { "name": "Wadeable warmwater stream", "code": "wws" },
+          { "name": "Warmwater river", "code": "wr" },
+          { "name": "Large warmwater lentic", "code": "lwl" },
+          { "name": "Large coldwater lentic", "code": "lcl" },
+          { "name": "Small coldwater lentic", "code": "scl" },
+          { "name": "Large two-story lentic", "code": "ltl" },
+          { "name": "Small two-story lentic", "code": "stl" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "SHAPE",
+      "type": "esriFieldTypeGeometry",
+      "alias": "SHAPE",
+      "domain": null
+    },
+    {
+      "name": "WATER_ID",
+      "type": "esriFieldTypeString",
+      "alias": "Water-body ID",
+      "length": 40,
+      "domain": null
+    }
+  ],
+  "indexes": [
+    {
+      "name": "R11_pk",
+      "fields": "OBJECTID",
+      "isAscending": true,
+      "isUnique": true,
+      "description": ""
+    },
+    {
+      "name": "G43STATION_ID",
+      "fields": "STATION_ID",
+      "isAscending": true,
+      "isUnique": false,
+      "description": ""
+    },
+    {
+      "name": "GDB_43_WATER_ID",
+      "fields": "WATER_ID",
+      "isAscending": true,
+      "isUnique": false,
+      "description": ""
+    },
+    {
+      "name": "S2_idx",
+      "fields": "SHAPE",
+      "isAscending": true,
+      "isUnique": true,
+      "description": ""
+    }
+  ],
+  "subtypes": [],
+  "relationships": [
+    {
+      "id": 0,
+      "name": "SamplingEvents",
+      "relatedTableId": 1,
+      "role": "esriRelRoleOrigin",
+      "keyField": "STATION_ID",
+      "cardinality": "esriRelCardinalityOneToMany",
+      "composite": false
+    }
+  ],
+  "canModifyLayer": true,
+  "canScaleSymbols": false,
+  "hasLabels": false,
+  "capabilities": "Map,Query,Data",
+  "maxRecordCount": 5000,
+  "supportsStatistics": true,
+  "supportsAdvancedQueries": true,
+  "supportedQueryFormats": "JSON, AMF, geoJSON",
+  "ownershipBasedAccessControlForFeatures": { "allowOthersToQuery": true },
+  "advancedQueryCapabilities": {
+    "useStandardizedQueries": false,
+    "supportsStatistics": true,
+    "supportsOrderBy": true,
+    "supportsDistinct": true,
+    "supportsPagination": true,
+    "supportsTrueCurve": true,
+    "supportsReturningQueryExtent": true,
+    "supportsQueryWithDistance": true,
+    "supportsSqlExpression": true
+  },
+  "supportsDatumTransformation": true
+}

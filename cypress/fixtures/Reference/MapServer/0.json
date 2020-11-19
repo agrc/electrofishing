@@ -1,0 +1,182 @@
+{
+  "currentVersion": 10.51,
+  "id": 0,
+  "name": "Streams",
+  "type": "Feature Layer",
+  "description": "",
+  "geometryType": "esriGeometryPolyline",
+  "sourceSpatialReference": { "wkid": 26912, "latestWkid": 26912 },
+  "copyrightText": "",
+  "parentLayer": null,
+  "subLayers": [],
+  "minScale": 250000,
+  "maxScale": 0,
+  "drawingInfo": {
+    "renderer": {
+      "type": "simple",
+      "symbol": {
+        "type": "esriSLS",
+        "style": "esriSLSSolid",
+        "color": [0, 197, 255, 255],
+        "width": 1.5
+      },
+      "label": "",
+      "description": ""
+    },
+    "transparency": 0,
+    "labelingInfo": [
+      {
+        "labelPlacement": "esriServerLinePlacementAboveAlong",
+        "where": null,
+        "labelExpression": "[WaterName]",
+        "useCodedValues": true,
+        "symbol": {
+          "type": "esriTS",
+          "color": [255, 255, 255, 255],
+          "backgroundColor": null,
+          "borderLineColor": null,
+          "borderLineSize": null,
+          "verticalAlignment": "bottom",
+          "horizontalAlignment": "left",
+          "rightToLeft": false,
+          "angle": 0,
+          "xoffset": 0,
+          "yoffset": 0,
+          "kerning": true,
+          "haloColor": [0, 197, 255, 255],
+          "haloSize": 1,
+          "font": {
+            "family": "Arial",
+            "size": 7,
+            "style": "normal",
+            "weight": "bold",
+            "decoration": "none"
+          }
+        },
+        "minScale": 250000,
+        "maxScale": 0
+      }
+    ]
+  },
+  "defaultVisibility": true,
+  "extent": {
+    "xmin": 213693.03000000026,
+    "ymin": 4080749.630000001,
+    "xmax": 722565.4400000004,
+    "ymax": 4675297.23,
+    "spatialReference": { "wkid": 26912, "latestWkid": 26912 }
+  },
+  "hasAttachments": false,
+  "htmlPopupType": "esriServerHTMLPopupTypeAsHTMLText",
+  "displayField": "WaterName",
+  "typeIdField": null,
+  "subtypeFieldName": null,
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "esriFieldTypeOID",
+      "alias": "OBJECTID",
+      "domain": null
+    },
+    {
+      "name": "Permanent_Identifier",
+      "type": "esriFieldTypeString",
+      "alias": "Permanent_Identifier",
+      "length": 40,
+      "domain": null
+    },
+    {
+      "name": "ReachCode",
+      "type": "esriFieldTypeString",
+      "alias": "ReachCode",
+      "length": 14,
+      "domain": null
+    },
+    {
+      "name": "DWR_WaterID",
+      "type": "esriFieldTypeString",
+      "alias": "DWR_WaterID",
+      "length": 25,
+      "domain": null
+    },
+    {
+      "name": "WaterName",
+      "type": "esriFieldTypeString",
+      "alias": "WaterName",
+      "length": 50,
+      "domain": null
+    },
+    {
+      "name": "COUNTY",
+      "type": "esriFieldTypeString",
+      "alias": "COUNTY",
+      "length": 15,
+      "domain": null
+    },
+    {
+      "name": "Shape",
+      "type": "esriFieldTypeGeometry",
+      "alias": "Shape",
+      "domain": null
+    },
+    {
+      "name": "Shape.STLength()",
+      "type": "esriFieldTypeDouble",
+      "alias": "Shape.STLength()",
+      "domain": null
+    }
+  ],
+  "indexes": [
+    {
+      "name": "R23_pk",
+      "fields": "OBJECTID",
+      "isAscending": true,
+      "isUnique": true,
+      "description": ""
+    },
+    {
+      "name": "I65DWR_WaterID",
+      "fields": "DWR_WaterID",
+      "isAscending": true,
+      "isUnique": false,
+      "description": ""
+    },
+    {
+      "name": "GDB_65_Permanent",
+      "fields": "Permanent_Identifier",
+      "isAscending": true,
+      "isUnique": false,
+      "description": ""
+    },
+    {
+      "name": "S5_idx",
+      "fields": "Shape",
+      "isAscending": true,
+      "isUnique": true,
+      "description": ""
+    }
+  ],
+  "subtypes": [],
+  "relationships": [],
+  "canModifyLayer": true,
+  "canScaleSymbols": false,
+  "hasLabels": true,
+  "capabilities": "Map,Query,Data",
+  "maxRecordCount": 1000,
+  "supportsStatistics": true,
+  "supportsAdvancedQueries": true,
+  "supportedQueryFormats": "JSON, AMF, geoJSON",
+  "ownershipBasedAccessControlForFeatures": { "allowOthersToQuery": true },
+  "advancedQueryCapabilities": {
+    "useStandardizedQueries": false,
+    "supportsStatistics": true,
+    "supportsOrderBy": true,
+    "supportsDistinct": true,
+    "supportsPagination": true,
+    "supportsTrueCurve": true,
+    "supportsReturningQueryExtent": true,
+    "supportsQueryWithDistance": true,
+    "supportsSqlExpression": true
+  },
+  "supportsDatumTransformation": true
+}

@@ -1,0 +1,68 @@
+{
+  "jobId": "j1b827e6f8eb146a2b9f6f10856fd7e04",
+  "jobStatus": "esriJobSucceeded",
+  "results": {},
+  "inputs": { "data": { "paramUrl": "inputs/data" } },
+  "messages": [
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "Executing (NewCollectionEvent): NewCollectionEvent {\"SamplingEvents\":{\"geometry\":{\"paths\":[[[453297,4500331],[493467,4499955]]],\"spatialReference\":{\"wkid\":26912}},\"attributes\":{\"EVENT_ID\":\"{07fec5a6-7b1d-4d90-8000-7c399ed2eb0b}\",\"GEO_DEF\":null,\"LOCATION_NOTES\":\"\",\"EVENT_DATE\":\"2020-11-20\",\"EVENT_TIME\":\"\",\"OBSERVERS\":\"asdf\",\"SURVEY_PURPOSE\":\"Fish propagation\",\"WEATHER\":\"\",\"STATION_ID\":\"{6229B0DA-B21D-40F2-8ACC-A2158BBE0BC6}\",\"SEGMENT_LENGTH\":40085,\"NUM_PASSES\":1}},\"Equipment\":[{\"MODEL\":\"\",\"ARRAY_TYPE\":\"\",\"NUM_NETTERS\":null,\"CATHODE_TYPE\":\"\",\"NUM_ANODES\":1,\"CATHODE_LEN\":null,\"CATHODE_DIAMETER\":null,\"MACHINE_RES\":null,\"WAVEFORM\":\"\",\"VOLTAGE\":null,\"DUTY_CYCLE\":null,\"FREQUENCY\":null,\"AMPS\":null,\"PEDAL_TIME\":null,\"EVENT_ID\":\"{07fec5a6-7b1d-4d90-8000-7c399ed2eb0b}\",\"TYPE\":\"backpack\",\"EQUIPMENT_ID\":\"{fe1a334e-32a4-4efa-860b-6395e87401b9}\"}],\"Anodes\":[{\"EQUIPMENT_ID\":\"{fe1a334e-32a4-4efa-860b-6395e87401b9}\",\"ANODE_DIAMETER\":1,\"STOCK_DIAMETER\":2,\"ANODE_SHAPE\":\"Round\"}],\"Fish\":[{\"FISH_ID\":\"{03032419-f78f-4f64-8be1-b65e57b640f7}\",\"EVENT_ID\":\"{07fec5a6-7b1d-4d90-8000-7c399ed2eb0b}\",\"PASS_NUM\":1,\"CATCH_ID\":1,\"SPECIES_CODE\":\"BG\",\"LENGTH_TYPE\":\"STD\",\"LENGTH\":1,\"WEIGHT\":1,\"NOTES\":\"\"}],\"Diet\":[],\"Tags\":[],\"Health\":[],\"Habitat\":[{\"EVENT_ID\":\"{07fec5a6-7b1d-4d90-8000-7c399ed2eb0b}\",\"BANKVEG\":null,\"DOVR\":\"\",\"DUND\":\"\",\"LGWD\":null,\"POOL\":null,\"SPNG\":\"\",\"RIFF\":null,\"RUNA\":null,\"SUB_FINES\":null,\"SUB_SAND\":null,\"SUB_GRAV\":null,\"SUB_COBB\":null,\"SUB_RUBB\":null,\"SUB_BOUL\":null,\"SUB_BEDR\":null,\"SIN\":null,\"EROS\":null,\"TEMP_\":null,\"PH\":null,\"CON\":null,\"OXYGEN\":null,\"SOLIDS\":null,\"TURBIDITY\":null,\"ALKALINITY\":null,\"BACKWATER\":null}],\"Transect\":[{\"TRANSECT_ID\":\"{692255ca-bebf-4100-8391-2bc8a4808253}\",\"EVENT_ID\":\"{07fec5a6-7b1d-4d90-8000-7c399ed2eb0b}\"}],\"TransectMeasurements\":[]}"
+    },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "Start Time: Thu Nov 19 15:05:20 2020"
+    },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "Executing (NewCollectionEvent): NewCollectionEvent {\"SamplingEvents\":{\"geometry\":{\"paths\":[[[453297,4500331],[493467,4499955]]],\"spatialReference\":{\"wkid\":26912}},\"attributes\":{\"EVENT_ID\":\"{07fec5a6-7b1d-4d90-8000-7c399ed2eb0b}\",\"GEO_DEF\":null,\"LOCATION_NOTES\":\"\",\"EVENT_DATE\":\"2020-11-20\",\"EVENT_TIME\":\"\",\"OBSERVERS\":\"asdf\",\"SURVEY_PURPOSE\":\"Fish propagation\",\"WEATHER\":\"\",\"STATION_ID\":\"{6229B0DA-B21D-40F2-8ACC-A2158BBE0BC6}\",\"SEGMENT_LENGTH\":40085,\"NUM_PASSES\":1}},\"Equipment\":[{\"MODEL\":\"\",\"ARRAY_TYPE\":\"\",\"NUM_NETTERS\":null,\"CATHODE_TYPE\":\"\",\"NUM_ANODES\":1,\"CATHODE_LEN\":null,\"CATHODE_DIAMETER\":null,\"MACHINE_RES\":null,\"WAVEFORM\":\"\",\"VOLTAGE\":null,\"DUTY_CYCLE\":null,\"FREQUENCY\":null,\"AMPS\":null,\"PEDAL_TIME\":null,\"EVENT_ID\":\"{07fec5a6-7b1d-4d90-8000-7c399ed2eb0b}\",\"TYPE\":\"backpack\",\"EQUIPMENT_ID\":\"{fe1a334e-32a4-4efa-860b-6395e87401b9}\"}],\"Anodes\":[{\"EQUIPMENT_ID\":\"{fe1a334e-32a4-4efa-860b-6395e87401b9}\",\"ANODE_DIAMETER\":1,\"STOCK_DIAMETER\":2,\"ANODE_SHAPE\":\"Round\"}],\"Fish\":[{\"FISH_ID\":\"{03032419-f78f-4f64-8be1-b65e57b640f7}\",\"EVENT_ID\":\"{07fec5a6-7b1d-4d90-8000-7c399ed2eb0b}\",\"PASS_NUM\":1,\"CATCH_ID\":1,\"SPECIES_CODE\":\"BG\",\"LENGTH_TYPE\":\"STD\",\"LENGTH\":1,\"WEIGHT\":1,\"NOTES\":\"\"}],\"Diet\":[],\"Tags\":[],\"Health\":[],\"Habitat\":[{\"EVENT_ID\":\"{07fec5a6-7b1d-4d90-8000-7c399ed2eb0b}\",\"BANKVEG\":null,\"DOVR\":\"\",\"DUND\":\"\",\"LGWD\":null,\"POOL\":null,\"SPNG\":\"\",\"RIFF\":null,\"RUNA\":null,\"SUB_FINES\":null,\"SUB_SAND\":null,\"SUB_GRAV\":null,\"SUB_COBB\":null,\"SUB_RUBB\":null,\"SUB_BOUL\":null,\"SUB_BEDR\":null,\"SIN\":null,\"EROS\":null,\"TEMP_\":null,\"PH\":null,\"CON\":null,\"OXYGEN\":null,\"SOLIDS\":null,\"TURBIDITY\":null,\"ALKALINITY\":null,\"BACKWATER\":null}],\"Transect\":[{\"TRANSECT_ID\":\"{692255ca-bebf-4100-8391-2bc8a4808253}\",\"EVENT_ID\":\"{07fec5a6-7b1d-4d90-8000-7c399ed2eb0b}\"}],\"TransectMeasurements\":[]}"
+    },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "Start Time: Thu Nov 19 15:05:20 2020"
+    },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "Running script NewCollectionEvent..."
+    },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "Received Data: {u'SamplingEvents': {u'geometry': {u'paths': [[[453297, 4500331], [493467, 4499955]]], u'spatialReference': {u'wkid': 26912}}, u'attributes': {u'EVENT_TIME': u'', u'EVENT_ID': u'{07fec5a6-7b1d-4d90-8000-7c399ed2eb0b}', u'LOCATION_NOTES': u'', u'STATION_ID': u'{6229B0DA-B21D-40F2-8ACC-A2158BBE0BC6}', u'OBSERVERS': u'asdf', u'GEO_DEF': None, u'WEATHER': u'', u'SEGMENT_LENGTH': 40085, u'NUM_PASSES': 1, u'EVENT_DATE': u'2020-11-20', u'SURVEY_PURPOSE': u'Fish propagation'}}, u'Transect': [{u'EVENT_ID': u'{07fec5a6-7b1d-4d90-8000-7c399ed2eb0b}', u'TRANSECT_ID': u'{692255ca-bebf-4100-8391-2bc8a4808253}'}], u'Habitat': [{u'SUB_SAND': None, u'SUB_COBB': None, u'SUB_BOUL': None, u'SPNG': u'', u'SIN': None, u'SUB_RUBB': None, u'CON': None, u'TURBIDITY': None, u'RUNA': None, u'RIFF': None, u'PH': None, u'EROS': None, u'TEMP_': None, u'BACKWATER': None, u'EVENT_ID': u'{07fec5a6-7b1d-4d90-8000-7c399ed2eb0b}', u'ALKALINITY': None, u'DOVR': u'', u'DUND': u'', u'SUB_GRAV': None, u'LGWD': None, u'POOL': None, u'SUB_FINES': None, u'OXYGEN': None, u'BANKVEG': None, u'SOLIDS': None, u'SUB_BEDR': None}], u'Anodes': [{u'ANODE_SHAPE': u'Round', u'STOCK_DIAMETER': 2, u'ANODE_DIAMETER': 1, u'EQUIPMENT_ID': u'{fe1a334e-32a4-4efa-860b-6395e87401b9}'}], u'Tags': [], u'Fish': [{u'LENGTH_TYPE': u'STD', u'FISH_ID': u'{03032419-f78f-4f64-8be1-b65e57b640f7}', u'SPECIES_CODE': u'BG', u'WEIGHT': 1, u'PASS_NUM': 1, u'EVENT_ID': u'{07fec5a6-7b1d-4d90-8000-7c399ed2eb0b}', u'NOTES': u'', u'LENGTH': 1, u'CATCH_ID': 1}], u'Diet': [], u'TransectMeasurements': [], u'Equipment': [{u'PEDAL_TIME': None, u'NUM_NETTERS': None, u'CATHODE_DIAMETER': None, u'CATHODE_TYPE': u'', u'EVENT_ID': u'{07fec5a6-7b1d-4d90-8000-7c399ed2eb0b}', u'MACHINE_RES': None, u'EQUIPMENT_ID': u'{fe1a334e-32a4-4efa-860b-6395e87401b9}', u'WAVEFORM': u'', u'FREQUENCY': None, u'VOLTAGE': None, u'AMPS': None, u'ARRAY_TYPE': u'', u'NUM_ANODES': 1, u'MODEL': u'', u'TYPE': u'backpack', u'CATHODE_LEN': None, u'DUTY_CYCLE': None}], u'Health': []}"
+    },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "INSERT INTO [WILDADMIN].[SamplingEvents_evw] (EVENT_ID, LOCATION_NOTES, STATION_ID, OBSERVERS, GEO_DEF, WEATHER, SEGMENT_LENGTH, NUM_PASSES, EVENT_DATE, SURVEY_PURPOSE, SHAPE) VALUES ('{07fec5a6-7b1d-4d90-8000-7c399ed2eb0b}', '', '{6229B0DA-B21D-40F2-8ACC-A2158BBE0BC6}', 'asdf', NULL, '', 40085, 1, '2020-11-20 00:00:00', 'Fish propagation', geometry::STGeomFromText('LINESTRING (453297 4500331, 493467 4499955)', 26912))"
+    },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "INSERT INTO [WILDADMIN].[Transect_evw] (EVENT_ID, TRANSECT_ID) VALUES ('{07fec5a6-7b1d-4d90-8000-7c399ed2eb0b}', '{692255ca-bebf-4100-8391-2bc8a4808253}')"
+    },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "INSERT INTO [WILDADMIN].[Habitat_evw] (SUB_SAND, SUB_COBB, SUB_BOUL, SPNG, SIN, SUB_RUBB, CON, TURBIDITY, RUNA, RIFF, PH, EROS, TEMP_, BACKWATER, EVENT_ID, ALKALINITY, DOVR, DUND, SUB_GRAV, LGWD, POOL, SUB_FINES, OXYGEN, BANKVEG, SOLIDS, SUB_BEDR) VALUES (NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{07fec5a6-7b1d-4d90-8000-7c399ed2eb0b}', NULL, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)"
+    },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "INSERT INTO [WILDADMIN].[Anodes_evw] (ANODE_SHAPE, STOCK_DIAMETER, ANODE_DIAMETER, EQUIPMENT_ID) VALUES ('Round', 2, 1, '{fe1a334e-32a4-4efa-860b-6395e87401b9}')"
+    },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "INSERT INTO [WILDADMIN].[Fish_evw] (LENGTH_TYPE, FISH_ID, SPECIES_CODE, WEIGHT, PASS_NUM, EVENT_ID, NOTES, LENGTH, CATCH_ID) VALUES ('STD', '{03032419-f78f-4f64-8be1-b65e57b640f7}', 'BG', 1, 1, '{07fec5a6-7b1d-4d90-8000-7c399ed2eb0b}', '', 1, 1)"
+    },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "INSERT INTO [WILDADMIN].[Equipment_evw] (PEDAL_TIME, NUM_NETTERS, CATHODE_DIAMETER, CATHODE_TYPE, EVENT_ID, MACHINE_RES, EQUIPMENT_ID, WAVEFORM, FREQUENCY, VOLTAGE, AMPS, ARRAY_TYPE, NUM_ANODES, MODEL, TYPE, CATHODE_LEN, DUTY_CYCLE) VALUES (NULL, NULL, NULL, '', '{07fec5a6-7b1d-4d90-8000-7c399ed2eb0b}', NULL, '{fe1a334e-32a4-4efa-860b-6395e87401b9}', '', NULL, NULL, NULL, '', 1, '', 'backpack', NULL, NULL)"
+    },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "Completed script NewCollectionEvent..."
+    },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "Succeeded at Thu Nov 19 15:05:21 2020 (Elapsed Time: 0.28 seconds)"
+    },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "Succeeded at Thu Nov 19 15:05:21 2020 (Elapsed Time: 0.28 seconds)"
+    }
+  ]
+}

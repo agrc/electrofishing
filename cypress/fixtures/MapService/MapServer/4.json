@@ -1,0 +1,386 @@
+{
+  "currentVersion": 10.51,
+  "id": 4,
+  "name": "Health",
+  "type": "Table",
+  "description": null,
+  "hasAttachments": false,
+  "htmlPopupType": "esriServerHTMLPopupTypeNone",
+  "displayField": "EYE",
+  "typeIdField": null,
+  "subtypeFieldName": null,
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "esriFieldTypeOID",
+      "alias": "OBJECTID",
+      "domain": null
+    },
+    {
+      "name": "FISH_ID",
+      "type": "esriFieldTypeGUID",
+      "alias": "Fish ID",
+      "length": 38,
+      "domain": null
+    },
+    {
+      "name": "EYE",
+      "type": "esriFieldTypeString",
+      "alias": "Eye Condition",
+      "length": 16,
+      "domain": {
+        "type": "codedValue",
+        "name": "eye_conditions",
+        "codedValues": [
+          { "name": "Blind (1)", "code": "Blind (1)" },
+          { "name": "Blind (2)", "code": "Blind (2)" },
+          { "name": "Exopthalmia (1)", "code": "Exopthalmia (1)" },
+          { "name": "Exopthalmia (2)", "code": "Exopthalmia (2)" },
+          { "name": "Hermorrhagic (1)", "code": "Hermorrhagic (1)" },
+          { "name": "Hermorrhagic (2)", "code": "Hermorrhagic (2)" },
+          { "name": "Missing (1)", "code": "Missing (1)" },
+          { "name": "Missing (2)", "code": "Missing (2)" },
+          { "name": "Normal", "code": "Normal" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "GILL",
+      "type": "esriFieldTypeString",
+      "alias": "Gill Condition",
+      "length": 9,
+      "domain": {
+        "type": "codedValue",
+        "name": "gill_conditions",
+        "codedValues": [
+          { "name": "Clubbed", "code": "Clubbed" },
+          { "name": "Frayed", "code": "Frayed" },
+          { "name": "Marginate", "code": "Marginate" },
+          { "name": "Normal", "code": "Normal" },
+          { "name": "Pale", "code": "Pale" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "PSBR",
+      "type": "esriFieldTypeString",
+      "alias": "Pseudobranches Condition",
+      "length": 16,
+      "domain": {
+        "type": "codedValue",
+        "name": "pseudobranch_conditions",
+        "codedValues": [
+          { "name": "Inflamed", "code": "Inflamed" },
+          { "name": "Lithic", "code": "Lithic" },
+          { "name": "Normal", "code": "Normal" },
+          { "name": "Swollen", "code": "Swollen" },
+          { "name": "Swollen & Lithic", "code": "Swollen & Lithic" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "THYMUS",
+      "type": "esriFieldTypeString",
+      "alias": "Thymus Condition",
+      "length": 16,
+      "domain": {
+        "type": "codedValue",
+        "name": "thymus_conditions",
+        "codedValues": [
+          { "name": "Mild hemorrhage", "code": "Mild hemorrhage" },
+          { "name": "No hemorrhage", "code": "No hemorrhage" },
+          { "name": "Sever hemorrhage", "code": "Sever hemorrhage" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "FAT",
+      "type": "esriFieldTypeString",
+      "alias": "Fat Index",
+      "length": 16,
+      "domain": {
+        "type": "codedValue",
+        "name": "fat_indexes",
+        "codedValues": [
+          { "name": "< 50%", "code": "< 50%" },
+          { "name": "> 50%", "code": "> 50%" },
+          { "name": "100%", "code": "100%" },
+          { "name": "50%", "code": "50%" },
+          { "name": "No fat deposited", "code": "No fat deposited" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "SPLEEN",
+      "type": "esriFieldTypeString",
+      "alias": "Spleen Condition",
+      "length": 8,
+      "domain": {
+        "type": "codedValue",
+        "name": "speen_conditions",
+        "codedValues": [
+          { "name": "Black", "code": "Black" },
+          { "name": "Enlarged", "code": "Enlarged" },
+          { "name": "Granular", "code": "Granular" },
+          { "name": "Nodular", "code": "Nodular" },
+          { "name": "Red", "code": "Red" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "HIND",
+      "type": "esriFieldTypeString",
+      "alias": "Hind Gut Condition",
+      "length": 18,
+      "domain": {
+        "type": "codedValue",
+        "name": "hind_gut_conditions",
+        "codedValues": [
+          { "name": "No inflamation", "code": "No inflamation" },
+          { "name": "Sever inflamation", "code": "Sever inflamation" },
+          { "name": "Slight inflamation", "code": "Slight inflamation" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "KIDNEY",
+      "type": "esriFieldTypeString",
+      "alias": "Kidney Condition",
+      "length": 12,
+      "domain": {
+        "type": "codedValue",
+        "name": "kidney_conditions",
+        "codedValues": [
+          { "name": "Granular", "code": "Granular" },
+          { "name": "Modeled", "code": "Modeled" },
+          { "name": "Normal", "code": "Normal" },
+          { "name": "Swollen", "code": "Swollen" },
+          { "name": "Urolithiasis", "code": "Urolithiasis" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "LIVER",
+      "type": "esriFieldTypeString",
+      "alias": "Liver Condition",
+      "length": 21,
+      "domain": {
+        "type": "codedValue",
+        "name": "liver_conditions",
+        "codedValues": [
+          { "name": "Fatty", "code": "Fatty" },
+          { "name": "Focal discoloration", "code": "Focal discoloration" },
+          { "name": "General discoloration", "code": "General discoloration" },
+          { "name": "Less vivid", "code": "Less vivid" },
+          { "name": "Nodules", "code": "Nodules" },
+          { "name": "Normal", "code": "Normal" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "BILE",
+      "type": "esriFieldTypeString",
+      "alias": "Bile Color",
+      "length": 20,
+      "domain": {
+        "type": "codedValue",
+        "name": "bile_colors",
+        "codedValues": [
+          { "name": "Dark green", "code": "Dark green" },
+          { "name": "Light green", "code": "Light green" },
+          { "name": "Yellow, full", "code": "Yellow, full" },
+          { "name": "Yellow, partial full", "code": "Yellow, partial full" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "GENDER",
+      "type": "esriFieldTypeString",
+      "alias": "Gender",
+      "length": 7,
+      "domain": {
+        "type": "codedValue",
+        "name": "genders",
+        "codedValues": [
+          { "name": "Female", "code": "Female" },
+          { "name": "Male", "code": "Male" },
+          { "name": "Unknown", "code": "Unknown" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "REPRODUCTIVE",
+      "type": "esriFieldTypeString",
+      "alias": "Reproductive Condition",
+      "length": 7,
+      "domain": {
+        "type": "codedValue",
+        "name": "reproductive_conditions",
+        "codedValues": [
+          { "name": "Green", "code": "Green" },
+          { "name": "Ripe", "code": "Ripe" },
+          { "name": "Unknown", "code": "Unknown" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "HEMATOCRIT",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Hematocrit Count (%)",
+      "domain": {
+        "type": "range",
+        "name": "0-100",
+        "range": [0, 100],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "LEUKOCRIT",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Leukocrit Count (%)",
+      "domain": {
+        "type": "range",
+        "name": "0-100",
+        "range": [0, 100],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "PLPRO",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Plasma Protein",
+      "domain": {
+        "type": "range",
+        "name": "0-100",
+        "range": [0, 100],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "FIN",
+      "type": "esriFieldTypeString",
+      "alias": "Fin Condition",
+      "length": 21,
+      "domain": {
+        "type": "codedValue",
+        "name": "fin_conditions",
+        "codedValues": [
+          { "name": "Mild active erosion", "code": "Mild active erosion" },
+          { "name": "No active erosion", "code": "No active erosion" },
+          { "name": "Severe active erosion", "code": "Severe active erosion" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "OPERCLE",
+      "type": "esriFieldTypeString",
+      "alias": "Opercle Condition",
+      "length": 17,
+      "domain": {
+        "type": "codedValue",
+        "name": "opercle_conditions",
+        "codedValues": [
+          { "name": "Normal", "code": "Normal" },
+          { "name": "Severe shortening", "code": "Severe shortening" },
+          { "name": "Slight shortening", "code": "Slight shortening" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "COLLECTION_PART",
+      "type": "esriFieldTypeString",
+      "alias": "Hard body part collection",
+      "length": 255,
+      "domain": {
+        "type": "codedValue",
+        "name": "hard_body_part",
+        "codedValues": [
+          { "name": "Cleithrum", "code": "Cleithrum" },
+          { "name": "Other", "code": "Other" },
+          { "name": "Otolith", "code": "Otolith" },
+          { "name": "Ray", "code": "Ray" },
+          { "name": "Scale", "code": "Scale" },
+          { "name": "Spine", "code": "Spine" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    }
+  ],
+  "indexes": [
+    {
+      "name": "R17_SDE_ROWID_UK",
+      "fields": "OBJECTID",
+      "isAscending": true,
+      "isUnique": true,
+      "description": ""
+    },
+    {
+      "name": "G49FISH_ID",
+      "fields": "FISH_ID",
+      "isAscending": true,
+      "isUnique": false,
+      "description": ""
+    }
+  ],
+  "subtypes": [],
+  "relationships": [
+    {
+      "id": 6,
+      "name": "Fish",
+      "relatedTableId": 2,
+      "role": "esriRelRoleDestination",
+      "keyField": "FISH_ID",
+      "cardinality": "esriRelCardinalityOneToOne",
+      "composite": true
+    }
+  ],
+  "capabilities": "Map,Query,Data",
+  "maxRecordCount": 5000,
+  "supportsStatistics": true,
+  "supportsAdvancedQueries": true,
+  "supportedQueryFormats": "JSON, AMF",
+  "isDataVersioned": true,
+  "advancedQueryCapabilities": {
+    "useStandardizedQueries": false,
+    "supportsStatistics": true,
+    "supportsOrderBy": true,
+    "supportsDistinct": true,
+    "supportsPagination": true,
+    "supportsTrueCurve": false,
+    "supportsReturningQueryExtent": true,
+    "supportsQueryWithDistance": true,
+    "supportsSqlExpression": true
+  }
+}

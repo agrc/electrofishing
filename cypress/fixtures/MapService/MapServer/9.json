@@ -1,0 +1,129 @@
+{
+  "currentVersion": 10.51,
+  "id": 9,
+  "name": "Transect",
+  "type": "Table",
+  "description": null,
+  "hasAttachments": false,
+  "htmlPopupType": "esriServerHTMLPopupTypeNone",
+  "displayField": "BWID",
+  "typeIdField": null,
+  "subtypeFieldName": null,
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "esriFieldTypeOID",
+      "alias": "OBJECTID",
+      "domain": null
+    },
+    {
+      "name": "EVENT_ID",
+      "type": "esriFieldTypeGUID",
+      "alias": "Event ID",
+      "length": 38,
+      "domain": null
+    },
+    {
+      "name": "BWID",
+      "type": "esriFieldTypeDouble",
+      "alias": "Bankfull width",
+      "domain": null
+    },
+    {
+      "name": "WWID",
+      "type": "esriFieldTypeDouble",
+      "alias": "Wetted width",
+      "domain": null
+    },
+    {
+      "name": "STARTING_BANK",
+      "type": "esriFieldTypeString",
+      "alias": "Starting bank",
+      "length": 12,
+      "domain": {
+        "type": "codedValue",
+        "name": "starting_bank_types",
+        "codedValues": [
+          { "name": "River Right", "code": "River Right" },
+          { "name": "River Left", "code": "River Left" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "TRANSECT_ID",
+      "type": "esriFieldTypeGUID",
+      "alias": "Transect ID",
+      "length": 38,
+      "domain": null
+    },
+    {
+      "name": "TRANSECT_NUM",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Transect Number",
+      "domain": null
+    }
+  ],
+  "indexes": [
+    {
+      "name": "R19_SDE_ROWID_UK",
+      "fields": "OBJECTID",
+      "isAscending": true,
+      "isUnique": true,
+      "description": ""
+    },
+    {
+      "name": "G51TRANSECT_ID",
+      "fields": "TRANSECT_ID",
+      "isAscending": true,
+      "isUnique": false,
+      "description": ""
+    },
+    {
+      "name": "G51EVENT_ID",
+      "fields": "EVENT_ID",
+      "isAscending": true,
+      "isUnique": false,
+      "description": ""
+    }
+  ],
+  "subtypes": [],
+  "relationships": [
+    {
+      "id": 9,
+      "name": "TransectMeasurements",
+      "relatedTableId": 10,
+      "role": "esriRelRoleOrigin",
+      "keyField": "TRANSECT_ID",
+      "cardinality": "esriRelCardinalityOneToMany",
+      "composite": true
+    },
+    {
+      "id": 4,
+      "name": "SamplingEvents",
+      "relatedTableId": 1,
+      "role": "esriRelRoleDestination",
+      "keyField": "EVENT_ID",
+      "cardinality": "esriRelCardinalityOneToMany",
+      "composite": true
+    }
+  ],
+  "capabilities": "Map,Query,Data",
+  "maxRecordCount": 5000,
+  "supportsStatistics": true,
+  "supportsAdvancedQueries": true,
+  "supportedQueryFormats": "JSON, AMF",
+  "isDataVersioned": true,
+  "advancedQueryCapabilities": {
+    "useStandardizedQueries": false,
+    "supportsStatistics": true,
+    "supportsOrderBy": true,
+    "supportsDistinct": true,
+    "supportsPagination": true,
+    "supportsTrueCurve": false,
+    "supportsReturningQueryExtent": true,
+    "supportsQueryWithDistance": true,
+    "supportsSqlExpression": true
+  }
+}

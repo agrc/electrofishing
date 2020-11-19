@@ -1,0 +1,206 @@
+{
+  "currentVersion": 10.51,
+  "id": 5,
+  "name": "Tags",
+  "type": "Table",
+  "description": null,
+  "hasAttachments": false,
+  "htmlPopupType": "esriServerHTMLPopupTypeNone",
+  "displayField": "NUMBER",
+  "typeIdField": null,
+  "subtypeFieldName": null,
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "esriFieldTypeOID",
+      "alias": "OBJECTID",
+      "domain": null
+    },
+    {
+      "name": "FISH_ID",
+      "type": "esriFieldTypeGUID",
+      "alias": "Fish ID",
+      "length": 38,
+      "domain": null
+    },
+    {
+      "name": "NUMBER",
+      "type": "esriFieldTypeString",
+      "alias": "Tag Number",
+      "length": 50,
+      "domain": null
+    },
+    {
+      "name": "TYPE",
+      "type": "esriFieldTypeString",
+      "alias": "Type",
+      "length": 10,
+      "domain": {
+        "type": "codedValue",
+        "name": "tag_types",
+        "codedValues": [
+          { "name": "Anchor", "code": "Anchor" },
+          { "name": "Coded wire", "code": "Coded wire" },
+          { "name": "Fin clip", "code": "Fin clip" },
+          { "name": "Fin punch", "code": "Fin punch" },
+          { "name": "Grid mark", "code": "Grid mark" },
+          { "name": "OTC", "code": "OTC" },
+          { "name": "PIT", "code": "PIT" },
+          { "name": "Radio", "code": "Radio" },
+          { "name": "Spray dye", "code": "Spray dye" },
+          { "name": "VI alpha", "code": "VI alpha" },
+          { "name": "VIE", "code": "VIE" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "LOCATION",
+      "type": "esriFieldTypeString",
+      "alias": "Location",
+      "length": 14,
+      "domain": {
+        "type": "codedValue",
+        "name": "tag_locations",
+        "codedValues": [
+          { "name": "Adipose", "code": "Adipose" },
+          { "name": "Anal", "code": "Anal" },
+          { "name": "Dorsal", "code": "Dorsal" },
+          { "name": "Head", "code": "Head" },
+          { "name": "Lateral", "code": "Lateral" },
+          { "name": "Left pectoral", "code": "Left pectoral" },
+          { "name": "Left pelvic", "code": "Left pelvic" },
+          { "name": "Lower caudal", "code": "Lower caudal" },
+          { "name": "Right pectoral", "code": "Right pectoral" },
+          { "name": "Right pelvic", "code": "Right pelvic" },
+          { "name": "Upper caudal", "code": "Upper caudal" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "COLOR",
+      "type": "esriFieldTypeString",
+      "alias": "Color",
+      "length": 6,
+      "domain": {
+        "type": "codedValue",
+        "name": "tag_colors",
+        "codedValues": [
+          { "name": "Black", "code": "Black" },
+          { "name": "Blue", "code": "Blue" },
+          { "name": "Green", "code": "Green" },
+          { "name": "Orange", "code": "Orange" },
+          { "name": "Pink", "code": "Pink" },
+          { "name": "Purple", "code": "Purple" },
+          { "name": "Red", "code": "Red" },
+          { "name": "White", "code": "White" },
+          { "name": "Yellow", "code": "Yellow" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "NEW_TAG",
+      "type": "esriFieldTypeString",
+      "alias": "New Tag",
+      "length": 3,
+      "domain": {
+        "type": "codedValue",
+        "name": "true_false",
+        "codedValues": [
+          { "name": "No", "code": "No" },
+          { "name": "Yes", "code": "Yes" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "TRANSPONDER_FREQ",
+      "type": "esriFieldTypeString",
+      "alias": "Transponder Frequency (kHz)",
+      "length": 4,
+      "domain": {
+        "type": "codedValue",
+        "name": "tag_frequencies",
+        "codedValues": [
+          { "name": "125", "code": "125" },
+          { "name": "134", "code": "134" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    },
+    {
+      "name": "TRANSMITTER_FREQ",
+      "type": "esriFieldTypeSmallInteger",
+      "alias": "Transmitter Frequency",
+      "domain": null
+    },
+    {
+      "name": "TRANSMITTER_FREQ_TYPE",
+      "type": "esriFieldTypeString",
+      "alias": "Transmitter Frequency Type",
+      "length": 3,
+      "domain": {
+        "type": "codedValue",
+        "name": "frequency_types",
+        "codedValues": [
+          { "name": "kHz", "code": "kHz" },
+          { "name": "MHz", "code": "MHz" }
+        ],
+        "mergePolicy": "esriMPTDefaultValue",
+        "splitPolicy": "esriSPTDefaultValue"
+      }
+    }
+  ],
+  "indexes": [
+    {
+      "name": "R18_SDE_ROWID_UK",
+      "fields": "OBJECTID",
+      "isAscending": true,
+      "isUnique": true,
+      "description": ""
+    },
+    {
+      "name": "G50FISH_ID",
+      "fields": "FISH_ID",
+      "isAscending": true,
+      "isUnique": false,
+      "description": ""
+    }
+  ],
+  "subtypes": [],
+  "relationships": [
+    {
+      "id": 7,
+      "name": "Fish",
+      "relatedTableId": 2,
+      "role": "esriRelRoleDestination",
+      "keyField": "FISH_ID",
+      "cardinality": "esriRelCardinalityOneToMany",
+      "composite": true
+    }
+  ],
+  "capabilities": "Map,Query,Data",
+  "maxRecordCount": 5000,
+  "supportsStatistics": true,
+  "supportsAdvancedQueries": true,
+  "supportedQueryFormats": "JSON, AMF",
+  "isDataVersioned": true,
+  "advancedQueryCapabilities": {
+    "useStandardizedQueries": false,
+    "supportsStatistics": true,
+    "supportsOrderBy": true,
+    "supportsDistinct": true,
+    "supportsPagination": true,
+    "supportsTrueCurve": false,
+    "supportsReturningQueryExtent": true,
+    "supportsQueryWithDistance": true,
+    "supportsSqlExpression": true
+  }
+}
