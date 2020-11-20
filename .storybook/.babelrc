@@ -1,0 +1,9 @@
+// this is to prevent storybook from using the default .babelrc
+// in the root of this project
+// this can be removed once we switch to CRA
+{
+  "presets": ["@babel/preset-env", "@babel/preset-react"],
+  "plugins": [
+    ["inline-json-import", {}]
+  ]
+}
