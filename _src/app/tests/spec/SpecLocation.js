@@ -1,5 +1,5 @@
 require([
-    'app/config',
+    'react-app/config',
     'app/location/Location',
 
     'dojo/Deferred',
@@ -17,6 +17,9 @@ require([
     topic,
     win
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     describe('app/location/Location', function () {
         var testWidget;
         beforeEach(function () {

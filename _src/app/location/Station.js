@@ -1,7 +1,7 @@
 define([
-    'app/config',
+    'react-app/config',
     'app/Domains',
-    'app/location/VerifyMap',
+    'react-app/components/location/VerifyMap',
     'app/_InProgressCacheMixin',
     'app/_SubmitJobMixin',
     'app/_SubscriptionsMixin',
@@ -18,6 +18,10 @@ define([
     'dojo/_base/declare',
 
     'dojox/uuid/generateRandomUuid',
+
+    'react',
+
+    'react-dom',
 
     'app/location/StationPointDef',
     'bootstrap'
@@ -40,8 +44,15 @@ define([
     topic,
     declare,
 
-    generateRandomUuid
+    generateRandomUuid,
+
+    React,
+
+    ReactDOM
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     const mixins = [
         _WidgetBase,
         _TemplatedMixin,
@@ -151,14 +162,15 @@ define([
             //      fires when the user clicks on the new station button
             console.log('app/location/Station:onDialogShown', arguments);
 
-            var setView = function (movedMap, otherMap) {
-                otherMap.map.setView(movedMap.map.getCenter(), movedMap.map.getZoom());
-            };
-            if (this.vMap) {
-                setView(this.mainMap, this.vMap);
-            } else {
-                this.vMap = new VerifyMap({isMainMap: false}, this.mapDiv);
-                setView(this.mainMap, this.vMap);
+            if (!this.verifyMapInitialized) {
+                const setMap = (map) => {
+                    this.vMap = map;
+                };
+                const verifyMapComponent = React.createElement(VerifyMap.default, {isMainMap: false, setMap});
+
+                ReactDOM.render(verifyMapComponent, this.mapDiv);
+                this.verifyMapInitialized = true;
+
                 this.fGroup = new L.FeatureGroup().addTo(this.vMap.map);
                 this.pointDef.setMap(this.vMap.map, this.fGroup);
             }

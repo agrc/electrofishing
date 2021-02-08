@@ -1,5 +1,5 @@
 define([
-    'app/config',
+    'react-app/config',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -21,6 +21,9 @@ define([
     topic,
     declare
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         widgetsInTemplate: true,
         templateString: template,

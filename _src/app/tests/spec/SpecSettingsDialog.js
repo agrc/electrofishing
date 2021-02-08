@@ -1,18 +1,19 @@
 require([
-    'app/config',
-    'app/SettingsDialog',
+    'react-app/config',
 
     'dojo/dom-construct',
 
     'stubmodule'
 ], function (
     config,
-    SettingsDialog,
 
     domConstruct,
 
     stubmodule
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     describe('app/SettingsDialog', function () {
         var testWidget;
         var topicMock;

@@ -1,5 +1,5 @@
 define([
-    'app/config',
+    'react-app/config',
     'app/location/_GeoDefMixin',
     'app/_SubscriptionsMixin',
 
@@ -35,6 +35,9 @@ define([
     topic,
     declare
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GeoDefMixin, _SubscriptionsMixin], {
         widgetsInTemplate: true,
         templateString: template,

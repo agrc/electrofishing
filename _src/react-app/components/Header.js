@@ -1,5 +1,5 @@
-import React from 'react';
-import config from 'app/config';
+import * as React from 'react';
+import config from '../config';
 import topic from 'pubsub-js';
 
 export default function Header() {

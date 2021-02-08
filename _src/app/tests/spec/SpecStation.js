@@ -1,5 +1,5 @@
 require([
-    'app/config',
+    'react-app/config',
     'app/location/Station',
 
     'dojo/dom-construct',
@@ -17,6 +17,9 @@ require([
 
     stubModule
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     describe('app/location/Station', function () {
         var testWidget;
         var point;

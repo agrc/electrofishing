@@ -1,6 +1,6 @@
 require([
     'app/catch/Health',
-    'app/config',
+    'react-app/config',
 
     'dojo/dom-construct',
     'dojo/_base/window'
@@ -11,6 +11,9 @@ require([
     domConstruct,
     win
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     describe('app/catch/Health', function () {
         var testWidget;
         var destroy = function (widget) {

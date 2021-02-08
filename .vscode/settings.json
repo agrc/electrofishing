@@ -15,6 +15,7 @@
     "ellps",
     "fishsample",
     "geodef",
+    "immer",
     "latlng",
     "mapinited",
     "moveend",

@@ -3,7 +3,7 @@ define([
 
     'app/catch/FilteringSelectForGrid',
     'app/catch/MoreInfoDialog',
-    'app/config',
+    'react-app/config',
     'app/GridTab',
     'app/_GridMixin',
 
@@ -59,6 +59,9 @@ define([
 
     toastify
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     const FN = config.fieldNames.fish;
 
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GridMixin], {

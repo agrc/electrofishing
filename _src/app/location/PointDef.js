@@ -1,5 +1,5 @@
 define([
-    'app/config',
+    'react-app/config',
     'app/_SubscriptionsMixin',
 
     'dijit/_TemplatedMixin',
@@ -24,6 +24,9 @@ define([
     topic,
     declare
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     return declare([_WidgetBase, _TemplatedMixin, _SubscriptionsMixin], {
         templateString: template,
         baseClass: 'point-def',
@@ -180,6 +183,7 @@ define([
             this.addSubscription(
                 topic.subscribe(config.topics.pointDef_onBtnClick, (_, widget) => this.onOtherMapBtnClicked(widget))
             );
+            this.addSubscription(topic.subscribe(config.topics.onMapClicked, this.onMapClicked.bind(this)));
 
             // validate text boxes
             this.connect(this.domNode, 'input[type="text"]:focusout', 'onTextBoxFocusOut');
@@ -260,28 +264,18 @@ define([
 
             return true;
         },
+        isEnabled() {
+            return domClass.contains(this.mapBtn, 'active');
+        },
         onMapBtnClicked: function (evt) {
             // summary:
             //      fires when the user clicks the map btn
             console.log('app/location/PointDef:onMapBtnClicked', arguments);
 
-            var disabled;
-
             evt.preventDefault();
 
-            if (domClass.contains(this.mapBtn, 'active')) {
-                // button is being de-selected
-                this.map.off('click', this.onMapClicked, this);
-                disabled = false;
-                this.map._container.style.cursor = '';
-            } else {
-                this.map.on('click', this.onMapClicked, this);
-                disabled = true;
-                this.map._container.style.cursor = 'crosshair';
-            }
-
-            this.yBox.disabled = disabled;
-            this.xBox.disabled = disabled;
+            this.yBox.disabled = !this.isEnabled();
+            this.xBox.disabled = !this.isEnabled();
 
             topic.publishSync(config.topics.pointDef_onBtnClick, this);
         },
@@ -301,6 +295,10 @@ define([
             // summary:
             //      description
             console.log('app/location/PointDef:onMapClicked', arguments);
+
+            if (!this.isEnabled()) {
+                return;
+            }
 
             var projection;
             var pnt;

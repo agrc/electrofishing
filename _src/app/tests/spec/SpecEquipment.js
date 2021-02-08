@@ -1,5 +1,5 @@
 require([
-    'app/config',
+    'react-app/config',
     'app/method/Equipment',
 
     'dojo/dom-construct',
@@ -13,6 +13,9 @@ require([
 
     localforage
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     describe('app/method/Equipment', function () {
         var testWidget;
         beforeEach(function () {

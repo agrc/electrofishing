@@ -1,5 +1,4 @@
-(function () {
-    require({baseUrl: './'}, ['dojo/parser', 'jquery', 'dojo/domReady!'], function (parser) {
-        parser.parse();
-    });
-}());
+require({ baseUrl: './'}, ['jquery', 'react', 'react-dom', 'react-app/App', 'bootstrap', 'dojo/domReady!'],
+  function (_, React, ReactDOM, App) {
+    ReactDOM.render(React.createElement(App.default), document.getElementById('root'));
+});

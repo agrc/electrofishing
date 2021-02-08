@@ -1,5 +1,4 @@
 define([
-    'app/config',
     'app/method/Equipment',
     'app/_AddBtnMixin',
     'app/_ClearValuesMixin',
@@ -15,7 +14,6 @@ define([
 
     'bootstrap-combobox/js/bootstrap-combobox'
 ], function (
-    config,
     Equipment,
     _AddBtnMixin,
     _ClearValuesMixin,

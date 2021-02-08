@@ -1,5 +1,5 @@
 require([
-    'app/config',
+    'react-app/config',
     'app/location/StartEndGeoDef',
 
     'dojo/Deferred',
@@ -17,6 +17,9 @@ require([
 
     stubModule
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     describe('app/location/StartEndGeoDef', function () {
         var testWidget;
         beforeEach(function () {

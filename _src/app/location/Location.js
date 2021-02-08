@@ -3,7 +3,7 @@ define([
     'app/_InProgressCacheMixin',
     'app/_SelectPopulate',
     'app/_SubscriptionsMixin',
-    'app/config',
+    'react-app/config',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -18,10 +18,15 @@ define([
 
     'localforage',
 
+    'react-app/components/location/VerifyMap',
+
+    'react',
+
+    'react-dom',
+
     'app/location/StartDistDirGeoDef',
     'app/location/StartEndGeoDef',
-    'app/location/Station',
-    'app/location/VerifyMap'
+    'app/location/Station'
 ], function (
     _ClearValuesMixin,
     _InProgressCacheMixin,
@@ -40,8 +45,17 @@ define([
     topic,
     declare,
 
-    localforage
+    localforage,
+
+    VerifyMap,
+
+    React,
+
+    ReactDOM
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     const mixins = [
         _WidgetBase,
         _TemplatedMixin,
@@ -133,6 +147,13 @@ define([
             this.populateSelects();
 
             this.inherited(arguments);
+
+            ReactDOM.render(React.createElement(VerifyMap.default, {
+                // TODO: add stuff that can be passed in to allow for:
+                // * start/end button click event listening management
+                // this widget should manage a bunch of state
+                isMainMap: true
+            }), this.verifyMap);
         },
         wireEvents: function () {
             // summary:

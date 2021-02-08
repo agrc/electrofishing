@@ -1,5 +1,5 @@
 require([
-    'app/config',
+    'react-app/config',
     'app/NewCollectionEvent',
 
     'dojo/Deferred',
@@ -7,8 +7,6 @@ require([
     'dojo/dom-construct',
 
     'ijit/modules/NumericInputValidator',
-
-    'localforage',
 
     'put-selector/put'
 ], function (
@@ -21,10 +19,11 @@ require([
 
     NumericInputValidator,
 
-    localforage,
-
     put
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     describe('app/NewCollectionEvent', function () {
         var testWidget;
         beforeEach(function () {

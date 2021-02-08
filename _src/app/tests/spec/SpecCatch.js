@@ -1,11 +1,10 @@
 require([
     'app/catch/Catch',
-    'app/config',
+    'react-app/config',
 
     'dojo/dom-class',
     'dojo/dom-construct',
     'dojo/keys',
-    'dojo/on',
     'dojo/query',
     'dojo/_base/window',
 
@@ -17,12 +16,14 @@ require([
     domClass,
     domConstruct,
     keys,
-    on,
     query,
     win,
 
     localforage
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     const FN = config.fieldNames.fish;
 
     describe('app/catch/Catch', function () {

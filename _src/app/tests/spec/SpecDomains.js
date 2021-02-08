@@ -1,5 +1,5 @@
 require([
-    'app/config',
+    'react-app/config',
     'app/Domains',
 
     'dojo/dom-construct'
@@ -9,6 +9,9 @@ require([
 
     domConstruct
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     describe('app/Domains', function () {
         var values = [
             {

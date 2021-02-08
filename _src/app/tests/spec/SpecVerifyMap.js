@@ -1,5 +1,5 @@
 require([
-    'app/config',
+    'react-app/config',
     'app/location/VerifyMap',
 
     'dojo/dom-construct',
@@ -13,6 +13,9 @@ require([
     topic,
     win
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     describe('app/location/VerifyMap', function () {
         var testWidget;
         beforeEach(function () {

@@ -1,6 +1,6 @@
 require([
     'app/catch/Tag',
-    'app/config',
+    'react-app/config',
 
     'dojo/dom-class',
     'dojo/dom-construct',
@@ -13,6 +13,9 @@ require([
     domConstruct,
     win
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     describe('app/catch/Tag', function () {
         var testWidget;
         var destroy = function (widget) {

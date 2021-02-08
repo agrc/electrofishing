@@ -1,11 +1,9 @@
 require([
-    'app/config',
     'app/GridTab',
 
     'dojo/dom-construct',
     'dojo/query'
 ], function (
-    config,
     GridTab,
 
     domConstruct,

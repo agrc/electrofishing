@@ -3,10 +3,8 @@ define([
     './../_ClearValuesMixin',
 
     'app/catch/FilteringSelectForGrid',
-    'app/config',
+    'react-app/config',
     'app/_GridMixin',
-
-    'dgrid/Editor',
 
     'dijit/popup',
     'dijit/_TemplatedMixin',
@@ -37,8 +35,6 @@ define([
     config,
     _GridMixin,
 
-    editor,
-
     popupManager,
     _TemplatedMixin,
     _WidgetBase,
@@ -57,6 +53,9 @@ define([
 
     localforage
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     // summary:
     //      Form for storing diet, tag and other fish stats.
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _GridMixin, _ClearValuesMixin], {

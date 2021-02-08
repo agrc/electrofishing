@@ -1,5 +1,5 @@
 define([
-    'app/config',
+    'react-app/config',
     'app/_AddBtnMixin',
     'app/_ClearValuesMixin',
     'app/_GridMixin',
@@ -10,7 +10,6 @@ define([
     'dijit/_WidgetBase',
 
     'dojo/dom-class',
-    'dojo/dom-style',
     'dojo/query',
     'dojo/text!app/method/templates/Equipment.html',
     'dojo/_base/declare',
@@ -32,7 +31,6 @@ define([
     _WidgetBase,
 
     domClass,
-    domStyle,
     query,
     template,
     declare,
@@ -43,6 +41,9 @@ define([
 
     localforage
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     var FN = config.fieldNames;
     var tempID = 'temp_id';
 

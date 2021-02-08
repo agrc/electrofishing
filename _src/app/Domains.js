@@ -1,7 +1,7 @@
 define([
     'agrc/modules/Domains',
 
-    'app/config',
+    'react-app/config',
     'app/OtherOptionHandler',
 
     'dojo/dom-construct'
@@ -13,6 +13,9 @@ define([
 
     domConstruct
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     // summary:
     //      Used to feed options to comboboxes
     return {

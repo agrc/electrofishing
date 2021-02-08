@@ -1,5 +1,5 @@
 require([
-    'app/config',
+    'react-app/config',
     'app/location/StartDistDirGeoDef',
 
     'dojo/Deferred',
@@ -17,6 +17,9 @@ require([
     on,
     topic
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     describe('app/location/StartDistDirGeoDef', function () {
         var testWidget;
         beforeEach(function () {

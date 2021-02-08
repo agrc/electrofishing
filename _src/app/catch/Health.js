@@ -1,5 +1,5 @@
 define([
-    'app/config',
+    'react-app/config',
     'app/Domains',
     'app/helpers',
     'app/_ClearValuesMixin',
@@ -8,7 +8,6 @@ define([
     'dijit/_WidgetBase',
 
     'dojo/promise/all',
-    'dojo/query',
     'dojo/text!app/catch/templates/Health.html',
     'dojo/_base/array',
     'dojo/_base/declare'
@@ -22,11 +21,13 @@ define([
     _WidgetBase,
 
     all,
-    query,
     template,
     array,
     declare
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     // summary:
     //      Health fields in more info dialog.
     return declare([_WidgetBase, _TemplatedMixin, _ClearValuesMixin], {

@@ -1,9 +1,8 @@
 define([
-    'app/config',
+    'react-app/config',
 
     'dojo/on',
     'dojo/query',
-    'dojo/topic',
     'dojo/_base/declare',
     'dojo/_base/lang',
 
@@ -15,7 +14,6 @@ define([
 
     on,
     query,
-    topic,
     declare,
     lang,
 
@@ -23,6 +21,9 @@ define([
 
     toastify
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     return declare([], {
         // inputs: InputDomNode[]
         //      inputs that need to be cached

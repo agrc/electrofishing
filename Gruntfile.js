@@ -40,7 +40,7 @@ module.exports = function (grunt) {
         'package.json',
         'bower.json',
         '_src/app/package.json',
-        '_src/app/config.js'
+        '_src/react-app/config.js'
     ];
 
     grunt.initConfig({

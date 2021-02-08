@@ -1,7 +1,7 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
 describe('SubmitReport', () => {
   beforeEach(() => {
-    // TODO: import the db name (appName) from app/config once it's converted to
+    // TODO: import the db name (appName) from react-app/config once it's converted to
     // an es module
     indexedDB.deleteDatabase('electrofishing');
   });

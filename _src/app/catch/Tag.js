@@ -1,5 +1,5 @@
 define([
-    'app/config',
+    'react-app/config',
     'app/_AddBtnMixin',
     'app/_ClearValuesMixin',
 
@@ -25,6 +25,9 @@ define([
     array,
     declare
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     // summary:
     //      Tags in MoreInfoDialog in catch tab.
     return declare([_WidgetBase, _TemplatedMixin, _ClearValuesMixin, _AddBtnMixin], {

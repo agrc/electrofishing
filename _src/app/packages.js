@@ -20,14 +20,19 @@ require({
             location: './bootstrap-combobox'
         }, {
             name: 'esri-leaflet',
-            location: './esri-leaflet'
+            location: '../node_modules/esri-leaflet',
+            main: 'dist/esri-leaflet-debug'
         }, {
             name: 'jquery',
             location: './jquery/dist',
             main: 'jquery'
         }, {
+            name: 'immer',
+            location: '../node_modules/immer/dist',
+            main: 'immer.umd.development'
+        }, {
             name: 'leaflet',
-            location: './leaflet',
+            location: '../node_modules/leaflet',
             main: 'dist/leaflet-src'
         }, {
             name: 'localforage',
@@ -69,6 +74,10 @@ require({
             name: 'clsx',
             location: '../node_modules/clsx/dist',
             main: 'clsx.min'
+        }, {
+            name: 'uuid',
+            location: '../node_modules/uuid/dist/umd',
+            main: 'uuid.min'
         }
     ]
 });

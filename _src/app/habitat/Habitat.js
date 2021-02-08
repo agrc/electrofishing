@@ -1,6 +1,6 @@
 define([
     'app/catch/FilteringSelectForGrid',
-    'app/config',
+    'react-app/config',
     'app/Domains',
     'app/GridTab',
     'app/helpers',
@@ -47,6 +47,9 @@ define([
 
     localforage
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     var FN = config.fieldNames;
     var tempID = 'temp_id';
 

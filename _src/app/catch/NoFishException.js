@@ -1,5 +1,5 @@
 define([
-    './../config',
+    'react-app/config',
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
 
@@ -18,6 +18,9 @@ define([
 
     topic
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     // summary:
     //      Container widget for Tag widgets.
     return declare([_WidgetBase, _TemplatedMixin], {

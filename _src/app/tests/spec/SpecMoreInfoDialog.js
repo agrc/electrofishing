@@ -1,10 +1,9 @@
 require([
     'app/catch/MoreInfoDialog',
-    'app/config',
+    'react-app/config',
 
     'dojo/dom-construct',
     'dojo/query',
-    'dojo/store/Memory',
     'dojo/_base/window'
 ], function (
     MoreInfoDialog,
@@ -12,9 +11,11 @@ require([
 
     domConstruct,
     query,
-    Memory,
     win
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     describe('app/catch/MoreInfoDialog', function () {
         var testWidget;
         var destroy = function (widget) {

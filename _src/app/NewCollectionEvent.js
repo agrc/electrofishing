@@ -1,5 +1,5 @@
 define([
-    'app/config',
+    'react-app/config',
     'app/helpers',
     'app/_SubmitJobMixin',
     'app/_SubscriptionsMixin',
@@ -13,7 +13,6 @@ define([
     'dojo/query',
     'dojo/text!app/templates/NewCollectionEvent.html',
     'pubsub-js',
-    'dojo/topic',
     'dojo/_base/array',
     'dojo/_base/declare',
     'dojo/_base/lang',
@@ -47,7 +46,6 @@ define([
     query,
     template,
     topic,
-    dojoTopic,
     array,
     declare,
     lang,
@@ -60,6 +58,9 @@ define([
 
     toastify
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _SubmitJobMixin, _SubscriptionsMixin], {
         widgetsInTemplate: true,
         templateString: template,
@@ -113,8 +114,6 @@ define([
                     that.noFish = allowFish;
                 })
             );
-
-            this.locationTb.verifyMap.initMap();
         },
         startup() {
             console.log('app/NewCollectionEvent:startup', arguments);

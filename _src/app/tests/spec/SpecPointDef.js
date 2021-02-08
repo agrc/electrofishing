@@ -1,5 +1,5 @@
 require([
-    'app/config',
+    'react-app/config',
     'app/location/PointDef',
 
     'dojo/dom-class',
@@ -13,6 +13,9 @@ require([
     domConstruct,
     topic
 ) {
+    // TODO: remove once this module is converted to a component
+    config = config.default;
+
     describe('app/location/PointDef', function () {
         var testWidget;
         var ll;
