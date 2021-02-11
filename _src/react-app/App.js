@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { produce } from 'immer';
 import Header from './components/Header';
-import NewCollectionEvent from 'app/NewCollectionEvent';
 import { ToastContainer } from 'react-toastify';
+import NewCollectionEvent from './components/NewCollectionEvent';
 
 export const AppContext = React.createContext();
 export const actionTypes = {
@@ -40,9 +40,6 @@ const App = () => {
   const newEventDiv = React.useRef();
 
   React.useEffect(() => {
-    const newCollectionEvent = new NewCollectionEvent({}, newEventDiv.current);
-    newCollectionEvent.startup();
-
     // for tests?
     document.body.className += ' loaded';
   }, []);
@@ -53,7 +50,7 @@ const App = () => {
         <Header />
 
         <div className="main-container container">
-          <div ref={newEventDiv}></div>
+          <NewCollectionEvent />
         </div>
 
         <div data-dojo-type="app/SettingsDialog"></div>
