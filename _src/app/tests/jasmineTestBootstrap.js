@@ -1,6 +1,6 @@
 /* global JasmineFaviconReporter, jasmineRequire */
+// eslint-disable-next-line no-unused-vars
 var dojoConfig = {
-  // eslint-disable-line no-unused-vars
   baseUrl: '/src/',
   packages: [
     'put-selector',

@@ -121,9 +121,6 @@ module.exports = function (grunt) {
       main: {
         src: [jsFiles].concat([gruntFile]),
       },
-      options: {
-        configFile: '.eslintrc',
-      },
     },
     imagemin: {
       main: {

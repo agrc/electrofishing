@@ -14,6 +14,7 @@
     "@storybook/addon-links": "^6.0.28",
     "@storybook/react": "^6.0.28",
     "babel-core": "6.26.3",
+    "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-inline-json-import": "^0.3.2",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
@@ -25,12 +26,18 @@
     "cypress-plugin-tab": "^1.0.5",
     "dojo-webpack-plugin": "^2.8.18",
     "es6-object-assign": "1.1.0",
-    "eslint": "^4.19.1",
-    "eslint-config-agrc": "1.2.0",
+    "eslint": "^7.19.0",
     "eslint-config-prettier": "^7.2.0",
+    "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-cypress": "^2.11.2",
-    "eslint-plugin-html": "4.0.3",
-    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-flowtype": "^5.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jasmine": "^4.1.2",
+    "eslint-plugin-jest": "^24.1.3",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-testing-library": "^3.10.1",
     "grunt": "^1.0.1",
     "grunt-babel": "^8.0.0",
     "grunt-bump": "^0.8.0",
@@ -44,7 +51,7 @@
     "grunt-contrib-uglify": "^5.0.0",
     "grunt-contrib-watch": "1.0.1",
     "grunt-dojo": "^1.1.2",
-    "grunt-eslint": "^20.1.0",
+    "grunt-eslint": "^23.0.0",
     "grunt-newer": "^1.2.0",
     "grunt-processhtml": "^0.4.1",
     "grunt-ssh": "^0.12.9",
@@ -90,8 +97,23 @@
     "extends": [
       "react-app",
       "react-app/jest",
-      "prettier"
-    ]
+      "prettier",
+      "plugin:cypress/recommended"
+    ],
+    "plugins": [
+      "jasmine"
+    ],
+    "globals": {
+      "L": false
+    },
+    "env": {
+      "jasmine": true,
+      "jquery": true,
+      "amd": true
+    },
+    "rules": {
+      "import/no-amd": 0
+    }
   },
   "prettier": {
     "singleQuote": true,
