@@ -1,17 +1,17 @@
 language: node_js
 node_js:
-    - "lts/*"
+  - 'lts/*'
 before_install:
-    - npm install -g grunt-cli
-    - npm install -g bower
-    - npm install -g npm
-    - bower install
-    - npm update
-    - bower update
+  - npm install -g grunt-cli
+  - npm install -g bower
+  - npm install -g npm
+  - bower install
+  - npm update
+  - bower update
 notifications:
-    email:
-        on_success: change
-        on_failure: change
+  email:
+    on_success: change
+    on_failure: change
 sudo: required
 addons:
   chrome: stable

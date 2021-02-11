@@ -1,38 +1,32 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>SummaryReportTemplateTests</title>
-        <link rel="stylesheet" href="../resources/App.css" media="screen" title="no title">
+  <head>
+    <meta charset="utf-8" />
+    <title>SummaryReportTemplateTests</title>
+    <link rel="stylesheet" href="../resources/App.css" media="screen" title="no title" />
 
-        <style>
-            body {
-                padding: 15px;
-            }
-        </style>
+    <style>
+      body {
+        padding: 15px;
+      }
+    </style>
 
-        <script type='text/javascript' src="../../dojo/dojo.js"></script>
-        <script type='text/javascript' src="../../jquery/dist/jquery.js"></script>
-        <script type='text/javascript' src="../packages.js"></script>
-        <script type="text/javascript">
-            require({
-                baseUrl: '../../'
-            }, [
-                'handlebars/handlebars',
-                'dojo/text!app/templates/SummaryReportTemplate.html',
-                'dojo/text!app/tests/data/SummaryReport.json',
-                'dojo/domReady!'
-            ], function (
-                Handlebars,
-                template,
-                dataJSON
-            ) {
-                var data = JSON.parse(dataJSON);
-                document.body.innerHTML = Handlebars.compile(template)(data);
-            });
-        </script>
-    </head>
-    <body>
-
-    </body>
+    <script type="text/javascript" src="../../dojo/dojo.js"></script>
+    <script type="text/javascript" src="../../jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="../packages.js"></script>
+    <script type="text/javascript">
+      require({
+        baseUrl: '../../',
+      }, [
+        'handlebars/handlebars',
+        'dojo/text!app/templates/SummaryReportTemplate.html',
+        'dojo/text!app/tests/data/SummaryReport.json',
+        'dojo/domReady!',
+      ], function (Handlebars, template, dataJSON) {
+        var data = JSON.parse(dataJSON);
+        document.body.innerHTML = Handlebars.compile(template)(data);
+      });
+    </script>
+  </head>
+  <body></body>
 </html>

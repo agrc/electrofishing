@@ -14,7 +14,6 @@ import submitJob from '../helpers/submitJob';
 import toastify from 'react-toastify';
 import { v4 as uuid } from 'uuid';
 
-
 // cancelConfirmMsg: String
 //      The message displayed in the cancel confirm dialog
 const cancelConfirmMsg = 'Are you sure? This will clear all values in the report.';
@@ -42,7 +41,7 @@ const NewCollectionEvent = () => {
   const archivesLocalForage = React.useRef();
   React.useEffect(() => {
     archivesLocalForage.current = localforage.createInstance({
-      name: archivesStoreName
+      name: archivesStoreName,
     });
 
     return () => {
@@ -78,7 +77,7 @@ const NewCollectionEvent = () => {
       [methodTb.current, methodTbDiv.current, Method],
       [catchTb.current, catchTbDiv.current, Catch],
       [habitatTb.current, habitatTbDiv.current, Habitat],
-      [reportSummary.current, reportSummaryDiv.current, SummaryReport]
+      [reportSummary.current, reportSummaryDiv.current, SummaryReport],
     ];
 
     const widgets = widgetInfos.map(([widgetRef, div, WidgetClass]) => {
@@ -87,7 +86,7 @@ const NewCollectionEvent = () => {
     });
 
     return () => {
-      widgets.forEach(widget => widget.destroy());
+      widgets.forEach((widget) => widget.destroy());
     };
   }, []);
 
@@ -101,77 +100,77 @@ const NewCollectionEvent = () => {
   };
 
   const validateReport = () => {
-      // summary:
-      //      validates all of the values necessary to submit the report to the server
-      //
-      // returns: String (if invalid) || true (if valid)
-      console.log('app/NewCollectionEvent:validateReport');
+    // summary:
+    //      validates all of the values necessary to submit the report to the server
+    //
+    // returns: String (if invalid) || true (if valid)
+    console.log('app/NewCollectionEvent:validateReport');
 
-      var valid = true;
-      const validationMethods = [
-        // [method, scope, tabID]
-        [locationTb.current.hasValidLocation, locationTb.current, 'locationTab'],
-        [methodTb.current.isValid, methodTb.current, 'methodTab'],
-        [catchTb.current.isValid, catchTb.current, 'catchTab'],
-        [habitatTb.current.isValid, habitatTb.current, 'habitatTab']
-      ];
-      var validationReturn;
+    var valid = true;
+    const validationMethods = [
+      // [method, scope, tabID]
+      [locationTb.current.hasValidLocation, locationTb.current, 'locationTab'],
+      [methodTb.current.isValid, methodTb.current, 'methodTab'],
+      [catchTb.current.isValid, catchTb.current, 'catchTab'],
+      [habitatTb.current.isValid, habitatTb.current, 'habitatTab'],
+    ];
+    var validationReturn;
 
-      const invalidInputs = thisDomNode.current.querySelectorAll('.form-group.has-error input');
-      if (invalidInputs.length > 0) {
-        const labels = thisDomNode.current.querySelectorAll('.form-group.has-error label');
-        valid = invalidInputMsg + labels[0].textContent + '.';
-        const parentTab = labels.closest('.tab-pane')[0];
-        showTab(parentTab.id);
+    const invalidInputs = thisDomNode.current.querySelectorAll('.form-group.has-error input');
+    if (invalidInputs.length > 0) {
+      const labels = thisDomNode.current.querySelectorAll('.form-group.has-error label');
+      valid = invalidInputMsg + labels[0].textContent + '.';
+      const parentTab = labels.closest('.tab-pane')[0];
+      showTab(parentTab.id);
 
-        return valid;
+      return valid;
+    }
+
+    valid = validationMethods.every((a) => {
+      validationReturn = a[0].apply(a[1]);
+      if (a[2] === 'catchTab' && allowNoFish.current) {
+        return true;
+      } else if (validationReturn !== true) {
+        showTab(a[2]);
+
+        return false;
       }
 
-      valid = validationMethods.every((a) => {
-        validationReturn = a[0].apply(a[1]);
-        if (a[2] === 'catchTab' && allowNoFish.current) {
-          return true;
-        } else if (validationReturn !== true) {
-          showTab(a[2]);
+      return true;
+    });
 
-          return false;
-        }
+    if (valid) {
+      return true;
+    }
 
-        return true;
-      });
-
-      if (valid) {
-        return true;
-      }
-
-      return validationReturn;
+    return validationReturn;
   };
 
   const buildFeatureObject = () => {
-      // summary:
-      //      builds a json object suitable for submitting to the NewCollectionEvent service
-      console.log('app/NewCollectionEvent:buildFeatureObject');
+    // summary:
+    //      builds a json object suitable for submitting to the NewCollectionEvent service
+    console.log('app/NewCollectionEvent:buildFeatureObject');
 
-      const fn = config.fieldNames.samplingEvents;
-      const attributes = {};
+    const fn = config.fieldNames.samplingEvents;
+    const attributes = {};
 
-      // location fields
-      attributes[fn.EVENT_ID] = config.eventId;
-      attributes[fn.GEO_DEF] = locationTb.current.currentGeoDef.geoDef;
-      attributes[fn.LOCATION_NOTES] = locationTb.current.additionalNotesTxt.value;
-      attributes[fn.EVENT_DATE] = locationTb.current.dateTxt.value;
-      attributes[fn.EVENT_TIME] = locationTb.current.timeTxt.value;
-      attributes[fn.OBSERVERS] = locationTb.current.observersTxt.value;
-      attributes[fn.PURPOSE] = locationTb.current.surveyPurposeSelect.value;
-      attributes[fn.WEATHER] = locationTb.current.weatherSelect.value;
-      attributes[fn.STATION_ID] = locationTb.current.station.getStationId();
-      attributes[fn.SEGMENT_LENGTH] = helpers.getNumericValue(locationTb.current.streamLengthTxt.value);
-      attributes[fn.NUM_PASSES] = catchTb.current.getNumberOfPasses();
+    // location fields
+    attributes[fn.EVENT_ID] = config.eventId;
+    attributes[fn.GEO_DEF] = locationTb.current.currentGeoDef.geoDef;
+    attributes[fn.LOCATION_NOTES] = locationTb.current.additionalNotesTxt.value;
+    attributes[fn.EVENT_DATE] = locationTb.current.dateTxt.value;
+    attributes[fn.EVENT_TIME] = locationTb.current.timeTxt.value;
+    attributes[fn.OBSERVERS] = locationTb.current.observersTxt.value;
+    attributes[fn.PURPOSE] = locationTb.current.surveyPurposeSelect.value;
+    attributes[fn.WEATHER] = locationTb.current.weatherSelect.value;
+    attributes[fn.STATION_ID] = locationTb.current.station.getStationId();
+    attributes[fn.SEGMENT_LENGTH] = helpers.getNumericValue(locationTb.current.streamLengthTxt.value);
+    attributes[fn.NUM_PASSES] = catchTb.current.getNumberOfPasses();
 
-      return {
-          geometry: this.locationTb.utmGeo,
-          attributes
-      };
+    return {
+      geometry: this.locationTb.utmGeo,
+      attributes,
+    };
   };
 
   const clearReport = () => {
@@ -181,32 +180,35 @@ const NewCollectionEvent = () => {
       toastify.toast.error(`Error with localforage clearing: \n ${error.message}`);
     };
 
-    return localforage.clear().catch(onError).finally(() => {
-      config.eventId = '{' + uuid() + '}';
-      locationTb.current.clear();
-      methodTb.current.clear();
-      catchTb.current.clear();
-      habitatTb.current.clear();
-      setValidateMsg(null);
-      allowNoFish.current = false;
-    });
+    return localforage
+      .clear()
+      .catch(onError)
+      .finally(() => {
+        config.eventId = '{' + uuid() + '}';
+        locationTb.current.clear();
+        methodTb.current.clear();
+        catchTb.current.clear();
+        habitatTb.current.clear();
+        setValidateMsg(null);
+        allowNoFish.current = false;
+      });
   };
 
   const onSuccessfulSubmit = () => {
-      console.log('app/NewCollectionEvent:onSuccessfulSubmit');
+    console.log('app/NewCollectionEvent:onSuccessfulSubmit');
 
-      showTab('locationTab');
-      clearReport();
-      showSuccess(false);
+    showTab('locationTab');
+    clearReport();
+    showSuccess(false);
 
-      window.setTimeout(() => {
-          window.scrollTo({
-              top: 0,
-              behavior: 'smooth'
-          });
-      }, 500);
+    window.setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    }, 500);
 
-      $(config.app.header.submitBtn).button('reset');
+    $(config.app.header.submitBtn).button('reset');
   };
 
   const onError = () => {
@@ -248,20 +250,23 @@ const NewCollectionEvent = () => {
 
     const data_txt = JSON.stringify(data);
 
-    return reportSummary.current.verify(data).then(async () => {
-      try {
-        await submitJob({f: 'json', data: data_txt}, config.urls.newCollectionEvent);
+    return reportSummary.current.verify(data).then(
+      async () => {
+        try {
+          await submitJob({ f: 'json', data: data_txt }, config.urls.newCollectionEvent);
 
-        onSuccessfulSubmit();
-      } catch (error) {
-        onError();
+          onSuccessfulSubmit();
+        } catch (error) {
+          onError();
+        }
+
+        // stringify, parse is so that we have a clean object to store in localforage
+        return archivesLocalForage.setItem(config.eventId, JSON.parse(data_txt));
+      },
+      function () {
+        $(config.app.header.submitBtn).button('reset');
       }
-
-      // stringify, parse is so that we have a clean object to store in localforage
-      return archivesLocalForage.setItem(config.eventId, JSON.parse(data_txt));
-    }, function () {
-      $(config.app.header.submitBtn).button('reset');
-    });
+    );
   };
 
   const onCancel = () => {
@@ -275,12 +280,8 @@ const NewCollectionEvent = () => {
   // subscriptions
   const addSubscription = useSubscriptions();
   React.useEffect(() => {
-    addSubscription(
-      pubSub.subscribe(config.topics.onSubmitReportClick, onSubmit),
-    );
-    addSubscription(
-      pubSub.subscribe(config.topics.onCancelReportClick, onCancel)
-    );
+    addSubscription(pubSub.subscribe(config.topics.onSubmitReportClick, onSubmit));
+    addSubscription(pubSub.subscribe(config.topics.onCancelReportClick, onCancel));
     addSubscription(
       pubSub.subscribe(config.topics.noFish, (_, newValue) => {
         allowNoFish.current = newValue;
@@ -290,13 +291,15 @@ const NewCollectionEvent = () => {
 
   return (
     <div className="new-collection-event" ref={thisDomNode}>
-      { validateMsg ? <div className="alert alert-danger hidden">{validateMsg}</div> : null }
-      { showSuccess ? <div className="alert alert-success">
+      {validateMsg ? <div className="alert alert-danger hidden">{validateMsg}</div> : null}
+      {showSuccess ? (
+        <div className="alert alert-success">
           The report has been submitted successfully.
           <button className="btn btn-success pull-right" onClick={() => setShowSuccess(false)}>
             Close
           </button>
-        </div> : null }
+        </div>
+      ) : null}
       <div className="tab-content">
         <div className="tab-pane fade in active" id="locationTab">
           <div ref={locationTbDiv}></div>

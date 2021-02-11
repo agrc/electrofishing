@@ -1,18 +1,18 @@
 <div>
-    <input data-dojo-attach-point='someBox' type="text">
-    <input data-dojo-attach-point='anotherBox' type="text">
-    <textarea cols="30" rows="10" data-dojo-attach-point="textArea"></textarea>
+  <input data-dojo-attach-point="someBox" type="text" />
+  <input data-dojo-attach-point="anotherBox" type="text" />
+  <textarea cols="30" rows="10" data-dojo-attach-point="textArea"></textarea>
 
-    <!-- don't cache inputs without a data-dojo-attach-point -->
-    <input type="text" id="skipBox">
+  <!-- don't cache inputs without a data-dojo-attach-point -->
+  <input type="text" id="skipBox" />
 
-    <!-- make sure that nested input don't get cached -->
-    <div data-dojo-type="app/SettingsDialog"></div>
+  <!-- make sure that nested input don't get cached -->
+  <div data-dojo-type="app/SettingsDialog"></div>
 
-    <select data-dojo-attach-point='select'>
-        <option value="one"></option>
-        <option value="two"></option>
-    </select>
+  <select data-dojo-attach-point="select">
+    <option value="one"></option>
+    <option value="two"></option>
+  </select>
 
-    <select data-dojo-attach-point='selectNoOptions'></select>
+  <select data-dojo-attach-point="selectNoOptions"></select>
 </div>

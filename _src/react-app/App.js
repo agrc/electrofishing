@@ -7,15 +7,15 @@ import NewCollectionEvent from './components/NewCollectionEvent';
 export const AppContext = React.createContext();
 export const actionTypes = {
   CURRENT_MAP_ZOOM: 'CURRENT_MAP_ZOOM',
-  CURRENT_MAP_CENTER: 'CURRENT_MAP_CENTER'
+  CURRENT_MAP_CENTER: 'CURRENT_MAP_CENTER',
 };
 
 const initialState = {
   currentMapExtent: {
     zoom: 10,
     // TODO: get from geolocation
-    center: [40.6, -111.7]
-  }
+    center: [40.6, -111.7],
+  },
 };
 const reducer = (state, action) => {
   return produce((state, draft) => {
@@ -57,10 +57,10 @@ const App = () => {
 
         <footer>
           <div className="container">
-            Built by <a href="http://gis.utah.gov/developer"
-            title="AGRC"
-            target="_blank"
-            rel="noreferrer">AGRC</a>
+            Built by{' '}
+            <a href="http://gis.utah.gov/developer" title="AGRC" target="_blank" rel="noreferrer">
+              AGRC
+            </a>
           </div>
         </footer>
 

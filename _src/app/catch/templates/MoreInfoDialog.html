@@ -1,64 +1,68 @@
 <div>
-    <div class="modal fade" id="catchMoreInfoDialog" aria-hidden="true" role="dialog" tabindex="-1"
-        data-dojo-attach-point='dialog'>
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4>Fish #<span data-dojo-attach-point='catchId'></span>
-                        (Pass #<span data-dojo-attach-point='passId'></span>)
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <ul class="nav nav-tabs">
-                        <li class='active'><a data-dojo-attach-point='dietTab' href="#Diet_tab" data-toggle="tab">Diet</a></li>
-                        <li><a href="#Tag_tab" data-toggle="tab">Tags</a></li>
-                        <li><a href="#Health_tab" data-toggle="tab">Health</a></li>
-                        <li><a href="#Collection_tab" data-toggle="tab">Hard Body Parts</a></li>
-                        <li><a href="#Notes_tab" data-toggle="tab">Notes</a></li>
-                    </ul>
-                    <div class="tab-content" data-dojo-attach-point='tabContainer'>
-                        <div class="tab-pane fade in active" id="Diet_tab">
-                            <div class="pull-right">
-                                <div class="btn-group">
-                                    <button class="btn btn-danger"
-                                        data-dojo-attach-event='onclick: deleteRow'>
-                                        <i class="icon-remove-sign icon-white"></i> Delete Row
-                                    </button>
-                                    <button class='btn btn-success'
-                                        data-dojo-attach-event='onclick: addRow'>
-                                        <i class="icon-plus-sign icon-white"></i> Add Row
-                                    </button>
-                                </div>
-                            </div>
-                            <div style="clear: both;"></div>
-                            <div data-dojo-attach-point="gridDiv"></div>
-                        </div>
-                        <div class="tab-pane fade" id="Tag_tab">
-                            <div data-dojo-attach-point='tagsContainer'
-                                data-dojo-type="app/catch/TagsContainer"></div>
-                        </div>
-                        <div class="tab-pane fade" id="Health_tab">
-                            <div data-dojo-attach-point="health" data-dojo-type="app/catch/Health"></div>
-                        </div>
-                        <div class="tab-pane fade" id="Collection_tab">
-                            <select class="form-control" data-dojo-attach-point="collectionPartSelect">
-                            </select>
-                        </div>
-                        <div class="tab-pane fade" id="Notes_tab">
-                            <textarea class='form-control' rows='5' maxlength='250'
-                                data-dojo-attach-point='notesTxtArea'></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary"
-                        data-dojo-attach-point='submitBtn'
-                        data-dojo-attach-event='onclick: onSubmitClick'>Submit</button>
-                    <button class="btn btn-default"
-                        data-dojo-attach-event='onclick: onCancel'>Cancel</button>
-                </div>
-            </div>
+  <div
+    class="modal fade"
+    id="catchMoreInfoDialog"
+    aria-hidden="true"
+    role="dialog"
+    tabindex="-1"
+    data-dojo-attach-point="dialog"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4>
+            Fish #<span data-dojo-attach-point="catchId"></span> (Pass #<span data-dojo-attach-point="passId"></span>)
+          </h4>
         </div>
+        <div class="modal-body">
+          <ul class="nav nav-tabs">
+            <li class="active"><a data-dojo-attach-point="dietTab" href="#Diet_tab" data-toggle="tab">Diet</a></li>
+            <li><a href="#Tag_tab" data-toggle="tab">Tags</a></li>
+            <li><a href="#Health_tab" data-toggle="tab">Health</a></li>
+            <li><a href="#Collection_tab" data-toggle="tab">Hard Body Parts</a></li>
+            <li><a href="#Notes_tab" data-toggle="tab">Notes</a></li>
+          </ul>
+          <div class="tab-content" data-dojo-attach-point="tabContainer">
+            <div class="tab-pane fade in active" id="Diet_tab">
+              <div class="pull-right">
+                <div class="btn-group">
+                  <button class="btn btn-danger" data-dojo-attach-event="onclick: deleteRow">
+                    <i class="icon-remove-sign icon-white"></i> Delete Row
+                  </button>
+                  <button class="btn btn-success" data-dojo-attach-event="onclick: addRow">
+                    <i class="icon-plus-sign icon-white"></i> Add Row
+                  </button>
+                </div>
+              </div>
+              <div style="clear: both"></div>
+              <div data-dojo-attach-point="gridDiv"></div>
+            </div>
+            <div class="tab-pane fade" id="Tag_tab">
+              <div data-dojo-attach-point="tagsContainer" data-dojo-type="app/catch/TagsContainer"></div>
+            </div>
+            <div class="tab-pane fade" id="Health_tab">
+              <div data-dojo-attach-point="health" data-dojo-type="app/catch/Health"></div>
+            </div>
+            <div class="tab-pane fade" id="Collection_tab">
+              <select class="form-control" data-dojo-attach-point="collectionPartSelect"></select>
+            </div>
+            <div class="tab-pane fade" id="Notes_tab">
+              <textarea class="form-control" rows="5" maxlength="250" data-dojo-attach-point="notesTxtArea"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            class="btn btn-primary"
+            data-dojo-attach-point="submitBtn"
+            data-dojo-attach-event="onclick: onSubmitClick"
+          >
+            Submit
+          </button>
+          <button class="btn btn-default" data-dojo-attach-event="onclick: onCancel">Cancel</button>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

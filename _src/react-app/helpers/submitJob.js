@@ -1,7 +1,7 @@
 const CHECK_INTERVAL = 500;
 const headers = {
   'X-Requested-With': null,
-  'Content-Type': 'application/json'
+  'Content-Type': 'application/json',
 };
 
 const checkJobStatus = async (url, jobId) => {
@@ -10,7 +10,7 @@ const checkJobStatus = async (url, jobId) => {
   const params = {
     method: 'POST',
     headers,
-    body: JSON.stringify({ f: 'json' })
+    body: JSON.stringify({ f: 'json' }),
   };
 
   try {
@@ -51,7 +51,7 @@ export default async (data, url) => {
   const params = {
     method: 'POST',
     headers,
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   };
 
   try {

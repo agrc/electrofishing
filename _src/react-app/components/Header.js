@@ -26,18 +26,14 @@ export default function Header() {
             </a>
           </span>
           <button
-            onClick={() =>
-              topic.publishSync(config.topics.onSubmitReportClick)
-            }
+            onClick={() => topic.publishSync(config.topics.onSubmitReportClick)}
             data-loading-text="submitting report..."
             className="btn btn-success navbar-btn"
           >
             Submit Report
           </button>
           <button
-            onClick={() =>
-              topic.publishSync(config.topics.onCancelReportClick)
-            }
+            onClick={() => topic.publishSync(config.topics.onCancelReportClick)}
             className="btn btn-default navbar-btn"
           >
             Cancel

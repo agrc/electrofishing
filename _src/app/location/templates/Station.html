@@ -1,62 +1,80 @@
 <div>
-    <h4 class='heading'>Station <span class="text-danger required">*</span></h4>
-    <p class="help-block">Select a station by clicking on the map above.</p>
-    <div class="form-inline">
-        <div class="form-group">
-            <input type='text' disabled data-dojo-attach-point='stationTxt' class='form-control'>
-        </div>
-        <a class="btn btn-default" data-dojo-attach-point='newStationBtn' data-toggle='modal' href='#stationModal'>
-            <span class='glyphicon glyphicon-plus'></span>
-            Add New Station
-        </a>
+  <h4 class="heading">Station <span class="text-danger required">*</span></h4>
+  <p class="help-block">Select a station by clicking on the map above.</p>
+  <div class="form-inline">
+    <div class="form-group">
+      <input type="text" disabled data-dojo-attach-point="stationTxt" class="form-control" />
     </div>
-    <div data-dojo-attach-point='stationDialog' class="modal fade" id="stationModal" aria-hidden="true" role="dialog" tabindex="-1" data-backdrop='static'>
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class='modal-titled'>Add New Station</h4>
-                </div>
-                <div class="modal-body">
-                    <div class='row'>
-                        <div class="form-group col-md-3">
-                            <label class='control-label'>Name</label>
-                            <input type="text" data-dojo-attach-point="stationNameTxt" class='form-control'>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label class='control-label'>Stream Type</label>
-                            <select data-dojo-attach-point='streamTypeSelect' class='form-control'>
-                                <option value=""></option>
-                            </select>
-                        </div>
-                    </div>
-                    <div data-dojo-type="app/location/StationPointDef" data-dojo-attach-point='pointDef'></div>
-                    <div class="stream-lake-button-container form-inline">
-                        <label>Stream/Lake</label>
-                        <div class="form-group">
-                            <button type="button" data-dojo-attach-point="streamLakeBtn"
-                                class="btn btn-default btn-sm" data-toggle="button"
-                                data-dojo-attach-event="click: onToggleStreamLake">
-                                <span class="glyphicon glyphicon-map-marker"></span>
-                            </button>
-                        </div>
-                        <div class="form-group">
-                            <input data-dojo-attach-point="streamLakeInput" class="form-control" type="text" disabled>
-                        </div>
-                    </div>
-                    <div data-dojo-attach-point="mapDiv"></div>
-                </div>
-                <div class="modal-footer">
-                    <div class="control-group has-error pull-left">
-                        <span data-dojo-attach-point="validateMsg" class="help-block"></span>
-                    </div>
-                    <div class="control-group has-success pull-left">
-                        <span data-dojo-attach-point="successMsg" class="help-block">Station added successfully!</span>
-                    </div>
-                    <a href="#" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</a>
-                    <button class="btn btn-primary" data-dojo-attach-point="submitBtn" data-loading-text='Submitting new station...'>Add Station</button>
-                </div>
+    <a class="btn btn-default" data-dojo-attach-point="newStationBtn" data-toggle="modal" href="#stationModal">
+      <span class="glyphicon glyphicon-plus"></span>
+      Add New Station
+    </a>
+  </div>
+  <div
+    data-dojo-attach-point="stationDialog"
+    class="modal fade"
+    id="stationModal"
+    aria-hidden="true"
+    role="dialog"
+    tabindex="-1"
+    data-backdrop="static"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-titled">Add New Station</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="form-group col-md-3">
+              <label class="control-label">Name</label>
+              <input type="text" data-dojo-attach-point="stationNameTxt" class="form-control" />
             </div>
+            <div class="form-group col-md-3">
+              <label class="control-label">Stream Type</label>
+              <select data-dojo-attach-point="streamTypeSelect" class="form-control">
+                <option value=""></option>
+              </select>
+            </div>
+          </div>
+          <div data-dojo-type="app/location/StationPointDef" data-dojo-attach-point="pointDef"></div>
+          <div class="stream-lake-button-container form-inline">
+            <label>Stream/Lake</label>
+            <div class="form-group">
+              <button
+                type="button"
+                data-dojo-attach-point="streamLakeBtn"
+                class="btn btn-default btn-sm"
+                data-toggle="button"
+                data-dojo-attach-event="click: onToggleStreamLake"
+              >
+                <span class="glyphicon glyphicon-map-marker"></span>
+              </button>
+            </div>
+            <div class="form-group">
+              <input data-dojo-attach-point="streamLakeInput" class="form-control" type="text" disabled />
+            </div>
+          </div>
+          <div data-dojo-attach-point="mapDiv"></div>
         </div>
+        <div class="modal-footer">
+          <div class="control-group has-error pull-left">
+            <span data-dojo-attach-point="validateMsg" class="help-block"></span>
+          </div>
+          <div class="control-group has-success pull-left">
+            <span data-dojo-attach-point="successMsg" class="help-block">Station added successfully!</span>
+          </div>
+          <a href="#" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</a>
+          <button
+            class="btn btn-primary"
+            data-dojo-attach-point="submitBtn"
+            data-loading-text="Submitting new station..."
+          >
+            Add Station
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

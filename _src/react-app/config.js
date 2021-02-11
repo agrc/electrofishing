@@ -2,7 +2,6 @@ import localforage from 'localforage';
 import { v4 as uuid } from 'uuid';
 import secrets from 'secrets.json';
 
-
 let quadWord = 'patent-window-address-asia'; // for prod and stage
 let wildlifeFolder;
 if (process.env.REACT_APP_BUILD === 'prod') {
@@ -47,9 +46,9 @@ const config = {
   // coordTypes: {key:String}
   //      Coordinate types as used in app/SettingsDialog
   coordTypes: {
-      utm83: 'utm83',
-      ll: 'll',
-      utm27: 'utm27'
+    utm83: 'utm83',
+    ll: 'll',
+    utm27: 'utm27',
   },
 
   quadWord: quadWord,
@@ -68,8 +67,8 @@ const config = {
   defaultLineSymbolWidth: 3,
 
   colors: {
-      default: '#3388ff',
-      selected: '#D1E600'
+    default: '#3388ff',
+    selected: '#D1E600',
   },
 
   // topics: {key:String}
@@ -85,7 +84,7 @@ const config = {
     onCancelReportClick: 'header_onCancelReportClick',
     mouseWheelZooming_onChange: 'app_mouseWheelZooming',
     noFish: '1',
-    onMapClick: 'verifyMap_mapClick'
+    onMapClick: 'verifyMap_mapClick',
   },
 
   // urls: {}
@@ -124,7 +123,7 @@ const config = {
 
     // reference service
     streamsFeatureService: referenceService + '0',
-    lakesFeatureService: referenceService + '1'
+    lakesFeatureService: referenceService + '1',
   },
 
   // tableNames: {}
@@ -138,7 +137,7 @@ const config = {
     equipment: 'Equipment',
     anodes: 'Anodes',
     transect: 'Transect',
-    transectMeasurements: 'TransectMeasurements'
+    transectMeasurements: 'TransectMeasurements',
   },
 
   // fieldNames: {}
@@ -150,7 +149,7 @@ const config = {
       NAME: 'NAME',
       STATION_ID: 'STATION_ID',
       STREAM_TYPE: 'STREAM_TYPE',
-      WATER_ID: 'WATER_ID'
+      WATER_ID: 'WATER_ID',
     },
     samplingEvents: {
       EVENT_ID: fldEVENT_ID,
@@ -163,7 +162,7 @@ const config = {
       NUM_PASSES: 'NUM_PASSES',
       WEATHER: 'WEATHER',
       PURPOSE: 'SURVEY_PURPOSE',
-      OBSERVERS: 'OBSERVERS'
+      OBSERVERS: 'OBSERVERS',
     },
     equipment: {
       EVENT_ID: fldEVENT_ID,
@@ -182,13 +181,13 @@ const config = {
       NUM_NETTERS: 'NUM_NETTERS',
       CATHODE_TYPE: 'CATHODE_TYPE',
       TYPE: 'TYPE',
-      DURATION: 'PEDAL_TIME'
+      DURATION: 'PEDAL_TIME',
     },
     anodes: {
       EQUIPMENT_ID: 'EQUIPMENT_ID',
       ANODE_DIAMETER: 'ANODE_DIAMETER',
       ANODE_SHAPE: 'ANODE_SHAPE',
-      STOCK_DIAMETER: 'STOCK_DIAMETER'
+      STOCK_DIAMETER: 'STOCK_DIAMETER',
     },
     fish: {
       FISH_ID: 'FISH_ID',
@@ -199,14 +198,14 @@ const config = {
       LENGTH_TYPE: 'LENGTH_TYPE',
       LENGTH: 'LENGTH',
       WEIGHT: 'WEIGHT',
-      NOTES: 'NOTES'
+      NOTES: 'NOTES',
     },
     diet: {
       FISH_ID: 'FISH_ID',
       CLASS: 'CLASS',
       FISH_SPECIES: 'FISH_SPECIES',
       MEASUREMENT_TYPE: 'MEASUREMENT_TYPE',
-      MEASUREMENT: 'MEASUREMENT'
+      MEASUREMENT: 'MEASUREMENT',
     },
     tags: {
       FISH_ID: 'FISH_ID',
@@ -217,7 +216,7 @@ const config = {
       TYPE: 'TYPE',
       LOCATION: 'LOCATION',
       COLOR: 'COLOR',
-      NEW_TAG: 'NEW_TAG'
+      NEW_TAG: 'NEW_TAG',
     },
     health: {
       FISH_ID: 'FISH_ID',
@@ -238,7 +237,7 @@ const config = {
       PLPRO: 'PLPRO',
       FIN: 'FIN',
       OPERCLE: 'OPERCLE',
-      COLLECTION_PART: 'COLLECTION_PART'
+      COLLECTION_PART: 'COLLECTION_PART',
     },
     habitat: {
       EVENT_ID: fldEVENT_ID,
@@ -269,7 +268,7 @@ const config = {
       SOLIDS: 'SOLIDS',
       TURBIDITY: 'TURBIDITY',
       ALKALINITY: 'ALKALINITY',
-      BACKWATER: 'BACKWATER'
+      BACKWATER: 'BACKWATER',
     },
     transect: {
       EVENT_ID: fldEVENT_ID,
@@ -277,20 +276,20 @@ const config = {
       WWID: 'WWID',
       STARTING_BANK: 'STARTING_BANK',
       TRANSECT_ID: fldTRANSECT_ID,
-      TRANSECT_NUM: 'TRANSECT_NUM'
+      TRANSECT_NUM: 'TRANSECT_NUM',
     },
     transectMeasurements: {
       DEPTH: 'DEPTH',
       VELOCITY: 'VELOCITY',
       SUBSTRATE: 'SUBSTRATE',
       DISTANCE_START: 'DISTANCE_START',
-      TRANSECT_ID: fldTRANSECT_ID
+      TRANSECT_ID: fldTRANSECT_ID,
     },
     reference: {
       COUNTY: 'COUNTY',
       WaterName: 'WaterName',
-      Permanent_Identifier: 'Permanent_Identifier'
-    }
+      Permanent_Identifier: 'Permanent_Identifier',
+    },
   },
 
   // missingRequiredFieldTxt: String
@@ -307,7 +306,7 @@ const config = {
   //      used when the fish was too small to weigh
   tooSmallValue: 0,
 
-  domains: {}
+  domains: {},
 };
 
 // Leaflet config
@@ -315,7 +314,7 @@ const config = {
 
 localforage.config({
   name: config.appName,
-  version: config.databaseVersion
+  version: config.databaseVersion,
 });
 
 export default config;

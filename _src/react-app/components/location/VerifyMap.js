@@ -8,7 +8,6 @@ import { featureLayer } from 'esri-leaflet';
 import topic from 'pubsub-js';
 import { AppContext, actionTypes } from 'react-app/ReactApp';
 
-
 const selectedIcon = new L.Icon({
   iconUrl: config.urls.selectedIcon,
   iconRetinaUrl: config.urls.selectedIcon.replace('.png', '-2x.png'),
@@ -16,13 +15,13 @@ const selectedIcon = new L.Icon({
   iconAnchor: new L.Point(13, 41),
   popupAnchor: new L.Point(1, -34),
   shadowSize: new L.Point(41, 41),
-  shadowUrl: config.urls.markerShadow
+  shadowUrl: config.urls.markerShadow,
 });
 
 L.Icon.Default.imagePath = config.urls.markerImagesFolder;
 const defaultIcon = new L.Icon.Default();
 
-const StationPopup = ({NAME, STREAM_TYPE}) => (
+const StationPopup = ({ NAME, STREAM_TYPE }) => (
   <div>
     <strong>{NAME}</strong>
     <br />
@@ -32,7 +31,7 @@ const StationPopup = ({NAME, STREAM_TYPE}) => (
 
 StationPopup.propTypes = {
   NAME: propTypes.string,
-  STREAM_TYPE: propTypes.string
+  STREAM_TYPE: propTypes.string,
 };
 
 const VerifyMap = ({ isMainMap }) => {
@@ -49,11 +48,11 @@ const VerifyMap = ({ isMainMap }) => {
 
     const map = new L.Map(mapDiv.current, {
       keyboard: false,
-      scrollWheelZoom: (localStorage.mouseWheelZooming === 'true')
+      scrollWheelZoom: localStorage.mouseWheelZooming === 'true',
     });
     map.setView(appState.currentMapExtent.center, appState.currentMapExtent.zoom);
 
-    map.on('click', event => {
+    map.on('click', (event) => {
       topic.publishSync(config.topics.onMapClick, event);
     });
 
@@ -61,13 +60,13 @@ const VerifyMap = ({ isMainMap }) => {
       map.on('zoomend', () => {
         appDispatch({
           type: actionTypes.CURRENT_MAP_ZOOM,
-          payload: map.zoom
+          payload: map.zoom,
         });
       });
       map.on('moveend', () => {
         appDispatch({
           type: actionTypes.CURRENT_MAP_CENTER,
-          payload: map.center
+          payload: map.center,
         });
       });
     }
@@ -86,20 +85,20 @@ const VerifyMap = ({ isMainMap }) => {
       }
     });
 
-    L.tileLayer(config.urls.googleImagery, {quadWord: config.quadWord}).addTo(map);
-    L.tileLayer(config.urls.overlay, {quadWord: config.quadWord}).addTo(map);
+    L.tileLayer(config.urls.googleImagery, { quadWord: config.quadWord }).addTo(map);
+    L.tileLayer(config.urls.overlay, { quadWord: config.quadWord }).addTo(map);
 
     const popup = new L.Popup({
       closeButton: false,
       offset: [0, -40],
-      autoPan: false
+      autoPan: false,
     });
 
     const replaceNulls = (obj) => {
       const newObject = {};
       for (var prop in obj) {
         if (obj.hasOwnProperty(prop)) {
-          newObject[prop] = (obj[prop] === null || obj[prop] === undefined) ? '' : obj[prop];
+          newObject[prop] = obj[prop] === null || obj[prop] === undefined ? '' : obj[prop];
         }
       }
 
@@ -112,36 +111,37 @@ const VerifyMap = ({ isMainMap }) => {
         if (geojson.properties[config.fieldNames.stations.STATION_ID] === startSelectedId) {
           layer.setIcon(selectedIcon);
         }
-        layer.on('mouseover', function () {
-          const containerDiv = document.createElement('div');
-          ReactDOM.render(<StationPopup {...replaceNulls(geojson.properties)}/>, containerDiv);
+        layer
+          .on('mouseover', function () {
+            const containerDiv = document.createElement('div');
+            ReactDOM.render(<StationPopup {...replaceNulls(geojson.properties)} />, containerDiv);
 
-          popup.setContent(containerDiv)
-            .setLatLng([geojson.geometry.coordinates[1], geojson.geometry.coordinates[0]])
-            .openOn(map);
-        }).on('mouseout', function () {
-          map.closePopup();
-        }).on('click', function () {
-          pubsub.publishSync(
-            config.topics.onStationClick,
-            [
+            popup
+              .setContent(containerDiv)
+              .setLatLng([geojson.geometry.coordinates[1], geojson.geometry.coordinates[0]])
+              .openOn(map);
+          })
+          .on('mouseout', function () {
+            map.closePopup();
+          })
+          .on('click', function () {
+            pubsub.publishSync(config.topics.onStationClick, [
               geojson.properties[config.fieldNames.stations.NAME],
-              geojson.properties[config.fieldNames.stations.STATION_ID]
-            ]
-          );
-          stationsLayer.current.eachFeature((l) => {
-            l.setIcon(defaultIcon);
+              geojson.properties[config.fieldNames.stations.STATION_ID],
+            ]);
+            stationsLayer.current.eachFeature((l) => {
+              l.setIcon(defaultIcon);
+            });
+            layer.setIcon(selectedIcon);
           });
-          layer.setIcon(selectedIcon);
-        });
-      }
+      },
     }).addTo(map);
 
     streamsLayer.current = featureLayer({
-        url: config.urls.streamsFeatureService
+      url: config.urls.streamsFeatureService,
     }).addTo(map);
     lakesLayer.current = featureLayer({
-        url: config.urls.lakesFeatureService
+      url: config.urls.lakesFeatureService,
     }).addTo(map);
 
     return () => {
@@ -160,7 +160,7 @@ const VerifyMap = ({ isMainMap }) => {
 };
 
 VerifyMap.propTypes = {
-  isMainMap: propTypes.bool
+  isMainMap: propTypes.bool,
 };
 
 export default VerifyMap;

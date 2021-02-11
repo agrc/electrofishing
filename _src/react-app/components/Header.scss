@@ -1,46 +1,49 @@
 .header {
-    .version {
-        padding-left: 5px;
-        font-size: 10px;
+  .version {
+    padding-left: 5px;
+    font-size: 10px;
+  }
+  .btn {
+    margin-right: 5px;
+  }
+  .navbar-form {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  @media (max-width: 1005px) {
+    .container > .navbar-header,
+    .container-fluid > .navbar-header,
+    .container > .navbar-collapse,
+    .container-fluid > .navbar-collapse {
+      margin-right: -15px;
+      margin-left: -15px;
+      padding-left: 15px;
+      padding-right: 15px;
     }
-    .btn {
-        margin-right: 5px;
+    .navbar-collapse.collapse:not(.in) {
+      display: none !important;
     }
-    .navbar-form {
-        margin-top: 0;
-        margin-bottom: 0;
+    .navbar-toggle {
+      display: block;
     }
-    @media (max-width: 1005px) {
-        .container > .navbar-header, .container-fluid > .navbar-header, .container > .navbar-collapse, .container-fluid > .navbar-collapse {
-            margin-right: -15px;
-            margin-left: -15px;
-            padding-left: 15px;
-            padding-right: 15px;
-        }
-        .navbar-collapse.collapse:not(.in) {
-            display: none !important;
-        }
-        .navbar-toggle {
-            display: block;
-        }
-        .navbar-header {
-            float: none;
-        }
-        .container-fluid .navbar-brand {
-            margin-left: 15px;
-            padding-left: 0;
-        }
-        .navbar-nav {
-            float: none !important;
-            margin: 7.5px -15px;
-            > li {
-                float: none;
-                > a {
-                    padding-top: 10px;
-                    padding-bottom: 10px;
-                    line-height: 20px;
-                }
-            }
-        }
+    .navbar-header {
+      float: none;
     }
+    .container-fluid .navbar-brand {
+      margin-left: 15px;
+      padding-left: 0;
+    }
+    .navbar-nav {
+      float: none !important;
+      margin: 7.5px -15px;
+      > li {
+        float: none;
+        > a {
+          padding-top: 10px;
+          padding-bottom: 10px;
+          line-height: 20px;
+        }
+      }
+    }
+  }
 }
