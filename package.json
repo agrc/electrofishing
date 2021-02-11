@@ -27,6 +27,7 @@
     "es6-object-assign": "1.1.0",
     "eslint": "^4.19.1",
     "eslint-config-agrc": "1.2.0",
+    "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-cypress": "^2.11.2",
     "eslint-plugin-html": "4.0.3",
     "eslint-plugin-react": "^7.21.5",
@@ -49,6 +50,7 @@
     "grunt-ssh": "^0.12.9",
     "jasmine": "3.1.0",
     "load-grunt-tasks": "^3.5.2",
+    "prettier": "^2.2.1",
     "puppeteer": "1.13.0",
     "react-is": "^17.0.1",
     "sass": "^1.29.0",
@@ -83,5 +85,16 @@
   },
   "browserslist": [
     "last 2 versions and > 2%"
-  ]
+  ],
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest",
+      "prettier"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 120
+  }
 }
