@@ -272,14 +272,9 @@ const NewCollectionEvent = () => {
   // subscriptions
   const addSubscription = useSubscriptions();
   React.useEffect(() => {
-    addSubscription(pubSub.subscribe(config.topics.onSubmitReportClick, onSubmit));
-    addSubscription(pubSub.subscribe(config.topics.onCancelReportClick, onCancel));
-    addSubscription(
-      pubSub.subscribe(config.topics.noFish, (_, newValue) => {
-        allowNoFish.current = newValue;
-      })
-    );
-  }, []);
+    addSubscription(config.topics.onSubmitReportClick, onSubmit);
+    addSubscription(config.topics.onCancelReportClick, onCancel);
+  }, [addSubscription, onSubmit, onCancel]);
 
   return (
       <div className="new-collection-event" ref={thisDomNode}>
