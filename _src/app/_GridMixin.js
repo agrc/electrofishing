@@ -1,5 +1,4 @@
 define([
-  'app/catch/NoFishException',
   'app/_SubscriptionsMixin',
 
   'dgrid/Editor',
@@ -19,7 +18,6 @@ define([
   'dstore/Memory',
   'dstore/Trackable',
 ], function (
-  NoFishException,
   _SubscriptionsMixin,
 
   Editor,
@@ -239,21 +237,6 @@ define([
       // summary:
       //      this needs to be implemented by the child object
       console.log('app/_GridMixin:addRow', arguments);
-    },
-    isGridValid: function () {
-      // summary:
-      //      Confirms that there is at least one row and that it
-      //      has a value in the first visible field
-      console.log('app/_GridMixin:isGridValid', arguments);
-
-      this.grid.save();
-      if (this.store.data[0][this.firstColumn] !== null) {
-        return true;
-      }
-
-      return new NoFishException({
-        message: this.invalidGridMsg,
-      }).domNode;
     },
     getGridData: function () {
       // summary:

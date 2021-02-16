@@ -1,6 +1,5 @@
 import * as React from 'react';
 import localforage from 'localforage';
-import pubSub from 'pubsub-js';
 import config from '../config';
 import useSubscriptions from '../hooks/useSubscriptions';
 import NumericInputValidator from 'ijit/modules/NumericInputValidator';
@@ -29,8 +28,27 @@ const invalidInputMsg = 'Invalid value for ';
 //      archives of all submitted reports
 const archivesStoreName = 'submitted_reports';
 
+const LOCAL_STORAGE_IN_PROGRESS_ITEM_ID = 'IN_PROGRESS';
+
+const NoFishException = ({ allowNoFish, setAllowNoFish }) => {
+  const onChange = (event) => {
+    console.log('onChange');
+
+    setAllowNoFish(event.target.checked);
+  };
+
+  return (
+    <div className="no-fish-exception">
+      <div>You must input at least one fish.</div>
+      <label htmlFor="allowNoFish_checkbox">
+        <input type="checkbox" onChange={onChange} id="allowNoFish_checkbox" checked={allowNoFish} /> Ignore Warning
+      </label>
+    </div>
+  );
+};
+
 const NewCollectionEvent = () => {
-  const allowNoFish = React.useRef(false);
+  const [allowNoFish, setAllowNoFish] = React.useState(false);
   const [showSuccess, setShowSuccess] = React.useState(false);
   const thisDomNode = React.useRef();
   const [validateMsg, setValidateMsg] = React.useState();
@@ -99,7 +117,7 @@ const NewCollectionEvent = () => {
     $('a[href="#' + tabID + '"]').tab('show');
   };
 
-  const validateReport = () => {
+  const validateReport = React.useCallback(() => {
     // summary:
     //      validates all of the values necessary to submit the report to the server
     //
@@ -109,7 +127,8 @@ const NewCollectionEvent = () => {
     var valid = true;
     const validationMethods = [
       // [method, scope, tabID]
-      [locationTb.current.hasValidLocation, locationTb.current, 'locationTab'],
+      // TODO: handle validation for react components - validate eventState??
+      // [locationTb.current.hasValidLocation, locationTb.current, 'locationTab'],
       [methodTb.current.isValid, methodTb.current, 'methodTab'],
       [catchTb.current.isValid, catchTb.current, 'catchTab'],
       [habitatTb.current.isValid, habitatTb.current, 'habitatTab'],
@@ -128,7 +147,7 @@ const NewCollectionEvent = () => {
 
     valid = validationMethods.every((a) => {
       validationReturn = a[0].apply(a[1]);
-      if (a[2] === 'catchTab' && allowNoFish.current) {
+      if (a[2] === 'catchTab' && allowNoFish) {
         return true;
       } else if (validationReturn !== true) {
         showTab(a[2]);
@@ -144,34 +163,7 @@ const NewCollectionEvent = () => {
     }
 
     return validationReturn;
-  };
-
-  const buildFeatureObject = () => {
-    // summary:
-    //      builds a json object suitable for submitting to the NewCollectionEvent service
-    console.log('app/NewCollectionEvent:buildFeatureObject');
-
-    const fn = config.fieldNames.samplingEvents;
-    const attributes = {};
-
-    // location fields
-    attributes[fn.EVENT_ID] = config.eventId;
-    attributes[fn.GEO_DEF] = locationTb.current.currentGeoDef.geoDef;
-    attributes[fn.LOCATION_NOTES] = locationTb.current.additionalNotesTxt.value;
-    attributes[fn.EVENT_DATE] = locationTb.current.dateTxt.value;
-    attributes[fn.EVENT_TIME] = locationTb.current.timeTxt.value;
-    attributes[fn.OBSERVERS] = locationTb.current.observersTxt.value;
-    attributes[fn.PURPOSE] = locationTb.current.surveyPurposeSelect.value;
-    attributes[fn.WEATHER] = locationTb.current.weatherSelect.value;
-    attributes[fn.STATION_ID] = locationTb.current.station.getStationId();
-    attributes[fn.SEGMENT_LENGTH] = helpers.getNumericValue(locationTb.current.streamLengthTxt.value);
-    attributes[fn.NUM_PASSES] = catchTb.current.getNumberOfPasses();
-
-    return {
-      geometry: this.locationTb.utmGeo,
-      attributes,
-    };
-  };
+  }, [allowNoFish]);
 
   const clearReport = () => {
     console.log('NewCollectionEvent:clearReport');
@@ -290,18 +282,16 @@ const NewCollectionEvent = () => {
   }, []);
 
   return (
-    <div className="new-collection-event" ref={thisDomNode}>
-      {validateMsg ? <div className="alert alert-danger hidden">{validateMsg}</div> : null}
-      {showSuccess ? (
-        <div className="alert alert-success">
-          The report has been submitted successfully.
-          <button className="btn btn-success pull-right" onClick={() => setShowSuccess(false)}>
-            Close
-          </button>
-        </div>
-      ) : null}
-      <div className="tab-content">
-        <div className="tab-pane fade in active" id="locationTab">
+      <div className="new-collection-event" ref={thisDomNode}>
+        {validateMsg ? (
+          <div className="alert alert-danger">
+            {validateMsg === config.noFish ? (
+              <NoFishException allowNoFish={allowNoFish} setAllowNoFish={setAllowNoFish} />
+            ) : (
+              validateMsg
+            )}
+          </div>
+        ) : null}
           <div ref={locationTbDiv}></div>
         </div>
         <div className="tab-pane fade" id="methodTab">

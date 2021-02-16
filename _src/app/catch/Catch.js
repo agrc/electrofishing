@@ -94,10 +94,6 @@ define([
     //      required for _GridMixin
     ignoreColumn: null,
 
-    // invalidGridMsg: String
-    //      returned by isValid if there are no fish recorded
-    invalidGridMsg: 'You must input at least one fish.',
-
     // cacheId: String
     //      used to cache inprogress data
     cacheId: 'app/catch/catch',
@@ -509,7 +505,12 @@ define([
       // returns: String (if not valid) | Boolean (true if valid)
       console.log('app/catch/Catch:isValid', arguments);
 
-      return this.isGridValid();
+      this.grid.save();
+      if (this.store.data[0][this.firstColumn] !== null) {
+        return true;
+      } else {
+        return config.noFish;
+      }
     },
     getData: function () {
       // summary:

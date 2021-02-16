@@ -83,9 +83,10 @@ const config = {
     onSubmitReportClick: 'header_onSubmitReportClick',
     onCancelReportClick: 'header_onCancelReportClick',
     mouseWheelZooming_onChange: 'app_mouseWheelZooming',
-    noFish: '1',
     onMapClick: 'verifyMap_mapClick',
   },
+
+  noFish: 'NO_FISH',
 
   // urls: {}
   urls: {
