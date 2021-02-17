@@ -46,7 +46,6 @@ const reducer = (state, action) => {
 
 const App = () => {
   const [appState, appDispatch] = React.useReducer(reducer, initialState);
-  const newEventDiv = React.useRef();
 
   React.useEffect(() => {
     // for tests?
