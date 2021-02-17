@@ -226,7 +226,10 @@ const NewCollectionEvent = () => {
     }
 
     setValidateMsg(null);
-    $(config.app.header.submitBtn).button('loading');
+    appDispatch({
+      type: appActionTypes.SUBMIT_LOADING,
+      payload: true,
+    });
 
     const data = {};
     data[config.tableNames.samplingEvents] = buildFeatureObject();
@@ -255,8 +258,11 @@ const NewCollectionEvent = () => {
         // stringify, parse is so that we have a clean object to store in localforage
         return archivesLocalForage.setItem(config.eventId, JSON.parse(data_txt));
       },
-      function () {
-        $(config.app.header.submitBtn).button('reset');
+      () => {
+        appDispatch({
+          type: appActionTypes.SUBMIT_LOADING,
+          payload: false,
+        });
       }
     );
   };

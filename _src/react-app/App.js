@@ -8,6 +8,7 @@ export const AppContext = React.createContext();
 export const actionTypes = {
   CURRENT_MAP_ZOOM: 'CURRENT_MAP_ZOOM',
   CURRENT_MAP_CENTER: 'CURRENT_MAP_CENTER',
+  SUBMIT_LOADING: 'SUBMIT_LOADING',
 };
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
     // TODO: get from geolocation
     center: [40.6, -111.7],
   },
+  submitLoading: false,
 };
 const reducer = (state, action) => {
   return produce((state, draft) => {
@@ -24,8 +26,15 @@ const reducer = (state, action) => {
         draft.currentMapExtent.zoom = action.payload;
 
         break;
+
       case actionTypes.CURRENT_MAP_CENTER:
         draft.currentMapExtent.center = action.payload;
+
+        break;
+
+      case actionTypes.SUBMIT_LOADING:
+        console.log('submit loading', action.payload);
+        draft.submitLoading = action.payload;
 
         break;
 
@@ -47,7 +56,7 @@ const App = () => {
   return (
     <AppContext.Provider value={{ appState, appDispatch }}>
       <div className="app">
-        <Header />
+        <Header submitLoading={appState.submitLoading} />
 
         <div className="main-container container">
           <NewCollectionEvent />

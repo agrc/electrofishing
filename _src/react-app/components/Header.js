@@ -2,7 +2,13 @@ import * as React from 'react';
 import config from '../config';
 import topic from 'pubsub-js';
 
-export default function Header() {
+export default function Header({ submitLoading }) {
+  const submitButtonRef = React.useRef();
+
+  React.useEffect(() => {
+    $(submitButtonRef.current).button(submitLoading ? 'loading' : 'reset');
+  }, [submitLoading]);
+
   return (
     <div className="navbar navbar-inverse navbar-fixed-top header">
       <div className="container-fluid">
@@ -29,6 +35,7 @@ export default function Header() {
             onClick={() => topic.publishSync(config.topics.onSubmitReportClick)}
             data-loading-text="submitting report..."
             className="btn btn-success navbar-btn"
+            ref={submitButtonRef}
           >
             Submit Report
           </button>
