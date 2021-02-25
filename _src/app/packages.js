@@ -36,6 +36,11 @@ require({
       main: 'immer.umd.development',
     },
     {
+      name: 'use-immer',
+      location: '../node_modules/use-immer/dist',
+      main: 'use-immer.umd',
+    },
+    {
       name: 'leaflet',
       location: '../node_modules/leaflet',
       main: 'dist/leaflet-src',

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { produce } from 'immer';
+import { useImmerReducer } from 'use-immer';
 import Header from './components/Header';
 import { ToastContainer } from 'react-toastify';
 import NewCollectionEvent from './components/NewCollectionEvent';
@@ -19,33 +19,38 @@ const initialState = {
   },
   submitLoading: false,
 };
-const reducer = (state, action) => {
-  return produce((state, draft) => {
-    switch (action.type) {
-      case actionTypes.CURRENT_MAP_ZOOM:
-        draft.currentMapExtent.zoom = action.payload;
 
-        break;
+const reducer = (draft, action) => {
+  switch (action.type) {
+    case actionTypes.CURRENT_MAP_ZOOM:
+      draft.currentMapExtent.zoom = action.payload;
 
-      case actionTypes.CURRENT_MAP_CENTER:
-        draft.currentMapExtent.center = action.payload;
+      break;
 
-        break;
+    case actionTypes.CURRENT_MAP_CENTER:
+      console.log('center set to', action.payload);
+      draft.currentMapExtent.center = action.payload;
 
-      case actionTypes.SUBMIT_LOADING:
-        console.log('submit loading', action.payload);
-        draft.submitLoading = action.payload;
+      break;
 
-        break;
+    case actionTypes.SUBMIT_LOADING:
+      console.log('submit loading', action.payload);
+      draft.submitLoading = action.payload;
 
-      default:
-        break;
-    }
-  });
+      break;
+
+    case actionTypes.MAP:
+      draft.map = action.payload;
+
+      break;
+
+    default:
+      break;
+  }
 };
 
 const App = () => {
-  const [appState, appDispatch] = React.useReducer(reducer, initialState);
+  const [appState, appDispatch] = useImmerReducer(reducer, initialState);
 
   React.useEffect(() => {
     // for tests?
