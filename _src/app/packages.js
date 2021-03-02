@@ -26,6 +26,11 @@ require({
       main: 'dist/esri-leaflet-debug',
     },
     {
+      name: 'downshift',
+      location: '../node_modules/downshift/dist',
+      main: 'downshift.umd',
+    },
+    {
       name: 'jquery',
       location: './jquery/dist',
       main: 'jquery',

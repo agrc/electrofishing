@@ -80,6 +80,7 @@
     "test": "npm run babel-deps && npm run babel-react && grunt travis && npm run cypress:run"
   },
   "dependencies": {
+    "downshift": "^6.1.0",
     "esri-leaflet": "^2.3.0",
     "immer": "^8.0.1",
     "leaflet": "^1.5.1",
