@@ -6,7 +6,7 @@ import pubsub from 'pubsub-js';
 import propTypes from 'prop-types';
 import { featureLayer } from 'esri-leaflet';
 import topic from 'pubsub-js';
-import { AppContext, actionTypes } from 'react-app/ReactApp';
+import { AppContext, actionTypes } from '../../App';
 
 const selectedIcon = new L.Icon({
   iconUrl: config.urls.selectedIcon,
@@ -34,7 +34,7 @@ StationPopup.propTypes = {
   STREAM_TYPE: propTypes.string,
 };
 
-const VerifyMap = ({ isMainMap }) => {
+const VerifyMap = ({ isMainMap, className }) => {
   const streamSearchDiv = React.useRef();
   const mapDiv = React.useRef();
   const stationsLayer = React.useRef();
@@ -69,6 +69,10 @@ const VerifyMap = ({ isMainMap }) => {
           payload: map.center,
         });
       });
+      appDispatch({
+        type: actionTypes.MAP,
+        payload: map,
+      });
     }
 
     topic.subscribe(config.topics.pointDef_onBtnClick, (_, widget) => {
@@ -81,7 +85,7 @@ const VerifyMap = ({ isMainMap }) => {
 
     topic.subscribe(config.topics.syncMapExtents, () => {
       if (!isMainMap) {
-        map.setView(config.currentMapView.center, config.currentMapExtent.zoom);
+        map.setView(appState.currentMapExtent.center, appState.currentMapExtent.zoom);
       }
     });
 
@@ -149,10 +153,10 @@ const VerifyMap = ({ isMainMap }) => {
         map.remove();
       }
     };
-  }, []);
+  }, [appDispatch, appState.currentMapExtent.center, appState.currentMapExtent.zoom, isMainMap, startSelectedId]);
 
   return (
-    <div className="verify-map">
+    <div className={`verify-map ${className}`}>
       <div ref={streamSearchDiv}></div>
       <div ref={mapDiv} className="map"></div>
     </div>

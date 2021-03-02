@@ -9,6 +9,7 @@ export const actionTypes = {
   CURRENT_MAP_ZOOM: 'CURRENT_MAP_ZOOM',
   CURRENT_MAP_CENTER: 'CURRENT_MAP_CENTER',
   SUBMIT_LOADING: 'SUBMIT_LOADING',
+  MAP: 'MAP',
 };
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
     center: [40.6, -111.7],
   },
   submitLoading: false,
+  map: null,
 };
 
 const reducer = (draft, action) => {
