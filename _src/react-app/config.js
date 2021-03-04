@@ -1,5 +1,4 @@
 import localforage from 'localforage';
-import { v4 as uuid } from 'uuid';
 import secrets from 'secrets.json';
 
 let quadWord = 'patent-window-address-asia'; // for prod and stage
@@ -21,11 +20,170 @@ const referenceService = wildlifeFolder + 'Reference/MapServer/';
 const fldEVENT_ID = 'EVENT_ID';
 const fldTRANSECT_ID = 'TRANSECT_ID';
 const markerImagesFolder = 'react-app/assets/markers/';
+const fieldNames = {
+  MOREINFO: 'MOREINFO',
+  OBJECTID: 'OBJECTID',
+  stations: {
+    NAME: 'NAME',
+    STATION_ID: 'STATION_ID',
+    STREAM_TYPE: 'STREAM_TYPE',
+    WATER_ID: 'WATER_ID',
+  },
+  samplingEvents: {
+    EVENT_ID: fldEVENT_ID,
+    GEO_DEF: 'GEO_DEF',
+    LOCATION_NOTES: 'LOCATION_NOTES',
+    EVENT_DATE: 'EVENT_DATE',
+    EVENT_TIME: 'EVENT_TIME',
+    STATION_ID: 'STATION_ID',
+    SEGMENT_LENGTH: 'SEGMENT_LENGTH',
+    NUM_PASSES: 'NUM_PASSES',
+    WEATHER: 'WEATHER',
+    PURPOSE: 'SURVEY_PURPOSE',
+    OBSERVERS: 'OBSERVERS',
+  },
+  equipment: {
+    EVENT_ID: fldEVENT_ID,
+    EQUIPMENT_ID: 'EQUIPMENT_ID',
+    WAVEFORM: 'WAVEFORM',
+    VOLTAGE: 'VOLTAGE',
+    DUTY_CYCLE: 'DUTY_CYCLE',
+    FREQUENCY: 'FREQUENCY',
+    AMPS: 'AMPS',
+    CATHODE_LEN: 'CATHODE_LEN',
+    CATHODE_DIAMETER: 'CATHODE_DIAMETER',
+    NUM_ANODES: 'NUM_ANODES',
+    MACHINE_RES: 'MACHINE_RES',
+    MODEL: 'MODEL',
+    ARRAY_TYPE: 'ARRAY_TYPE',
+    NUM_NETTERS: 'NUM_NETTERS',
+    CATHODE_TYPE: 'CATHODE_TYPE',
+    TYPE: 'TYPE',
+    DURATION: 'PEDAL_TIME',
+  },
+  anodes: {
+    EQUIPMENT_ID: 'EQUIPMENT_ID',
+    ANODE_DIAMETER: 'ANODE_DIAMETER',
+    ANODE_SHAPE: 'ANODE_SHAPE',
+    STOCK_DIAMETER: 'STOCK_DIAMETER',
+  },
+  fish: {
+    FISH_ID: 'FISH_ID',
+    EVENT_ID: fldEVENT_ID,
+    PASS_NUM: 'PASS_NUM',
+    CATCH_ID: 'CATCH_ID',
+    SPECIES_CODE: 'SPECIES_CODE',
+    LENGTH_TYPE: 'LENGTH_TYPE',
+    LENGTH: 'LENGTH',
+    WEIGHT: 'WEIGHT',
+    NOTES: 'NOTES',
+  },
+  diet: {
+    FISH_ID: 'FISH_ID',
+    CLASS: 'CLASS',
+    FISH_SPECIES: 'FISH_SPECIES',
+    MEASUREMENT_TYPE: 'MEASUREMENT_TYPE',
+    MEASUREMENT: 'MEASUREMENT',
+  },
+  tags: {
+    FISH_ID: 'FISH_ID',
+    NUMBER: 'NUMBER',
+    TRANSPONDER_FREQ: 'TRANSPONDER_FREQ',
+    TRANSMITTER_FREQ: 'TRANSMITTER_FREQ',
+    TRANSMITTER_FREQ_TYPE: 'TRANSMITTER_FREQ_TYPE',
+    TYPE: 'TYPE',
+    LOCATION: 'LOCATION',
+    COLOR: 'COLOR',
+    NEW_TAG: 'NEW_TAG',
+  },
+  health: {
+    FISH_ID: 'FISH_ID',
+    EYE: 'EYE',
+    GILL: 'GILL',
+    PSBR: 'PSBR',
+    THYMUS: 'THYMUS',
+    FAT: 'FAT',
+    SPLEEN: 'SPLEEN',
+    HIND: 'HIND',
+    KIDNEY: 'KIDNEY',
+    LIVER: 'LIVER',
+    BILE: 'BILE',
+    GENDER: 'GENDER',
+    REPRODUCTIVE: 'REPRODUCTIVE',
+    HEMATOCRIT: 'HEMATOCRIT',
+    LEUKOCRIT: 'LEUKOCRIT',
+    PLPRO: 'PLPRO',
+    FIN: 'FIN',
+    OPERCLE: 'OPERCLE',
+    COLLECTION_PART: 'COLLECTION_PART',
+  },
+  habitat: {
+    EVENT_ID: fldEVENT_ID,
+    BANKVEG: 'BANKVEG',
+    DEPMAX: 'DEPMAX',
+    DOVR: 'DOVR',
+    DUND: 'DUND',
+    LGWD: 'LGWD',
+    POOL: 'POOL',
+    SPNG: 'SPNG',
+    RIFF: 'RIFF',
+    RUNA: 'RUNA',
+    SUB_FINES: 'SUB_FINES',
+    SUB_SAND: 'SUB_SAND',
+    SUB_GRAV: 'SUB_GRAV',
+    SUB_COBB: 'SUB_COBB',
+    SUB_RUBB: 'SUB_RUBB',
+    SUB_BOUL: 'SUB_BOUL',
+    SUB_BEDR: 'SUB_BEDR',
+    WWID: 'WWID',
+    SIN: 'SIN',
+    VEL: 'VEL',
+    EROS: 'EROS',
+    TEMP: 'TEMP_',
+    PH: 'PH',
+    CON: 'CON',
+    OXYGEN: 'OXYGEN',
+    SOLIDS: 'SOLIDS',
+    TURBIDITY: 'TURBIDITY',
+    ALKALINITY: 'ALKALINITY',
+    BACKWATER: 'BACKWATER',
+  },
+  transect: {
+    EVENT_ID: fldEVENT_ID,
+    BWID: 'BWID',
+    WWID: 'WWID',
+    STARTING_BANK: 'STARTING_BANK',
+    TRANSECT_ID: fldTRANSECT_ID,
+    TRANSECT_NUM: 'TRANSECT_NUM',
+  },
+  transectMeasurements: {
+    DEPTH: 'DEPTH',
+    VELOCITY: 'VELOCITY',
+    SUBSTRATE: 'SUBSTRATE',
+    DISTANCE_START: 'DISTANCE_START',
+    TRANSECT_ID: fldTRANSECT_ID,
+  },
+  reference: {
+    COUNTY: 'COUNTY',
+    WaterName: 'WaterName',
+    Permanent_Identifier: 'Permanent_Identifier',
+  },
+};
+const tableNames = {
+  diet: 'Diet',
+  fish: 'Fish',
+  habitat: 'Habitat',
+  health: 'Health',
+  samplingEvents: 'SamplingEvents',
+  tags: 'Tags',
+  equipment: 'Equipment',
+  anodes: 'Anodes',
+  transect: 'Transect',
+  transectMeasurements: 'TransectMeasurements',
+};
 
 const config = {
-  // app: app.App
-  //      global reference to app
-  app: null,
+  app: {},
 
   // appName: String
   //      name of app used in permission proxy and localforage db name
@@ -34,10 +192,6 @@ const config = {
   // databaseVersion: Number
   //      localforage database version
   databaseVersion: 1.0,
-
-  // eventId: String(GUID)
-  //      The guid for this unique event.
-  eventId: '{' + uuid() + '}',
 
   // version: String
   //      The app version number.
@@ -50,8 +204,6 @@ const config = {
     ll: 'll',
     utm27: 'utm27',
   },
-
-  quadWord: quadWord,
 
   // tempValueKey: String
   //      used by _InProgressCacheMixin
@@ -91,8 +243,8 @@ const config = {
   // urls: {}
   urls: {
     // basemaps
-    googleImagery: 'https://discover.agrc.utah.gov/login/path/{quadWord}/tiles/utah/{z}/{x}/{y}',
-    overlay: 'https://discover.agrc.utah.gov/login/path/{quadWord}/tiles/overlay_basemap/{z}/{x}/{y}',
+    googleImagery: `https://discover.agrc.utah.gov/login/path/${quadWord}/tiles/utah/{z}/{x}/{y}`,
+    overlay: `https://discover.agrc.utah.gov/login/path/${quadWord}/tiles/overlay_basemap/{z}/{x}/{y}`,
 
     // leaflet icons
     endIcon: `${markerImagesFolder}end-icon.png`,
@@ -128,174 +280,20 @@ const config = {
   },
 
   // tableNames: {}
-  tableNames: {
-    diet: 'Diet',
-    fish: 'Fish',
-    habitat: 'Habitat',
-    health: 'Health',
-    samplingEvents: 'SamplingEvents',
-    tags: 'Tags',
-    equipment: 'Equipment',
-    anodes: 'Anodes',
-    transect: 'Transect',
-    transectMeasurements: 'TransectMeasurements',
-  },
+  tableNames,
 
   // fieldNames: {}
   //      Field names
-  fieldNames: {
-    MOREINFO: 'MOREINFO',
-    OBJECTID: 'OBJECTID',
-    stations: {
-      NAME: 'NAME',
-      STATION_ID: 'STATION_ID',
-      STREAM_TYPE: 'STREAM_TYPE',
-      WATER_ID: 'WATER_ID',
-    },
-    samplingEvents: {
-      EVENT_ID: fldEVENT_ID,
-      GEO_DEF: 'GEO_DEF',
-      LOCATION_NOTES: 'LOCATION_NOTES',
-      EVENT_DATE: 'EVENT_DATE',
-      EVENT_TIME: 'EVENT_TIME',
-      STATION_ID: 'STATION_ID',
-      SEGMENT_LENGTH: 'SEGMENT_LENGTH',
-      NUM_PASSES: 'NUM_PASSES',
-      WEATHER: 'WEATHER',
-      PURPOSE: 'SURVEY_PURPOSE',
-      OBSERVERS: 'OBSERVERS',
-    },
-    equipment: {
-      EVENT_ID: fldEVENT_ID,
-      EQUIPMENT_ID: 'EQUIPMENT_ID',
-      WAVEFORM: 'WAVEFORM',
-      VOLTAGE: 'VOLTAGE',
-      DUTY_CYCLE: 'DUTY_CYCLE',
-      FREQUENCY: 'FREQUENCY',
-      AMPS: 'AMPS',
-      CATHODE_LEN: 'CATHODE_LEN',
-      CATHODE_DIAMETER: 'CATHODE_DIAMETER',
-      NUM_ANODES: 'NUM_ANODES',
-      MACHINE_RES: 'MACHINE_RES',
-      MODEL: 'MODEL',
-      ARRAY_TYPE: 'ARRAY_TYPE',
-      NUM_NETTERS: 'NUM_NETTERS',
-      CATHODE_TYPE: 'CATHODE_TYPE',
-      TYPE: 'TYPE',
-      DURATION: 'PEDAL_TIME',
-    },
-    anodes: {
-      EQUIPMENT_ID: 'EQUIPMENT_ID',
-      ANODE_DIAMETER: 'ANODE_DIAMETER',
-      ANODE_SHAPE: 'ANODE_SHAPE',
-      STOCK_DIAMETER: 'STOCK_DIAMETER',
-    },
-    fish: {
-      FISH_ID: 'FISH_ID',
-      EVENT_ID: fldEVENT_ID,
-      PASS_NUM: 'PASS_NUM',
-      CATCH_ID: 'CATCH_ID',
-      SPECIES_CODE: 'SPECIES_CODE',
-      LENGTH_TYPE: 'LENGTH_TYPE',
-      LENGTH: 'LENGTH',
-      WEIGHT: 'WEIGHT',
-      NOTES: 'NOTES',
-    },
-    diet: {
-      FISH_ID: 'FISH_ID',
-      CLASS: 'CLASS',
-      FISH_SPECIES: 'FISH_SPECIES',
-      MEASUREMENT_TYPE: 'MEASUREMENT_TYPE',
-      MEASUREMENT: 'MEASUREMENT',
-    },
-    tags: {
-      FISH_ID: 'FISH_ID',
-      NUMBER: 'NUMBER',
-      TRANSPONDER_FREQ: 'TRANSPONDER_FREQ',
-      TRANSMITTER_FREQ: 'TRANSMITTER_FREQ',
-      TRANSMITTER_FREQ_TYPE: 'TRANSMITTER_FREQ_TYPE',
-      TYPE: 'TYPE',
-      LOCATION: 'LOCATION',
-      COLOR: 'COLOR',
-      NEW_TAG: 'NEW_TAG',
-    },
-    health: {
-      FISH_ID: 'FISH_ID',
-      EYE: 'EYE',
-      GILL: 'GILL',
-      PSBR: 'PSBR',
-      THYMUS: 'THYMUS',
-      FAT: 'FAT',
-      SPLEEN: 'SPLEEN',
-      HIND: 'HIND',
-      KIDNEY: 'KIDNEY',
-      LIVER: 'LIVER',
-      BILE: 'BILE',
-      GENDER: 'GENDER',
-      REPRODUCTIVE: 'REPRODUCTIVE',
-      HEMATOCRIT: 'HEMATOCRIT',
-      LEUKOCRIT: 'LEUKOCRIT',
-      PLPRO: 'PLPRO',
-      FIN: 'FIN',
-      OPERCLE: 'OPERCLE',
-      COLLECTION_PART: 'COLLECTION_PART',
-    },
-    habitat: {
-      EVENT_ID: fldEVENT_ID,
-      BANKVEG: 'BANKVEG',
-      DEPMAX: 'DEPMAX',
-      DOVR: 'DOVR',
-      DUND: 'DUND',
-      LGWD: 'LGWD',
-      POOL: 'POOL',
-      SPNG: 'SPNG',
-      RIFF: 'RIFF',
-      RUNA: 'RUNA',
-      SUB_FINES: 'SUB_FINES',
-      SUB_SAND: 'SUB_SAND',
-      SUB_GRAV: 'SUB_GRAV',
-      SUB_COBB: 'SUB_COBB',
-      SUB_RUBB: 'SUB_RUBB',
-      SUB_BOUL: 'SUB_BOUL',
-      SUB_BEDR: 'SUB_BEDR',
-      WWID: 'WWID',
-      SIN: 'SIN',
-      VEL: 'VEL',
-      EROS: 'EROS',
-      TEMP: 'TEMP_',
-      PH: 'PH',
-      CON: 'CON',
-      OXYGEN: 'OXYGEN',
-      SOLIDS: 'SOLIDS',
-      TURBIDITY: 'TURBIDITY',
-      ALKALINITY: 'ALKALINITY',
-      BACKWATER: 'BACKWATER',
-    },
-    transect: {
-      EVENT_ID: fldEVENT_ID,
-      BWID: 'BWID',
-      WWID: 'WWID',
-      STARTING_BANK: 'STARTING_BANK',
-      TRANSECT_ID: fldTRANSECT_ID,
-      TRANSECT_NUM: 'TRANSECT_NUM',
-    },
-    transectMeasurements: {
-      DEPTH: 'DEPTH',
-      VELOCITY: 'VELOCITY',
-      SUBSTRATE: 'SUBSTRATE',
-      DISTANCE_START: 'DISTANCE_START',
-      TRANSECT_ID: fldTRANSECT_ID,
-    },
-    reference: {
-      COUNTY: 'COUNTY',
-      WaterName: 'WaterName',
-      Permanent_Identifier: 'Permanent_Identifier',
-    },
-  },
+  fieldNames,
 
-  // missingRequiredFieldTxt: String
-  //      used to display a message about a required field that is missing
-  missingRequiredFieldTxt: 'Missing value for ${0}!',
+  requiredFields: {
+    [tableNames.samplingEvents]: [
+      fieldNames.samplingEvents.SEGMENT_LENGTH,
+      fieldNames.samplingEvents.EVENT_DATE,
+      fieldNames.samplingEvents.PURPOSE,
+      fieldNames.samplingEvents.OBSERVERS,
+    ],
+  },
 
   // noWeightValue: Number
   //      The value used in the WEIGHT field in the Fish table
