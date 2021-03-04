@@ -2,16 +2,68 @@ import * as React from 'react';
 import localforage from 'localforage';
 import config from '../config';
 import useSubscriptions from '../hooks/useSubscriptions';
-import NumericInputValidator from 'ijit/modules/NumericInputValidator';
-import Location from 'app/location/Location';
+import Location from './location/Location';
 import Method from 'app/method/Method';
 import Catch from 'app/catch/Catch';
 import Habitat from 'app/habitat/Habitat';
 import SummaryReport from 'app/SummaryReport';
-import helpers from 'app/helpers';
 import submitJob from '../helpers/submitJob';
 import toastify from 'react-toastify';
 import { v4 as uuid } from 'uuid';
+import useDojoWidget from '../hooks/useDojoWidget';
+import { AppContext, actionTypes as appActionTypes } from '../App';
+import { useImmerReducer } from 'use-immer';
+import NumericInputValidator from 'ijit/modules/NumericInputValidator';
+
+export const EventContext = React.createContext();
+export const actionTypes = {
+  LOCATION: 'LOCATION',
+  CLEAR: 'CLEAR',
+};
+const getBlankState = () => {
+  const fn = config.fieldNames.samplingEvents;
+
+  return {
+    [config.tableNames.samplingEvents]: {
+      attributes: {
+        [fn.EVENT_ID]: '{' + uuid() + '}',
+        [fn.GEO_DEF]: null,
+        [fn.LOCATION_NOTES]: null,
+        [fn.EVENT_DATE]: null,
+        [fn.EVENT_TIME]: null,
+        [fn.OBSERVERS]: null,
+        [fn.PURPOSE]: null,
+        [fn.WEATHER]: null,
+        [fn.STATION_ID]: null,
+        [fn.SEGMENT_LENGTH]: null,
+        [fn.NUM_PASSES]: null,
+      },
+      geometry: null,
+    },
+  };
+};
+const initialState = getBlankState();
+
+const reducer = (draft, action) => {
+  switch (action.type) {
+    case actionTypes.LOCATION:
+      if (action.meta === 'geometry') {
+        draft[config.tableNames.samplingEvents].geometry = action.payload;
+      } else {
+        draft[config.tableNames.samplingEvents].attributes[action.meta] = action.payload;
+      }
+
+      break;
+
+    case actionTypes.CLEAR:
+      draft = getBlankState();
+
+      break;
+
+    default:
+      break;
+  }
+};
 
 // cancelConfirmMsg: String
 //      The message displayed in the cancel confirm dialog
@@ -52,6 +104,8 @@ const NewCollectionEvent = () => {
   const [showSuccess, setShowSuccess] = React.useState(false);
   const thisDomNode = React.useRef();
   const [validateMsg, setValidateMsg] = React.useState();
+  const [eventState, eventDispatch] = useImmerReducer(reducer, initialState);
+  const { appDispatch } = React.useContext(AppContext);
 
   // archivesLocalForage: localforage instance
   //      used to manage archives in a separate instance that the inprogress stuff
@@ -61,11 +115,13 @@ const NewCollectionEvent = () => {
     archivesLocalForage.current = localforage.createInstance({
       name: archivesStoreName,
     });
-
-    return () => {
-      archivesLocalForage.current.destroy();
-    };
   }, []);
+
+  // cache in-progress data so that we don't loose it on page refresh
+  // TODO: look at using little state machine library for this
+  React.useEffect(() => {
+    localforage.setItem(LOCAL_STORAGE_IN_PROGRESS_ITEM_ID, JSON.stringify(eventState));
+  }, [eventState]);
 
   React.useEffect(() => {
     const validator = new NumericInputValidator();
@@ -77,44 +133,27 @@ const NewCollectionEvent = () => {
   }, []);
 
   // dojo widgets
-  const locationTb = React.useRef();
   const methodTb = React.useRef();
   const catchTb = React.useRef();
   const habitatTb = React.useRef();
   const reportSummary = React.useRef();
 
-  const locationTbDiv = React.useRef();
   const methodTbDiv = React.useRef();
   const catchTbDiv = React.useRef();
   const habitatTbDiv = React.useRef();
   const reportSummaryDiv = React.useRef();
-  React.useEffect(() => {
-    console.log('NewCollectionEvent:initializing widgets');
-    const widgetInfos = [
-      [locationTb.current, locationTbDiv.current, Location],
-      [methodTb.current, methodTbDiv.current, Method],
-      [catchTb.current, catchTbDiv.current, Catch],
-      [habitatTb.current, habitatTbDiv.current, Habitat],
-      [reportSummary.current, reportSummaryDiv.current, SummaryReport],
-    ];
-
-    const widgets = widgetInfos.map(([widgetRef, div, WidgetClass]) => {
-      widgetRef = new WidgetClass(null, div);
-      widgetRef.startup();
-    });
-
-    return () => {
-      widgets.forEach((widget) => widget.destroy());
-    };
-  }, []);
+  useDojoWidget(methodTb, methodTbDiv, Method);
+  useDojoWidget(catchTb, catchTbDiv, Catch);
+  useDojoWidget(habitatTb, habitatTbDiv, Habitat);
+  useDojoWidget(reportSummary, reportSummaryDiv, SummaryReport);
 
   const showTab = (tabID) => {
     // summary:
     //      shows the pass in tab
     // tabID: String
-    console.log('app/NewCollectionEvent:showTab', arguments);
+    console.log('app/NewCollectionEvent:showTab', tabID);
 
-    $('a[href="#' + tabID + '"]').tab('show');
+    $(`a[href="#${tabID}"]`).tab('show');
   };
 
   const validateReport = React.useCallback(() => {
@@ -124,16 +163,50 @@ const NewCollectionEvent = () => {
     // returns: String (if invalid) || true (if valid)
     console.log('app/NewCollectionEvent:validateReport');
 
-    var valid = true;
+    // component validation
+    // location-specific
+    if (!eventState[config.tableNames.samplingEvents].geometry) {
+      return 'No valid stream reach defined! You may need to verify the location.';
+    } else if (!eventState[config.tableNames.samplingEvents].attributes[config.fieldNames.samplingEvents.STATION_ID]) {
+      return 'Please select a station!';
+    }
+
+    const requireField = (fieldName) => {
+      // label should have an id of the field name that it corresponds to
+      const label = document.getElementById(fieldName);
+      const value = eventState[config.tableNames.samplingEvents].attributes[fieldName];
+      if (value === '' || value === 0) {
+        return `Missing value for ${label.innerText}!`;
+      }
+
+      return true;
+    };
+
+    const requiredFieldsValidation = config.requiredFields[config.tableNames.samplingEvents]
+      .map(requireField)
+      .reduce((previous, current) => {
+        if (previous === true) {
+          return current;
+        }
+
+        return previous;
+      });
+
+    if (typeof requiredFieldsValidation === 'string') {
+      showTab('locationTab');
+
+      return requiredFieldsValidation;
+    }
+
+    // older validation methods...
+    let valid = true;
     const validationMethods = [
       // [method, scope, tabID]
-      // TODO: handle validation for react components - validate eventState??
-      // [locationTb.current.hasValidLocation, locationTb.current, 'locationTab'],
       [methodTb.current.isValid, methodTb.current, 'methodTab'],
       [catchTb.current.isValid, catchTb.current, 'catchTab'],
       [habitatTb.current.isValid, habitatTb.current, 'habitatTab'],
     ];
-    var validationReturn;
+    let validationReturn;
 
     const invalidInputs = thisDomNode.current.querySelectorAll('.form-group.has-error input');
     if (invalidInputs.length > 0) {
@@ -163,7 +236,7 @@ const NewCollectionEvent = () => {
     }
 
     return validationReturn;
-  }, [allowNoFish]);
+  }, [allowNoFish, eventState]);
 
   const clearReport = () => {
     console.log('NewCollectionEvent:clearReport');
@@ -176,22 +249,21 @@ const NewCollectionEvent = () => {
       .clear()
       .catch(onError)
       .finally(() => {
-        config.eventId = '{' + uuid() + '}';
-        locationTb.current.clear();
+        eventDispatch({ type: actionTypes.CLEAR });
         methodTb.current.clear();
         catchTb.current.clear();
         habitatTb.current.clear();
         setValidateMsg(null);
-        allowNoFish.current = false;
+        setAllowNoFish(false);
       });
   };
 
-  const onSuccessfulSubmit = () => {
+  const onSuccessfulSubmit = React.useCallback(() => {
     console.log('app/NewCollectionEvent:onSuccessfulSubmit');
 
     showTab('locationTab');
     clearReport();
-    showSuccess(false);
+    setShowSuccess(false);
 
     window.setTimeout(() => {
       window.scrollTo({
@@ -200,23 +272,25 @@ const NewCollectionEvent = () => {
       });
     }, 500);
 
+    // TODO: this is broken now that the header is a react component
     $(config.app.header.submitBtn).button('reset');
-  };
+  }, []);
 
   const onError = () => {
-    console.log('app/NewCollectionEvent:onError', arguments);
+    console.log('app/NewCollectionEvent:onError');
 
     setValidateMsg(submitErrMsg);
     window.scrollTo(0, 0);
+    // TODO: this is broken now that the header is a react component
     $(config.app.header.submitBtn).button('reset');
   };
 
-  const onSubmit = () => {
+  const onSubmit = React.useCallback(() => {
     console.log('NewCollectionEvent:onSubmit');
 
     setShowSuccess(false);
 
-    const valid = validateReport(allowNoFish.current);
+    const valid = validateReport();
     if (valid !== true) {
       setValidateMsg(valid);
 
@@ -232,7 +306,7 @@ const NewCollectionEvent = () => {
     });
 
     const data = {};
-    data[config.tableNames.samplingEvents] = buildFeatureObject();
+    data[config.tableNames.samplingEvents] = eventState[config.tableNames.samplingEvents];
     data[config.tableNames.equipment] = methodTb.current.getData();
     data[config.tableNames.anodes] = methodTb.current.getAnodesData();
     data[config.tableNames.fish] = catchTb.current.getData();
@@ -265,15 +339,15 @@ const NewCollectionEvent = () => {
         });
       }
     );
-  };
+  }, [appDispatch, eventState, onSuccessfulSubmit, validateReport]);
 
-  const onCancel = () => {
+  const onCancel = React.useCallback(() => {
     console.log('NewCollectionEvent:onCancel');
 
     if (window.confirm(cancelConfirmMsg)) {
       clearReport();
     }
-  };
+  }, []);
 
   // subscriptions
   const addSubscription = useSubscriptions();
@@ -283,6 +357,7 @@ const NewCollectionEvent = () => {
   }, [addSubscription, onSubmit, onCancel]);
 
   return (
+    <EventContext.Provider value={{ eventState, eventDispatch }}>
       <div className="new-collection-event" ref={thisDomNode}>
         {validateMsg ? (
           <div className="alert alert-danger">
@@ -293,20 +368,31 @@ const NewCollectionEvent = () => {
             )}
           </div>
         ) : null}
-          <div ref={locationTbDiv}></div>
+        {showSuccess ? (
+          <div className="alert alert-success">
+            The report has been submitted successfully.
+            <button className="btn btn-success pull-right" onClick={() => setShowSuccess(false)}>
+              Close
+            </button>
+          </div>
+        ) : null}
+        <div className="tab-content">
+          <div className="tab-pane fade in active" id="locationTab">
+            <Location />
+          </div>
+          <div className="tab-pane fade" id="methodTab">
+            <div ref={methodTbDiv}></div>
+          </div>
+          <div className="tab-pane fade" id="catchTab">
+            <div ref={catchTbDiv}></div>
+          </div>
+          <div className="tab-pane fade" id="habitatTab">
+            <div ref={habitatTbDiv}></div>
+          </div>
         </div>
-        <div className="tab-pane fade" id="methodTab">
-          <div ref={methodTbDiv}></div>
-        </div>
-        <div className="tab-pane fade" id="catchTab">
-          <div ref={catchTbDiv}></div>
-        </div>
-        <div className="tab-pane fade" id="habitatTab">
-          <div ref={habitatTbDiv}></div>
-        </div>
+        <div ref={reportSummaryDiv}></div>
       </div>
-      <div ref={reportSummaryDiv}></div>
-    </div>
+    </EventContext.Provider>
   );
 };
 
