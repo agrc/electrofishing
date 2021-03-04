@@ -86,6 +86,11 @@ require({
       main: 'react-dom.development',
     },
     {
+      name: 'react-leaflet',
+      location: '../node_modules/react-leaflet/umd',
+      main: 'react-leaflet',
+    },
+    {
       name: 'react-transition-group',
       location: '../node_modules/react-transition-group/dist',
       main: 'react-transition-group',

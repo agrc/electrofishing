@@ -7,6 +7,8 @@ import propTypes from 'prop-types';
 import { featureLayer } from 'esri-leaflet';
 import topic from 'pubsub-js';
 import { AppContext, actionTypes } from '../../App';
+import StreamSearch from 'app/StreamSearch';
+import { MapContainer, TileLayer, MapConsumer, useMap } from 'react-leaflet';
 
 const selectedIcon = new L.Icon({
   iconUrl: config.urls.selectedIcon,
@@ -34,69 +36,20 @@ StationPopup.propTypes = {
   STREAM_TYPE: propTypes.string,
 };
 
-const VerifyMap = ({ isMainMap, className }) => {
-  const streamSearchDiv = React.useRef();
-  const mapDiv = React.useRef();
+const MapHoister = ({ streamSearchDiv, isMainMap }) => {
   const stationsLayer = React.useRef();
   const streamsLayer = React.useRef();
   const lakesLayer = React.useRef();
   const [startSelectedId, setStartSelectedId] = React.useState();
   const { appState, appDispatch } = React.useContext(AppContext);
+  const streamSearch = React.useRef(null);
+  const map = useMap();
+  const mapInitialized = React.useRef(false);
 
   React.useEffect(() => {
+    if (mapInitialized.current) return;
+
     console.log('VerifyMap:initMap');
-
-    const map = new L.Map(mapDiv.current, {
-      keyboard: false,
-      scrollWheelZoom: localStorage.mouseWheelZooming === 'true',
-    });
-    map.setView(appState.currentMapExtent.center, appState.currentMapExtent.zoom);
-
-    map.on('click', (event) => {
-      topic.publishSync(config.topics.onMapClick, event);
-    });
-
-    if (isMainMap) {
-      map.on('zoomend', () => {
-        appDispatch({
-          type: actionTypes.CURRENT_MAP_ZOOM,
-          payload: map.zoom,
-        });
-      });
-      map.on('moveend', () => {
-        appDispatch({
-          type: actionTypes.CURRENT_MAP_CENTER,
-          payload: map.center,
-        });
-      });
-      appDispatch({
-        type: actionTypes.MAP,
-        payload: map,
-      });
-    }
-
-    topic.subscribe(config.topics.pointDef_onBtnClick, (_, widget) => {
-      if (widget.isEnabled()) {
-        map._container.style.cursor = '';
-      } else {
-        map._container.style.cursor = 'crosshair';
-      }
-    });
-
-    topic.subscribe(config.topics.syncMapExtents, () => {
-      if (!isMainMap) {
-        map.setView(appState.currentMapExtent.center, appState.currentMapExtent.zoom);
-      }
-    });
-
-    L.tileLayer(config.urls.googleImagery, { quadWord: config.quadWord }).addTo(map);
-    L.tileLayer(config.urls.overlay, { quadWord: config.quadWord }).addTo(map);
-
-    const popup = new L.Popup({
-      closeButton: false,
-      offset: [0, -40],
-      autoPan: false,
-    });
 
     const replaceNulls = (obj) => {
       const newObject = {};
@@ -108,6 +61,12 @@ const VerifyMap = ({ isMainMap, className }) => {
 
       return newObject;
     };
+
+    const popup = new L.Popup({
+      closeButton: false,
+      offset: [0, -40],
+      autoPan: false,
+    });
 
     stationsLayer.current = featureLayer({
       url: config.urls.stationsFeatureService,
@@ -148,17 +107,146 @@ const VerifyMap = ({ isMainMap, className }) => {
       url: config.urls.lakesFeatureService,
     }).addTo(map);
 
+    map.on('click', (event) => {
+      topic.publishSync(config.topics.onMapClick, event);
+    });
+
+    if (isMainMap) {
+      map.on('zoomend', () => {
+        appDispatch({
+          type: actionTypes.CURRENT_MAP_ZOOM,
+          payload: map.zoom,
+        });
+      });
+      map.on('moveend', () => {
+        appDispatch({
+          type: actionTypes.CURRENT_MAP_CENTER,
+          payload: map.getCenter(),
+        });
+      });
+
+      appDispatch({
+        type: actionTypes.MAP,
+        payload: map,
+      });
+
+      // TODO: remove after all of the old dojo widgets that reference it are converted
+      config.app.map = map;
+    }
+
+    topic.subscribe(config.topics.pointDef_onBtnClick, (_, widget) => {
+      if (widget.isEnabled()) {
+        map._container.style.cursor = '';
+      } else {
+        map._container.style.cursor = 'crosshair';
+      }
+    });
+
+    topic.subscribe(config.topics.syncMapExtents, () => {
+      if (!isMainMap) {
+        map.setView(appState.currentMapExtent.center, appState.currentMapExtent.zoom);
+      }
+    });
+
+    let largerSymbolsAreVisible = false;
+    let labelsAreVisible = false;
+    let labelCache = {};
+    const toggleLabelsAndStyle = (zoom) => {
+      console.log('zoom', zoom);
+      const labelsShouldBeVisible = zoom >= config.labelsMinZoom;
+      const largerSymbolsShouldBeVisible = zoom >= config.largerSymbolsMinZoom;
+      if (!labelsAreVisible && !labelsShouldBeVisible && !largerSymbolsAreVisible && !largerSymbolsShouldBeVisible) {
+        return;
+      }
+      labelCache = {};
+      map.eachLayer((layer) => {
+        const tooltip = layer.getTooltip();
+        if (tooltip) {
+          layer.unbindTooltip();
+        }
+      });
+
+      [streamsLayer, lakesLayer].forEach((featureLayer) => {
+        featureLayer.eachFeature((layer) => {
+          if (!map.hasLayer(layer)) {
+            return;
+          }
+
+          // update labels
+          const label = layer.feature.properties[config.fieldNames.reference.WaterName];
+          if (map.getBounds().contains(layer.getCenter()) && !labelCache[label]) {
+            layer.unbindTooltip().bindTooltip(label, {
+              permanent: labelsShouldBeVisible,
+            });
+            labelCache[label] = true;
+          }
+
+          // update style
+          layer.setStyle({
+            weight: largerSymbolsShouldBeVisible ? config.largerLineSymbolWidth : config.defaultLineSymbolWidth,
+          });
+        });
+      });
+    };
+    map.on({
+      moveend: () => toggleLabelsAndStyle(map.getZoom()),
+    });
+
+    if (isMainMap) {
+      topic.publishSync(config.topics.mapInit);
+    }
+
+    streamSearch.current = new StreamSearch(
+      {
+        map,
+        searchField: config.fieldNames.reference.WaterName,
+        placeHolder: 'stream/lake name...',
+        contextField: config.fieldNames.reference.COUNTY,
+        maxResultsToDisplay: 50,
+      },
+      streamSearchDiv.current
+    );
+
+    mapInitialized.current = true;
+
     return () => {
-      if (map) {
-        map.remove();
+      console.log('cleaning up map');
+
+      if (streamSearch.current) {
+        streamSearch.current?.destroy();
       }
     };
-  }, [appDispatch, appState.currentMapExtent.center, appState.currentMapExtent.zoom, isMainMap, startSelectedId]);
+  }, [
+    appDispatch,
+    appState.currentMapExtent.center,
+    appState.currentMapExtent.zoom,
+    isMainMap,
+    map,
+    startSelectedId,
+    streamSearchDiv,
+  ]);
+
+  return null;
+};
+
+const VerifyMap = ({ isMainMap, className }) => {
+  const { appState } = React.useContext(AppContext);
+  const streamSearchDiv = React.useRef();
 
   return (
     <div className={`verify-map ${className}`}>
       <div ref={streamSearchDiv}></div>
-      <div ref={mapDiv} className="map"></div>
+      <MapContainer
+        className="map"
+        keyboard={false}
+        scrollWheelZoom={localStorage.mouseWheelZooming === 'true'}
+        center={appState.currentMapExtent.center}
+        zoom={appState.currentMapExtent.zoom}
+      >
+        <MapHoister streamSearchDiv={streamSearchDiv} isMainMap={isMainMap} />
+        <TileLayer url={config.urls.googleImagery} />
+        <TileLayer url={config.urls.overlay} />
+      </MapContainer>
     </div>
   );
 };
