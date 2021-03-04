@@ -71,27 +71,23 @@ define([
       this.wireEvents();
       this.defs = [this.startPointDef];
     },
+    setMap(map) {
+      this.featureGroup = new L.FeatureGroup().addTo(map);
+      this.startPointDef.setMap(map, this.featureGroup);
+    },
     wireEvents: function () {
       // summary:
       //        wires the events for the widget
       console.log('app/location/StartDistDirGeoDef:wireEvents', arguments);
 
-      var that = this;
-
-      this.addSubscription(
-        topic.subscribe(config.topics.mapInit, function () {
-          that.featureGroup = new L.FeatureGroup().addTo(config.app.map);
-          that.startPointDef.setMap(config.app.map, that.featureGroup);
-        })
-      );
       this.own(
-        aspect.before(this.startPointDef, 'updateMarkerPosition', function () {
-          that.onInvalidate();
+        aspect.before(this.startPointDef, 'updateMarkerPosition', () => {
+          this.onInvalidate();
         }),
         this.connect(this.distanceBox, 'onchange', 'onInvalidate'),
-        query('.btn-group .btn', this.domNode).on('click', function (evt) {
+        query('.btn-group .btn', this.domNode).on('click', (evt) => {
           if (evt.target.tagName === 'LABEL') {
-            that.onInvalidate();
+            this.onInvalidate();
           }
         })
       );

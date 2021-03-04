@@ -180,7 +180,7 @@ define([
       this.addSubscription(
         topic.subscribe(config.topics.pointDef_onBtnClick, (_, widget) => this.onOtherMapBtnClicked(widget))
       );
-      this.addSubscription(topic.subscribe(config.topics.onMapClicked, this.onMapClicked.bind(this)));
+      this.addSubscription(topic.subscribe(config.topics.onMapClick, this.onMapClicked.bind(this)));
 
       // validate text boxes
       this.connect(this.domNode, 'input[type="text"]:focusout', 'onTextBoxFocusOut');
@@ -282,13 +282,12 @@ define([
       console.log('app/location/PointDef:onOtherMapBtnClicked', arguments);
 
       if (widget !== this && this.map) {
-        this.map.off('click', this.onMapClicked, this);
         domClass.remove(this.mapBtn, 'active');
         this.yBox.disabled = false;
         this.xBox.disabled = false;
       }
     },
-    onMapClicked: function (evt) {
+    onMapClicked: function (_, evt) {
       // summary:
       //      description
       console.log('app/location/PointDef:onMapClicked', arguments);

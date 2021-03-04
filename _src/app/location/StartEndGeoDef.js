@@ -84,20 +84,20 @@ define([
 
       this.wireEvents();
     },
+    setMap(map) {
+      // summary:
+      //      description
+      console.log('app/location/StartEndGeoDef:setMap', arguments);
+
+      this.featureGroup = new L.FeatureGroup().addTo(map);
+      this.startPointDef.setMap(map, this.featureGroup);
+      this.endPointDef.setMap(map, this.featureGroup);
+    },
     wireEvents: function () {
       // summary:
       //      description
       console.log('app/location/StartEndGeoDef:wireEvents', arguments);
 
-      var that = this;
-
-      this.addSubscription(
-        topic.subscribe(config.topics.mapInit, function () {
-          that.featureGroup = new L.FeatureGroup().addTo(config.app.map);
-          that.startPointDef.setMap(config.app.map, that.featureGroup);
-          that.endPointDef.setMap(config.app.map, that.featureGroup);
-        })
-      );
       array.forEach(
         this.defs,
         function (def) {
