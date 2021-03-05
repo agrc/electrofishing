@@ -10,6 +10,7 @@ export const actionTypes = {
   CURRENT_MAP_CENTER: 'CURRENT_MAP_CENTER',
   SUBMIT_LOADING: 'SUBMIT_LOADING',
   MAP: 'MAP',
+  CURRENT_TAB: 'CURRENT_TAB',
 };
 
 const initialState = {
@@ -20,6 +21,7 @@ const initialState = {
   },
   submitLoading: false,
   map: null,
+  currentTab: 'locationTab',
 };
 
 const reducer = (draft, action) => {
@@ -43,6 +45,11 @@ const reducer = (draft, action) => {
 
     case actionTypes.MAP:
       draft.map = action.payload;
+
+      break;
+
+    case actionTypes.CURRENT_TAB:
+      draft.currentTab = action.payload;
 
       break;
 

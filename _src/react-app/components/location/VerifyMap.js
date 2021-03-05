@@ -47,6 +47,13 @@ const MapHoister = ({ streamSearchDiv, isMainMap }) => {
   const mapInitialized = React.useRef(false);
 
   React.useEffect(() => {
+    if (appState.currentTab === 'locationTab') {
+      // this prevents the map from getting messed up when it's hidden by another tab
+      map?.invalidateSize();
+    }
+  }, [appState.currentTab, map]);
+
+  React.useEffect(() => {
     if (mapInitialized.current) return;
 
     console.log('VerifyMap:initMap');
