@@ -8,7 +8,7 @@ import { featureLayer } from 'esri-leaflet';
 import topic from 'pubsub-js';
 import { AppContext, actionTypes } from '../../App';
 import StreamSearch from 'app/StreamSearch';
-import { MapContainer, TileLayer, MapConsumer, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 
 const selectedIcon = new L.Icon({
   iconUrl: config.urls.selectedIcon,
@@ -215,14 +215,6 @@ const MapHoister = ({ streamSearchDiv, isMainMap }) => {
     );
 
     mapInitialized.current = true;
-
-    return () => {
-      console.log('cleaning up map');
-
-      if (streamSearch.current) {
-        streamSearch.current?.destroy();
-      }
-    };
   }, [
     appDispatch,
     appState.currentMapExtent.center,
