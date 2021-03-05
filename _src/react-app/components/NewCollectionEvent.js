@@ -133,19 +133,14 @@ const NewCollectionEvent = () => {
   }, []);
 
   // dojo widgets
-  const methodTb = React.useRef();
-  const catchTb = React.useRef();
-  const habitatTb = React.useRef();
-  const reportSummary = React.useRef();
-
   const methodTbDiv = React.useRef();
   const catchTbDiv = React.useRef();
   const habitatTbDiv = React.useRef();
   const reportSummaryDiv = React.useRef();
-  useDojoWidget(methodTb, methodTbDiv, Method);
-  useDojoWidget(catchTb, catchTbDiv, Catch);
-  useDojoWidget(habitatTb, habitatTbDiv, Habitat);
-  useDojoWidget(reportSummary, reportSummaryDiv, SummaryReport);
+  const methodTb = useDojoWidget(methodTbDiv, Method);
+  const catchTb = useDojoWidget(catchTbDiv, Catch);
+  const habitatTb = useDojoWidget(habitatTbDiv, Habitat);
+  const reportSummary = useDojoWidget(reportSummaryDiv, SummaryReport);
 
   const showTab = (tabID) => {
     // summary:
@@ -202,9 +197,9 @@ const NewCollectionEvent = () => {
     let valid = true;
     const validationMethods = [
       // [method, scope, tabID]
-      [methodTb.current.isValid, methodTb.current, 'methodTab'],
-      [catchTb.current.isValid, catchTb.current, 'catchTab'],
-      [habitatTb.current.isValid, habitatTb.current, 'habitatTab'],
+      [methodTb.isValid, methodTb, 'methodTab'],
+      [catchTb.isValid, catchTb, 'catchTab'],
+      [habitatTb.isValid, habitatTb, 'habitatTab'],
     ];
     let validationReturn;
 
@@ -250,9 +245,9 @@ const NewCollectionEvent = () => {
       .catch(onError)
       .finally(() => {
         eventDispatch({ type: actionTypes.CLEAR });
-        methodTb.current.clear();
-        catchTb.current.clear();
-        habitatTb.current.clear();
+        methodTb.clear();
+        catchTb.clear();
+        habitatTb.clear();
         setValidateMsg(null);
         setAllowNoFish(false);
       });
@@ -307,15 +302,15 @@ const NewCollectionEvent = () => {
 
     const data = {};
     data[config.tableNames.samplingEvents] = eventState[config.tableNames.samplingEvents];
-    data[config.tableNames.equipment] = methodTb.current.getData();
-    data[config.tableNames.anodes] = methodTb.current.getAnodesData();
-    data[config.tableNames.fish] = catchTb.current.getData();
-    data[config.tableNames.diet] = catchTb.current.moreInfoDialog.getData('diet');
-    data[config.tableNames.tags] = catchTb.current.moreInfoDialog.getData('tags');
-    data[config.tableNames.health] = catchTb.current.moreInfoDialog.getData('health');
-    data[config.tableNames.habitat] = habitatTb.current.getData();
-    data[config.tableNames.transect] = habitatTb.current.getTransectData();
-    data[config.tableNames.transectMeasurements] = habitatTb.current.getTransectMeasurementData();
+    data[config.tableNames.equipment] = methodTb.getData();
+    data[config.tableNames.anodes] = methodTb.getAnodesData();
+    data[config.tableNames.fish] = catchTb.getData();
+    data[config.tableNames.diet] = catchTb.moreInfoDialog.getData('diet');
+    data[config.tableNames.tags] = catchTb.moreInfoDialog.getData('tags');
+    data[config.tableNames.health] = catchTb.moreInfoDialog.getData('health');
+    data[config.tableNames.habitat] = habitatTb.getData();
+    data[config.tableNames.transect] = habitatTb.getTransectData();
+    data[config.tableNames.transectMeasurements] = habitatTb.getTransectMeasurementData();
 
     const data_txt = JSON.stringify(data);
 
