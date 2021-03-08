@@ -5,7 +5,7 @@ const headers = {
 };
 
 const checkJobStatus = async (url, jobId) => {
-  console.log('checkJobStatus', arguments);
+  console.log('checkJobStatus');
 
   const params = {
     method: 'POST',
@@ -40,7 +40,7 @@ const wait = (delay) => {
   });
 };
 
-export default async (data, url) => {
+export default async function submitJob(data, url) {
   // summary:
   //      submits a job to a gp service
   // data: {}
@@ -69,4 +69,4 @@ export default async (data, url) => {
   } catch (error) {
     throw new Error(error);
   }
-};
+}
