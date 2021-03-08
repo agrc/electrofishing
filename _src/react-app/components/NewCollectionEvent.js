@@ -9,11 +9,11 @@ import Habitat from 'app/habitat/Habitat';
 import SummaryReport from 'app/SummaryReport';
 import submitJob from '../helpers/submitJob';
 import toastify from 'react-toastify';
-import { v4 as uuid } from 'uuid';
 import useDojoWidget from '../hooks/useDojoWidget';
 import { AppContext, actionTypes as appActionTypes } from '../App';
 import { useImmerReducer } from 'use-immer';
 import NumericInputValidator from 'ijit/modules/NumericInputValidator';
+import getGUID from '../helpers/getGUID';
 
 export const EventContext = React.createContext();
 export const actionTypes = {
@@ -26,7 +26,7 @@ const getBlankState = () => {
   return {
     [config.tableNames.samplingEvents]: {
       attributes: {
-        [fn.EVENT_ID]: '{' + uuid() + '}',
+        [fn.EVENT_ID]: getGUID(),
         [fn.GEO_DEF]: null,
         [fn.LOCATION_NOTES]: null,
         [fn.EVENT_DATE]: null,
