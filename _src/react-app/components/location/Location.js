@@ -23,6 +23,7 @@ const Location = () => {
   const [validateMsg, setValidateMsg] = React.useState(null);
   const verifyMapBtn = React.useRef(null);
   const { appState } = React.useContext(AppContext);
+  const [map, setMap] = React.useState(null);
 
   // dojo widgets
   const stationDiv = React.useRef();
@@ -202,11 +203,17 @@ const Location = () => {
     );
   };
 
+  React.useEffect(() => {
+    if (appState.currentTab === 'locationTab') {
+      // this prevents the map from getting messed up when it's hidden by another tab
+      map?.invalidateSize();
+    }
+  }, [appState.currentTab, map]);
+
   return (
     <div className="location">
       <h4>Water Body</h4>
-      <VerifyMap className="v-map" isMainMap={true} />
-      <div ref={stationDiv}></div>
+      <VerifyMap className="v-map" isMainMap={true} setMap={setMap} />
       <h4>
         Stream Reach <span className="text-danger required">*</span>
       </h4>

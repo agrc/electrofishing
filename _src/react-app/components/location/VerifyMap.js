@@ -149,12 +149,6 @@ const MapHoister = ({ streamSearchDiv, isMainMap }) => {
       }
     });
 
-    topic.subscribe(config.topics.syncMapExtents, () => {
-      if (!isMainMap) {
-        map.setView(appState.currentMapExtent.center, appState.currentMapExtent.zoom);
-      }
-    });
-
     let largerSymbolsAreVisible = false;
     let labelsAreVisible = false;
     let labelCache = {};
