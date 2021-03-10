@@ -231,9 +231,9 @@ const NewCollectionEvent = () => {
     }
 
     return validationReturn;
-  }, [allowNoFish, eventState]);
+  }, [allowNoFish, catchTb, eventState, habitatTb, methodTb]);
 
-  const clearReport = () => {
+  const clearReport = React.useCallback(() => {
     console.log('NewCollectionEvent:clearReport');
 
     const onError = (error) => {
@@ -251,7 +251,7 @@ const NewCollectionEvent = () => {
         setValidateMsg(null);
         setAllowNoFish(false);
       });
-  };
+  }, [catchTb, eventDispatch, habitatTb, methodTb]);
 
   const onSuccessfulSubmit = React.useCallback(() => {
     console.log('app/NewCollectionEvent:onSuccessfulSubmit');
@@ -269,7 +269,7 @@ const NewCollectionEvent = () => {
 
     // TODO: this is broken now that the header is a react component
     $(config.app.header.submitBtn).button('reset');
-  }, []);
+  }, [clearReport]);
 
   const onError = () => {
     console.log('app/NewCollectionEvent:onError');
@@ -334,7 +334,7 @@ const NewCollectionEvent = () => {
         });
       }
     );
-  }, [appDispatch, eventState, onSuccessfulSubmit, validateReport]);
+  }, [appDispatch, catchTb, eventState, habitatTb, methodTb, onSuccessfulSubmit, reportSummary, validateReport]);
 
   const onCancel = React.useCallback(() => {
     console.log('NewCollectionEvent:onCancel');
@@ -342,7 +342,7 @@ const NewCollectionEvent = () => {
     if (window.confirm(cancelConfirmMsg)) {
       clearReport();
     }
-  }, []);
+  }, [clearReport]);
 
   // subscriptions
   const addSubscription = useSubscriptions();
