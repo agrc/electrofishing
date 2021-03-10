@@ -4,7 +4,7 @@ import OtherOptionHandler from 'app/OtherOptionHandler';
 import ComboBox from './ComboBox';
 
 const otherTxt = '[other]';
-export default function DomainDrivenDropdown({ featureServiceUrl, fieldName, value, onChange }) {
+export default function DomainDrivenDropdown({ featureServiceUrl, fieldName, value, onChange, id }) {
   const [items, setItems] = React.useState([]);
 
   React.useEffect(() => {
@@ -76,11 +76,12 @@ export default function DomainDrivenDropdown({ featureServiceUrl, fieldName, val
     [items, onChange]
   );
 
-  return <ComboBox items={items} onChange={onSelectionChange} value={value} />;
+  return <ComboBox items={items} onChange={onSelectionChange} value={value} id={id} />;
 }
 DomainDrivenDropdown.propTypes = {
   featureServiceUrl: propTypes.string.isRequired,
   fieldName: propTypes.string.isRequired,
   value: propTypes.string,
   onChange: propTypes.func,
+  id: propTypes.string,
 };

@@ -2,7 +2,7 @@ import * as React from 'react';
 import propTypes from 'prop-types';
 import { useCombobox } from 'downshift';
 
-const ComboBox = ({ items, onChange, value }) => {
+const ComboBox = ({ items, onChange, value, id }) => {
   const [inputItems, setInputItems] = React.useState(items);
   const {
     getComboboxProps,
@@ -15,7 +15,9 @@ const ComboBox = ({ items, onChange, value }) => {
     openMenu,
     reset,
   } = useCombobox({
+    inputId: id,
     items: inputItems,
+    defaultHighlightedIndex: 0,
     onInputValueChange: ({ inputValue }) => {
       setInputItems(items.filter((item) => item.label.toLowerCase().startsWith(inputValue.toLowerCase())));
     },
@@ -94,6 +96,7 @@ ComboBox.propTypes = {
   items: propTypes.array.isRequired,
   onChange: propTypes.func.isRequired,
   value: propTypes.oneOfType([propTypes.string, propTypes.number]),
+  id: propTypes.string,
 };
 
 export default ComboBox;
