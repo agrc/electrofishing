@@ -82,7 +82,7 @@
   },
   "dependencies": {
     "downshift": "^6.1.0",
-    "esri-leaflet": "^2.3.0",
+    "esri-leaflet": "^3.0.1",
     "immer": "^8.0.1",
     "leaflet": "^1.7.1",
     "localforage": "^1.9.0",
