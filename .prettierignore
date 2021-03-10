@@ -3,7 +3,6 @@ _SpecRunner.html
 .storybook
 .vscode
 bower.json
-cypress
 data
 deploy
 dist
