@@ -3,7 +3,7 @@ import config from '../../config';
 import { actionTypes, EventContext } from '../NewCollectionEvent';
 import VerifyMap from './VerifyMap';
 import useDojoWidget from '../../hooks/useDojoWidget';
-import Station from 'app/location/Station';
+import Station from './Station';
 import on from 'dojo/on';
 import StartEndGeoDef from 'app/location/StartEndGeoDef';
 import StartDistDirGeoDef from 'app/location/StartDistDirGeoDef';
@@ -23,12 +23,9 @@ const Location = () => {
   const [validateMsg, setValidateMsg] = React.useState(null);
   const verifyMapBtn = React.useRef(null);
   const { appState } = React.useContext(AppContext);
-  const [map, setMap] = React.useState(null);
+  const [mainMap, setMainMap] = React.useState(null);
 
   // dojo widgets
-  const stationDiv = React.useRef();
-  const station = useDojoWidget(stationDiv, Station);
-
   const startEndGeoDefDiv = React.useRef(null);
   const startEndGeoDef = useDojoWidget(startEndGeoDefDiv, StartEndGeoDef);
 
@@ -36,12 +33,11 @@ const Location = () => {
   const startDistDirGeoDef = useDojoWidget(startDistDirGeoDefDiv, StartDistDirGeoDef);
 
   React.useEffect(() => {
-    if (appState.map && station && startEndGeoDef && startDistDirGeoDef) {
-      station.mainMap = appState.map;
+    if (appState.map && startEndGeoDef && startDistDirGeoDef) {
       startEndGeoDef.setMap(appState.map);
       startDistDirGeoDef.setMap(appState.map);
     }
-  }, [appState.map, station, startEndGeoDef, startDistDirGeoDef]);
+  }, [appState.map, startEndGeoDef, startDistDirGeoDef]);
 
   const geometry = React.useRef(null);
   const utmGeo = React.useRef(null);
@@ -183,13 +179,6 @@ const Location = () => {
         payload: dist,
       });
     });
-    addSubscription(config.topics.onStationClick, (_, params) => {
-      eventDispatch({
-        type: actionTypes.LOCATION,
-        meta: fieldNames.STATION_ID,
-        payload: params[1],
-      });
-    });
   }, [addSubscription, eventDispatch]);
 
   const getLocationInputProps = (fieldName, parser) => {
@@ -206,14 +195,26 @@ const Location = () => {
   React.useEffect(() => {
     if (appState.currentTab === 'locationTab') {
       // this prevents the map from getting messed up when it's hidden by another tab
-      map?.invalidateSize();
+      mainMap?.invalidateSize();
     }
-  }, [appState.currentTab, map]);
+  }, [appState.currentTab, mainMap]);
+
+  const [selectedStationName, setSelectedStationName] = React.useState('');
+  const selectStation = (name, id) => {
+    setSelectedStationName(name || '');
+
+    eventDispatch({
+      type: actionTypes.LOCATION,
+      meta: config.fieldNames.samplingEvents.STATION_ID,
+      payload: id,
+    });
+  };
 
   return (
     <div className="location">
       <h4>Water Body</h4>
-      <VerifyMap className="v-map" isMainMap={true} setMap={setMap} />
+      <VerifyMap className="v-map" isMainMap={true} setMap={setMainMap} selectStation={selectStation} />
+      <Station mainMap={mainMap} selectStation={selectStation} selectedStationName={selectedStationName} />
       <h4>
         Stream Reach <span className="text-danger required">*</span>
       </h4>

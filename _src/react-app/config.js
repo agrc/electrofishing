@@ -15,7 +15,7 @@ if (process.env.REACT_APP_BUILD === 'prod') {
 }
 
 const wildlifeToolbox = wildlifeFolder + 'Toolbox/GPServer/';
-const wildlifeFeatureService = wildlifeFolder + 'MapService/MapServer/';
+const wildlifeFeatureService = wildlifeFolder + 'MapService/FeatureServer/';
 const referenceService = wildlifeFolder + 'Reference/MapServer/';
 const fldEVENT_ID = 'EVENT_ID';
 const fldTRANSECT_ID = 'TRANSECT_ID';
@@ -231,7 +231,6 @@ const config = {
     mapInit: 'verifyMap_mapinited',
     startDistDirGeoDef_onDistanceChange: 'startDistDirGeoDef_onDistanceChange',
     newCollectionEvent: 'app_newCollectionEvent',
-    onStationClick: 'verifyMap_onStationClick',
     onSubmitReportClick: 'header_onSubmitReportClick',
     onCancelReportClick: 'header_onCancelReportClick',
     mouseWheelZooming_onChange: 'app_mouseWheelZooming',
@@ -257,7 +256,6 @@ const config = {
     getSegmentFromCoords: wildlifeToolbox + 'GetSegmentFromCoords',
     getSegmentFromStartDistDir: wildlifeToolbox + 'GetSegmentFromStartDistDir',
     getSegmentFromID: wildlifeToolbox + 'GetSegmentFromID',
-    newStationService: wildlifeToolbox + 'NewStation',
     newCollectionEvent: wildlifeToolbox + 'NewCollectionEvent',
 
     // feature service

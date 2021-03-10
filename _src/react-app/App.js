@@ -14,11 +14,9 @@ export const actionTypes = {
 };
 
 const initialState = {
-  currentMapExtent: {
-    zoom: 10,
-    // TODO: get from geolocation
-    center: [40.6, -111.7],
-  },
+  zoom: 10,
+  // TODO: get from geolocation
+  center: L.latLng(40.6, -111.7),
   submitLoading: false,
   map: null,
   currentTab: 'locationTab',
@@ -27,13 +25,12 @@ const initialState = {
 const reducer = (draft, action) => {
   switch (action.type) {
     case actionTypes.CURRENT_MAP_ZOOM:
-      draft.currentMapExtent.zoom = action.payload;
+      draft.zoom = action.payload;
 
       break;
 
     case actionTypes.CURRENT_MAP_CENTER:
-      console.log('center set to', action.payload);
-      draft.currentMapExtent.center = action.payload;
+      draft.center = action.payload;
 
       break;
 
@@ -71,7 +68,7 @@ const App = () => {
       <div className="app">
         <Header submitLoading={appState.submitLoading} />
 
-        <div className="main-container container">
+        <div className="container main-container">
           <NewCollectionEvent />
         </div>
 
