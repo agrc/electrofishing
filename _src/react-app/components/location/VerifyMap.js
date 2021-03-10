@@ -2,13 +2,13 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 import config from '../../config';
 import L from 'leaflet';
-import pubsub from 'pubsub-js';
 import propTypes from 'prop-types';
 import { featureLayer } from 'esri-leaflet';
 import topic from 'pubsub-js';
 import { AppContext, actionTypes } from '../../App';
 import StreamSearch from 'app/StreamSearch';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
+import { EventContext } from '../NewCollectionEvent';
 
 const selectedIcon = new L.Icon({
   iconUrl: config.urls.selectedIcon,
@@ -36,102 +36,113 @@ StationPopup.propTypes = {
   STREAM_TYPE: propTypes.string,
 };
 
-const MapHoister = ({ streamSearchDiv, isMainMap }) => {
+const replaceNulls = (obj) => {
+  const newObject = {};
+  for (var prop in obj) {
+    if (obj.hasOwnProperty(prop)) {
+      newObject[prop] = obj[prop] === null || obj[prop] === undefined ? '' : obj[prop];
+    }
+  }
+
+  return newObject;
+};
+
+const popup = new L.Popup({
+  closeButton: false,
+  offset: [0, -40],
+  autoPan: false,
+});
+
+const MapHoister = ({ streamSearchDiv, isMainMap, setMap, setStreamsLayer, setLakesLayer, selectStation }) => {
   const stationsLayer = React.useRef();
   const streamsLayer = React.useRef();
   const lakesLayer = React.useRef();
-  const [startSelectedId, setStartSelectedId] = React.useState();
-  const { appState, appDispatch } = React.useContext(AppContext);
+  const { appDispatch } = React.useContext(AppContext);
   const streamSearch = React.useRef(null);
   const map = useMap();
   const mapInitialized = React.useRef(false);
+  const { eventState } = React.useContext(EventContext);
 
   React.useEffect(() => {
-    if (appState.currentTab === 'locationTab') {
-      // this prevents the map from getting messed up when it's hidden by another tab
-      map?.invalidateSize();
+    if (map) {
+      setMap(map);
     }
-  }, [appState.currentTab, map]);
+  }, [map, setMap]);
+
+  const selectedStationId =
+    eventState[config.tableNames.samplingEvents].attributes[config.fieldNames.samplingEvents.STATION_ID];
+  const updateStyle = React.useCallback(
+    (geojson, layer) => {
+      if (!isMainMap) return;
+      console.log('updating styles');
+      if (geojson.properties[config.fieldNames.stations.STATION_ID] === selectedStationId) {
+        layer.setIcon(selectedIcon);
+      } else {
+        layer.setIcon(defaultIcon);
+      }
+    },
+    [selectedStationId, isMainMap]
+  );
+
+  React.useEffect(() => {
+    console.log('useEffect updateStyle');
+    // figure out how to make this fire after the new feature has been added to the layer, I think that it's firing before...
+    stationsLayer.current?.eachFeature((layer) => updateStyle(layer.feature, layer));
+  }, [updateStyle]);
+
+  const onEachFeature = React.useCallback(
+    (geojson, layer) => {
+      layer
+        .on('mouseover', function () {
+          const containerDiv = document.createElement('div');
+          ReactDOM.render(<StationPopup {...replaceNulls(geojson.properties)} />, containerDiv);
+
+          popup
+            .setContent(containerDiv)
+            .setLatLng([geojson.geometry.coordinates[1], geojson.geometry.coordinates[0]])
+            .openOn(map);
+        })
+        .on('mouseout', function () {
+          map.closePopup();
+        });
+
+      if (isMainMap) {
+        updateStyle(geojson, layer);
+        layer.on('click', function () {
+          selectStation(
+            geojson.properties[config.fieldNames.stations.NAME],
+            geojson.properties[config.fieldNames.stations.STATION_ID]
+          );
+        });
+      }
+    },
+    [isMainMap, map, selectStation, updateStyle]
+  );
 
   React.useEffect(() => {
     if (mapInitialized.current) return;
 
     console.log('VerifyMap:initMap');
 
-    const replaceNulls = (obj) => {
-      const newObject = {};
-      for (var prop in obj) {
-        if (obj.hasOwnProperty(prop)) {
-          newObject[prop] = obj[prop] === null || obj[prop] === undefined ? '' : obj[prop];
-        }
-      }
-
-      return newObject;
-    };
-
-    const popup = new L.Popup({
-      closeButton: false,
-      offset: [0, -40],
-      autoPan: false,
-    });
-
     stationsLayer.current = featureLayer({
       url: config.urls.stationsFeatureService,
-      onEachFeature: (geojson, layer) => {
-        if (geojson.properties[config.fieldNames.stations.STATION_ID] === startSelectedId) {
-          layer.setIcon(selectedIcon);
-        }
-        layer
-          .on('mouseover', function () {
-            const containerDiv = document.createElement('div');
-            ReactDOM.render(<StationPopup {...replaceNulls(geojson.properties)} />, containerDiv);
-
-            popup
-              .setContent(containerDiv)
-              .setLatLng([geojson.geometry.coordinates[1], geojson.geometry.coordinates[0]])
-              .openOn(map);
-          })
-          .on('mouseout', function () {
-            map.closePopup();
-          })
-          .on('click', function () {
-            pubsub.publishSync(config.topics.onStationClick, [
-              geojson.properties[config.fieldNames.stations.NAME],
-              geojson.properties[config.fieldNames.stations.STATION_ID],
-            ]);
-            stationsLayer.current.eachFeature((l) => {
-              l.setIcon(defaultIcon);
-            });
-            layer.setIcon(selectedIcon);
-          });
-      },
+      onEachFeature,
     }).addTo(map);
 
     streamsLayer.current = featureLayer({
       url: config.urls.streamsFeatureService,
     }).addTo(map);
+    setStreamsLayer(streamsLayer.current);
     lakesLayer.current = featureLayer({
       url: config.urls.lakesFeatureService,
     }).addTo(map);
+    setLakesLayer(lakesLayer.current);
 
     map.on('click', (event) => {
       topic.publishSync(config.topics.onMapClick, event);
     });
 
     if (isMainMap) {
-      map.on('zoomend', () => {
-        appDispatch({
-          type: actionTypes.CURRENT_MAP_ZOOM,
-          payload: map.zoom,
-        });
-      });
-      map.on('moveend', () => {
-        appDispatch({
-          type: actionTypes.CURRENT_MAP_CENTER,
-          payload: map.getCenter(),
-        });
-      });
-
       appDispatch({
         type: actionTypes.MAP,
         payload: map,
@@ -153,7 +164,6 @@ const MapHoister = ({ streamSearchDiv, isMainMap }) => {
     let labelsAreVisible = false;
     let labelCache = {};
     const toggleLabelsAndStyle = (zoom) => {
-      console.log('zoom', zoom);
       const labelsShouldBeVisible = zoom >= config.labelsMinZoom;
       const largerSymbolsShouldBeVisible = zoom >= config.largerSymbolsMinZoom;
       if (!labelsAreVisible && !labelsShouldBeVisible && !largerSymbolsAreVisible && !largerSymbolsShouldBeVisible) {
@@ -167,7 +177,7 @@ const MapHoister = ({ streamSearchDiv, isMainMap }) => {
         }
       });
 
-      [streamsLayer, lakesLayer].forEach((featureLayer) => {
+      [streamsLayer.current, lakesLayer.current].forEach((featureLayer) => {
         featureLayer.eachFeature((layer) => {
           if (!map.hasLayer(layer)) {
             return;
@@ -211,18 +221,27 @@ const MapHoister = ({ streamSearchDiv, isMainMap }) => {
     mapInitialized.current = true;
   }, [
     appDispatch,
-    appState.currentMapExtent.center,
-    appState.currentMapExtent.zoom,
     isMainMap,
     map,
-    startSelectedId,
+    onEachFeature,
+    selectStation,
+    setLakesLayer,
+    setStreamsLayer,
     streamSearchDiv,
+    updateStyle,
   ]);
 
   return null;
 };
 
-const VerifyMap = ({ isMainMap, className }) => {
+const VerifyMap = ({
+  isMainMap,
+  className,
+  setMap,
+  setStreamsLayer = () => {},
+  setLakesLayer = () => {},
+  selectStation,
+}) => {
   const { appState } = React.useContext(AppContext);
   const streamSearchDiv = React.useRef();
 
@@ -233,10 +252,17 @@ const VerifyMap = ({ isMainMap, className }) => {
         className="map"
         keyboard={false}
         scrollWheelZoom={localStorage.mouseWheelZooming === 'true'}
-        center={appState.currentMapExtent.center}
-        zoom={appState.currentMapExtent.zoom}
+        center={appState.center}
+        zoom={appState.zoom}
       >
-        <MapHoister streamSearchDiv={streamSearchDiv} isMainMap={isMainMap} />
+        <MapHoister
+          streamSearchDiv={streamSearchDiv}
+          isMainMap={isMainMap}
+          setMap={setMap}
+          setStreamsLayer={setStreamsLayer}
+          setLakesLayer={setLakesLayer}
+          selectStation={selectStation}
+        />
         <TileLayer url={config.urls.googleImagery} />
         <TileLayer url={config.urls.overlay} />
       </MapContainer>
@@ -246,6 +272,10 @@ const VerifyMap = ({ isMainMap, className }) => {
 
 VerifyMap.propTypes = {
   isMainMap: propTypes.bool,
+  className: propTypes.string,
+  setMap: propTypes.func,
+  setStreamsLayer: propTypes.func,
+  setLakesLayer: propTypes.func,
 };
 
 export default VerifyMap;
