@@ -59,7 +59,6 @@
     "jasmine": "3.1.0",
     "load-grunt-tasks": "^3.5.2",
     "prettier": "^2.2.1",
-    "puppeteer": "1.13.0",
     "react-is": "^17.0.1",
     "sass": "^1.29.0",
     "start-server-and-test": "^1.11.5"
@@ -70,7 +69,6 @@
     "babel-react": "babel --out-dir src/react-app _src/react-app",
     "build-stage": "export REACT_APP_BUILD=stage && export BABEL_ENV=test && npm run babel-deps && npm run sass && npm run babel-react && grunt build-stage",
     "build": "export REACT_APP_BUILD=prod && export BABEL_ENV=production && npm run babel-deps && npm run sass && npm run babel-react && grunt build-prod",
-    "cypress:run": "start-server-and-test 'npm start' http://localhost:8000 'cypress run'",
     "cypress:open": "concurrently \"npm start\" \"cypress open\"",
     "deploy-stage-app-only": "grunt deploy-stage-app-only",
     "deploy-stage": "grunt deploy-stage",
@@ -78,7 +76,7 @@
     "sass": "sass _src/react-app:src/react-app",
     "start": "npm run babel-deps && sass _src/react-app:src/react-app --watch & npm run babel-react-watch & grunt",
     "storybook": "start-storybook -p 6006 --no-dll -s ./src",
-    "test": "npm run babel-deps && npm run babel-react && grunt travis && npm run cypress:run"
+    "test": "eslint ./_src"
   },
   "dependencies": {
     "downshift": "^6.1.0",
