@@ -31,6 +31,7 @@ Production: [https://dwrapps.utah.gov/fishsample/dataentry/](https://dwrapps.uta
 1. Update `scripts/Scripts/settings/__init__.py`.
 1. Create `scripts/Scripts/settings/secrets.py`.
 1. Publish all tools in `scripts/Toolbox.tbx` as `Electrofishing/Toolbox` **Requires ArcGIS Server Advanced**
+   1. `Synchronous`
    1. `GetSegmentFromCoords`
       - `points`: `scripts\ToolData\TestData.gdb\StartEnd_fork`
    1. `GetSegmentFromStartDistDirt`

@@ -14,5 +14,6 @@ export default function getControlledInputProps(eventState, eventDispatch, actio
       });
     },
     value: eventState[tableName].attributes[fieldName] || '',
+    id: `${fieldName}_input`,
   };
 }

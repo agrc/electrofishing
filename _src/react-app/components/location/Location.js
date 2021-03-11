@@ -39,18 +39,15 @@ const Location = () => {
     }
   }, [appState.map, startEndGeoDef, startDistDirGeoDef]);
 
-  const geometry = React.useRef(null);
-  const utmGeo = React.useRef(null);
   const path = React.useRef(null);
+  const geometry = eventState[config.tableNames.samplingEvents].geometry;
   const clearGeometry = React.useCallback(() => {
     // summary:
     //      removes the polyline from the map if one exists
     console.log('app/components/location/Location:clearGeometry');
 
-    if (geometry.current) {
-      appState.map.removeLayer(geometry.current);
-      geometry.current = null;
-      utmGeo.current = null;
+    if (path.current) {
+      appState.map.removeLayer(path.current);
       path.current = null;
     }
   }, [appState.map]);
@@ -62,6 +59,13 @@ const Location = () => {
     setValidateMsg(null);
     clearGeometry();
   }, [clearGeometry]);
+
+  React.useEffect(() => {
+    if (!geometry) {
+      clearValidation();
+      currentGeoDef.current?.clearGeometry();
+    }
+  }, [clearValidation, geometry]);
 
   const geoDevWidgets = {
     startEnd: startEndGeoDef,
@@ -121,9 +125,8 @@ const Location = () => {
     verifyMapBtn.current.dataset.successful = true;
 
     const line = L.polyline(newPath, { color: 'red' }).addTo(appState.map);
-    path.current = newPath;
+    path.current = line;
     appState.map.fitBounds(line.getBounds().pad(0.1));
-    geometry.current = line;
     const streamDistance = calculateDistance(line);
 
     eventDispatch({
@@ -138,11 +141,6 @@ const Location = () => {
 
     let returnedValue;
 
-    if (geometry.current) {
-      config.app.map.removeLayer(geometry.current);
-      geometry.current = null;
-    }
-
     $(verifyMapBtn.current).button('loading');
 
     setValidateMsg(null);
@@ -152,6 +150,11 @@ const Location = () => {
     const onError = (msg) => {
       setValidateMsg(msg);
       $(verifyMapBtn.current).button('reset');
+      eventDispatch({
+        type: actionTypes.LOCATION,
+        meta: 'geometry',
+        payload: null,
+      });
     };
 
     if (typeof returnedValue === 'string') {
@@ -160,8 +163,14 @@ const Location = () => {
       returnedValue.then((response) => {
         if (response.success) {
           addLineToMap(response.path);
-          utmGeo.current = response.utm;
-          utmGeo.current.spatialReference = { wkid: 26912 };
+          eventDispatch({
+            type: actionTypes.LOCATION,
+            meta: 'geometry',
+            payload: {
+              ...response.utm,
+              wkid: 26912,
+            },
+          });
         } else {
           onError(response.error_message);
         }
@@ -199,9 +208,12 @@ const Location = () => {
     }
   }, [appState.currentTab, mainMap]);
 
-  const [selectedStationName, setSelectedStationName] = React.useState('');
   const selectStation = (name, id) => {
-    setSelectedStationName(name || '');
+    eventDispatch({
+      type: actionTypes.OTHER,
+      meta: 'selectedStationName',
+      payload: name || '',
+    });
 
     eventDispatch({
       type: actionTypes.LOCATION,
@@ -214,7 +226,11 @@ const Location = () => {
     <div className="location">
       <h4>Water Body</h4>
       <VerifyMap className="v-map" isMainMap={true} setMap={setMainMap} selectStation={selectStation} />
-      <Station mainMap={mainMap} selectStation={selectStation} selectedStationName={selectedStationName} />
+      <Station
+        mainMap={mainMap}
+        selectStation={selectStation}
+        selectedStationName={eventState.other.selectedStationName}
+      />
       <h4>
         Stream Reach <span className="text-danger required">*</span>
       </h4>
@@ -250,7 +266,11 @@ const Location = () => {
 
       <div className="row">
         <div className="form-group col-md-6">
-          <label className="control-label" id={fieldNames.SEGMENT_LENGTH}>
+          <label
+            className="control-label"
+            id={fieldNames.SEGMENT_LENGTH}
+            htmlFor={`${fieldNames.SEGMENT_LENGTH}_input`}
+          >
             Stream Length (meters)
           </label>
           <span className="text-danger required">*</span>
@@ -260,20 +280,22 @@ const Location = () => {
 
       <div className="row">
         <div className="form-group col-md-3">
-          <label className="control-label" id={fieldNames.EVENT_DATE}>
+          <label className="control-label" id={fieldNames.EVENT_DATE} htmlFor={`${fieldNames.EVENT_DATE}_input`}>
             Collection Date
           </label>
           <span className="text-danger required">*</span>
           <input type="date" {...getLocationInputProps(fieldNames.EVENT_DATE)} />
         </div>
         <div className="form-group col-md-3">
-          <label className="control-label">Collection Time</label>
+          <label className="control-label" htmlFor={`${fieldNames.EVENT_TIME}_input`}>
+            Collection Time
+          </label>
           <input type="time" {...getLocationInputProps(fieldNames.EVENT_TIME)} />
         </div>
       </div>
       <div className="row">
         <div className="form-group col-md-6">
-          <label className="control-label" id={fieldNames.PURPOSE}>
+          <label className="control-label" id={fieldNames.PURPOSE} htmlFor={`${fieldNames.PURPOSE}_input`}>
             Survey Purpose (Purpose of Collection)
           </label>
           <span className="text-danger required">*</span>
@@ -286,7 +308,9 @@ const Location = () => {
       </div>
       <div className="row">
         <div className="form-group col-md-6">
-          <label className="control-label">Weather</label>
+          <label className="control-label" htmlFor={`${fieldNames.WEATHER}_input`}>
+            Weather
+          </label>
           <DomainDrivenDropdown
             featureServiceUrl={featureServiceUrl}
             fieldName={fieldNames.WEATHER}
@@ -297,14 +321,16 @@ const Location = () => {
 
       <div className="row">
         <div className="form-group col-md-6">
-          <label className="control-label">Additional Location Notes (optional)</label>
+          <label className="control-label" htmlFor={`${fieldNames.LOCATION_NOTES}_input`}>
+            Additional Location Notes (optional)
+          </label>
           <input type="textarea" {...getLocationInputProps(fieldNames.LOCATION_NOTES)} />
         </div>
       </div>
 
       <div className="row">
         <div className="form-group col-md-6">
-          <label className="control-label" id={fieldNames.OBSERVERS}>
+          <label className="control-label" id={fieldNames.OBSERVERS} htmlFor={`${fieldNames.OBSERVERS}_input`}>
             Observers
           </label>
           <span className="text-danger required">*</span>

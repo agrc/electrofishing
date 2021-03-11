@@ -35,7 +35,6 @@ const reducer = (draft, action) => {
       break;
 
     case actionTypes.SUBMIT_LOADING:
-      console.log('submit loading', action.payload);
       draft.submitLoading = action.payload;
 
       break;

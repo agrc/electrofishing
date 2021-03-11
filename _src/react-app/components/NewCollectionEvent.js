@@ -19,6 +19,7 @@ export const EventContext = React.createContext();
 export const actionTypes = {
   LOCATION: 'LOCATION',
   CLEAR: 'CLEAR',
+  OTHER: 'OTHER',
 };
 const getBlankState = () => {
   const fn = config.fieldNames.samplingEvents;
@@ -40,6 +41,9 @@ const getBlankState = () => {
       },
       geometry: null,
     },
+    other: {
+      selectedStationName: '',
+    },
   };
 };
 const initialState = getBlankState();
@@ -55,10 +59,13 @@ const reducer = (draft, action) => {
 
       break;
 
-    case actionTypes.CLEAR:
-      draft = getBlankState();
+    case actionTypes.OTHER:
+      draft.other[action.meta] = action.payload;
 
       break;
+
+    case actionTypes.CLEAR:
+      return getBlankState();
 
     default:
       break;
@@ -258,7 +265,7 @@ const NewCollectionEvent = () => {
 
     showTab('locationTab');
     clearReport();
-    setShowSuccess(false);
+    setShowSuccess(true);
 
     window.setTimeout(() => {
       window.scrollTo({
@@ -267,18 +274,25 @@ const NewCollectionEvent = () => {
       });
     }, 500);
 
-    // TODO: this is broken now that the header is a react component
-    $(config.app.header.submitBtn).button('reset');
-  }, [clearReport]);
+    appDispatch({
+      type: appActionTypes.SUBMIT_LOADING,
+      payload: false,
+    });
+  }, [appDispatch, clearReport]);
 
-  const onError = () => {
-    console.log('app/NewCollectionEvent:onError');
+  const onError = React.useCallback(
+    (message) => {
+      console.log('app/NewCollectionEvent:onError');
 
-    setValidateMsg(submitErrMsg);
-    window.scrollTo(0, 0);
-    // TODO: this is broken now that the header is a react component
-    $(config.app.header.submitBtn).button('reset');
-  };
+      setValidateMsg(`${submitErrMsg}: ${message}`);
+      window.scrollTo(0, 0);
+      appDispatch({
+        type: appActionTypes.SUBMIT_LOADING,
+        payload: false,
+      });
+    },
+    [appDispatch]
+  );
 
   const onSubmit = React.useCallback(() => {
     console.log('NewCollectionEvent:onSubmit');
@@ -314,18 +328,18 @@ const NewCollectionEvent = () => {
 
     const data_txt = JSON.stringify(data);
 
-    return reportSummary.current.verify(data).then(
+    return reportSummary.verify(data).then(
       async () => {
         try {
-          await submitJob({ f: 'json', data: data_txt }, config.urls.newCollectionEvent);
+          await submitJob({ data: data_txt }, config.urls.newCollectionEvent);
 
           onSuccessfulSubmit();
         } catch (error) {
-          onError();
+          onError(error.message);
         }
 
         // stringify, parse is so that we have a clean object to store in localforage
-        return archivesLocalForage.setItem(config.eventId, JSON.parse(data_txt));
+        return archivesLocalForage.current.setItem(config.eventId, JSON.parse(data_txt));
       },
       () => {
         appDispatch({
@@ -334,7 +348,17 @@ const NewCollectionEvent = () => {
         });
       }
     );
-  }, [appDispatch, catchTb, eventState, habitatTb, methodTb, onSuccessfulSubmit, reportSummary, validateReport]);
+  }, [
+    appDispatch,
+    catchTb,
+    eventState,
+    habitatTb,
+    methodTb,
+    onError,
+    onSuccessfulSubmit,
+    reportSummary,
+    validateReport,
+  ]);
 
   const onCancel = React.useCallback(() => {
     console.log('NewCollectionEvent:onCancel');
