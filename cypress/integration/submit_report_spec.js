@@ -80,6 +80,6 @@ describe('SubmitReport', () => {
 
     // clear all of the data
     cy.get('#stationTxt').should('have.value', '');
-    cy.findByRole('textbox', { name: /northing/i }).should('have.value', undefined);
+    cy.findAllByRole('textbox', { name: /northing/i }).should('have.value', '');
   });
 });
