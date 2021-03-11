@@ -141,11 +141,9 @@ define([
 
       params = this.getXHRParams(startPnt, distance, direction);
 
-      xhr(this.gpServiceUrl + '/submitJob?', params).then(
+      xhr(this.gpServiceUrl + '/execute?', params).then(
         function (data) {
-          if (!that.onGetSegsCallback(data, def)) {
-            def.reject('There was an error with the verify service.');
-          }
+          that.getJobResults(data, def);
         },
         function (err) {
           var msg = 'There was an error with the getSegmentFromStartDistDir service: ';

@@ -1,0 +1,82 @@
+{
+  "results": [
+    {
+      "paramName": "segmentWGS",
+      "dataType": "GPFeatureRecordSetLayer",
+      "value": {
+        "displayFieldName": "",
+        "geometryType": "esriGeometryPolyline",
+        "spatialReference": { "wkid": 4326, "latestWkid": 4326 },
+        "fields": [
+          { "name": "OBJECTID", "type": "esriFieldTypeOID", "alias": "OBJECTID" },
+          { "name": "SHAPE_Length", "type": "esriFieldTypeDouble", "alias": "SHAPE_Length" }
+        ],
+        "features": [
+          {
+            "attributes": { "OBJECTID": 1, "SHAPE_Length": 0.065817335976240079 },
+            "geometry": {
+              "paths": [
+                [
+                  [-111.53721663299996, 40.627892916000064],
+                  [-111.56283913599998, 40.567267764000064]
+                ]
+              ]
+            }
+          }
+        ],
+        "exceededTransferLimit": false
+      }
+    },
+    {
+      "paramName": "segmentUTM",
+      "dataType": "GPFeatureRecordSetLayer",
+      "value": {
+        "displayFieldName": "",
+        "geometryType": "esriGeometryPolyline",
+        "spatialReference": { "wkid": 26912, "latestWkid": 26912 },
+        "fields": [
+          { "name": "OBJECTID", "type": "esriFieldTypeOID", "alias": "OBJECTID" },
+          { "name": "SHAPE_Length", "type": "esriFieldTypeDouble", "alias": "SHAPE_Length" }
+        ],
+        "features": [
+          {
+            "attributes": { "OBJECTID": 1, "SHAPE_Length": 7070.2726962967981 },
+            "geometry": {
+              "paths": [
+                [
+                  [454567, 4497589],
+                  [452357, 4490873]
+                ]
+              ]
+            }
+          }
+        ],
+        "exceededTransferLimit": false
+      }
+    },
+    { "paramName": "success", "dataType": "GPBoolean", "value": true },
+    { "paramName": "error_message", "dataType": "GPString", "value": "" }
+  ],
+  "messages": [
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "Executing (GetSegmentFromCoords): GetSegmentFromCoords \"Feature Set\""
+    },
+    { "type": "esriJobMessageTypeInformative", "description": "Start Time: Thu Mar 11 12:47:15 2021" },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "Executing (GetSegmentFromCoords): GetSegmentFromCoords \"Feature Set\""
+    },
+    { "type": "esriJobMessageTypeInformative", "description": "Start Time: Thu Mar 11 12:47:15 2021" },
+    { "type": "esriJobMessageTypeInformative", "description": "Running script GetSegmentFromCoords..." },
+    { "type": "esriJobMessageTypeInformative", "description": "Completed script GetSegmentFromCoords..." },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "Succeeded at Thu Mar 11 12:47:16 2021 (Elapsed Time: 1.73 seconds)"
+    },
+    {
+      "type": "esriJobMessageTypeInformative",
+      "description": "Succeeded at Thu Mar 11 12:47:16 2021 (Elapsed Time: 1.73 seconds)"
+    }
+  ]
+}

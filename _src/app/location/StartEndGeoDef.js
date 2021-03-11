@@ -128,9 +128,9 @@ define([
 
       params = this.getXHRParams(start, end);
 
-      xhr(this.gpServiceUrl + '/submitJob?', params).then(
+      xhr(this.gpServiceUrl + '/execute?', params).then(
         function (data) {
-          if (!that.onGetSegsCallback(data, def)) {
+          if (!that.getJobResults(data, def)) {
             def.reject('There was an error with the verify service.');
           }
         },
