@@ -116,7 +116,7 @@ var profile = {
         name: 'clsx',
         location: '../node_modules/clsx/dist',
         trees: [
-            ['.', '.', /(\/\.)|(~$)|(m\.js|min\.js)/]
+            ['.', '.', /(\/\.)|(~$)|(m\.js)/]
         ]
     }, {
         name: 'react-app',

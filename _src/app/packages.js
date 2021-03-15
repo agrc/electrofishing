@@ -103,7 +103,7 @@ require({
     {
       name: 'clsx',
       location: '../node_modules/clsx/dist',
-      main: 'clsx',
+      main: 'clsx.min',
     },
     {
       name: 'uuid',
