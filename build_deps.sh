@@ -1,5 +1,7 @@
 #!/bin/bash
 echo 'copying assets'
+mkdir src/react-app
+mkdir src/react-app/assets
 cp _src/react-app/assets/**/*.* src/react-app/assets
 
 echo 'starting babel'
