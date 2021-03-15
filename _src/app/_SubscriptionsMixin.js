@@ -1,8 +1,4 @@
-define([
-  'dojo/_base/declare',
-
-  'pubsub-js'
-], function (
+define(['dojo/_base/declare', 'pubsub-js'], function (
   declare,
 
   pubSub
@@ -23,6 +19,6 @@ define([
       this._subscriptions.forEach((token) => pubSub.unsubscribe(token));
 
       this.inherited(arguments);
-    }
+    },
   });
 });

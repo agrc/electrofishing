@@ -9,26 +9,36 @@
     "@babel/plugin-transform-parameters": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-react": "^7.12.5",
-    "@storybook/addon-actions": "^6.0.28",
-    "@storybook/addon-essentials": "^6.0.28",
-    "@storybook/addon-links": "^6.0.28",
-    "@storybook/react": "^6.0.28",
+    "@storybook/addon-actions": "^6.1.20",
+    "@storybook/addon-essentials": "^6.1.20",
+    "@storybook/addon-links": "^6.1.20",
+    "@storybook/react": "^6.1.20",
+    "@testing-library/cypress": "^7.0.4",
     "babel-core": "6.26.3",
+    "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
-    "babel-plugin-transform-node-env-inline": "^0.4.3",
+    "babel-plugin-inline-json-import": "^0.3.2",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "babel-plugin-transform-remove-strict-mode": "0.0.2",
     "babel-preset-latest": "^6.24.1",
     "concurrently": "^5.3.0",
-    "core-js": "^3.7.0",
-    "cypress": "^5.6.0",
+    "core-js": "^3.8.3",
+    "cypress": "^6.6.0",
     "cypress-plugin-tab": "^1.0.5",
     "dojo-webpack-plugin": "^2.8.18",
     "es6-object-assign": "1.1.0",
-    "eslint": "^4.19.1",
-    "eslint-config-agrc": "1.2.0",
+    "eslint": "^7.19.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-cypress": "^2.11.2",
-    "eslint-plugin-html": "4.0.3",
-    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-flowtype": "^5.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jasmine": "^4.1.2",
+    "eslint-plugin-jest": "^24.1.3",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-testing-library": "^3.10.1",
     "grunt": "^1.0.1",
     "grunt-babel": "^8.0.0",
     "grunt-bump": "^0.8.0",
@@ -39,46 +49,76 @@
     "grunt-contrib-imagemin": "^2.0.1",
     "grunt-contrib-jasmine": "2.0.1",
     "grunt-contrib-stylus": "^1.2.0",
-    "grunt-contrib-uglify": "^5.0.0",
+    "grunt-contrib-uglify-es": "^3.3.0",
     "grunt-contrib-watch": "1.0.1",
     "grunt-dojo": "^1.1.2",
-    "grunt-eslint": "^20.1.0",
+    "grunt-eslint": "^23.0.0",
     "grunt-newer": "^1.2.0",
     "grunt-processhtml": "^0.4.1",
     "grunt-ssh": "^0.12.9",
     "jasmine": "3.1.0",
     "load-grunt-tasks": "^3.5.2",
-    "puppeteer": "1.13.0",
+    "prettier": "^2.2.1",
     "react-is": "^17.0.1",
     "sass": "^1.29.0",
     "start-server-and-test": "^1.11.5"
   },
   "scripts": {
     "babel-deps": "bash ./build_deps.sh",
-    "babel-react-watch": "export BABEL_ENV=development && babel --watch --out-dir src/react-app _src/react-app",
+    "babel-react-watch": "export REACT_APP_BUILD=development && export BABEL_ENV=development && babel --watch --out-dir src/react-app _src/react-app",
     "babel-react": "babel --out-dir src/react-app _src/react-app",
-    "build-stage": "export BABEL_ENV=test && npm run babel-deps && npm run sass && npm run babel-react && grunt build-stage",
-    "build": "export BABEL_ENV=production && npm run babel-deps && npm run sass && npm run babel-react && grunt build-prod",
-    "cypress:run": "start-server-and-test 'npm start' http://localhost:8000 'cypress run'",
+    "build-stage": "export REACT_APP_BUILD=stage && export BABEL_ENV=test && npm run babel-deps && npm run sass && npm run babel-react && grunt build-stage",
+    "build": "export REACT_APP_BUILD=prod && export BABEL_ENV=production && npm run babel-deps && npm run sass && npm run babel-react && grunt build-prod",
     "cypress:open": "concurrently \"npm start\" \"cypress open\"",
     "deploy-stage-app-only": "grunt deploy-stage-app-only",
     "deploy-stage": "grunt deploy-stage",
     "deploy": "grunt deploy-prod",
     "sass": "sass _src/react-app:src/react-app",
     "start": "npm run babel-deps && sass _src/react-app:src/react-app --watch & npm run babel-react-watch & grunt",
-    "storybook": "start-storybook -p 6006 --no-dll",
-    "test": "npm run babel-deps && npm run babel-react && grunt travis && npm run cypress:run"
+    "storybook": "start-storybook -p 6006 --no-dll -s ./src",
+    "test": "eslint ./_src"
   },
   "dependencies": {
+    "downshift": "^6.1.0",
+    "esri-leaflet": "^3.0.1",
+    "immer": "^8.0.1",
+    "leaflet": "^1.7.1",
+    "localforage": "^1.9.0",
     "pubsub-js": "^1.9.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-toastify": "^6.1.0"
+    "react-leaflet": "^3.1.0",
+    "react-toastify": "^6.1.0",
+    "use-immer": "^0.4.2",
+    "uuid": "^8.3.1"
   },
   "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+    "last 2 versions and > 2%"
+  ],
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest",
+      "prettier",
+      "plugin:cypress/recommended"
+    ],
+    "plugins": [
+      "jasmine"
+    ],
+    "globals": {
+      "L": false
+    },
+    "env": {
+      "jasmine": true,
+      "jquery": true,
+      "amd": true
+    },
+    "rules": {
+      "import/no-amd": 0
+    }
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 120
+  }
 }

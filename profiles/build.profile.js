@@ -15,7 +15,7 @@ var profile = {
                 'dojo/domReady',
                 'app/packages',
                 'app/run',
-                'app/App'
+                'react-app/App'
             ],
             includeLocales: ['en-us'],
             customBase: true,
@@ -48,6 +48,30 @@ var profile = {
             }
         }
     }, {
+        name: 'downshift',
+        location: '../node_modules/downshift/dist',
+        trees: [
+            ['.', '.', /(\/\.)|(~$)|(\.esm\.js)/]
+        ]
+    }, {
+        name: 'immer',
+        location: '../node_modules/immer/dist',
+        trees: [
+            ['.', '.', /(\/\.)|(~$)|(\.esm\.js)/]
+        ]
+    }, {
+        name: 'prop-types',
+        location: '../node_modules/prop-types',
+        trees: [
+            ['.', '.', /(\/\.)|(~$)|(node_modules)/]
+        ]
+    }, {
+        name: 'use-immer',
+        location: '../node_modules/use-immer/dist',
+        trees: [
+            ['.', '.', /(\/\.)|(~$)|(\.modern\.js)/]
+        ]
+    }, {
         name: 'toaster',
         resourceTags: {
             amd: function (filename) {
@@ -78,7 +102,7 @@ var profile = {
         ]
     }, {
         name: 'esri-leaflet',
-        location: './esri-leaflet',
+        location: '../node_modules/esri-leaflet',
         trees: [
             ['.', '.', /(\/\.)|(~$)|(profiles|src)/]
         ]
@@ -87,6 +111,12 @@ var profile = {
         location: './papaparse',
         trees: [
             ['.', '.', /(\/\.)|(~$)|(docs|Gruntfile|bower)/]
+        ]
+    }, {
+        name: 'clsx',
+        location: '../node_modules/clsx/dist',
+        trees: [
+            ['.', '.', /(\/\.)|(~$)|(m\.js)/]
         ]
     }, {
         name: 'react-app',

@@ -1,0 +1,91 @@
+import * as React from 'react';
+import { useImmerReducer } from 'use-immer';
+import Header from './components/Header';
+import { ToastContainer } from 'react-toastify';
+import NewCollectionEvent from './components/NewCollectionEvent';
+
+export const AppContext = React.createContext();
+export const actionTypes = {
+  CURRENT_MAP_ZOOM: 'CURRENT_MAP_ZOOM',
+  CURRENT_MAP_CENTER: 'CURRENT_MAP_CENTER',
+  SUBMIT_LOADING: 'SUBMIT_LOADING',
+  MAP: 'MAP',
+  CURRENT_TAB: 'CURRENT_TAB',
+};
+
+const initialState = {
+  zoom: 10,
+  // TODO: get from geolocation
+  center: L.latLng(40.6, -111.7),
+  submitLoading: false,
+  map: null,
+  currentTab: 'locationTab',
+};
+
+const reducer = (draft, action) => {
+  switch (action.type) {
+    case actionTypes.CURRENT_MAP_ZOOM:
+      draft.zoom = action.payload;
+
+      break;
+
+    case actionTypes.CURRENT_MAP_CENTER:
+      draft.center = action.payload;
+
+      break;
+
+    case actionTypes.SUBMIT_LOADING:
+      draft.submitLoading = action.payload;
+
+      break;
+
+    case actionTypes.MAP:
+      draft.map = action.payload;
+
+      break;
+
+    case actionTypes.CURRENT_TAB:
+      draft.currentTab = action.payload;
+
+      break;
+
+    default:
+      break;
+  }
+};
+
+const App = () => {
+  const [appState, appDispatch] = useImmerReducer(reducer, initialState);
+
+  React.useEffect(() => {
+    // for tests?
+    document.body.className += ' loaded';
+  }, []);
+
+  return (
+    <AppContext.Provider value={{ appState, appDispatch }}>
+      <div className="app">
+        <Header submitLoading={appState.submitLoading} />
+
+        <div className="container main-container">
+          <NewCollectionEvent />
+        </div>
+
+        <div data-dojo-type="app/SettingsDialog"></div>
+
+        <footer>
+          <div className="container">
+            Built by{' '}
+            <a href="http://gis.utah.gov/developer" title="AGRC" target="_blank" rel="noreferrer">
+              AGRC
+            </a>
+          </div>
+        </footer>
+
+        <ToastContainer />
+      </div>
+    </AppContext.Provider>
+  );
+};
+
+export default App;

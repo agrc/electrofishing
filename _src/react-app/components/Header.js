@@ -1,8 +1,25 @@
-import React from 'react';
-import config from 'app/config';
+import * as React from 'react';
+import config from '../config';
 import topic from 'pubsub-js';
+import { AppContext, actionTypes } from '../App';
 
-export default function Header() {
+export default function Header({ submitLoading }) {
+  const submitButtonRef = React.useRef();
+  const { appDispatch } = React.useContext(AppContext);
+
+  React.useEffect(() => {
+    $(submitButtonRef.current).button(submitLoading ? 'loading' : 'reset');
+  }, [submitLoading]);
+
+  React.useEffect(() => {
+    $('.header a[data-toggle="tab"]').on('shown.bs.tab', (event) => {
+      appDispatch({
+        type: actionTypes.CURRENT_TAB,
+        payload: event.target.href.split('#')[1],
+      });
+    });
+  }, [appDispatch]);
+
   return (
     <div className="navbar navbar-inverse navbar-fixed-top header">
       <div className="container-fluid">
@@ -26,18 +43,15 @@ export default function Header() {
             </a>
           </span>
           <button
-            onClick={() =>
-              topic.publishSync(config.topics.onSubmitReportClick)
-            }
+            onClick={() => topic.publishSync(config.topics.onSubmitReportClick)}
             data-loading-text="submitting report..."
             className="btn btn-success navbar-btn"
+            ref={submitButtonRef}
           >
             Submit Report
           </button>
           <button
-            onClick={() =>
-              topic.publishSync(config.topics.onCancelReportClick)
-            }
+            onClick={() => topic.publishSync(config.topics.onCancelReportClick)}
             className="btn btn-default navbar-btn"
           >
             Cancel

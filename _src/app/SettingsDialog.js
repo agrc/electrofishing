@@ -1,88 +1,91 @@
 define([
-    'app/config',
+  'react-app/config',
 
-    'dijit/_TemplatedMixin',
-    'dijit/_WidgetBase',
-    'dijit/_WidgetsInTemplateMixin',
+  'dijit/_TemplatedMixin',
+  'dijit/_WidgetBase',
+  'dijit/_WidgetsInTemplateMixin',
 
-    'dojo/query',
-    'dojo/text!app/templates/SettingsDialog.html',
-    'pubsub-js',
-    'dojo/_base/declare'
+  'dojo/query',
+  'dojo/text!app/templates/SettingsDialog.html',
+  'pubsub-js',
+  'dojo/_base/declare',
 ], function (
-    config,
+  config,
 
-    _TemplatedMixin,
-    _WidgetBase,
-    _WidgetsInTemplateMixin,
+  _TemplatedMixin,
+  _WidgetBase,
+  _WidgetsInTemplateMixin,
 
-    query,
-    template,
-    topic,
-    declare
+  query,
+  template,
+  topic,
+  declare
 ) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
-        widgetsInTemplate: true,
-        templateString: template,
-        baseClass: 'settings-dialog',
+  // TODO: remove once this module is converted to a component
+  config = config.default;
 
-        // currentType: String (config.coordTypes)
-        //      The currently selected coord type
-        currentType: null,
+  return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+    widgetsInTemplate: true,
+    templateString: template,
+    baseClass: 'settings-dialog',
 
-        constructor: function () {
-            console.log('app/SettingsDialog:constructor', arguments);
-        },
-        postCreate: function () {
-            // summary:
-            //      dom is ready
-            console.log('app/SettingsDialog:postCreate', arguments);
+    // currentType: String (config.coordTypes)
+    //      The currently selected coord type
+    currentType: null,
 
-            this.wireEvents();
+    constructor: function () {
+      console.log('app/SettingsDialog:constructor', arguments);
+    },
+    postCreate: function () {
+      // summary:
+      //      dom is ready
+      console.log('app/SettingsDialog:postCreate', arguments);
 
-            if (localStorage.coordType) {
-                $(this['coord_' + localStorage.coordType + 'Btn']).button('toggle');
-                this.onCoordTypeChange(localStorage.coordType);
-            } else {
-                // default to utm83 coord type
-                this.onCoordTypeChange(config.coordTypes.utm83);
-            }
+      this.wireEvents();
 
-            this.mouseWheelChBox.checked = (localStorage.mouseWheelZooming === 'true');
-            this.onMouseWheelChange();
-        },
-        wireEvents: function () {
-            // summary:
-            //      description
-            console.log('app/SettingsDialog:wireEvents', arguments);
+      if (localStorage.coordType) {
+        $(this['coord_' + localStorage.coordType + 'Btn']).button('toggle');
+        this.onCoordTypeChange(localStorage.coordType);
+      } else {
+        // default to utm83 coord type
+        this.onCoordTypeChange(config.coordTypes.utm83);
+      }
 
-            var that = this;
+      this.mouseWheelChBox.checked = localStorage.mouseWheelZooming === 'true';
+      this.onMouseWheelChange();
+    },
+    wireEvents: function () {
+      // summary:
+      //      description
+      console.log('app/SettingsDialog:wireEvents', arguments);
 
-            query('.btn-group .btn', this.domNode).on('click', function (evt) {
-                that.onCoordTypeChange(evt.target.children[0].value);
-            });
-        },
-        onCoordTypeChange: function (type) {
-            // summary:
-            //      Fires when one of the buttons has been selected
-            // type: String (config.coordTypes)
-            console.log('app/SettingsDialog:onCoordTypeChange', arguments);
+      var that = this;
 
-            this.currentType = type;
+      query('.btn-group .btn', this.domNode).on('click', function (evt) {
+        that.onCoordTypeChange(evt.target.children[0].value);
+      });
+    },
+    onCoordTypeChange: function (type) {
+      // summary:
+      //      Fires when one of the buttons has been selected
+      // type: String (config.coordTypes)
+      console.log('app/SettingsDialog:onCoordTypeChange', arguments);
 
-            // store in localStorage
-            localStorage.coordType = type;
+      this.currentType = type;
 
-            topic.publishSync(config.topics.coordTypeToggle_onChange, type);
-        },
-        onMouseWheelChange: function () {
-            // summary:
-            //      update localstorage and fire topic
-            console.log('app/SettingsDialog:onMouseWheelChange', arguments);
+      // store in localStorage
+      localStorage.coordType = type;
 
-            localStorage.mouseWheelZooming = this.mouseWheelChBox.checked;
+      topic.publishSync(config.topics.coordTypeToggle_onChange, type);
+    },
+    onMouseWheelChange: function () {
+      // summary:
+      //      update localstorage and fire topic
+      console.log('app/SettingsDialog:onMouseWheelChange', arguments);
 
-            topic.publishSync(config.topics.mouseWheelZooming_onChange, this.mouseWheelChBox.checked);
-        }
-    });
+      localStorage.mouseWheelZooming = this.mouseWheelChBox.checked;
+
+      topic.publishSync(config.topics.mouseWheelZooming_onChange, this.mouseWheelChBox.checked);
+    },
+  });
 });

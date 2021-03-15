@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>OtherOptionHandler Tests</title>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="../resources/App.css">
-    <style>
-    </style>
-</head>
-<body class="claro">
+    <link rel="stylesheet" href="../resources/App.css" />
+    <style></style>
+  </head>
+  <body class="claro">
     <div id="testDiv"></div>
     <select id="testSelect">
-        <option value="blah">blah</option>
-        <option value="blah2">blah2</option>
+      <option value="blah">blah</option>
+      <option value="blah2">blah2</option>
     </select>
 
     <script type="text/javascript" src="../../jquery/dist/jquery.js"></script>
@@ -23,21 +22,20 @@
     <script src="../../app/packages.js"></script>
 
     <script>
-        require({baseUrl: '../../'}, [
-            'app/OtherOptionHandler',
+      require({ baseUrl: '../../' }, ['app/OtherOptionHandler', 'dojo/domReady!'], function (OtherOptionHandler) {
+        const select = document.getElementById('testSelect');
+        const existingOptions = Array.from(select.children).map((option) => option.value);
 
-            'dojo/domReady!'
-        ], function (OtherOptionHandler) {
-            const select = document.getElementById('testSelect');
-            const existingOptions = Array.from(select.children).map(option => option.value);
-
-            var ooh = new OtherOptionHandler({
-                select,
-                existingOptions
-            }, 'testDiv');
-            ooh.startup();
-            ooh.on('add-new-value', event => console.log(event.code));
-        });
+        var ooh = new OtherOptionHandler(
+          {
+            select,
+            existingOptions,
+          },
+          'testDiv'
+        );
+        ooh.startup();
+        ooh.on('add-new-value', (event) => console.log(event.code));
+      });
     </script>
-</body>
+  </body>
 </html>

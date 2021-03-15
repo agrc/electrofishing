@@ -1,0 +1,25 @@
+$optionPadding: 3px 20px;
+.combobox {
+  .btn.btn-link {
+    display: block;
+    color: #333;
+    width: 100%;
+    text-align: left;
+    padding: $optionPadding;
+    &:hover,
+    &:active,
+    &:focus {
+      text-decoration: none;
+      background-color: #f5f5f5;
+    }
+    &.active {
+      background-color: #337ab7;
+      color: white;
+    }
+  }
+  .empty-option {
+    padding: $optionPadding;
+    color: #777;
+    cursor: not-allowed;
+  }
+}
