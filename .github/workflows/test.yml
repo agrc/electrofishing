@@ -11,7 +11,9 @@ jobs:
           node-version: '10'
 
       - name: Install deps
-        run: npm install && npm install -g bower && bower install
+        run: |
+          npm install && npm install -g bower && bower install
+          echo "{\"quadWord\": \"test\"}" > ./_src/react-app/secrets.json
 
       - name: Cypress run
         uses: cypress-io/github-action@v2
