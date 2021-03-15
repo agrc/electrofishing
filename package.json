@@ -49,7 +49,7 @@
     "grunt-contrib-imagemin": "^2.0.1",
     "grunt-contrib-jasmine": "2.0.1",
     "grunt-contrib-stylus": "^1.2.0",
-    "grunt-contrib-uglify": "^5.0.0",
+    "grunt-contrib-uglify-es": "^3.3.0",
     "grunt-contrib-watch": "1.0.1",
     "grunt-dojo": "^1.1.2",
     "grunt-eslint": "^23.0.0",

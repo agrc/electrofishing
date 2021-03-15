@@ -23,7 +23,7 @@ require({
     {
       name: 'esri-leaflet',
       location: '../node_modules/esri-leaflet',
-      main: 'dist/esri-leaflet-debug',
+      main: 'dist/esri-leaflet',
     },
     {
       name: 'downshift',
@@ -52,7 +52,7 @@ require({
     },
     {
       name: 'localforage',
-      location: './localforage/dist',
+      location: '../node_modules/localforage/dist',
       main: 'localforage',
     },
     {
@@ -103,7 +103,7 @@ require({
     {
       name: 'clsx',
       location: '../node_modules/clsx/dist',
-      main: 'clsx.min',
+      main: 'clsx',
     },
     {
       name: 'uuid',
