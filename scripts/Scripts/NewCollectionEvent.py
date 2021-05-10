@@ -21,7 +21,7 @@ import pyodbc
 
 def clean_up_time(attributes):
     time = None
-    if ':' in attributes['EVENT_TIME']:
+    if attributes['EVENT_TIME'] is not None and ':' in attributes['EVENT_TIME']:
         time = datetime.datetime.strptime(attributes['EVENT_TIME'],
                                           '%H:%M').time()
 
