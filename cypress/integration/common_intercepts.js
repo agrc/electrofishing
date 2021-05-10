@@ -16,7 +16,7 @@ export default function commonIntercepts() {
   ];
   baseRoutes.forEach((route) => {
     cy.intercept('GET', new RegExp(`/arcgis/rest/services/Electrofishing/${route}$`), { fixture: `${route}.json` });
-    cy.intercept('GET', `/arcgis/rest/services/Electrofishing/${route}?`, { fixture: `${route}.json` });
+    cy.intercept('GET', `/arcgis/rest/services/Electrofishing/${route}?*`, { fixture: `${route}.json` });
   });
 
   const queryRoutes = ['MapService/FeatureServer/0', 'Reference/MapServer/0', 'Reference/MapServer/1'];

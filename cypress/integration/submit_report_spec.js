@@ -53,8 +53,8 @@ describe('SubmitReport', () => {
     cy.get('[data-dojo-attach-point="numberAnodesTxt"]').type('{backspace}2');
 
     cy.get('.equipment .dgrid-scroller table td.field-ANODE_DIAMETER').type('1');
-    cy.focused().tab().tab().type('2');
-    cy.focused().tab().tab().type('R');
+    cy.get('.equipment .dgrid .dgrid-row > .dgrid-row-table > tr > .dgrid-column-3').first().type('2');
+    cy.get('.equipment .dgrid .dgrid-row > .dgrid-row-table > tr > .dgrid-column-4').first().type('R');
 
     // catch tab
     cy.get('a[href="#catchTab"]').click();
@@ -62,10 +62,11 @@ describe('SubmitReport', () => {
     const GRID_DROPDOWN_DELAY = 500; // give the drop downs some time to catch up
     cy.get('.catch .dgrid-scroller table td.field-SPECIES_CODE').type('B');
     cy.wait(GRID_DROPDOWN_DELAY);
-    cy.focused().tab().tab().type('s');
+    cy.get('.catch .dgrid-scroller table td.field-LENGTH_TYPE').type('s');
     cy.wait(GRID_DROPDOWN_DELAY);
-    cy.focused().tab().tab().type('1');
-    cy.focused().tab().tab().type('1');
+    cy.get('.catch .dgrid-scroller table td.field-LENGTH').type('1');
+    cy.get('.catch .dgrid-scroller table td.field-WEIGHT').type('1');
+    cy.focused().tab().tab().tab().tab();
 
     // add fish notes
     cy.get('[data-tab="Notes_tab"]').click();
