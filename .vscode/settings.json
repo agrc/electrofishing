@@ -18,6 +18,7 @@
     "deps",
     "ellps",
     "fishsample",
+    "flowtype",
     "geodef",
     "immer",
     "latlng",
