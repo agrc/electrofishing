@@ -16,7 +16,7 @@ export default async function submitJob(data, url) {
     const responseJson = await response.json();
 
     if (responseJson.error) {
-      throw new Error(responseJson.error);
+      throw new Error(JSON.stringify(responseJson.error));
     } else {
       return true;
     }

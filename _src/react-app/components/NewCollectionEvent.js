@@ -284,7 +284,7 @@ const NewCollectionEvent = () => {
     (message) => {
       console.log('app/NewCollectionEvent:onError');
 
-      setValidateMsg(`${submitErrMsg}: ${message}`);
+      setValidateMsg(`${submitErrMsg}: ${typeof message === 'string' ? message : message.message || message}`);
       window.scrollTo(0, 0);
       appDispatch({
         type: appActionTypes.SUBMIT_LOADING,
@@ -338,8 +338,7 @@ const NewCollectionEvent = () => {
           onError(error.message);
         }
 
-        // stringify, parse is so that we have a clean object to store in localforage
-        return archivesLocalForage.current.setItem(config.eventId, JSON.parse(data_txt));
+        return archivesLocalForage.current.setItem(config.eventId, data_txt);
       },
       () => {
         appDispatch({
