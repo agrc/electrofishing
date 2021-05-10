@@ -6,9 +6,18 @@ export default async function submitJob(data, url) {
   // returns: Deferred
   console.log('submitJob');
 
+  const urlSearchParams = new URLSearchParams();
+
+  for (const prop in data) {
+    urlSearchParams.append(prop, data[prop]);
+  }
+
   const params = {
     method: 'POST',
-    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: urlSearchParams,
   };
 
   try {
