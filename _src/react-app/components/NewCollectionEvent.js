@@ -340,7 +340,11 @@ const NewCollectionEvent = () => {
           onError(error.message);
         }
 
-        return archivesLocalForage.current.setItem(config.eventId, data_txt);
+        // stringify, parse is so that we have a clean object to store in localforage
+        return archivesLocalForage.current.setItem(
+          data[config.tableNames.samplingEvents].attributes[config.fieldNames.samplingEvents.EVENT_ID],
+          JSON.parse(JSON.stringify(data))
+        );
       },
       () => {
         appDispatch({
