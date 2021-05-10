@@ -52,7 +52,9 @@ const reducer = (draft, action) => {
   switch (action.type) {
     case actionTypes.LOCATION:
       if (action.meta === 'geometry') {
-        draft[config.tableNames.samplingEvents].geometry = action.payload;
+        draft[config.tableNames.samplingEvents].geometry = action.payload.geometry;
+        draft[config.tableNames.samplingEvents].attributes[config.fieldNames.samplingEvents.GEO_DEF] =
+          action.payload.geoDef;
       } else {
         draft[config.tableNames.samplingEvents].attributes[action.meta] = action.payload;
       }

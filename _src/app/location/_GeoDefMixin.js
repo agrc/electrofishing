@@ -70,7 +70,9 @@ define(['dojo/Deferred', 'dojo/promise/all', 'dojo/request/xhr', 'dojo/_base/arr
       // def: dojo.Deferred
       console.log('app/location/_GeoDefMixin:getJobResults', arguments);
 
-      const returnData = {};
+      const returnData = {
+        geoDef: this.geoDef,
+      };
 
       const setSegmentWGS = function (value) {
         if (value.features.length > 0) {

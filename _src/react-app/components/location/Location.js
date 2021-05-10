@@ -153,7 +153,7 @@ const Location = () => {
       eventDispatch({
         type: actionTypes.LOCATION,
         meta: 'geometry',
-        payload: null,
+        payload: { geometry: null, geoDef: null },
       });
     };
 
@@ -167,8 +167,13 @@ const Location = () => {
             type: actionTypes.LOCATION,
             meta: 'geometry',
             payload: {
-              ...response.utm,
-              wkid: 26912,
+              geometry: {
+                ...response.utm,
+                spatialReference: {
+                  wkid: 26912,
+                },
+              },
+              geoDef: response.geoDef,
             },
           });
         } else {
