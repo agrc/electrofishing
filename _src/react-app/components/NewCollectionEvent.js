@@ -20,6 +20,7 @@ export const actionTypes = {
   LOCATION: 'LOCATION',
   CLEAR: 'CLEAR',
   OTHER: 'OTHER',
+  HYDRATE: 'HYDRATE',
 };
 const getBlankState = () => {
   const fn = config.fieldNames.samplingEvents;
@@ -68,6 +69,11 @@ const reducer = (draft, action) => {
 
     case actionTypes.CLEAR:
       return getBlankState();
+
+    case actionTypes.HYDRATE:
+      return {
+        ...action.payload,
+      };
 
     default:
       break;
@@ -129,8 +135,23 @@ const NewCollectionEvent = () => {
   // cache in-progress data so that we don't loose it on page refresh
   // TODO: look at using little state machine library for this
   React.useEffect(() => {
-    localforage.setItem(LOCAL_STORAGE_IN_PROGRESS_ITEM_ID, JSON.stringify(eventState));
+    localforage.setItem(LOCAL_STORAGE_IN_PROGRESS_ITEM_ID, eventState);
   }, [eventState]);
+  React.useEffect(() => {
+    console.log('getting cached data');
+    // TODO: handle stream reach geometry once geodefs have been converted to react components
+
+    localforage.getItem(LOCAL_STORAGE_IN_PROGRESS_ITEM_ID).then((data) => {
+      if (Object.values(data).length) {
+        console.log('hydrating with cached data');
+
+        eventDispatch({
+          type: actionTypes.HYDRATE,
+          payload: data,
+        });
+      }
+    });
+  }, [eventDispatch]);
 
   React.useEffect(() => {
     const validator = new NumericInputValidator();
