@@ -179,7 +179,7 @@ const NewCollectionEvent = () => {
       // label should have an id of the field name that it corresponds to
       const label = document.getElementById(fieldName);
       const value = eventState[config.tableNames.samplingEvents].attributes[fieldName];
-      if (value === '' || value === 0) {
+      if (!value) {
         return `Missing value for ${label.innerText}!`;
       }
 
