@@ -247,6 +247,7 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
                     type="text"
                     value={stationName}
                     className="form-control"
+                    maxLength={50}
                     onChange={(event) => setStationName(event.target.value)}
                   />
                 </div>

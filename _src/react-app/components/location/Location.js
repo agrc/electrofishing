@@ -329,7 +329,7 @@ const Location = () => {
           <label className="control-label" htmlFor={`${fieldNames.LOCATION_NOTES}_input`}>
             Additional Location Notes (optional)
           </label>
-          <input type="textarea" {...getLocationInputProps(fieldNames.LOCATION_NOTES)} />
+          <textarea {...getLocationInputProps(fieldNames.LOCATION_NOTES)} maxLength={1000} rows={5} />
         </div>
       </div>
 
@@ -339,7 +339,7 @@ const Location = () => {
             Observers
           </label>
           <span className="text-danger required">*</span>
-          <input type="textarea" {...getLocationInputProps(fieldNames.OBSERVERS)} />
+          <textarea {...getLocationInputProps(fieldNames.OBSERVERS)} maxLength={255} rows={5} />
         </div>
       </div>
     </div>
