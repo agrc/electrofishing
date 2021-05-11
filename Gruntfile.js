@@ -331,5 +331,5 @@ module.exports = function (grunt) {
     'processhtml:main',
   ]);
   grunt.registerTask('deploy-stage', ['sftp:stage']);
-  grunt.registerTask('deploy-app-only', ['sftp:appPackageOnly']);
+  grunt.registerTask('deploy-stage-app-only', ['sftp:appPackageOnly']);
 };
