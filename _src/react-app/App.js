@@ -3,6 +3,8 @@ import { useImmerReducer } from 'use-immer';
 import Header from './components/Header';
 import { ToastContainer } from 'react-toastify';
 import NewCollectionEvent from './components/NewCollectionEvent';
+import useDojoWidget from './hooks/useDojoWidget';
+import SettingsDialog from 'app/SettingsDialog';
 
 export const AppContext = React.createContext();
 export const actionTypes = {
@@ -62,6 +64,9 @@ const App = () => {
     document.body.className += ' loaded';
   }, []);
 
+  const settingsDialogDiv = React.useRef(null);
+  useDojoWidget(settingsDialogDiv, SettingsDialog);
+
   return (
     <AppContext.Provider value={{ appState, appDispatch }}>
       <div className="app">
@@ -71,7 +76,7 @@ const App = () => {
           <NewCollectionEvent />
         </div>
 
-        <div data-dojo-type="app/SettingsDialog"></div>
+        <div ref={settingsDialogDiv}></div>
 
         <footer>
           <div className="container">
