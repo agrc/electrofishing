@@ -13,11 +13,11 @@ EVENT_DATE = 'EVENT_DATE'
 # END LOCAL CONFIGS
 
 # BEGIN TEST SERVER CONFIGS
-# STREAMS = path.join(path.dirname(__file__), r'ELECTROFISHING_Test as WildAdmin.sde\Wildlife.WILDADMIN.UDWRStreams')
-# STATIONS = path.join(path.dirname(__file__), r'ELECTROFISHING_Test as WildAdmin.sde\Wildlife.WILDADMIN.Stations')
+# STREAMS = path.join(path.dirname(__file__), r'ELECTROFISHING_Test as WildAdmin.sde\Electrofishing.WILDADMIN.UDWRStreams')
+# STATIONS = path.join(path.dirname(__file__), r'ELECTROFISHING_Test as WildAdmin.sde\Electrofishing.WILDADMIN.Stations')
 # DB = path.join(path.dirname(__file__), r'ELECTROFISHING_Test as WildAdmin.sde')
-# DATAPATH = path.join(DB, 'Wildlife.WILDADMIN.')
-# DATABASE_NAME = 'Wildlife'
+# DATAPATH = path.join(DB, 'Electrofishing.WILDADMIN.')
+# DATABASE_NAME = 'Electrofishing'
 # END TEST SERVER CONFIGS
 
 # BEGIN PROD SERVER CONFIGS

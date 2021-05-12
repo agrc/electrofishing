@@ -31,7 +31,6 @@ Production: [https://dwrapps.utah.gov/fishsample/dataentry/](https://dwrapps.uta
 1. Update `scripts/Scripts/settings/__init__.py`.
 1. Create `scripts/Scripts/settings/secrets.py`.
 1. Publish all tools in `scripts/Toolbox.tbx` as `Electrofishing/Toolbox` **Requires ArcGIS Server Advanced**
-   1. `Synchronous`
    1. `GetSegmentFromCoords`
       - `points`: `scripts\ToolData\TestData.gdb\StartEnd_fork`
    1. `GetSegmentFromStartDistDirt`
@@ -40,6 +39,7 @@ Production: [https://dwrapps.utah.gov/fishsample/dataentry/](https://dwrapps.uta
       - `direction`: `up`
    1. `NewCollectionEvent`
       - Test Input: **copy paste contents of** `scripts/Scripts/TestData/NewCollectionEventData.json` (minified)
+   1. `Synchronous`
    1. Copy `scripts/Scripts/settings` & `dijkstras.py` to `<ArcGISServerDirectory>directories\arcgissystem\arcgisinput\Electrofishing\Toolbox.GPServer\extracted\v101\scripts`.
 1. `npm run build` or `npm run build-stage`
 1. `npm run deploy` (builds a zip file to send to DWR) or `npm run deploy-stage` or `npm run deploy-stage-app-only` (deploys only the `app` and `react-app` packages) (much faster via VPN)
