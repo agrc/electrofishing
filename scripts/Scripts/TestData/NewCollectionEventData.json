@@ -20,10 +20,10 @@
         "attributes": {
             "EVENT_ID": "{1f581e32-ff55-4a0b-84bb-bf10751b8c35}",
             "GEO_DEF": null,
-            "LOCATION_NOTES": "",
+            "LOCATION_NOTES": "delete me",
             "EVENT_DATE": "2018-05-15",
             "EVENT_TIME": "",
-            "OBSERVERS": "",
+            "OBSERVERS": "test person",
             "WEATHER": "snow",
             "SEGMENT_LENGTH": 3990,
             "NUM_PASSES": 2
