@@ -48,6 +48,27 @@ var profile = {
             }
         }
     }, {
+        name: 'uuid',
+        resourceTags: {
+            amd: function () {
+                return true;
+            }
+        }
+    }, {
+        name: 'use-immer',
+        resourceTags: {
+            amd: function () {
+                return true;
+            }
+        }
+    }, {
+        name: 'esri-leaflet',
+        resourceTags: {
+            amd: function () {
+                return true;
+            }
+        }
+    }, {
         name: 'downshift',
         location: '../node_modules/downshift/dist',
         trees: [
@@ -58,7 +79,12 @@ var profile = {
         location: '../node_modules/immer/dist',
         trees: [
             ['.', '.', /(\/\.)|(~$)|(\.esm\.js)/]
-        ]
+        ],
+        resourceTags: {
+            amd: function () {
+                return true;
+            }
+        }
     }, {
         name: 'prop-types',
         location: '../node_modules/prop-types',

@@ -6,6 +6,7 @@
     "@babel/plugin-transform-destructuring",
     "@babel/plugin-proposal-optional-chaining",
     "transform-inline-environment-variables",
+    "transform-react-remove-prop-types",
     ["inline-json-import", {}]
   ]
 }
