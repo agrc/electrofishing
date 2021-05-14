@@ -24,11 +24,16 @@ export const actionTypes = {
 };
 const getBlankState = () => {
   const fn = config.fieldNames.samplingEvents;
+  const guid = getGUID();
+
+  // this can be removed once these widgets are converted to components and use eventState:
+  // Catch, Habitat, Equipment
+  config.eventId = guid;
 
   return {
     [config.tableNames.samplingEvents]: {
       attributes: {
-        [fn.EVENT_ID]: getGUID(),
+        [fn.EVENT_ID]: guid,
         [fn.GEO_DEF]: null,
         [fn.LOCATION_NOTES]: null,
         [fn.EVENT_DATE]: null,
@@ -71,9 +76,12 @@ const reducer = (draft, action) => {
       return getBlankState();
 
     case actionTypes.HYDRATE:
-      return {
-        ...action.payload,
-      };
+      // this can be removed once these widgets are converted to components and use eventState:
+      // Catch, Habitat, Equipment
+      config.eventId =
+        action.payload[config.tableNames.samplingEvents].attributes[config.fieldNames.samplingEvents.EVENT_ID];
+
+      return action.payload;
 
     default:
       break;
