@@ -142,7 +142,7 @@ const NewCollectionEvent = () => {
     // TODO: handle stream reach geometry once geodefs have been converted to react components
 
     localforage.getItem(LOCAL_STORAGE_IN_PROGRESS_ITEM_ID).then((data) => {
-      if (Object.values(data).length) {
+      if (data && Object.values(data).length) {
         console.log('hydrating with cached data');
 
         eventDispatch({
