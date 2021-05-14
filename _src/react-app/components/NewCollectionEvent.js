@@ -346,7 +346,14 @@ const NewCollectionEvent = () => {
     });
 
     const data = {};
-    data[config.tableNames.samplingEvents] = eventState[config.tableNames.samplingEvents];
+    data[config.tableNames.samplingEvents] = {
+      // clone this so that we can add number of passes
+      attributes: { ...eventState[config.tableNames.samplingEvents].attributes },
+      geometry: eventState[config.tableNames.samplingEvents].geometry,
+    };
+    data[config.tableNames.samplingEvents].attributes[
+      config.fieldNames.samplingEvents.NUM_PASSES
+    ] = catchTb.getNumberOfPasses();
     data[config.tableNames.equipment] = methodTb.getData();
     data[config.tableNames.anodes] = methodTb.getAnodesData();
     data[config.tableNames.fish] = catchTb.getData();
