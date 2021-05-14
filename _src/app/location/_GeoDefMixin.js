@@ -39,36 +39,19 @@ define(['dojo/Deferred', 'dojo/promise/all', 'dojo/request/xhr', 'dojo/_base/arr
       //      to know when to reset the validate button
       console.log('app/location/_GeoDefMixin:onInvalidate', arguments);
     },
-    onGetSegsCallback: function (data, def) {
-      // summary:
-      //      fires when the getSegmentFrom* service returns
-      // data: {}
-      //      The json object as returned by the submit job service
-      // def: dojo.Deferred
-      //      The original deferred object so that we can pass it on to checkJobStatus
-      console.log('app/location/_GeoDefMixin:onGetSegsCallback', arguments);
-
-      var intId;
-      var that = this;
-
-      if (data.error) {
-        var msg = 'error with: ' + this.gpServiceUrl;
-        console.error(msg, data.error.message);
-
-        return false;
-      }
-      intId = setInterval(function () {
-        that.checkJobStatus(data.jobId, def, intId);
-      }, 500);
-
-      return true;
-    },
     getJobResults: function (data, def) {
       // summary:
       //      gets the results from the gp job
       // jobId: String
       // def: dojo.Deferred
+      /*
+        If job fails, data looks like {error: {code: 500, details: [], message: 'error message'}}
+      */
       console.log('app/location/_GeoDefMixin:getJobResults', arguments);
+
+      if (data.error) {
+        def.reject(data.error.message);
+      }
 
       const returnData = {
         geoDef: this.geoDef,
