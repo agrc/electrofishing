@@ -11,6 +11,7 @@ export default async function submitJob(data, url) {
   for (const prop in data) {
     urlSearchParams.append(prop, data[prop]);
   }
+  urlSearchParams.append('f', 'json');
 
   const params = {
     method: 'POST',
@@ -21,13 +22,13 @@ export default async function submitJob(data, url) {
   };
 
   try {
-    const response = await fetch(url + '/execute?f=json', params);
+    const response = await fetch(url, params);
     const responseJson = await response.json();
 
     if (responseJson.error) {
       throw new Error(JSON.stringify(responseJson.error));
     } else {
-      return true;
+      return responseJson;
     }
   } catch (error) {
     throw new Error(error);

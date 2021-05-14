@@ -7,6 +7,7 @@ import config from '../../config';
 import getGUID from '../../helpers/getGUID';
 import topic from 'pubsub-js';
 import useSubscriptions from '../../hooks/useSubscriptions';
+import submitJob from '../../helpers/submitJob';
 
 // validateMsgs: Object
 //      The invalid messages displayed for this dialog
@@ -146,22 +147,12 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
 
       feature.attributes[config.fieldNames.stations.STATION_ID] = getGUID();
 
-      // TODO: we can probably go to json data and content-type: application/json when we upgrade arcgis server
-      const formData = new FormData();
-      formData.append('f', 'json');
-      formData.append('features', JSON.stringify([feature]));
-
-      const params = {
-        headers: {
-          'X-Requested-With': null,
-        },
-        method: 'POST',
-        body: formData,
+      const body = {
+        features: JSON.stringify([feature]),
       };
 
       try {
-        const response = await fetch(`${config.urls.stationsFeatureService}/addFeatures`, params);
-        const responseJson = await response.json();
+        const responseJson = await submitJob(body, `${config.urls.stationsFeatureService}/addFeatures`);
 
         if (responseJson?.addResults[0].success) {
           onSuccessfulSubmit(feature);

@@ -256,7 +256,7 @@ const config = {
     getSegmentFromCoords: wildlifeToolbox + 'GetSegmentFromCoords',
     getSegmentFromStartDistDir: wildlifeToolbox + 'GetSegmentFromStartDistDir',
     getSegmentFromID: wildlifeToolbox + 'GetSegmentFromID',
-    newCollectionEvent: wildlifeToolbox + 'NewCollectionEvent',
+    newCollectionEvent: wildlifeToolbox + 'NewCollectionEvent/execute',
 
     // feature service
     stationsFeatureService: wildlifeFeatureService + '0',
