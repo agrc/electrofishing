@@ -255,6 +255,10 @@ define([
           delete d[this.ignoreColumn];
         }, this);
 
+        if (this.addConstants) {
+          data.forEach(this.addConstants);
+        }
+
         return data;
       }
 

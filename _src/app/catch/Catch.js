@@ -138,7 +138,6 @@ define([
       var fn = config.fieldNames.fish;
       var columns = [
         { label: 'FISH_ID', field: fn.FISH_ID, sortable: false },
-        { label: 'EVENT_ID', field: fn.EVENT_ID, sortable: false },
         { label: 'PASS_NUM', field: fn.PASS_NUM, sortable: false },
         { label: 'NOTES', field: fn.NOTES, sortable: false },
         { label: 'ID', field: fn.CATCH_ID, sortable: false },
@@ -247,23 +246,21 @@ define([
         $(that.batchBtn).popover('hide');
       });
 
-      if (!window.jasmine) {
-        localforage.getItem(this.cacheId).then(function (inProgressData) {
-          if (inProgressData) {
-            if (inProgressData.gridData) {
-              that.setGridData(inProgressData.gridData);
-              that.grid.refresh();
-            }
+      localforage.getItem(this.cacheId).then(function (inProgressData) {
+        if (inProgressData) {
+          if (inProgressData.gridData) {
+            that.setGridData(inProgressData.gridData);
+            that.grid.refresh();
+          }
 
-            if (inProgressData.numPasses > 1) {
-              for (var i = 1; i < inProgressData.numPasses; i++) {
-                that.gridTab.addTab(true);
-              }
+          if (inProgressData.numPasses > 1) {
+            for (var i = 1; i < inProgressData.numPasses; i++) {
+              that.gridTab.addTab(true);
             }
           }
-          that.store.on('add, update, delete', lang.hitch(that, 'cacheInProgressData'));
-        });
-      }
+        }
+        that.store.on('add, update, delete', lang.hitch(that, 'cacheInProgressData'));
+      });
 
       this.wireBatchFormEvents();
 
@@ -305,7 +302,6 @@ define([
       }
       var row = {
         [fn.FISH_ID]: this.getNewFishId(),
-        [fn.EVENT_ID]: config.eventId,
         [fn.PASS_NUM]: this.gridTab.currentTab,
         [fn.CATCH_ID]: catchId,
         [fn.SPECIES_CODE]: lastSpecies,
@@ -543,6 +539,9 @@ define([
 
         return expandedRows;
       }, []);
+    },
+    addConstants: (row) => {
+      row[FN.EVENT_ID] = config.eventId;
     },
     _setSelectedRowAttr: function (row) {
       // summary:
