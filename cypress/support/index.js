@@ -22,3 +22,6 @@ import './commands';
 
 // ignore uncaught exceptions in app
 Cypress.on('uncaught:exception', () => false);
+Cypress.Cookies.defaults({
+  preserve: 'AMSessionDev',
+});

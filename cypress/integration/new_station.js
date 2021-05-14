@@ -10,6 +10,7 @@ describe('AddNewStation', () => {
 
     cy.viewport(1200, 600);
     cy.visit('http://localhost:8000/src');
+    // cy.visit('https://dwrapps.dev.utah.gov/fishsample/dataentry/');
     cy.findByRole('link', {
       name: /add new station/i,
     }).click();

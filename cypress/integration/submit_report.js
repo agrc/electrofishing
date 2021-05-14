@@ -13,6 +13,7 @@ describe('SubmitReport', () => {
 
     cy.viewport(1200, 800);
     cy.visit('http://localhost:8000/src');
+    // cy.visit('https://dwrapps.dev.utah.gov/fishsample/dataentry/');
 
     // select station marker
     cy.get('.leaflet-marker-icon').first().click();
