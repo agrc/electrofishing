@@ -44,6 +44,10 @@ data = json.loads(arcpy.GetParameterAsText(0))
 # data = json.loads(open('TestData/NewCollectionEventData3.json').read())
 arcpy.AddMessage('Received Data: {}'.format(data))
 
+#: log reports to file system - this could be disabled at some point
+outpath = r'C:\temp\reports\\' + datetime.datetime.now().isoformat().replace(':', '-') + '.json'
+with open(outpath, 'w') as outfile:
+    json.dump(data, outfile, indent=2)
 
 def format_value(value):
     if value is None:
