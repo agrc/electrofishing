@@ -42,7 +42,7 @@ Production: [https://dwrapps.utah.gov/fishsample/dataentry/](https://dwrapps.uta
    1. `Synchronous`
    1. Copy `scripts/Scripts/settings` & `dijkstras.py` to `<ArcGISServerDirectory>directories\arcgissystem\arcgisinput\Electrofishing\Toolbox.GPServer\extracted\v101\scripts`.
 1. `npm run build` or `npm run build-stage`
-1. `npm run deploy` (builds a zip file to send to DWR) or `npm run deploy-stage` or `npm run deploy-stage-app-only` (deploys only the `app` and `react-app` packages) (much faster via VPN)
+1. `npm run deploy` (builds a zip file to send to DWR (Aaron Heyman)) or `npm run deploy-stage` or `npm run deploy-stage-app-only` (deploys only the `app` and `react-app` packages) (much faster via VPN)
 
 ### Cutting a new release
 
