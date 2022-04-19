@@ -45,14 +45,16 @@ data = json.loads(arcpy.GetParameterAsText(0))
 arcpy.AddMessage('Received Data: {}'.format(data))
 
 #: log reports to file system - this could be disabled at some point
-outpath = r'C:\temp\reports\\' + datetime.datetime.now().isoformat().replace(':', '-') + '.json'
+outpath = r'C:\temp\reports\\' + datetime.datetime.now().isoformat().replace(
+    ':', '-') + '.json'
 with open(outpath, 'w') as outfile:
     json.dump(data, outfile, indent=2)
+
 
 def format_value(value):
     if value is None:
         return 'NULL'
-    elif isinstance(value, basestring):
+    elif isinstance(value, str):
         return '\'' + value + '\''
     elif isinstance(value, datetime.datetime):
         return '\'' + str(value) + '\''
@@ -75,7 +77,7 @@ cursor = connection.cursor()
 
 
 def make_insert(table, attributes, shape=None):
-    fields = attributes.keys()
+    fields = list(attributes.keys())
     values = [format_value(value) for value in attributes.values()]
 
     if shape is not None:
