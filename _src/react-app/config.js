@@ -5,10 +5,10 @@ let quadWord = 'patent-window-address-asia'; // for prod and stage
 let wildlifeFolder;
 if (process.env.REACT_APP_BUILD === 'prod') {
   // for DWR user
-  wildlifeFolder = 'https://udwrgis.utah.gov/arcgis/rest/services/Electrofishing/';
+  wildlifeFolder = 'https://wrimaps.utah.gov/arcgis/rest/services/Electrofishing/';
 } else if (process.env.REACT_APP_BUILD === 'stage') {
   // dwrapps.dev.utah.gov
-  wildlifeFolder = 'https://udwrgis.utah.gov/arcgis/rest/services/ElectrofishingTest/';
+  wildlifeFolder = 'https://wrimaps.at.utah.gov/arcgis/rest/services/Electrofishing/';
 } else {
   wildlifeFolder = 'http://localhost/arcgis/rest/services/Electrofishing/';
   quadWord = secrets.quadWord;
