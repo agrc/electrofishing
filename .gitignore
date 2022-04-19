@@ -11,3 +11,11 @@ scripts/Scripts/settings/ImportLog
 deploy/*
 .DS_Store
 scripts/Scripts/settings/secrets.py
+
+# Pro project
+*.lock
+maps/Default.gdb
+maps/.backups
+maps/Index
+maps/scratch.gdb
+maps/ImportLog

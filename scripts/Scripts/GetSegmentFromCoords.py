@@ -36,14 +36,15 @@ streamsLyr = 'streamsLyr'
 tempLyr = 'tempLyr'
 wgs84 = arcpy.SpatialReference('WGS 1984')
 utm = arcpy.SpatialReference('NAD 1983 UTM Zone 12N')
-linesTemplate = path.join(path.dirname(__file__), '..\ToolData\InputSchemas.gdb\lines')
-in_memory = 'in_memory'
+linesTemplate = path.join(path.dirname(__file__),
+                          '..\ToolData\InputSchemas.gdb\lines')
+in_memory = 'memory'
 
 # temp data
-tempDissolve = r'{0}\tempDissolve'.format(in_memory)
-tempSplit = r'{0}\tempSplit'.format(in_memory)
-tempOutput = r'{0}\tempOutput'.format(arcpy.env.scratchGDB)
-puntData = r'{0}\puntData'.format(arcpy.env.scratchGDB)
+tempDissolve = in_memory + r'\tempDissolve'
+tempSplit = in_memory + r'\tempSplit'
+tempOutput = '%scratchFolder%\\tempOutput'
+puntData = '%scratchFolder%\\puntData'
 
 # tools parameters
 searchRadius = '100 Meters'
@@ -55,7 +56,8 @@ nearFidField = 'NEAR_FID'
 
 
 def makeLine(point1, point2, outputPath):
-    arcpy.CreateFeatureclass_management(arcpy.env.scratchGDB, 'puntData', 'POLYLINE', linesTemplate, "", "", utm)
+    arcpy.CreateFeatureclass_management(arcpy.env.scratchGDB, 'puntData',
+                                        'POLYLINE', linesTemplate, "", "", utm)
 
     with arcpy.da.InsertCursor(outputPath, ["SHAPE@"]) as c:
         array = arcpy.Array([point1.firstPoint, point2.firstPoint])
@@ -75,7 +77,9 @@ def getSegment():
         distances = []
         startStreamOid = None
         endStreamOid = None
-        with arcpy.da.SearchCursor(points, [near_distance_field, nearFidField, 'SHAPE@']) as cursor:
+        with arcpy.da.SearchCursor(
+                points,
+            [near_distance_field, nearFidField, 'SHAPE@']) as cursor:
             for row in cursor:
                 near_distance, nearFid, point = row
                 pointGeometries.append(point)
@@ -101,13 +105,15 @@ def getSegment():
             arcpy.SetParameter(4, '')
             return
 
-        pointToPointDistance = pointGeometries[0].distanceTo(pointGeometries[1])
+        pointToPointDistance = pointGeometries[0].distanceTo(
+            pointGeometries[1])
         if pointToPointDistance < 500:
             pointToPointDistance = 500
 
         # Create graph of streams within pointToPointDistance of points
         arcpy.MakeFeatureLayer_management(STREAMS, streamsLyr)
-        arcpy.SelectLayerByLocation_management(streamsLyr, 'WITHIN_A_DISTANCE', points, pointToPointDistance)
+        arcpy.SelectLayerByLocation_management(streamsLyr, 'WITHIN_A_DISTANCE',
+                                               points, pointToPointDistance)
         with arcpy.da.SearchCursor(streamsLyr, ['OID@', 'SHAPE@']) as cursor:
             streamNodes = []
             for row in cursor:
@@ -124,35 +130,47 @@ def getSegment():
 
         # Find shortest path from one point intersected stream to the other
         try:
-            shortestP = shortest_path(LineNode.graph, startStreamOid, endStreamOid)
+            shortestP = shortest_path(LineNode.graph, startStreamOid,
+                                      endStreamOid)
         except KeyError:
-            raise Exception('Problem with stream geometry. Check that all stream directions are correct and remove all multipart features.')
+            raise Exception(
+                'Problem with stream geometry. Check that all stream directions are correct and remove all multipart features.'
+            )
 
         # Get line segment between points
         query = "\"{0}\" IN ({1})".format('OBJECTID', ','.join(shortestP))
-        arcpy.SelectLayerByAttribute_management(streamsLyr, 'NEW_SELECTION', query)
+        arcpy.SelectLayerByAttribute_management(streamsLyr, 'NEW_SELECTION',
+                                                query)
         arcpy.Dissolve_management(streamsLyr, tempDissolve)
-        arcpy.SplitLineAtPoint_management(tempDissolve, points, tempSplit, splitSearchRadius)
+        arcpy.SplitLineAtPoint_management(tempDissolve, points, tempSplit,
+                                          splitSearchRadius)
         coord1 = pointGeometries[0]
         coord2 = pointGeometries[1]
         found = False
         with arcpy.da.SearchCursor(tempSplit, ["SHAPE@", "OID@"]) as cur:
             for row in cur:
                 line = row[0]
-                if (coord1.distanceTo(line.firstPoint) < splitSearchRadius and coord2.distanceTo(line.lastPoint) < splitSearchRadius or
-                        coord2.distanceTo(line.firstPoint) < splitSearchRadius and coord1.distanceTo(line.lastPoint) < splitSearchRadius):
+                if (coord1.distanceTo(line.firstPoint) < splitSearchRadius and
+                        coord2.distanceTo(line.lastPoint) < splitSearchRadius
+                        or
+                        coord2.distanceTo(line.firstPoint) < splitSearchRadius
+                        and
+                        coord1.distanceTo(line.lastPoint) < splitSearchRadius):
                     oid = row[1]
                     found = True
                     break
 
         if found is False:
-            arcpy.CreateFeatureclass_management(arcpy.env.scratchGDB, 'puntData', 'POLYLINE', linesTemplate, "", "", utm)
+            arcpy.CreateFeatureclass_management(arcpy.env.scratchGDB,
+                                                'puntData', 'POLYLINE',
+                                                linesTemplate, "", "", utm)
 
             with arcpy.da.InsertCursor(puntData, ["SHAPE@"]) as c:
                 array = arcpy.Array([coord1.firstPoint, coord2.firstPoint])
                 c.insertRow([arcpy.Polyline(arcpy.Array(array))])
         else:
-            arcpy.MakeFeatureLayer_management(tempSplit, tempLyr, '"OBJECTID" = {0}'.format(oid))
+            arcpy.MakeFeatureLayer_management(tempSplit, tempLyr,
+                                              '"OBJECTID" = ' + str(oid))
             arcpy.CopyFeatures_management(tempLyr, puntData)
 
         arcpy.env.outputCoordinateSystem = wgs84
@@ -164,7 +182,7 @@ def getSegment():
         arcpy.SetParameter(4, '')
 
     except Exception as ex:
-        print(ex)
+        arcpy.AddWarning(ex)
         arcpy.SetParameter(1, linesTemplate)
         arcpy.SetParameter(2, linesTemplate)
         arcpy.SetParameter(3, False)
