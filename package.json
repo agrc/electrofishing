@@ -1,6 +1,6 @@
 {
   "name": "electrofishing",
-  "version": "2.0.0-0",
+  "version": "2.0.0-1",
   "scripts": {
     "babel-deps": "bash ./build_deps.sh",
     "babel-react-watch": "export REACT_APP_BUILD=development && export BABEL_ENV=development && babel --watch --out-dir src/react-app _src/react-app",
