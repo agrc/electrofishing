@@ -1,15 +1,20 @@
-name: tests
+name: Test and Deploy
 on: [push]
 
 concurrency:
   group: '${{ github.head_ref || github.ref }}'
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  id-token: write
+  deployments: write
+
 jobs:
   cypress:
     runs-on: ubuntu-latest
     steps:
-      - name: ⬇️ Set up code
+      - name: ⬇️ Checkout code
         uses: actions/checkout@v3
 
       - name: ⎔ Setup Node.js
@@ -31,7 +36,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: ⬇️ Set up code
+      - name: ⬇️ Checkout code
         uses: actions/checkout@v3
 
       - name: ⎔ Setup Node.js
@@ -50,7 +55,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: ⬇️ Set up code
+      - name: ⬇️ Checkout code
         uses: actions/checkout@v3
 
       - name: ⎔ Setup Node.js
@@ -67,3 +72,107 @@ jobs:
 
       - name: 📦 Build
         run: npm run build
+
+  deploy-dev:
+    runs-on: ubuntu-latest
+    needs: [build, test, cypress]
+    environment:
+      name: dev
+      url: https://electrofishing.dev.utah.gov/dataentry
+    if: github.ref == 'refs/heads/dev'
+
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v3
+
+      - id: auth
+        name: 🗝️ Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0.4.4
+        with:
+          access_token_scopes: 'email, openid, https://www.googleapis.com/auth/cloud-platform, https://www.googleapis.com/auth/firebase'
+          workload_identity_provider: ${{ secrets.IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          create_credentials_file: true
+
+      - name: ⎔ Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: 📥 Download dependencies
+        run: |
+          npm ci && npm install -g bower && bower install
+          npm install -g grunt-cli
+
+      - name: 🏗 Run build script
+        run: npm run build-stage
+
+      - name: 🪣 Cache firebase
+        uses: actions/cache@v3
+        with:
+          path: ./.firebase
+          key: ${{ runner.OS }}-firebase-${{ hashFiles('**/*.cache') }}
+          restore-keys: |
+            ${{ runner.OS }}-firebase-
+            ${{ runner.OS }}-
+
+      - name: 🚀 Firebase deploy
+        run: >
+          npx firebase-tools deploy
+          --only hosting
+          --project ${{ secrets.PROJECT_ID }}
+        env:
+          FIREBASE_CLI_PREVIEWS: hostingchannels
+
+  deploy-prod:
+    runs-on: ubuntu-latest
+    needs: [build, test, cypress]
+    environment:
+      name: prod
+      url: https://electrofishing.utah.gov/dataentry
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v3
+
+      - id: auth
+        name: 🗝️ Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0.4.4
+        with:
+          access_token_scopes: 'email, openid, https://www.googleapis.com/auth/cloud-platform, https://www.googleapis.com/auth/firebase'
+          workload_identity_provider: ${{ secrets.IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          create_credentials_file: true
+
+      - name: ⎔ Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: 📥 Download dependencies
+        run: |
+          npm ci && npm install -g bower && bower install
+          npm install -g grunt-cli
+
+      - name: 🏗 Run build script
+        run: npm run build
+
+      - name: 🪣 Cache firebase
+        uses: actions/cache@v3
+        with:
+          path: ./.firebase
+          key: ${{ runner.OS }}-firebase-${{ hashFiles('**/*.cache') }}
+          restore-keys: |
+            ${{ runner.OS }}-firebase-
+            ${{ runner.OS }}-
+
+      - name: 🚀 Firebase deploy
+        run: >
+          npx firebase-tools deploy
+          --only hosting
+          --project ${{ secrets.PROJECT_ID }}
+        env:
+          FIREBASE_CLI_PREVIEWS: hostingchannels
