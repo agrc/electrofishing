@@ -74,7 +74,7 @@ describe('SubmitReport', () => {
     cy.get('[data-dojo-attach-point="notesTxtArea"]').type('test notes');
     cy.get('.more-info-dialog [data-dojo-attach-point="submitBtn"]').click();
 
-    cy.get('.header button.btn-success').click();
+    cy.get('.header button.btn-success[data-loading-text="submitting report..."]').click();
 
     cy.get('[data-testid="summaryConfirmBtn"]').click();
 
