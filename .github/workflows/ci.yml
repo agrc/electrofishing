@@ -25,7 +25,7 @@ jobs:
 
       - name: 📥 Download dependencies
         run: |
-          npm ci && npm install -g bower && bower install
+          npm ci
           echo "{\"quadWord\": \"test\"}" > ./_src/react-app/secrets.json
 
       - name: Cypress run
@@ -55,7 +55,7 @@ jobs:
 
       - name: 📥 Download dependencies
         run: |
-          npm ci && npm install -g bower && bower install
+          npm ci
 
       - name: 🧹 ESLint
         run: npm test
@@ -74,7 +74,7 @@ jobs:
 
       - name: 📥 Download dependencies
         run: |
-          npm ci && npm install -g bower && bower install
+          npm ci
           npm install -g grunt-cli
           echo "{\"quadWord\": \"test\"}" > ./_src/react-app/secrets.json
 
@@ -110,7 +110,7 @@ jobs:
 
       - name: 📥 Download dependencies
         run: |
-          npm ci && npm install -g bower && bower install
+          npm ci
           npm install -g grunt-cli
 
       - name: 🏗 Run build script
@@ -162,7 +162,7 @@ jobs:
 
       - name: 📥 Download dependencies
         run: |
-          npm ci && npm install -g bower && bower install
+          npm ci
           npm install -g grunt-cli
 
       - name: 🏗 Run build script
