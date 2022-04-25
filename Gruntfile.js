@@ -240,12 +240,10 @@ module.exports = function (grunt) {
     },
     uglify: {
       options: {
-        preserveComments: false,
+        output: { comments: false },
         sourceMap: true,
         compress: {
           drop_console: true,
-          passes: 2,
-          dead_code: true,
         },
       },
       stage: {

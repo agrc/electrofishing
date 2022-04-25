@@ -22,8 +22,8 @@ require({
     },
     {
       name: 'esri-leaflet',
-      location: '../node_modules/esri-leaflet',
-      main: 'dist/esri-leaflet',
+      location: '../node_modules/esri-leaflet/dist',
+      main: 'esri-leaflet',
     },
     {
       name: 'downshift',
