@@ -76,7 +76,7 @@ describe('SubmitReport', () => {
 
     cy.get('.header button.btn-success[data-loading-text="submitting report..."]').click();
 
-    cy.get('[data-testid="summaryConfirmBtn"]').click();
+    cy.get('[data-testid="summaryConfirmBtn"]').click({ force: true });
 
     cy.findByText(/the report has been submitted successfully\./i).should('be.visible');
 
