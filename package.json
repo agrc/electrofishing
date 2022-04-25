@@ -82,7 +82,7 @@
     "babel-preset-latest": "^6.24.1",
     "concurrently": "^5.3.0",
     "core-js": "^3.8.3",
-    "cypress": "^7.3.0",
+    "cypress": "^9.5.4",
     "cypress-plugin-tab": "^1.0.5",
     "dojo-webpack-plugin": "^2.8.18",
     "es6-object-assign": "1.1.0",
