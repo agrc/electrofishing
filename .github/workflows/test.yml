@@ -2,53 +2,63 @@ name: tests
 on: [push]
 jobs:
   cypress:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '10'
+      - name: ⬇️ Set up code
+        uses: actions/checkout@v3
 
-      - name: Install deps
+      - name: ⎔ Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: 📥 Download dependencies
         run: |
-          npm install && npm install -g bower && bower install
+          npm ci && npm install -g bower && bower install
           echo "{\"quadWord\": \"test\"}" > ./_src/react-app/secrets.json
 
       - name: Cypress run
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v3
         with:
           build: npm run babel-deps && npm run babel-react
           start: npm start
   test:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: ⬇️ Set up code
+        uses: actions/checkout@v3
+
+      - name: ⎔ Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '10'
+          node-version-file: .node-version
+          cache: npm
 
-      - name: Install deps
-        run: npm install && npm install -g bower && bower install
+      - name: 📥 Download dependencies
+        run: |
+          npm ci && npm install -g bower && bower install
 
-      - name: ESLint
+      - name: 🧹 ESLint
         run: npm test
 
   build:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '10'
+      - name: ⬇️ Set up code
+        uses: actions/checkout@v3
 
-      - name: Install deps
+      - name: ⎔ Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: 📥 Download dependencies
         run: |
-          npm install && npm install -g bower && bower install
+          npm ci && npm install -g bower && bower install
           npm install -g grunt-cli
           echo "{\"quadWord\": \"test\"}" > ./_src/react-app/secrets.json
 
-      - name: Build
+      - name: 📦 Build
         run: npm run build
