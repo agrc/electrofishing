@@ -11,7 +11,8 @@
     "sass": "sass _src/react-app:src/react-app",
     "start": "npm run babel-deps && sass _src/react-app:src/react-app --watch & npm run babel-react-watch & grunt",
     "storybook": "start-storybook -p 6006 --no-dll -s ./src",
-    "test": "eslint ./_src"
+    "test": "eslint ./_src",
+    "postinstall": "npm install -g bower && bower install"
   },
   "browserslist": [
     "last 2 versions and > 2%"
