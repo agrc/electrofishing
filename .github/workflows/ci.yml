@@ -41,13 +41,6 @@ jobs:
           name: cypress-screenshots
           path: cypress/screenshots
 
-      - name: Upload Cypress Videos
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: cypress-videos
-          path: cypress/videos
-
   test:
     runs-on: ubuntu-latest
     steps:

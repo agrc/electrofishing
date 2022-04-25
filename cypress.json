@@ -1,4 +1,5 @@
 {
   "defaultCommandTimeout": 10000,
-  "pageLoadTimeout": 120000
+  "pageLoadTimeout": 120000,
+  "video": false
 }
