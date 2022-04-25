@@ -63,22 +63,26 @@ var profile = {
         }
     }, {
         name: 'esri-leaflet',
+        location: '../node_modules/esri-leaflet/dist',
         resourceTags: {
             amd: function () {
                 return true;
             }
-        }
+        },
+        trees: [
+            ['.', '.', /(\/\.)|(~$)|(\.esm\.js)/]
+        ]
     }, {
         name: 'downshift',
         location: '../node_modules/downshift/dist',
         trees: [
-            ['.', '.', /(\/\.)|(~$)|(\.esm\.js)/]
+            ['.', '.', /(\/\.)|(~$)|(.*\.js)/]
         ]
     }, {
         name: 'immer',
         location: '../node_modules/immer/dist',
         trees: [
-            ['.', '.', /(\/\.)|(~$)|(\.esm\.js)/]
+            ['.', '.', /(\/\.)|(~$)|(\.umd\..*\.js)/]
         ],
         resourceTags: {
             amd: function () {
@@ -95,7 +99,7 @@ var profile = {
         name: 'use-immer',
         location: '../node_modules/use-immer/dist',
         trees: [
-            ['.', '.', /(\/\.)|(~$)|(\.modern\.js)/]
+            ['.', '.', /(\/\.)|(~$)|(\.umd\..*\.js)/]
         ]
     }, {
         name: 'toaster',
