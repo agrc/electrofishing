@@ -1,5 +1,4 @@
 import localforage from 'localforage';
-import secrets from 'secrets.json';
 
 let wildlifeFolder, quadWord;
 if (process.env.REACT_APP_BUILD === 'prod') {
@@ -11,8 +10,9 @@ if (process.env.REACT_APP_BUILD === 'prod') {
   wildlifeFolder = 'https://wrimaps.at.utah.gov/arcgis/rest/services/Electrofishing/';
   quadWord = 'wedding-tactic-enrico-yes'; // *.dev.utah.gov
 } else {
-  wildlifeFolder = 'http://localhost/arcgis/rest/services/Electrofishing/';
-  // wildlifeFolder = 'https://wrimaps.at.utah.gov/arcgis/rest/services/Electrofishing/';
+  // wildlifeFolder = 'http://localhost/arcgis/rest/services/Electrofishing/';
+  wildlifeFolder = 'https://wrimaps.at.utah.gov/arcgis/rest/services/Electrofishing/';
+  const secrets = require('../secrets.json');
   quadWord = secrets.quadWord;
 }
 
