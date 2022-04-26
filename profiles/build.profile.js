@@ -23,9 +23,68 @@ var profile = {
         }
     },
     packages: [{
-        name: 'react-app',
+        name: 'agrc',
         trees: [
-            ['.', '.', /(\/\.)|(.stories.js)/]
+            ['.', '.', /(\/\.)|(~$)|(widgets|resources)/]
+        ]
+    }, {
+        name: 'clsx',
+        location: '../node_modules/clsx/dist',
+        trees: [
+            ['.', '.', /(\/\.)|(~$)|(m\.js)/]
+        ]
+    }, {
+        name: 'downshift',
+        location: '../node_modules/downshift/dist',
+        files: [
+            ['downshift.umd.js', 'downshift.umd.js']
+        ],
+        trees: []
+    }, {
+        name: 'esri-leaflet',
+        location: '../node_modules/esri-leaflet/dist',
+        resourceTags: {
+            amd: function () {
+                return true;
+            }
+        },
+        trees: [
+            ['.', '.', /(\/\.)|(~$)|(\.esm\.js)/]
+        ]
+    }, {
+        name: 'handlebars',
+        trees: [
+            ['.', '.', /(\/\.)|(~$)|(.*\.amd\.js)/]
+        ]
+    }, {
+        name: 'ijit',
+        trees: [
+            ['.', '.', /(\/\.)|(~$)|(resources|themes|widgets|_MustacheTemplateMixin|Identify)/]
+        ]
+    }, {
+        name: 'immer',
+        location: '../node_modules/immer/dist',
+        files: [
+            ['immer.umd.development.js', 'immer.umd.development.js']
+        ],
+        trees: [],
+        resourceTags: {
+            amd: function () {
+                return true;
+            }
+        }
+    }, {
+        name: 'localforage',
+        resourceTags: {
+            amd: function () {
+                return true;
+            }
+        }
+    }, {
+        name: 'papaparse',
+        location: './papaparse',
+        trees: [
+            ['.', '.', /(\/\.)|(~$)|(docs|Gruntfile|bower)/]
         ]
     }, {
         name: 'proj4',
@@ -41,117 +100,48 @@ var profile = {
             ['.', '.', /(\/\.)|(.html)/]
         ]
     }, {
-        name: 'localforage',
-        resourceTags: {
-            amd: function () {
-                return true;
-            }
-        }
-    }, {
-        name: 'uuid',
-        resourceTags: {
-            amd: function () {
-                return true;
-            }
-        }
-    }, {
-        name: 'use-immer',
-        resourceTags: {
-            amd: function () {
-                return true;
-            }
-        }
-    }, {
-        name: 'esri-leaflet',
-        location: '../node_modules/esri-leaflet/dist',
-        resourceTags: {
-            amd: function () {
-                return true;
-            }
-        },
-        trees: [
-            ['.', '.', /(\/\.)|(~$)|(\.esm\.js)/]
-        ]
-    }, {
-        name: 'downshift',
-        location: '../node_modules/downshift/dist',
-        trees: [
-            ['.', '.', /(\/\.)|(~$)|(.*\.js)/]
-        ]
-    }, {
-        name: 'immer',
-        location: '../node_modules/immer/dist',
-        trees: [
-            ['.', '.', /(\/\.)|(~$)|(\.umd\..*\.js)/]
-        ],
-        resourceTags: {
-            amd: function () {
-                return true;
-            }
-        }
-    }, {
         name: 'prop-types',
         location: '../node_modules/prop-types',
         trees: [
             ['.', '.', /(\/\.)|(~$)|(node_modules)/]
         ]
     }, {
-        name: 'use-immer',
-        location: '../node_modules/use-immer/dist',
-        trees: [
-            ['.', '.', /(\/\.)|(~$)|(\.umd\..*\.js)/]
-        ]
-    }, {
-        name: 'toaster',
+        name: 'react-app',
         resourceTags: {
-            amd: function (filename) {
-                return /\.js/.test(filename);
-            }
-        }
-    }, {
-        name: 'agrc',
+            amd: (filename) => /\.js/.test(filename)
+        },
         trees: [
-            ['.', '.', /(\/\.)|(~$)|(widgets|resources)/]
-        ]
-    }, {
-        name: 'handlebars',
-        trees: [
-            ['.', '.', /(\/\.)|(~$)|(.*\.amd\.js)/]
-        ]
-    }, {
-        name: 'ijit',
-        trees: [
-            ['.', '.', /(\/\.)|(~$)|(resources|themes|widgets|_MustacheTemplateMixin|Identify)/]
+            ['.', '.', /(\/\.)|(.stories.js)/]
         ]
     }, {
         name: 'toaster',
         location: './toaster',
         main: 'dist/Toaster',
+        resourceTags: {
+            amd: function (filename) {
+                return /\.js/.test(filename);
+            }
+        },
         trees: [
             ['.', '.', /(\/\.)|(~$)|(src|Gruntfile|tsconfig|bower|map$)/]
         ]
     }, {
-        name: 'esri-leaflet',
-        location: '../node_modules/esri-leaflet',
-        trees: [
-            ['.', '.', /(\/\.)|(~$)|(profiles|src)/]
-        ]
-    }, {
-        name: 'papaparse',
-        location: './papaparse',
-        trees: [
-            ['.', '.', /(\/\.)|(~$)|(docs|Gruntfile|bower)/]
-        ]
-    }, {
-        name: 'clsx',
-        location: '../node_modules/clsx/dist',
-        trees: [
-            ['.', '.', /(\/\.)|(~$)|(m\.js)/]
-        ]
-    }, {
-        name: 'react-app',
+        name: 'use-immer',
+        location: '../node_modules/use-immer/dist',
         resourceTags: {
-            amd: (filename) => /\.js/.test(filename)
+            amd: function () {
+                return true;
+            }
+        },
+        trees: [
+            ['.', '.', /(\/\.)|(~$)|(\.umd\..*\.js)/]
+        ]
+    }, {
+        name: 'uuid',
+        resourceTags: {
+            amd: function () {
+                return true;
+            }
         }
     }],
     staticHasFeatures: {
