@@ -1,16 +1,18 @@
 import localforage from 'localforage';
 import secrets from 'secrets.json';
 
-let quadWord = 'patent-window-address-asia'; // for prod and stage
-let wildlifeFolder;
+let wildlifeFolder, quadWord;
 if (process.env.REACT_APP_BUILD === 'prod') {
   // for DWR user
   wildlifeFolder = 'https://wrimaps.utah.gov/arcgis/rest/services/Electrofishing/';
+  quadWord = 'dinner-oregano-india-bahama'; // *.utah.gov
 } else if (process.env.REACT_APP_BUILD === 'stage') {
   // dwrapps.dev.utah.gov
   wildlifeFolder = 'https://wrimaps.at.utah.gov/arcgis/rest/services/Electrofishing/';
+  quadWord = 'wedding-tactic-enrico-yes'; // *.dev.utah.gov
 } else {
   wildlifeFolder = 'http://localhost/arcgis/rest/services/Electrofishing/';
+  // wildlifeFolder = 'https://wrimaps.at.utah.gov/arcgis/rest/services/Electrofishing/';
   quadWord = secrets.quadWord;
 }
 

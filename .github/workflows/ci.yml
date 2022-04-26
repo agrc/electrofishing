@@ -112,7 +112,6 @@ jobs:
         run: |
           npm ci
           npm install -g grunt-cli
-          echo "{\"quadWord\": \"${{ secrets.QUAD_WORD }} \"}" > ./_src/react-app/secrets.json
 
       - name: 🏗 Run build script
         run: npm run build-stage
@@ -165,7 +164,6 @@ jobs:
         run: |
           npm ci
           npm install -g grunt-cli
-          echo "{\"quadWord\": \"${{ secrets.QUAD_WORD }} \"}" > ./_src/react-app/secrets.json
 
       - name: 🏗 Run build script
         run: npm run build
