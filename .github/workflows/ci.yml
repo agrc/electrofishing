@@ -86,7 +86,7 @@ jobs:
     needs: [build, test, cypress]
     environment:
       name: dev
-      url: https://electrofishing.dev.utah.gov/dataentry
+      url: https://electrofishing.dev.utah.gov
     if: github.ref == 'refs/heads/dev'
 
     steps:
@@ -139,7 +139,7 @@ jobs:
     needs: [build, test, cypress]
     environment:
       name: prod
-      url: https://electrofishing.utah.gov/dataentry
+      url: https://electrofishing.utah.gov
     if: github.ref == 'refs/heads/main'
 
     steps:
