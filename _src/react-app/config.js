@@ -1,19 +1,15 @@
 import localforage from 'localforage';
 
-let wildlifeFolder, quadWord;
+let wildlifeFolder;
 if (process.env.REACT_APP_BUILD === 'prod') {
   // for DWR user
   wildlifeFolder = 'https://wrimaps.utah.gov/arcgis/rest/services/Electrofishing/';
-  quadWord = 'dinner-oregano-india-bahama'; // *.utah.gov
 } else if (process.env.REACT_APP_BUILD === 'stage') {
   // dwrapps.dev.utah.gov
   wildlifeFolder = 'https://wrimaps.at.utah.gov/arcgis/rest/services/Electrofishing/';
-  quadWord = 'wedding-tactic-enrico-yes'; // *.dev.utah.gov
 } else {
   // wildlifeFolder = 'http://localhost/arcgis/rest/services/Electrofishing/';
   wildlifeFolder = 'https://wrimaps.at.utah.gov/arcgis/rest/services/Electrofishing/';
-  const secrets = require('../secrets.json');
-  quadWord = secrets.quadWord;
 }
 
 const wildlifeToolbox = wildlifeFolder + 'Toolbox/GPServer/';
@@ -244,8 +240,8 @@ const config = {
   // urls: {}
   urls: {
     // basemaps
-    googleImagery: `https://discover.agrc.utah.gov/login/path/${quadWord}/tiles/utah/{z}/{x}/{y}`,
-    overlay: `https://discover.agrc.utah.gov/login/path/${quadWord}/tiles/overlay_basemap/{z}/{x}/{y}`,
+    googleImagery: `https://discover.agrc.utah.gov/login/path/${process.env.REACT_APP_QUAD_WORD}/tiles/utah/{z}/{x}/{y}`,
+    overlay: `https://discover.agrc.utah.gov/login/path/${process.env.REACT_APP_QUAD_WORD}/tiles/overlay_basemap/{z}/{x}/{y}`,
 
     // leaflet icons
     endIcon: `${markerImagesFolder}end-icon.png`,

@@ -5,8 +5,8 @@
     "@babel/plugin-transform-parameters",
     "@babel/plugin-transform-destructuring",
     "@babel/plugin-proposal-optional-chaining",
+    ["inline-dotenv", { "unsafe": true }],
     "transform-inline-environment-variables",
-    "transform-react-remove-prop-types",
-    ["inline-json-import", {}]
+    "transform-react-remove-prop-types"
   ]
 }

@@ -24,14 +24,15 @@ jobs:
           cache: npm
 
       - name: 📥 Download dependencies
-        run: |
-          npm ci
-          echo "{\"quadWord\": \"test\"}" > ./_src/react-app/secrets.json
+        run: npm ci
 
       - name: Cypress run
         uses: cypress-io/github-action@v3
         with:
-          build: npm run babel-deps && npm run babel-react
+          build: |
+            set REACT_APP_QUAD_WORD=test
+            npm run babel-deps
+            npm run babel-react
           start: npm start
 
       - name: Upload Cypress Screenshots
@@ -76,10 +77,11 @@ jobs:
         run: |
           npm ci
           npm install -g grunt-cli
-          echo "{\"quadWord\": \"test\"}" > ./_src/react-app/secrets.json
 
       - name: 📦 Build
-        run: npm run build
+        run: |
+          set REACT_APP_QUAD_WORD=test
+          npm run build
 
   deploy-dev:
     runs-on: ubuntu-latest
@@ -115,6 +117,8 @@ jobs:
 
       - name: 🏗 Run build script
         run: npm run build-stage
+        env:
+          REACT_APP_QUAD_WORD: ${{ secrets.QUAD_WORD }}
 
       - name: 🪣 Cache firebase
         uses: actions/cache@v3
@@ -167,6 +171,8 @@ jobs:
 
       - name: 🏗 Run build script
         run: npm run build
+        env:
+          REACT_APP_QUAD_WORD: ${{ secrets.QUAD_WORD }}
 
       - name: 🪣 Cache firebase
         uses: actions/cache@v3
