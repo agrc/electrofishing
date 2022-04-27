@@ -29,8 +29,8 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v3
         with:
+          env: REACT_APP_QUAD_WORD=test
           build: |
-            set REACT_APP_QUAD_WORD=test
             npm run babel-deps
             npm run babel-react
           start: npm start
