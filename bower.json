@@ -9,7 +9,7 @@
   "homepage": "https://github.com/agrc/electrofishing",
   "moduleType": [],
   "private": true,
-  "version": "2.0.0-2",
+  "version": "2.0.0",
   "dependencies": {
     "bootstrap": "3.3.6",
     "dojo": "~1.11.2",
