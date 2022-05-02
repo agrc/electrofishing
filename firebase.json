@@ -1,7 +1,6 @@
 {
   "hosting": [
     {
-      "site": "ut-dts-agrc-electro-dev",
       "public": "dist",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "headers": [
