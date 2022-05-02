@@ -21,14 +21,12 @@ Production: [https://electrofishing.ugrc.utah.gov](https://electrofishing.ugrc.u
 
 ## Deployment
 
-1. Publish `maps/MapService.mxd` as `Electrofishing/MapService`
-   1. These are pointed at the staging database and will be mapped to production when published to the prod server.
+1. Publish `maps/MapService` as `Electrofishing/MapService`
+   1. This map and "Reference" below are pointed at the staging database and will be mapped to production when published to the prod server.
    1. max number of records returned: 5000
    1. feature access: create, query and update
    1. dynamic workspace referencing the sde database ID: ElectrofishingQuery
-1. Publish `maps/Reference.mxd` as `Electrofishing/Reference` (making sure that it is pointed at the correct database)
-1. `pip install pyodbc` into ArcGIS Server python instance.
-1. Install ODBC Driver 17 for SQL Server.
+1. Publish `maps/Reference` as `Electrofishing/Reference`
 1. Update `scripts/Scripts/settings/__init__.py`.
 1. Create `scripts/Scripts/settings/secrets.py`.
 1. Publish all tools in `scripts/Toolbox.tbx` as `Electrofishing/Toolbox` **Requires ArcGIS Server Advanced**
