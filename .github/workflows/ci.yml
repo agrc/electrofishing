@@ -140,7 +140,7 @@ jobs:
     needs: [build, test, cypress]
     environment:
       name: prod
-      url: https://electrofishing.utah.gov
+      url: https://electrofishing.ugrc.utah.gov
     if: github.ref == 'refs/heads/main'
 
     steps:
