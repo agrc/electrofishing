@@ -1,10 +1,10 @@
-# Electrofishing ![Build Status](https://github.com/agrc/electrofishing/actions/workflows/test.yml/badge.svg)
+# Electrofishing
 
 Application for recording electrofishing surveys. Built for DWR.
 
-Staging: [https://dwrapps.dev.utah.gov/fishsample/dataentry/](https://dwrapps.dev.utah.gov/fishsample/dataentry/)
+Staging: [https://electrofishing.dev.utah.gov](https://electrofishing.dev.utah.gov)
 
-Production: [https://dwrapps.utah.gov/fishsample/dataentry/](https://dwrapps.utah.gov/fishsample/dataentry/)
+Production: [https://electrofishing.ugrc.utah.gov](https://electrofishing.ugrc.utah.gov)
 
 ## Database
 
@@ -13,7 +13,7 @@ Production: [https://dwrapps.utah.gov/fishsample/dataentry/](https://dwrapps.uta
 
 ### Installation
 
-- [Create SDE database](http://wiki.agrc.utah.gov/sql-server-set-up-on-dev-machine/)
+- Create SDE database
 - Save connection as `Electrofishing_LOCAL as WILDADMIN.sde`
 - right click > `import xml yada yada`
 - Reference xml file above
