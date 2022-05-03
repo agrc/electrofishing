@@ -45,8 +45,7 @@ data = json.loads(arcpy.GetParameterAsText(0))
 arcpy.AddMessage('Received Data: {}'.format(data))
 
 #: log reports to file system - this could be disabled at some point
-outpath = r'C:\temp\reports\\' + datetime.datetime.now().isoformat().replace(
-    ':', '-') + '.json'
+outpath = rf'C:\temp\reports\{datetime.datetime.now().isoformat().replace(":", "-")}.json'
 with open(outpath, 'w') as outfile:
     json.dump(data, outfile, indent=2)
 
