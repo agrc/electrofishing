@@ -1,10 +1,10 @@
-# Electrofishing ![Build Status](https://github.com/agrc/electrofishing/actions/workflows/test.yml/badge.svg)
+# Electrofishing
 
 Application for recording electrofishing surveys. Built for DWR.
 
-Staging: [https://dwrapps.dev.utah.gov/fishsample/dataentry/](https://dwrapps.dev.utah.gov/fishsample/dataentry/)
+Staging: [https://electrofishing.dev.utah.gov](https://electrofishing.dev.utah.gov)
 
-Production: [https://dwrapps.utah.gov/fishsample/dataentry/](https://dwrapps.utah.gov/fishsample/dataentry/)
+Production: [https://electrofishing.ugrc.utah.gov](https://electrofishing.ugrc.utah.gov)
 
 ## Database
 
@@ -13,7 +13,7 @@ Production: [https://dwrapps.utah.gov/fishsample/dataentry/](https://dwrapps.uta
 
 ### Installation
 
-- [Create SDE database](http://wiki.agrc.utah.gov/sql-server-set-up-on-dev-machine/)
+- Create SDE database
 - Save connection as `Electrofishing_LOCAL as WILDADMIN.sde`
 - right click > `import xml yada yada`
 - Reference xml file above
@@ -21,13 +21,12 @@ Production: [https://dwrapps.utah.gov/fishsample/dataentry/](https://dwrapps.uta
 
 ## Deployment
 
-1. Publish `maps/MapService.mxd` as `Electrofishing/MapService` (making sure that it is pointed at the correct database)
+1. Publish `maps/MapService` as `Electrofishing/MapService`
+   1. This map and "Reference" below are pointed at the staging database and will be mapped to production when published to the prod server.
    1. max number of records returned: 5000
    1. feature access: create, query and update
    1. dynamic workspace referencing the sde database ID: ElectrofishingQuery
-1. Publish `maps/Reference.mxd` as `Electrofishing/Reference` (making sure that it is pointed at the correct database)
-1. `pip install pyodbc` into ArcGIS Server python instance.
-1. Install ODBC Driver 17 for SQL Server.
+1. Publish `maps/Reference` as `Electrofishing/Reference`
 1. Update `scripts/Scripts/settings/__init__.py`.
 1. Create `scripts/Scripts/settings/secrets.py`.
 1. Publish all tools in `scripts/Toolbox.tbx` as `Electrofishing/Toolbox` **Requires ArcGIS Server Advanced**
