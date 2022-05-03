@@ -82,7 +82,13 @@ export default function Header({ submitLoading }) {
           </ul>
           <ul className="nav navbar-nav navbar-right">
             <li>
-              <a href="../query" target="_blank">
+              <a
+                href={`https://electrofishing-query.${
+                  process.env.REACT_APP_BUILD === 'prod' ? 'ugrc' : 'dev'
+                }.utah.gov`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Search
               </a>
             </li>

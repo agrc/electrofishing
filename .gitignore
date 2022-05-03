@@ -5,7 +5,7 @@ _src/app/**/*.css
 *.sde
 dist/
 node_modules/
-secrets.json
+.env
 src/
 scripts/Scripts/settings/ImportLog
 deploy/*

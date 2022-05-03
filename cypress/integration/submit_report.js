@@ -74,11 +74,11 @@ describe('SubmitReport', () => {
     cy.get('[data-dojo-attach-point="notesTxtArea"]').type('test notes');
     cy.get('.more-info-dialog [data-dojo-attach-point="submitBtn"]').click();
 
-    cy.get('.header button.btn-success').click();
+    cy.get('.header button.btn-success[data-loading-text="submitting report..."]').click();
 
-    cy.get('[data-testid="summaryConfirmBtn"]').click();
+    cy.get('[data-testid="summaryConfirmBtn"]').click({ force: true });
 
-    cy.findByText(/the report has been submitted successfully\./i).should('be.visible');
+    cy.findByText(/the report has been submitted successfully\./i, { timeout: 20000 }).should('be.visible');
 
     // clear all of the data
     cy.get('#stationTxt').should('have.value', '');

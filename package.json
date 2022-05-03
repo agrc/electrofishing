@@ -1,6 +1,6 @@
 {
   "name": "electrofishing",
-  "version": "2.0.0-0",
+  "version": "2.0.0",
   "scripts": {
     "babel-deps": "bash ./build_deps.sh",
     "babel-react-watch": "export REACT_APP_BUILD=development && export BABEL_ENV=development && babel --watch --out-dir src/react-app _src/react-app",
@@ -8,13 +8,11 @@
     "build-stage": "export REACT_APP_BUILD=stage && export BABEL_ENV=test && npm run babel-deps && npm run sass && npm run babel-react && grunt build-stage",
     "build": "export REACT_APP_BUILD=prod && export BABEL_ENV=production && npm run babel-deps && npm run sass && npm run babel-react && grunt build-prod",
     "cypress:open": "concurrently \"npm start\" \"cypress open\"",
-    "deploy-stage-app-only": "grunt deploy-stage-app-only",
-    "deploy-stage": "grunt deploy-stage",
-    "deploy": "grunt deploy-prod",
     "sass": "sass _src/react-app:src/react-app",
     "start": "npm run babel-deps && sass _src/react-app:src/react-app --watch & npm run babel-react-watch & grunt",
     "storybook": "start-storybook -p 6006 --no-dll -s ./src",
-    "test": "eslint ./_src"
+    "test": "eslint ./_src",
+    "postinstall": "npm install -g bower && bower install"
   },
   "browserslist": [
     "last 2 versions and > 2%"
@@ -71,10 +69,11 @@
     "@storybook/addon-essentials": "^6.1.20",
     "@storybook/addon-links": "^6.1.20",
     "@storybook/react": "^6.1.20",
-    "@testing-library/cypress": "^7.0.4",
+    "@testing-library/cypress": "^8.0.2",
     "babel-core": "6.26.3",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
+    "babel-plugin-inline-dotenv": "^1.7.0",
     "babel-plugin-inline-json-import": "^0.3.2",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
@@ -82,7 +81,7 @@
     "babel-preset-latest": "^6.24.1",
     "concurrently": "^5.3.0",
     "core-js": "^3.8.3",
-    "cypress": "^7.3.0",
+    "cypress": "^9.6.0",
     "cypress-plugin-tab": "^1.0.5",
     "dojo-webpack-plugin": "^2.8.18",
     "es6-object-assign": "1.1.0",
@@ -98,7 +97,7 @@
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-testing-library": "^3.10.1",
-    "grunt": "^1.3.0",
+    "grunt": "^1.5.2",
     "grunt-babel": "^8.0.0",
     "grunt-bump": "^0.8.0",
     "grunt-contrib-clean": "^1.0.0",
@@ -108,7 +107,7 @@
     "grunt-contrib-imagemin": "^2.0.1",
     "grunt-contrib-jasmine": "2.0.1",
     "grunt-contrib-stylus": "^1.2.0",
-    "grunt-contrib-uglify-es": "^3.3.0",
+    "grunt-contrib-uglify": "^5.2.1",
     "grunt-contrib-watch": "1.0.1",
     "grunt-dojo": "^1.1.2",
     "grunt-eslint": "^23.0.0",

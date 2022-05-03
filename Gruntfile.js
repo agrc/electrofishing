@@ -3,33 +3,6 @@ module.exports = function (grunt) {
   var jsFiles = '_src/app/**/*.js';
   var otherFiles = ['_src/app/**/*.html', '_src/app/**/*.css', '_src/index.html', '_src/ChangeLog.html'];
   var gruntFile = 'Gruntfile.js';
-  var deployDir = 'fishsample/dataentry';
-  var deployFiles = [
-    '**',
-    '!**/*.uncompressed.js',
-    '!**/*consoleStripped.js',
-    '!**/bootstrap/less/**',
-    '!**/bootstrap/test-infra/**',
-    '!**/tests/**',
-    '!build-report.txt',
-    '!components-jasmine/**',
-    '!favico.js/**',
-    '!jasmine-favicon-reporter/**',
-    '!jasmine-jsreporter/**',
-    '!stubmodule/**',
-    '!util/**',
-  ];
-  var secrets;
-  try {
-    secrets = grunt.file.readJSON('secrets.json');
-  } catch (e) {
-    secrets = {
-      stageHost: '',
-      prodHost: '',
-      username: '',
-      password: '',
-    };
-  }
   var bumpFiles = [
     'package-lock.json',
     'package.json',
@@ -65,23 +38,7 @@ module.exports = function (grunt) {
     },
     clean: {
       build: ['dist'],
-      deploy: ['deploy'],
       src: ['src/app', 'src/ChangeLog.html', 'src/index.html'],
-    },
-    compress: {
-      main: {
-        options: {
-          archive: 'deploy/dataentry.zip',
-        },
-        files: [
-          {
-            src: deployFiles,
-            dest: './',
-            cwd: 'dist/',
-            expand: true,
-          },
-        ],
-      },
     },
     connect: {
       uses_defaults: {},
@@ -93,7 +50,7 @@ module.exports = function (grunt) {
       src: {
         expand: true,
         cwd: '_src',
-        src: ['**/*.html', '**/*.png', '**/*.jpg', 'secrets.json', 'app/package.json'],
+        src: ['**/*.html', '**/*.png', '**/*.jpg', 'app/package.json'],
         dest: 'src',
       },
     },
@@ -169,58 +126,6 @@ module.exports = function (grunt) {
       },
     },
     pkg: grunt.file.readJSON('package.json'),
-    secrets: secrets,
-    sftp: {
-      stage: {
-        files: [
-          {
-            expand: true,
-            cwd: 'dist',
-            src: deployFiles,
-            dest: './',
-          },
-        ],
-        options: {
-          createDirectories: true,
-        },
-      },
-      appPackageOnly: {
-        files: [
-          {
-            expand: true,
-            cwd: 'dist/app',
-            src: deployFiles,
-            dest: './app',
-          },
-          {
-            expand: true,
-            cwd: 'dist/react-app',
-            src: deployFiles,
-            dest: './react-app',
-          },
-          {
-            expand: true,
-            cwd: 'dist',
-            src: ['*.html'],
-            dest: './',
-          },
-          {
-            expand: true,
-            cwd: 'dist/dojo',
-            src: 'dojo.*',
-            dest: './dojo',
-          },
-        ],
-      },
-      options: {
-        host: '<%= secrets.stageHost %>',
-        path: `./${deployDir}/`,
-        srcBasePath: 'dist/',
-        showProgress: true,
-        username: '<%= secrets.username %>',
-        password: '<%= secrets.password %>',
-      },
-    },
     stylus: {
       main: {
         options: {
@@ -240,12 +145,10 @@ module.exports = function (grunt) {
     },
     uglify: {
       options: {
-        preserveComments: false,
+        output: { comments: false },
         sourceMap: true,
         compress: {
           drop_console: true,
-          passes: 2,
-          dead_code: true,
         },
       },
       stage: {
@@ -317,7 +220,6 @@ module.exports = function (grunt) {
     'copy:dist',
     'processhtml:main',
   ]);
-  grunt.registerTask('deploy-prod', ['clean:deploy', 'compress:main']);
   grunt.registerTask('build-stage', [
     'clean:build',
     'clean:src',
@@ -330,6 +232,4 @@ module.exports = function (grunt) {
     'copy:dist',
     'processhtml:main',
   ]);
-  grunt.registerTask('deploy-stage', ['sftp:stage']);
-  grunt.registerTask('deploy-stage-app-only', ['sftp:appPackageOnly']);
 };

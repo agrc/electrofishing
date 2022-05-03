@@ -1,17 +1,15 @@
 import localforage from 'localforage';
-import secrets from 'secrets.json';
 
-let quadWord = 'patent-window-address-asia'; // for prod and stage
 let wildlifeFolder;
 if (process.env.REACT_APP_BUILD === 'prod') {
   // for DWR user
-  wildlifeFolder = 'https://udwrgis.utah.gov/arcgis/rest/services/Electrofishing/';
+  wildlifeFolder = 'https://wrimaps.utah.gov/arcgis/rest/services/Electrofishing/';
 } else if (process.env.REACT_APP_BUILD === 'stage') {
   // dwrapps.dev.utah.gov
-  wildlifeFolder = 'https://udwrgis.utah.gov/arcgis/rest/services/ElectrofishingTest/';
+  wildlifeFolder = 'https://wrimaps.at.utah.gov/arcgis/rest/services/Electrofishing/';
 } else {
-  wildlifeFolder = 'http://localhost/arcgis/rest/services/Electrofishing/';
-  quadWord = secrets.quadWord;
+  // wildlifeFolder = 'http://localhost/arcgis/rest/services/Electrofishing/';
+  wildlifeFolder = 'https://wrimaps.at.utah.gov/arcgis/rest/services/Electrofishing/';
 }
 
 const wildlifeToolbox = wildlifeFolder + 'Toolbox/GPServer/';
@@ -195,7 +193,7 @@ const config = {
 
   // version: String
   //      The app version number.
-  version: '2.0.0-0',
+  version: '2.0.0',
 
   // coordTypes: {key:String}
   //      Coordinate types as used in app/SettingsDialog
@@ -242,8 +240,8 @@ const config = {
   // urls: {}
   urls: {
     // basemaps
-    googleImagery: `https://discover.agrc.utah.gov/login/path/${quadWord}/tiles/utah/{z}/{x}/{y}`,
-    overlay: `https://discover.agrc.utah.gov/login/path/${quadWord}/tiles/overlay_basemap/{z}/{x}/{y}`,
+    googleImagery: `https://discover.agrc.utah.gov/login/path/${process.env.REACT_APP_QUAD_WORD}/tiles/utah/{z}/{x}/{y}`,
+    overlay: `https://discover.agrc.utah.gov/login/path/${process.env.REACT_APP_QUAD_WORD}/tiles/overlay_basemap/{z}/{x}/{y}`,
 
     // leaflet icons
     endIcon: `${markerImagesFolder}end-icon.png`,
