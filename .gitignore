@@ -17,5 +17,6 @@ scripts/Scripts/settings/secrets.py
 maps/Default.gdb
 maps/.backups
 maps/Index
-maps/scratch.gdb
+maps/scratch*
 maps/ImportLog
+*.ags
