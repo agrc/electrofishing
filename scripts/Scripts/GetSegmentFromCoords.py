@@ -43,8 +43,8 @@ in_memory = 'memory'
 # temp data
 tempDissolve = in_memory + r'\tempDissolve'
 tempSplit = in_memory + r'\tempSplit'
-tempOutput = '%scratchFolder%\\tempOutput'
-puntData = '%scratchFolder%\\puntData'
+tempOutput = '%scratchGDB%\\tempOutput'
+puntData = '%scratchGDB%\\puntData'
 
 # tools parameters
 searchRadius = '100 Meters'
