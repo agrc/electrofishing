@@ -14,6 +14,18 @@
   <body class="claro">
     <div id="root"></div>
 
+    <script type="module">
+      // these need to be loaded via browser modules until we ditch Dojo and AMD
+      import * as app from 'https://www.gstatic.com/firebasejs/9.8.2/firebase-app.js';
+      import * as auth from 'https://www.gstatic.com/firebasejs/9.8.2/firebase-auth.js';
+
+      window.firebase = {
+        app,
+        auth,
+      };
+      console.log('firebase modules loaded');
+    </script>
+
     <!-- build:template
     <script data-dojo-config="deps:['app/packages', 'app/run']" src='dojo/dojo.js'></script>
     /build -->

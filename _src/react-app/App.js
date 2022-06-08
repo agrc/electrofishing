@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import NewCollectionEvent from './components/NewCollectionEvent';
 import useDojoWidget from './hooks/useDojoWidget';
 import SettingsDialog from 'app/SettingsDialog';
+import useAuthentication from './hooks/useAuthentication';
 
 export const AppContext = React.createContext();
 export const actionTypes = {
@@ -13,6 +14,8 @@ export const actionTypes = {
   SUBMIT_LOADING: 'SUBMIT_LOADING',
   MAP: 'MAP',
   CURRENT_TAB: 'CURRENT_TAB',
+  LOGIN: 'LOGIN',
+  LOGOUT: 'LOGOUT',
 };
 
 const initialState = {
@@ -22,6 +25,7 @@ const initialState = {
   submitLoading: false,
   map: null,
   currentTab: 'locationTab',
+  user: null,
 };
 
 const reducer = (draft, action) => {
@@ -51,8 +55,18 @@ const reducer = (draft, action) => {
 
       break;
 
-    default:
+    case actionTypes.LOGIN:
+      draft.user = action.payload;
+
       break;
+
+    case actionTypes.LOGOUT:
+      draft.user = null;
+
+      break;
+
+    default:
+      throw new Error(`Unhandled action type: ${action.type}`);
   }
 };
 
@@ -67,13 +81,39 @@ const App = () => {
   const settingsDialogDiv = React.useRef(null);
   useDojoWidget(settingsDialogDiv, SettingsDialog);
 
+  React.useLayoutEffect(() => {
+    // this need to fire before the code in useAuthentication runs
+    window.firebase.app.initializeApp(JSON.parse(process.env.REACT_APP_FIREBASE_CONFIG));
+    console.log('firebase app initialized');
+  }, []);
+
+  const { user, logOut } = useAuthentication();
+  React.useEffect(() => {
+    if (user) {
+      appDispatch({ type: 'LOGIN', payload: user });
+    } else {
+      appDispatch({ type: 'LOGOUT' });
+    }
+  }, [appDispatch, user]);
+
   return (
     <AppContext.Provider value={{ appState, appDispatch }}>
       <div className="app">
         <Header submitLoading={appState.submitLoading} />
 
         <div className="container main-container">
-          <NewCollectionEvent />
+          <div className="inner-header">
+            <h4>Water Body</h4>
+            {appState.user ? (
+              <span>
+                <span className="user">{appState.user.email}</span>
+                <button type="button" className="btn btn-link" onClick={logOut}>
+                  logout
+                </button>
+              </span>
+            ) : null}
+          </div>
+          {appState.user ? <NewCollectionEvent /> : null}
         </div>
 
         <div ref={settingsDialogDiv}></div>

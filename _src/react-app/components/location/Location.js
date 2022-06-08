@@ -229,7 +229,6 @@ const Location = () => {
 
   return (
     <div className="location">
-      <h4>Water Body</h4>
       <VerifyMap className="v-map" isMainMap={true} setMap={setMainMap} selectStation={selectStation} />
       <Station
         mainMap={mainMap}

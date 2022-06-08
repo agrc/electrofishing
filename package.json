@@ -9,7 +9,9 @@
     "build": "export REACT_APP_BUILD=prod && export BABEL_ENV=production && npm run babel-deps && npm run sass && npm run babel-react && grunt build-prod",
     "cypress:open": "concurrently \"npm start\" \"cypress open\"",
     "sass": "sass _src/react-app:src/react-app",
-    "start": "npm run babel-deps && sass _src/react-app:src/react-app --watch & npm run babel-react-watch & grunt",
+    "start:app": "npm run babel-deps && sass _src/react-app:src/react-app --watch & npm run babel-react-watch & grunt",
+    "start:firebase-emulators": "firebase emulators:start --import emulator_data --export-on-exit --only firestore,functions,auth,ui",
+    "start": "concurrently \"npm run start:app\" \"npm run start:firebase-emulators\"",
     "storybook": "start-storybook -p 6006 --no-dll -s ./src",
     "test": "eslint ./_src",
     "postinstall": "npm install -g bower && bower install"
@@ -97,6 +99,7 @@
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-testing-library": "^3.10.1",
+    "firebase-tools": "^11.0.1",
     "grunt": "^1.5.2",
     "grunt-babel": "^8.0.0",
     "grunt-bump": "^0.8.0",

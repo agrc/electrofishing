@@ -5,7 +5,7 @@ import { AppContext, actionTypes } from '../App';
 
 export default function Header({ submitLoading }) {
   const submitButtonRef = React.useRef();
-  const { appDispatch } = React.useContext(AppContext);
+  const { appDispatch, appState } = React.useContext(AppContext);
 
   React.useEffect(() => {
     $(submitButtonRef.current).button(submitLoading ? 'loading' : 'reset');
@@ -47,6 +47,7 @@ export default function Header({ submitLoading }) {
             data-loading-text="submitting report..."
             className="btn btn-success navbar-btn"
             ref={submitButtonRef}
+            disabled={!appState.user}
           >
             Submit Report
           </button>

@@ -117,6 +117,7 @@ jobs:
         run: npm run build-stage
         env:
           REACT_APP_QUAD_WORD: ${{ secrets.QUAD_WORD }}
+          REACT_APP_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
 
       - name: 🪣 Cache firebase
         uses: actions/cache@v3
@@ -127,10 +128,13 @@ jobs:
             ${{ runner.OS }}-firebase-
             ${{ runner.OS }}-
 
+      - name: ♻️ Create .env file
+        run: echo "ENVIRONMENT=stage\nAGS_HOST=https://wrimaps.at.utah.gov" >> functions/.env
+
       - name: 🚀 Firebase deploy
         run: >
           npx firebase-tools deploy
-          --only hosting
+          --only hosting, functions
           --project ${{ secrets.PROJECT_ID }}
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
@@ -171,6 +175,7 @@ jobs:
         run: npm run build
         env:
           REACT_APP_QUAD_WORD: ${{ secrets.QUAD_WORD }}
+          REACT_APP_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
 
       - name: 🪣 Cache firebase
         uses: actions/cache@v3
@@ -181,10 +186,13 @@ jobs:
             ${{ runner.OS }}-firebase-
             ${{ runner.OS }}-
 
+      - name: ♻️ Create .env file
+        run: echo "ENVIRONMENT=prod\nAGS_HOST=https://wrimaps.utah.gov" >> functions/.env
+
       - name: 🚀 Firebase deploy
         run: >
           npx firebase-tools deploy
-          --only hosting
+          --only hosting, functions
           --project ${{ secrets.PROJECT_ID }}
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels

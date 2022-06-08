@@ -1,7 +1,14 @@
 /* eslint-disable camelcase */
 module.exports = function (grunt) {
   var jsFiles = '_src/app/**/*.js';
-  var otherFiles = ['_src/app/**/*.html', '_src/app/**/*.css', '_src/index.html', '_src/ChangeLog.html'];
+  var serviceWorkerFile = 'ServiceWorker.js';
+  var otherFiles = [
+    '_src/app/**/*.html',
+    '_src/app/**/*.css',
+    '_src/index.html',
+    '_src/ChangeLog.html',
+    '_src/' + serviceWorkerFile,
+  ];
   var gruntFile = 'Gruntfile.js';
   var bumpFiles = [
     'package-lock.json',
@@ -45,12 +52,12 @@ module.exports = function (grunt) {
     },
     copy: {
       dist: {
-        files: [{ expand: true, cwd: 'src/', src: ['*.html'], dest: 'dist/' }],
+        files: [{ expand: true, cwd: 'src/', src: ['*.html', serviceWorkerFile], dest: 'dist/' }],
       },
       src: {
         expand: true,
         cwd: '_src',
-        src: ['**/*.html', '**/*.png', '**/*.jpg', 'app/package.json'],
+        src: ['**/*.html', serviceWorkerFile, '**/*.png', '**/*.jpg', 'app/package.json'],
         dest: 'src',
       },
     },
@@ -76,7 +83,7 @@ module.exports = function (grunt) {
     },
     eslint: {
       main: {
-        src: [jsFiles].concat([gruntFile]),
+        src: [jsFiles].concat([gruntFile, '_src/' + serviceWorkerFile]),
       },
     },
     imagemin: {

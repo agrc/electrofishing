@@ -1,20 +1,18 @@
 import localforage from 'localforage';
 
-let wildlifeFolder;
+let proxyBase;
+const projectId = JSON.parse(process.env.REACT_APP_FIREBASE_CONFIG).projectId;
 if (process.env.REACT_APP_BUILD === 'prod') {
-  // for DWR user
-  wildlifeFolder = 'https://wrimaps.utah.gov/arcgis/rest/services/Electrofishing/';
+  proxyBase = `https://us-central1-${projectId}.cloudfunctions.net/maps`;
 } else if (process.env.REACT_APP_BUILD === 'stage') {
-  // dwrapps.dev.utah.gov
-  wildlifeFolder = 'https://wrimaps.at.utah.gov/arcgis/rest/services/Electrofishing/';
+  proxyBase = `https://us-central1-${projectId}.cloudfunctions.net/maps`;
 } else {
-  // wildlifeFolder = 'http://localhost/arcgis/rest/services/Electrofishing/';
-  wildlifeFolder = 'https://wrimaps.at.utah.gov/arcgis/rest/services/Electrofishing/';
+  proxyBase = `http://localhost:5001/${projectId}/us-central1/maps/`;
 }
 
-const wildlifeToolbox = wildlifeFolder + 'Toolbox/GPServer/';
-const wildlifeFeatureService = wildlifeFolder + 'MapService/FeatureServer/';
-const referenceService = wildlifeFolder + 'Reference/MapServer/';
+const wildlifeToolbox = proxyBase + 'toolbox/';
+const wildlifeFeatureService = proxyBase + 'mapservice/';
+const referenceService = proxyBase + 'reference/';
 const fldEVENT_ID = 'EVENT_ID';
 const fldTRANSECT_ID = 'TRANSECT_ID';
 const markerImagesFolder = 'react-app/assets/markers/';

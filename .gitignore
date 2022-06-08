@@ -20,3 +20,8 @@ maps/Index
 maps/scratch*
 maps/ImportLog
 *.ags
+
+*.log
+
+emulator_data/
+firebase-export*
