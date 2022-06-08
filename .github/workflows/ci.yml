@@ -112,6 +112,8 @@ jobs:
         run: |
           npm ci
           npm install -g grunt-cli
+          cd functions
+          npm ci
 
       - name: 🏗 Run build script
         run: npm run build-stage
@@ -170,6 +172,8 @@ jobs:
         run: |
           npm ci
           npm install -g grunt-cli
+          cd functions
+          npm ci
 
       - name: 🏗 Run build script
         run: npm run build
