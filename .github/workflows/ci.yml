@@ -24,7 +24,10 @@ jobs:
           cache: npm
 
       - name: 📥 Download dependencies
-        run: npm ci
+        run: |
+          npm ci --legacy-peer-deps
+          cd functions
+          npm ci
 
       - name: Cypress run
         uses: cypress-io/github-action@v3
@@ -54,7 +57,7 @@ jobs:
 
       - name: 📥 Download dependencies
         run: |
-          npm ci
+          npm ci --legacy-peer-deps
 
       - name: 🧹 ESLint
         run: npm test
@@ -73,7 +76,7 @@ jobs:
 
       - name: 📥 Download dependencies
         run: |
-          npm ci
+          npm ci --legacy-peer-deps
           npm install -g grunt-cli
 
       - name: 📦 Build
@@ -110,7 +113,7 @@ jobs:
 
       - name: 📥 Download dependencies
         run: |
-          npm ci
+          npm ci --legacy-peer-deps
           npm install -g grunt-cli
           cd functions
           npm ci
@@ -170,7 +173,7 @@ jobs:
 
       - name: 📥 Download dependencies
         run: |
-          npm ci
+          npm ci --legacy-peer-deps
           npm install -g grunt-cli
           cd functions
           npm ci
