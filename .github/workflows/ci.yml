@@ -151,7 +151,7 @@ jobs:
       - name: 🚀 Firebase deploy
         run: >
           npx firebase-tools deploy
-          --only hosting, functions
+          --only hosting,functions
           --project ${{ secrets.PROJECT_ID }}
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
@@ -211,7 +211,7 @@ jobs:
       - name: 🚀 Firebase deploy
         run: >
           npx firebase-tools deploy
-          --only hosting, functions
+          --only hosting,functions
           --project ${{ secrets.PROJECT_ID }}
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
