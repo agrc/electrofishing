@@ -1,8 +1,8 @@
+import { loadAndSignIn } from './utils';
+
 describe('SettingsDialog', () => {
   it('toggles the coordinates type', () => {
-    cy.viewport(1200, 1000);
-    cy.visit('http://localhost:8000/src');
-    // cy.visit('https://dwrapps.dev.utah.gov/fishsample/dataentry/');
+    loadAndSignIn();
 
     // utm is default
     cy.findAllByText(/northing/i).should('exist');

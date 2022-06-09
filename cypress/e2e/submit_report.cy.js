@@ -1,4 +1,5 @@
 import commonIntercepts from './common_intercepts';
+import { loadAndSignIn } from './utils';
 
 /* eslint-disable cypress/no-unnecessary-waiting */
 describe('SubmitReport', () => {
@@ -11,9 +12,7 @@ describe('SubmitReport', () => {
   it('submits a report', () => {
     commonIntercepts();
 
-    cy.viewport(1200, 800);
-    cy.visit('http://localhost:8000/src');
-    // cy.visit('https://dwrapps.dev.utah.gov/fishsample/dataentry/');
+    loadAndSignIn();
 
     // select station marker
     cy.get('.leaflet-marker-icon').first().click();

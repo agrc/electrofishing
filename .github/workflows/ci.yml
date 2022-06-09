@@ -17,24 +17,36 @@ jobs:
       - name: ⬇️ Checkout code
         uses: actions/checkout@v3
 
+      - name: Cache Emulators
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.FIREBASE_EMULATORS_PATH }}
+          key:
+            ${{ runner.os }}-firebase-emulators-${{
+            hashFiles('emulator-cache/**') }}
+        continue-on-error: true
+
       - name: ⎔ Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version-file: .node-version
           cache: npm
 
-      - name: 📥 Download dependencies
+      - name: Install functions deps
         run: |
-          npm ci --legacy-peer-deps
           cd functions
           npm ci
 
       - name: Cypress run
-        uses: cypress-io/github-action@v3
+        uses: cypress-io/github-action@v4
+        env:
+          REACT_APP_QUAD_WORD: test
+          REACT_APP_FIREBASE_CONFIG: ${{ secrets.TEST_FIREBASE_CONFIG }}
         with:
-          env: REACT_APP_QUAD_WORD=test
           build: npm run babel-deps && npm run babel-react
           start: npm start
+          install-command: npm ci --legacy-peer-deps
+          browser: chrome
 
       - name: Upload Cypress Screenshots
         uses: actions/upload-artifact@v3

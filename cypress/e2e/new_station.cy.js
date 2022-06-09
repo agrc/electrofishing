@@ -1,4 +1,5 @@
 import commonIntercepts from './common_intercepts';
+import { loadAndSignIn } from './utils';
 
 describe('AddNewStation', () => {
   it('creates a new station', () => {
@@ -8,9 +9,8 @@ describe('AddNewStation', () => {
 
     const newStationName = 'new station name';
 
-    cy.viewport(1200, 600);
-    cy.visit('http://localhost:8000/src');
-    // cy.visit('https://dwrapps.dev.utah.gov/fishsample/dataentry/');
+    loadAndSignIn();
+
     cy.findByRole('link', {
       name: /add new station/i,
     }).click();
