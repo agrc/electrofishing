@@ -43,4 +43,4 @@ const options = {
 
 const [proxy, secrets] = initProxy(options);
 
-export const maps = functions.runWith({ secrets }).https.onRequest(proxy);
+export const maps = functions.runWith({ secrets, invoker: 'public' }).https.onRequest(proxy);
