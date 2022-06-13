@@ -3,9 +3,9 @@ import localforage from 'localforage';
 let proxyBase;
 const projectId = JSON.parse(process.env.REACT_APP_FIREBASE_CONFIG).projectId;
 if (process.env.REACT_APP_BUILD === 'prod') {
-  proxyBase = `https://us-central1-${projectId}.cloudfunctions.net/maps`;
+  proxyBase = `https://us-central1-${projectId}.cloudfunctions.net/maps/`;
 } else if (process.env.REACT_APP_BUILD === 'stage') {
-  proxyBase = `https://us-central1-${projectId}.cloudfunctions.net/maps`;
+  proxyBase = `https://us-central1-${projectId}.cloudfunctions.net/maps/`;
 } else {
   proxyBase = `http://localhost:5001/${projectId}/us-central1/maps/`;
 }
