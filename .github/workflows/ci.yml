@@ -143,7 +143,9 @@ jobs:
             ${{ runner.OS }}-
 
       - name: ♻️ Create .env file
-        run: echo "ENVIRONMENT=stage\nAGS_HOST=https://wrimaps.at.utah.gov" >> functions/.env
+        run: |
+          echo "ENVIRONMENT=stage" > functions/.env
+          echo "AGS_HOST=https://wrimaps.at.utah.gov" >> functions/.env
 
       - name: 🚀 Firebase deploy
         run: >
@@ -203,7 +205,9 @@ jobs:
             ${{ runner.OS }}-
 
       - name: ♻️ Create .env file
-        run: echo "ENVIRONMENT=prod\nAGS_HOST=https://wrimaps.utah.gov" >> functions/.env
+        run: |
+          echo "ENVIRONMENT=prod" > functions/.env
+          echo "AGS_HOST=https://wrimaps.at.utah.gov" >> functions/.env
 
       - name: 🚀 Firebase deploy
         run: >
