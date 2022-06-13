@@ -77,7 +77,7 @@ describe('SubmitReport', () => {
 
     cy.get('[data-testid="summaryConfirmBtn"]').click({ force: true });
 
-    cy.findByText(/the report has been submitted successfully\./i, { timeout: 20000 }).should('be.visible');
+    cy.findByText(/the report has been submitted successfully\./i, { timeout: 60000 }).should('be.visible');
 
     // clear all of the data
     cy.get('#stationTxt').should('have.value', '');
