@@ -124,7 +124,7 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
         newStation.attributes[config.fieldNames.stations.NAME],
         newStation.attributes[config.fieldNames.stations.STATION_ID]
       );
-    }, 250);
+    }, 500);
   };
 
   const onError = (message) => {
