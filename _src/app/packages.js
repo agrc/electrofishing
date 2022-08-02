@@ -92,7 +92,7 @@ require({
     },
     {
       name: 'react-transition-group',
-      location: '../node_modules/react-transition-group/dist',
+      location: '../node_modules/react-toastify/node_modules/react-transition-group/dist',
       main: 'react-transition-group',
     },
     {
