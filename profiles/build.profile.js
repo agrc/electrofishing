@@ -36,10 +36,9 @@ var profile = {
     }, {
         name: 'downshift',
         location: '../node_modules/downshift/dist',
-        files: [
-            ['downshift.umd.js', 'downshift.umd.js']
-        ],
-        trees: []
+        trees: [
+            ['.', '.', /(\/\.)|(~$)|(\.esm\.js)|(\.cjs\.js)|(\.ts)/]
+        ]
     }, {
         name: 'esri-leaflet',
         location: '../node_modules/esri-leaflet/dist',
@@ -49,7 +48,7 @@ var profile = {
             }
         },
         trees: [
-            ['.', '.', /(\/\.)|(~$)|(\.esm\.js)/]
+            ['.', '.', /(\/\.)|(~$)|(\.esm\.js)|(\.map)|(\.json)/]
         ]
     }, {
         name: 'handlebars',
@@ -67,7 +66,9 @@ var profile = {
         files: [
             ['immer.umd.development.js', 'immer.umd.development.js']
         ],
-        trees: [],
+        trees: [
+            ['.', '.', /(\/\.)|(~$)|(\.esm\..*)|(\.cjs\..*)|(\.ts)|(index)|(\.map$)/]
+        ],
         resourceTags: {
             amd: function () {
                 return true;
@@ -114,6 +115,11 @@ var profile = {
             ['.', '.', /(\/\.)|(.stories.js)/]
         ]
     }, {
+      name: 'react-toastify',
+      trees: [
+        ['.', '.', /(\/\.)|(index\.esm)/]
+      ]
+    }, {
         name: 'toaster',
         location: './toaster',
         main: 'dist/Toaster',
@@ -134,8 +140,8 @@ var profile = {
             }
         },
         trees: [
-            ['.', '.', /(\/\.)|(~$)|(\.umd\..*\.js)/]
-        ]
+            ['.', '.', /(\/\.)|(~$)|(\.esm\..*)|(\.cjs\..*)|(\.ts)|(index)|(\.map$)|(use-immer\.js)|(\.modern)|(\.module)/]
+        ],
     }, {
         name: 'uuid',
         resourceTags: {
