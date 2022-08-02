@@ -58,16 +58,24 @@ export default function useAuthentication() {
       provider.addScope('app:DWRElectroFishing');
 
       const result = await window.firebase.auth.getRedirectResult(auth);
-      let unsubscribe;
-      if (result?.user) {
-        const idToken = await result.user.getIdTokenResult();
-        if (checkClaims(idToken.claims)) {
-          await initServiceWorker();
-          sendTokenToServiceWorker(result.user.accessToken);
+      let timeoutId;
+      const scheduleTokenRefresh = (expirationTime) => {
+        timeoutId = setTimeout(async () => {
+          console.log('refreshing token');
+          const response = await result.user.getIdTokenResult();
+          sendTokenToServiceWorker(response.token);
 
-          unsubscribe = window.firebase.auth.onIdTokenChanged(auth, (user) => {
-            sendTokenToServiceWorker(user.accessToken);
-          });
+          scheduleTokenRefresh(response.expirationTime);
+        }, new Date(expirationTime).getTime() - Date.now() + 1);
+      };
+
+      if (result?.user) {
+        const response = await result.user.getIdTokenResult();
+        if (checkClaims(response.claims)) {
+          await initServiceWorker();
+          sendTokenToServiceWorker(response.token);
+
+          scheduleTokenRefresh(response.expirationTime);
 
           setUser(result.user);
         } else {
@@ -78,8 +86,8 @@ export default function useAuthentication() {
       }
 
       return () => {
-        if (unsubscribe) {
-          unsubscribe();
+        if (timeoutId) {
+          clearTimeout(timeoutId);
         }
       };
     };
