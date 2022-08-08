@@ -1,10 +1,11 @@
 import React from 'react';
-import Header from './Header';
+// import Header from './Header';
 
 const story = {
   title: 'Header',
-  component: Header,
+  // component: Header,
 };
 export default story;
 
-export const Default = () => <Header />;
+// wait until Header has no AMD dependencies including app
+// export const Default = () => <Header />;
