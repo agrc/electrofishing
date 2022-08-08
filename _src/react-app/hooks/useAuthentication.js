@@ -1,4 +1,5 @@
 import React from 'react';
+import config from '../config';
 
 async function initServiceWorker() {
   if ('serviceWorker' in navigator === false) {
@@ -58,24 +59,24 @@ export default function useAuthentication() {
       provider.addScope('app:DWRElectroFishing');
 
       const result = await window.firebase.auth.getRedirectResult(auth);
-      let timeoutId;
-      const scheduleTokenRefresh = (expirationTime) => {
-        timeoutId = setTimeout(async () => {
-          console.log('refreshing token');
-          const response = await result.user.getIdTokenResult();
-          sendTokenToServiceWorker(response.token);
 
-          scheduleTokenRefresh(response.expirationTime);
-        }, new Date(expirationTime).getTime() - Date.now() + 1);
-      };
-
+      let intervalId;
+      let expireTime = 0;
       if (result?.user) {
         const response = await result.user.getIdTokenResult();
         if (checkClaims(response.claims)) {
           await initServiceWorker();
           sendTokenToServiceWorker(response.token);
+          expireTime = response.expirationTime;
 
-          scheduleTokenRefresh(response.expirationTime);
+          intervalId = setTimeout(async () => {
+            if (Date.now() > expireTime) {
+              console.log('refreshing token');
+              const response = await result.user.getIdTokenResult();
+              expireTime = response.expirationTime;
+              sendTokenToServiceWorker(response.token);
+            }
+          }, config.authTokenCheckInterval);
 
           setUser(result.user);
         } else {
@@ -86,8 +87,8 @@ export default function useAuthentication() {
       }
 
       return () => {
-        if (timeoutId) {
-          clearTimeout(timeoutId);
+        if (intervalId) {
+          clearInterval(intervalId);
         }
       };
     };

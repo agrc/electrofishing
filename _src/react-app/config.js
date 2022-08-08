@@ -300,6 +300,8 @@ const config = {
   tooSmallValue: 0,
 
   domains: {},
+
+  authTokenCheckInterval: 1000,
 };
 
 // Leaflet config
