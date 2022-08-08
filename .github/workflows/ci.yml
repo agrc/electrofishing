@@ -105,15 +105,6 @@ jobs:
       - name: ⬇️ Checkout code
         uses: actions/checkout@v3
 
-      - id: auth
-        name: 🗝️ Authenticate to Google Cloud
-        uses: google-github-actions/auth@v0
-        with:
-          access_token_scopes: 'email, openid, https://www.googleapis.com/auth/cloud-platform, https://www.googleapis.com/auth/firebase'
-          workload_identity_provider: ${{ secrets.IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
-          create_credentials_file: true
-
       - name: ⎔ Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -147,6 +138,15 @@ jobs:
           echo "ENVIRONMENT=stage" > functions/.env
           echo "AGS_HOST=https://wrimaps.at.utah.gov" >> functions/.env
 
+      - id: auth
+        name: 🗝️ Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0
+        with:
+          access_token_scopes: 'email, openid, https://www.googleapis.com/auth/cloud-platform, https://www.googleapis.com/auth/firebase'
+          workload_identity_provider: ${{ secrets.IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          create_credentials_file: true
+
       - name: 🚀 Firebase deploy
         run: >
           npx firebase-tools deploy
@@ -166,15 +166,6 @@ jobs:
     steps:
       - name: ⬇️ Checkout code
         uses: actions/checkout@v3
-
-      - id: auth
-        name: 🗝️ Authenticate to Google Cloud
-        uses: google-github-actions/auth@v0
-        with:
-          access_token_scopes: 'email, openid, https://www.googleapis.com/auth/cloud-platform, https://www.googleapis.com/auth/firebase'
-          workload_identity_provider: ${{ secrets.IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
-          create_credentials_file: true
 
       - name: ⎔ Setup Node.js
         uses: actions/setup-node@v3
@@ -208,6 +199,15 @@ jobs:
         run: |
           echo "ENVIRONMENT=prod" > functions/.env
           echo "AGS_HOST=https://wrimaps.at.utah.gov" >> functions/.env
+
+      - id: auth
+        name: 🗝️ Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0
+        with:
+          access_token_scopes: 'email, openid, https://www.googleapis.com/auth/cloud-platform, https://www.googleapis.com/auth/firebase'
+          workload_identity_provider: ${{ secrets.IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          create_credentials_file: true
 
       - name: 🚀 Firebase deploy
         run: >
