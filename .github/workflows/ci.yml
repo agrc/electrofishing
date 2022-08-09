@@ -147,9 +147,15 @@ jobs:
           service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
           create_credentials_file: true
 
+      # we are pinned to v11.2.2 until https://github.com/firebase/firebase-tools/issues/4807 is fixed
+      # but deploys are broken at that version
+      # so we are installing the latest in CI until we can upgrade the app
+      - name: Install Latest Firebase Tools
+        run: npm i -g firebase-tools@latest
+
       - name: 🚀 Firebase deploy
         run: >
-          npx firebase-tools deploy
+          firebase deploy
           --only hosting,functions
           --project ${{ secrets.PROJECT_ID }}
         env:
@@ -209,9 +215,15 @@ jobs:
           service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
           create_credentials_file: true
 
+      # we are pinned to v11.2.2 until https://github.com/firebase/firebase-tools/issues/4807 is fixed
+      # but deploys are broken at that version
+      # so we are installing the latest in CI until we can upgrade the app
+      - name: Install Latest Firebase Tools
+        run: npm i -g firebase-tools@latest
+
       - name: 🚀 Firebase deploy
         run: >
-          npx firebase-tools deploy
+          firebase deploy
           --only hosting,functions
           --project ${{ secrets.PROJECT_ID }}
         env:
