@@ -69,7 +69,7 @@ export default function useAuthentication() {
           sendTokenToServiceWorker(response.token);
           expireTime = response.expirationTime;
 
-          intervalId = setTimeout(async () => {
+          intervalId = setInterval(async () => {
             if (Date.now() > expireTime) {
               console.log('refreshing token');
               const response = await result.user.getIdTokenResult();

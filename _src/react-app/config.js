@@ -301,7 +301,7 @@ const config = {
 
   domains: {},
 
-  authTokenCheckInterval: 1000,
+  authTokenCheckInterval: 2500,
 };
 
 // Leaflet config
