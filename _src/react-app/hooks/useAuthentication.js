@@ -67,14 +67,14 @@ export default function useAuthentication() {
         if (checkClaims(response.claims)) {
           await initServiceWorker();
           sendTokenToServiceWorker(response.token);
-          expireTime = response.expirationTime;
+          expireTime = new Date(response.expirationTime).getTime();
 
           if (!window.Cypress) {
             intervalId = setInterval(async () => {
               if (Date.now() > expireTime) {
                 console.log('refreshing token');
                 const response = await result.user.getIdTokenResult();
-                expireTime = response.expirationTime;
+                expireTime = new Date(response.expirationTime).getTime();
                 sendTokenToServiceWorker(response.token);
               }
             }, config.authTokenCheckInterval);
