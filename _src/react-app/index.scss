@@ -3,5 +3,6 @@
 @use 'components/Header';
 @use 'components/location/VerifyMap';
 @use 'components/location/Location';
+@use 'components/location/PointDef';
 @use '../../node_modules/react-toastify/scss/main.scss';
 @use '../../node_modules/leaflet/dist/leaflet.css';

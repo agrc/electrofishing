@@ -1,6 +1,4 @@
-import * as React from 'react';
-import StationPointDef from 'app/location/StationPointDef';
-import useDojoWidget from '../../hooks/useDojoWidget';
+import React, { useRef, useState } from 'react';
 import VerifyMap from './VerifyMap';
 import DomainDrivenDropdown from '../DomainDrivenDropdown';
 import config from '../../config';
@@ -8,6 +6,8 @@ import getGUID from '../../helpers/getGUID';
 import topic from 'pubsub-js';
 import useSubscriptions from '../../hooks/useSubscriptions';
 import submitJob from '../../helpers/submitJob';
+import useUniqueId from '../../hooks/useUniqueId';
+import PointDef from './PointDef';
 
 // validateMsgs: Object
 //      The invalid messages displayed for this dialog
@@ -22,28 +22,27 @@ const validateMsgs = {
 const newStationErrMsg = 'There was an error submitting the station!';
 
 const Station = ({ mainMap, selectedStationName, selectStation }) => {
-  const verifyMap = React.useRef(null);
-  const setVerifyMap = (map) => (verifyMap.current = map);
-  const [streamType, setStreamType] = React.useState(null);
-  const submitBtn = React.useRef(null);
-  const [stationName, setStationName] = React.useState('');
-  const [streamLake, setStreamLake] = React.useState('');
-  const [validateMsg, setValidateMsg] = React.useState(null);
-  const [showSuccessMsg, setShowSuccessMsg] = React.useState(false);
-  const [streamLakeBtnIsActive, setStreamLakeBtnIsActive] = React.useState(false);
-  const streamsLayer = React.useRef(null);
+  const verifyMap = useRef(null);
+  const [streamType, setStreamType] = useState(null);
+  const submitBtn = useRef(null);
+  const [stationName, setStationName] = useState('');
+  const [streamLake, setStreamLake] = useState('');
+  const [validateMsg, setValidateMsg] = useState(null);
+  const [showSuccessMsg, setShowSuccessMsg] = useState(false);
+  const [streamLakeBtnIsActive, setStreamLakeBtnIsActive] = useState(false);
+  const streamsLayer = useRef(null);
   const setStreamsLayer = (layer) => (streamsLayer.current = layer);
-  const lakesLayer = React.useRef(null);
+  const lakesLayer = useRef(null);
   const setLakesLayer = (layer) => (lakesLayer.current = layer);
+  const group = useRef(null);
+  const [coordinates, setCoordinates] = useState(config.emptyPoint);
 
-  const pointDefDiv = React.useRef(null);
-  const pointDef = useDojoWidget(pointDefDiv, StationPointDef);
-  React.useEffect(() => {
-    if (pointDef && verifyMap.current) {
-      const fGroup = new L.FeatureGroup().addTo(verifyMap.current);
-      pointDef.setMap(verifyMap.current, fGroup);
-    }
-  }, [pointDef]);
+  const setVerifyMap = (map) => {
+    verifyMap.current = map;
+
+    group.current = new L.FeatureGroup().addTo(verifyMap.current);
+  };
+
   const validate = () => {
     // summary:
     //      validates all of the values necessary to submit to create a new station.
@@ -53,7 +52,6 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
     console.log('react-app/location/Station:validate');
 
     const name = stationName.trim();
-    const point = pointDef.getPoint();
     let message;
     let returnValue;
 
@@ -64,7 +62,7 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
     } else if (!streamType) {
       message = validateMsgs.type;
       returnValue = false;
-    } else if (!point) {
+    } else if (coordinates.x === '' || coordinates.y === '') {
       message = validateMsgs.point;
       returnValue = false;
     } else if (streamLake === '') {
@@ -72,7 +70,7 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
     } else {
       message = '';
       returnValue = {
-        geometry: { x: point.x, y: point.y, spatialReference: { wkid: 26912 } },
+        geometry: { x: coordinates.x, y: coordinates.y, spatialReference: { wkid: 26912 } },
         attributes: {},
       };
       returnValue.attributes[config.fieldNames.stations.NAME] = name;
@@ -109,7 +107,7 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
     // clear form
     setStationName('');
     setStreamType(null);
-    pointDef.clear();
+    setCoordinates(config.emptyPoint);
     setStreamLake('');
     onPointDefSelected();
     // TODO: clear selected stream or lake on map
@@ -165,29 +163,31 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
     }
   };
 
+  const id = useUniqueId();
   const onPointDefSelected = React.useCallback(
     (_, widget) => {
       // if widget is not the toggle stream lake button, then setStreamLakeBtnIsActive(false)
-      if (widget === pointDef) {
+      if (widget !== id) {
         setStreamLakeBtnIsActive(false);
       }
     },
-    [pointDef]
+    [id]
   );
   const addSubscription = useSubscriptions();
   React.useEffect(() => {
     addSubscription(config.topics.pointDef_onBtnClick, onPointDefSelected);
   }, [addSubscription, onPointDefSelected]);
+
   React.useEffect(() => {
     const func = streamLakeBtnIsActive ? 'on' : 'off';
     if (streamLakeBtnIsActive) {
-      topic.publishSync(config.topics.pointDef_onBtnClick, { isEnabled: () => streamLakeBtnIsActive });
+      topic.publishSync(config.topics.pointDef_onBtnClick, id, true);
     }
     if (verifyMap.current) {
       streamsLayer.current[func]('click', onWaterBodyClick);
       lakesLayer.current[func]('click', onWaterBodyClick);
     }
-  }, [onWaterBodyClick, streamLakeBtnIsActive]);
+  }, [id, onWaterBodyClick, streamLakeBtnIsActive]);
 
   const modal = React.useRef(null);
   React.useEffect(() => {
@@ -255,7 +255,13 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
                   />
                 </div>
               </div>
-              <div ref={pointDefDiv}></div>
+              <PointDef
+                label="Station"
+                map={verifyMap.current}
+                coordinates={coordinates}
+                setCoordinates={setCoordinates}
+                twoLineLayout
+              />
               <div className="stream-lake-button-container form-inline">
                 <label>Stream/Lake</label>
                 <div className="form-group">

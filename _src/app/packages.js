@@ -62,12 +62,12 @@ require({
     },
     {
       name: 'proj4',
-      location: './proj4/dist',
+      location: '../node_modules/proj4/dist',
       main: 'proj4',
     },
     {
       name: 'proj4leaflet',
-      location: './Proj4Leaflet/src',
+      location: '../node_modules/proj4leaflet/src',
       main: 'proj4leaflet',
     },
     {

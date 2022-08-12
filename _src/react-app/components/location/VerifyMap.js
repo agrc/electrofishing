@@ -152,8 +152,8 @@ const MapHoister = ({ streamSearchDiv, isMainMap, setMap, setStreamsLayer, setLa
       config.app.map = map;
     }
 
-    topic.subscribe(config.topics.pointDef_onBtnClick, (_, widget) => {
-      if (widget.isEnabled()) {
+    topic.subscribe(config.topics.pointDef_onBtnClick, (_, __, isActive) => {
+      if (isActive) {
         map._container.style.cursor = '';
       } else {
         map._container.style.cursor = 'crosshair';

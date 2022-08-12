@@ -1,47 +1,45 @@
-import * as React from 'react';
+import React, { useContext, useState, useRef, useEffect, useCallback } from 'react';
 import config from '../../config';
 import { actionTypes, EventContext } from '../NewCollectionEvent';
 import VerifyMap from './VerifyMap';
-import useDojoWidget from '../../hooks/useDojoWidget';
 import Station from './Station';
-import on from 'dojo/on';
-import StartEndGeoDef from 'app/location/StartEndGeoDef';
-import StartDistDirGeoDef from 'app/location/StartDistDirGeoDef';
+import StartEndGeoDef from './StartEndGeoDef';
+import StartDistDirGeoDef from './StartDistDirGeoDef';
 import useSubscriptions from '../../hooks/useSubscriptions';
 import { AppContext } from '../../App';
 import DomainDrivenDropdown from '../DomainDrivenDropdown';
 import getControlledInputProps from '../../helpers/getControlledInputProps';
+import topic from 'pubsub-js';
 
 // successfullyVerifiedMsg: String
 //      message displayed on the verify location button after success
 const successfullyVerifiedMsg = 'Successfully verified!';
 const fieldNames = config.fieldNames.samplingEvents;
 const featureServiceUrl = config.urls.samplingEventsFeatureService;
+const START_END = 'START_END';
+const emptyStartEndParams = {
+  start: config.emptyPoint,
+  end: config.emptyPoint,
+};
+const emptyStartDistDirParams = {
+  start: config.emptyPoint,
+  distance: '',
+  direction: 'up',
+};
 
 const Location = () => {
-  const { eventState, eventDispatch } = React.useContext(EventContext);
-  const [validateMsg, setValidateMsg] = React.useState(null);
-  const verifyMapBtn = React.useRef(null);
-  const { appState } = React.useContext(AppContext);
-  const [mainMap, setMainMap] = React.useState(null);
+  const { eventState, eventDispatch } = useContext(EventContext);
+  const [validateMsg, setValidateMsg] = useState(null);
+  const verifyMapBtn = useRef(null);
+  const { appState } = useContext(AppContext);
+  const [mainMap, setMainMap] = useState(null);
+  const [startEndParams, setStartEndParams] = useState(emptyStartEndParams);
+  const [startDistDirParams, setStartDistDirParams] = useState(emptyStartDistDirParams);
+  const [currentGeoDef, setCurrentGeoDef] = useState(START_END);
 
-  // dojo widgets
-  const startEndGeoDefDiv = React.useRef(null);
-  const startEndGeoDef = useDojoWidget(startEndGeoDefDiv, StartEndGeoDef);
-
-  const startDistDirGeoDefDiv = React.useRef(null);
-  const startDistDirGeoDef = useDojoWidget(startDistDirGeoDefDiv, StartDistDirGeoDef);
-
-  React.useEffect(() => {
-    if (appState.map && startEndGeoDef && startDistDirGeoDef) {
-      startEndGeoDef.setMap(appState.map);
-      startDistDirGeoDef.setMap(appState.map);
-    }
-  }, [appState.map, startEndGeoDef, startDistDirGeoDef]);
-
-  const path = React.useRef(null);
+  const path = useRef(null);
   const geometry = eventState[config.tableNames.samplingEvents].geometry;
-  const clearGeometry = React.useCallback(() => {
+  const clearGeometry = useCallback(() => {
     // summary:
     //      removes the polyline from the map if one exists
     console.log('app/components/location/Location:clearGeometry');
@@ -52,7 +50,7 @@ const Location = () => {
     }
   }, [appState.map]);
 
-  const clearValidation = React.useCallback(() => {
+  const clearValidation = useCallback(() => {
     console.log('app/components/location/Location:clearValidation');
 
     $(verifyMapBtn.current).button('reset');
@@ -60,51 +58,19 @@ const Location = () => {
     clearGeometry();
   }, [clearGeometry]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!geometry) {
       clearValidation();
-      currentGeoDef.current?.clearGeometry();
+      setStartEndParams(emptyStartEndParams);
+      setStartDistDirParams(emptyStartDistDirParams);
     }
   }, [clearValidation, geometry]);
 
-  const geoDevWidgets = {
-    startEnd: startEndGeoDef,
-    startDistDir: startDistDirGeoDef,
-  };
-  const currentGeoDef = React.useRef(null);
-  const invalidateConnectHandle = React.useRef(null);
-  const onGeoDefChange = (event) => {
-    // summary:
-    //      fires when the user clicks on the geo def tab pills
-    // event: OnclickEventObject
-    console.log('app/components/location/Location:onGeoDefChange');
-
-    let geoDefID;
-
-    currentGeoDef.current.clearGeometry();
-    geoDefID = event.target.id.slice(0, -3);
-
-    setCurrentGeoDef(geoDevWidgets[geoDefID]);
-  };
-
-  const setCurrentGeoDef = React.useCallback(
-    (geoDef) => {
-      currentGeoDef.current = geoDef;
-      if (invalidateConnectHandle.current) {
-        invalidateConnectHandle.current.remove();
-      }
-      invalidateConnectHandle.current = on(currentGeoDef.current, 'invalidate', clearValidation);
-      clearValidation();
-    },
-    [clearValidation]
-  );
-
-  React.useEffect(() => {
-    // default to start end on init
-    if (startEndGeoDef) {
-      setCurrentGeoDef(startEndGeoDef);
-    }
-  }, [setCurrentGeoDef, startEndGeoDef]);
+  useEffect(() => {
+    clearValidation();
+    setStartEndParams(emptyStartEndParams);
+    setStartDistDirParams(emptyStartDistDirParams);
+  }, [clearValidation, currentGeoDef]);
 
   const addLineToMap = (newPath) => {
     // summary:
@@ -136,56 +102,238 @@ const Location = () => {
     });
   };
 
-  const validateGeometry = () => {
-    console.log('app/components/location/Location:validateGeometry');
+  const getXHRParams = (name, params) => {
+    if (name === START_END) {
+      return {
+        query: {
+          f: 'json',
+          points: JSON.stringify({
+            displayFieldName: '',
+            geometryType: 'esriGeometryPoint',
+            spatialReference: {
+              wkid: 26912,
+              latestWkid: 26912,
+            },
+            fields: [
+              {
+                name: 'OBJECTID',
+                type: 'esriFieldTypeOID',
+                alias: 'OBJECTID',
+              },
+            ],
+            features: [
+              {
+                geometry: {
+                  x: Math.round(params.start.x),
+                  y: Math.round(params.start.y),
+                  spatialReference: { wkid: 26912 },
+                },
+                attributes: { OBJECTID: 1 },
+              },
+              {
+                geometry: {
+                  x: Math.round(params.end.x),
+                  y: Math.round(params.end.y),
+                  spatialReference: { wkid: 26912 },
+                },
+                attributes: { OBJECTID: 2 },
+              },
+            ],
+          }),
+        },
+        options: {
+          handleAs: 'json',
+          headers: {
+            'X-Requested-With': null,
+          },
+        },
+      };
+    } else {
+      return {
+        query: {
+          f: 'json',
+          point: JSON.stringify({
+            displayFieldName: '',
+            geometryType: 'esriGeometryPoint',
+            spatialReference: {
+              wkid: 26912,
+              latestWkid: 26912,
+            },
+            fields: [
+              {
+                name: 'OBJECTID',
+                type: 'esriFieldTypeOID',
+                alias: 'OBJECTID',
+              },
+            ],
+            features: [
+              {
+                geometry: {
+                  x: Math.round(params.start.x),
+                  y: Math.round(params.start.y),
+                  spatialReference: { wkid: 26912 },
+                },
+                attributes: { OBJECTID: 1 },
+              },
+            ],
+          }),
+          distance: params.distance,
+          direction: params.direction,
+        },
+        handleAs: 'json',
+        headers: {
+          'X-Requested-With': null,
+        },
+      };
+    }
+  };
 
-    let returnedValue;
+  const getJobResults = (data) => {
+    if (data.error) {
+      throw new Error(data.error.message);
+    }
 
+    const returnData = {};
+
+    const setSegmentWGS = function (value) {
+      if (value.features.length > 0) {
+        var feature = value.features[0];
+        var paths = [];
+        feature.geometry.paths.forEach(function (path) {
+          // flip lats and lngs. Thanks, ESRI :P
+          paths.push(
+            path.map(function (c) {
+              return [c[1], c[0]];
+            })
+          );
+        });
+        returnData.path = paths;
+      }
+    };
+    const setSegmentUTM = function (value) {
+      if (value.features.length > 0) {
+        returnData.utm = value.features[0].geometry;
+      }
+    };
+    const setSuccess = function (value) {
+      returnData.success = value;
+    };
+    const setErrorMessage = function (value) {
+      returnData.error_message = value;
+    };
+    const setters = {
+      segmentWGS: setSegmentWGS,
+      segmentUTM: setSegmentUTM,
+      success: setSuccess,
+      error_message: setErrorMessage,
+    };
+
+    data.results.forEach((result) => {
+      setters[result.paramName](result.value);
+    });
+
+    return returnData;
+  };
+
+  const getGeometry = async (name, params) => {
+    let geoDef;
+    let url;
+    let xhrParams;
+    if (name === START_END) {
+      const { start, end } = params;
+
+      if (!start) {
+        return 'Valid start point required!';
+      } else if (!end) {
+        return 'Valid end point required!';
+      }
+
+      geoDef = 'start:' + JSON.stringify(start) + '|end:' + JSON.stringify(end);
+
+      xhrParams = getXHRParams(name, params);
+
+      url = `${config.urls.getSegmentFromCoords}/execute`;
+    } else {
+      var { start, distance, direction } = params;
+
+      topic.publishSync(config.topics.startDistDirGeoDef_onDistanceChange, distance);
+
+      if (!start) {
+        return 'Start point required!';
+      } else if (distance === '') {
+        return 'Distance required!';
+      }
+
+      geoDef = 'start:' + JSON.stringify(start) + '|dist:' + distance + '|dir:' + direction;
+
+      xhrParams = getXHRParams(name, params);
+
+      url = `${config.urls.getSegmentFromStartDistDir}/execute`;
+    }
+
+    try {
+      const response = await fetch(`${url}?${new URLSearchParams(xhrParams.query)}`, xhrParams.options);
+      const data = await response.json();
+
+      const geometry = getJobResults(data);
+      if (!geometry) {
+        throw new Error('There was an error with the verify service.');
+      }
+
+      return {
+        ...geometry,
+        geoDef,
+      };
+    } catch (error) {
+      const msg = `There was an error with the ${url} service: `;
+      throw new Error(msg + error.message);
+    }
+  };
+
+  const validateGeometry = async () => {
     $(verifyMapBtn.current).button('loading');
 
     setValidateMsg(null);
 
-    returnedValue = currentGeoDef.current.getGeometry();
-
     const onError = (msg) => {
       setValidateMsg(msg);
       $(verifyMapBtn.current).button('reset');
-      eventDispatch({
-        type: actionTypes.LOCATION,
-        meta: 'geometry',
-        payload: { geometry: null, geoDef: null },
-      });
     };
 
-    if (typeof returnedValue === 'string') {
-      onError(returnedValue);
+    let response;
+    try {
+      response = await getGeometry(currentGeoDef, currentGeoDef === START_END ? startEndParams : startDistDirParams);
+    } catch (error) {
+      onError(error.message);
+    }
+
+    if (typeof response === 'string') {
+      onError(response);
     } else {
-      returnedValue.then((response) => {
-        if (response.success) {
-          addLineToMap(response.path);
-          eventDispatch({
-            type: actionTypes.LOCATION,
-            meta: 'geometry',
-            payload: {
-              geometry: {
-                ...response.utm,
-                spatialReference: {
-                  wkid: 26912,
-                },
+      if (response.success) {
+        addLineToMap(response.path);
+        eventDispatch({
+          type: actionTypes.LOCATION,
+          meta: 'geometry',
+          payload: {
+            geometry: {
+              ...response.utm,
+              spatialReference: {
+                wkid: 26912,
               },
-              geoDef: response.geoDef,
             },
-          });
-        } else {
-          onError(response.error_message);
-        }
-      }, onError);
+            geoDef: response.geoDef,
+          },
+        });
+      } else {
+        onError(response.error_message);
+      }
     }
   };
 
   // subscriptions
   const addSubscription = useSubscriptions();
-  React.useEffect(() => {
+  useEffect(() => {
     addSubscription(config.topics.startDistDirGeoDef_onDistanceChange, (_, dist) => {
       eventDispatch({
         type: actionTypes.LOCATION,
@@ -206,7 +354,7 @@ const Location = () => {
     );
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (appState.currentTab === 'locationTab') {
       // this prevents the map from getting messed up when it's hidden by another tab
       mainMap?.invalidateSize();
@@ -240,22 +388,27 @@ const Location = () => {
       </h4>
       <ul className="nav nav-pills">
         <li className="active">
-          <a id="startEndTab" href="#loc_startend" data-toggle="tab" onClick={onGeoDefChange}>
+          <a id="startEndTab" href="#loc_startend" data-toggle="tab" onClick={() => setCurrentGeoDef(START_END)}>
             Start | End
           </a>
         </li>
         <li>
-          <a id="startDistDirTab" href="#loc_startdistdir" data-toggle="tab" onClick={onGeoDefChange}>
+          <a
+            id="startDistDirTab"
+            href="#loc_startdistdir"
+            data-toggle="tab"
+            onClick={() => setCurrentGeoDef('START_DIST_DIR')}
+          >
             Start | Distance | Direction
           </a>
         </li>
       </ul>
       <div className="tab-content">
         <div className="tab-pane fade in active" id="loc_startend">
-          <div ref={startEndGeoDefDiv}></div>
+          <StartEndGeoDef map={mainMap} coordinatePairs={startEndParams} setCoordinatePairs={setStartEndParams} />
         </div>
         <div className="tab-pane fade" id="loc_startdistdir">
-          <div ref={startDistDirGeoDefDiv}></div>
+          <StartDistDirGeoDef map={mainMap} params={startDistDirParams} setParams={setStartDistDirParams} />
         </div>
       </div>
       <button

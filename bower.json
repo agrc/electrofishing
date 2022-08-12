@@ -15,22 +15,18 @@
     "dojo": "~1.11.13",
     "dijit": "~1.11.13",
     "bootstrap-combobox": "https://github.com/stdavis/bootstrap-combobox.git#focus-on-hide",
-    "proj4": "~2.3.14",
     "util": "dojo-util#~1.11.13",
     "dgrid": "~1.1.0",
     "agrc": "agrc-widgets#6.1.3",
     "ijit": "agrc-ijit#~3.1.3",
-    "Proj4Leaflet": "proj4leaflet#1.0.0-beta.2",
     "stubmodule": "^0.6",
     "handlebars": "~4.0.5",
     "papaparse": "^4.4.0"
   },
   "resolutions": {
     "dgrid": "~1.1.0",
-    "proj4": "~2.1.2",
     "dojo": "~1.11.13",
     "dijit": "~1.11.13",
-    "Proj4Leaflet": "1.0.0-beta.2",
     "dojox": "1.11.13",
     "dojo-themes": "1.11.13"
   }

@@ -1,0 +1,21 @@
+.point-def {
+  .form-inline {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .help-block {
+    font-size: small;
+    text-align: end;
+  }
+
+  label {
+    margin-bottom: 0;
+  }
+
+  &__primary-label {
+    width: 50px;
+  }
+}
