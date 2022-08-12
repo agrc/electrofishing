@@ -21,7 +21,7 @@ describe('AddNewStation', () => {
     cy.findByRole('textbox', {
       name: /stream type/i,
     }).type('c{enter}');
-    cy.get('#uniqName_1_0 > :nth-child(1) > .btn > .glyphicon').click();
+    cy.get('.modal-body > .point-def > :nth-child(1) > .btn > .glyphicon').click();
     cy.get('.station .leaflet-container').click();
     cy.get('.stream-lake-button-container > :nth-child(2) > .btn > .glyphicon').click();
     cy.get('[d="M-76 14L-87 0L-88 -4"]').click({ force: true });

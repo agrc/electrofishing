@@ -20,7 +20,7 @@ describe('SubmitReport', () => {
     cy.get('.location>.verify-map>.map').as('map');
 
     // define stream reach via start/end
-    cy.get('.start-end-geodef [data-dojo-attach-point="mapBtn"]').as('startEndButtons');
+    cy.get('#loc_startend .form-inline .btn .glyphicon').as('startEndButtons');
     cy.get('@startEndButtons').first().click();
     cy.get('@map').click();
 
@@ -81,6 +81,6 @@ describe('SubmitReport', () => {
 
     // clear all of the data
     cy.get('#stationTxt').should('have.value', '');
-    cy.findAllByRole('textbox', { name: /northing/i }).should('have.value', '');
+    cy.get('#loc_startend input.form-control').should('have.value', '');
   });
 });
