@@ -69,14 +69,16 @@ export default function useAuthentication() {
           sendTokenToServiceWorker(response.token);
           expireTime = response.expirationTime;
 
-          intervalId = setInterval(async () => {
-            if (Date.now() > expireTime) {
-              console.log('refreshing token');
-              const response = await result.user.getIdTokenResult();
-              expireTime = response.expirationTime;
-              sendTokenToServiceWorker(response.token);
-            }
-          }, config.authTokenCheckInterval);
+          if (!window.Cypress) {
+            intervalId = setInterval(async () => {
+              if (Date.now() > expireTime) {
+                console.log('refreshing token');
+                const response = await result.user.getIdTokenResult();
+                expireTime = response.expirationTime;
+                sendTokenToServiceWorker(response.token);
+              }
+            }, config.authTokenCheckInterval);
+          }
 
           setUser(result.user);
         } else {
