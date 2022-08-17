@@ -1,15 +1,17 @@
-.other-option-handler ul {
+.other-option-handler {
+  ul {
     list-style: none;
     margin-left: 0;
     padding-left: 0;
-}
-.other-option-handler .modal-dialog {
+  }
+  .modal-dialog {
     width: 350px;
-}
-.other-option-handler .modal-footer {
+  }
+  .modal-footer {
     margin-top: 0;
-}
-.other-option-handler legend {
+  }
+  legend {
     font-size: 17px;
     margin-bottom: 10px;
+  }
 }

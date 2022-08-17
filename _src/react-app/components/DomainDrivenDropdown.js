@@ -1,13 +1,14 @@
-import * as React from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import propTypes from 'prop-types';
-import OtherOptionHandler from 'app/OtherOptionHandler';
+import OtherOptionHandler from './OtherOptionHandler';
 import ComboBox from './ComboBox';
 
 const otherTxt = '[other]';
 export default function DomainDrivenDropdown({ featureServiceUrl, fieldName, value, onChange, id }) {
-  const [items, setItems] = React.useState([]);
+  const [items, setItems] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (items.length) {
       return;
     }
@@ -44,7 +45,37 @@ export default function DomainDrivenDropdown({ featureServiceUrl, fieldName, val
     };
   }, [featureServiceUrl, fieldName, items]);
 
-  const onSelectionChange = React.useCallback(
+  const [showOtherOptions, setShowOtherOptions] = useState(false);
+  const onOtherOptionAdded = useCallback(
+    (option) => {
+      const newItems = [...items];
+      newItems.push({ value: option.code, label: option.code });
+      setItems(newItems);
+      onChange({ target: { value: option.code } });
+    },
+    [items, onChange]
+  );
+
+  const otherOptionHandlerDiv = useRef(null);
+  useEffect(() => {
+    otherOptionHandlerDiv.current = document.createElement('div');
+    document.body.appendChild(otherOptionHandlerDiv.current);
+  }, []);
+
+  useEffect(() => {
+    ReactDOM.render(
+      <OtherOptionHandler
+        existingOptions={items.filter((item) => item.value).map((item) => item.value)}
+        otherTxt={otherTxt}
+        onOtherOptionAdded={onOtherOptionAdded}
+        show={showOtherOptions}
+        setShow={setShowOtherOptions}
+      />,
+      otherOptionHandlerDiv.current
+    );
+  }, [items, onOtherOptionAdded, showOtherOptions]);
+
+  const onSelectionChange = useCallback(
     (newValue) => {
       if (newValue !== otherTxt) {
         onChange({ target: { value: newValue } });
@@ -52,28 +83,9 @@ export default function DomainDrivenDropdown({ featureServiceUrl, fieldName, val
         return;
       }
 
-      const existingOptions = items.filter((item) => item.value).map((item) => item.value);
-
-      const div = document.createElement('div');
-      document.body.appendChild(div);
-      const otherOptionHandler = new OtherOptionHandler(
-        {
-          existingOptions,
-          otherTxt,
-        },
-        div
-      );
-      otherOptionHandler.startup();
-
-      otherOptionHandler.on('add-new-value', (event) => {
-        const newItems = [...items];
-        newItems.push({ value: event.code, label: event.code });
-        setItems(newItems);
-        onChange({ target: { value: event.code } });
-        otherOptionHandler.destroy();
-      });
+      setShowOtherOptions(true);
     },
-    [items, onChange]
+    [onChange]
   );
 
   return <ComboBox items={items} onChange={onSelectionChange} value={value} id={id} />;
