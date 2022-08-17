@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "clsx": "^1.2.1",
-    "downshift": "^6.1.0",
+    "downshift": "^6.1.9",
     "esri-leaflet": "^3.0.1",
     "immer": "^9.0.15",
     "leaflet": "^1.7.1",

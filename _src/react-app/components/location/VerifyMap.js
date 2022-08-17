@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useCallback, useEffect, useRef, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import config from '../../config';
 import L from 'leaflet';
@@ -6,7 +6,7 @@ import propTypes from 'prop-types';
 import { featureLayer } from 'esri-leaflet';
 import topic from 'pubsub-js';
 import { AppContext, actionTypes } from '../../App';
-import StreamSearch from 'app/StreamSearch';
+import StreamSearch from './StreamSearch';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import { EventContext } from '../NewCollectionEvent';
 
@@ -53,17 +53,16 @@ const popup = new L.Popup({
   autoPan: false,
 });
 
-const MapHoister = ({ streamSearchDiv, isMainMap, setMap, setStreamsLayer, setLakesLayer, selectStation }) => {
-  const stationsLayer = React.useRef();
-  const streamsLayer = React.useRef();
-  const lakesLayer = React.useRef();
-  const { appDispatch } = React.useContext(AppContext);
-  const streamSearch = React.useRef(null);
+const MapHoister = ({ isMainMap, setMap, setStreamsLayer, setLakesLayer, selectStation }) => {
+  const stationsLayer = useRef();
+  const streamsLayer = useRef();
+  const lakesLayer = useRef();
+  const { appDispatch } = useContext(AppContext);
   const map = useMap();
-  const mapInitialized = React.useRef(false);
-  const { eventState } = React.useContext(EventContext);
+  const mapInitialized = useRef(false);
+  const { eventState } = useContext(EventContext);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (map) {
       setMap(map);
     }
@@ -71,7 +70,7 @@ const MapHoister = ({ streamSearchDiv, isMainMap, setMap, setStreamsLayer, setLa
 
   const selectedStationId =
     eventState[config.tableNames.samplingEvents].attributes[config.fieldNames.samplingEvents.STATION_ID];
-  const updateStyle = React.useCallback(
+  const updateStyle = useCallback(
     (geojson, layer) => {
       if (!isMainMap) return;
       console.log('updating styles');
@@ -84,13 +83,13 @@ const MapHoister = ({ streamSearchDiv, isMainMap, setMap, setStreamsLayer, setLa
     [selectedStationId, isMainMap]
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     console.log('useEffect updateStyle');
     // figure out how to make this fire after the new feature has been added to the layer, I think that it's firing before...
     stationsLayer.current?.eachFeature((layer) => updateStyle(layer.feature, layer));
   }, [updateStyle]);
 
-  const onEachFeature = React.useCallback(
+  const onEachFeature = useCallback(
     (geojson, layer) => {
       layer
         .on('mouseover', function () {
@@ -119,7 +118,7 @@ const MapHoister = ({ streamSearchDiv, isMainMap, setMap, setStreamsLayer, setLa
     [isMainMap, map, selectStation, updateStyle]
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (mapInitialized.current) return;
 
     console.log('VerifyMap:initMap');
@@ -199,6 +198,7 @@ const MapHoister = ({ streamSearchDiv, isMainMap, setMap, setStreamsLayer, setLa
         });
       });
     };
+
     map.on({
       moveend: () => toggleLabelsAndStyle(map.getZoom()),
     });
@@ -207,29 +207,8 @@ const MapHoister = ({ streamSearchDiv, isMainMap, setMap, setStreamsLayer, setLa
       topic.publishSync(config.topics.mapInit);
     }
 
-    streamSearch.current = new StreamSearch(
-      {
-        map,
-        searchField: config.fieldNames.reference.WaterName,
-        placeHolder: 'stream/lake name...',
-        contextField: config.fieldNames.reference.COUNTY,
-        maxResultsToDisplay: 50,
-      },
-      streamSearchDiv.current
-    );
-
     mapInitialized.current = true;
-  }, [
-    appDispatch,
-    isMainMap,
-    map,
-    onEachFeature,
-    selectStation,
-    setLakesLayer,
-    setStreamsLayer,
-    streamSearchDiv,
-    updateStyle,
-  ]);
+  }, [appDispatch, isMainMap, map, onEachFeature, selectStation, setLakesLayer, setStreamsLayer, updateStyle]);
 
   return null;
 };
@@ -242,12 +221,19 @@ const VerifyMap = ({
   setLakesLayer = () => {},
   selectStation,
 }) => {
-  const { appState } = React.useContext(AppContext);
-  const streamSearchDiv = React.useRef();
+  const { appState } = useContext(AppContext);
+  const streamSearchDiv = useRef();
+  const [innerMap, setInnerMap] = useState(null);
 
   return (
     <div className={`verify-map ${className}`}>
-      <div ref={streamSearchDiv}></div>
+      <StreamSearch
+        map={innerMap}
+        streamsFeatureService={config.urls.streamsFeatureService}
+        lakesFeatureService={config.urls.lakesFeatureService}
+        searchField={config.fieldNames.reference.WaterName}
+        contextField={config.fieldNames.reference.COUNTY}
+      />
       <MapContainer
         className="map"
         keyboard={false}
@@ -258,7 +244,7 @@ const VerifyMap = ({
         <MapHoister
           streamSearchDiv={streamSearchDiv}
           isMainMap={isMainMap}
-          setMap={setMap}
+          setMap={(map) => setInnerMap(map) && setMap(map)}
           setStreamsLayer={setStreamsLayer}
           setLakesLayer={setLakesLayer}
           selectStation={selectStation}

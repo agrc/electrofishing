@@ -1,0 +1,53 @@
+.magic-zoom {
+  padding: 10px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 410;
+  width: 303px;
+  .input-group {
+    width: 274px;
+    input {
+      display: inline-block;
+      width: 233px;
+      box-sizing: content-box;
+      -moz-box-sizing: content-box;
+      min-height: 1px;
+      height: 17px;
+    }
+  }
+  .matches-table {
+    width: 299px;
+    background-color: white;
+    font-size: 12px;
+    float: left;
+    z-index: 99;
+    position: absolute;
+    top: 40px;
+    .dropdown-menu {
+      display: block;
+      width: 100%;
+    }
+    li.match:hover,
+    .highlighted-row {
+      color: #ffffff;
+      background-color: #428bca;
+      cursor: pointer;
+    }
+    li {
+      padding: 2px 12px;
+      .first-cell {
+        float: left;
+      }
+      .county-cell {
+        float: right;
+      }
+    }
+    li.dropdown-header {
+      white-space: pre-wrap;
+    }
+  }
+  span.glyphicon-search {
+    top: 0;
+  }
+}
