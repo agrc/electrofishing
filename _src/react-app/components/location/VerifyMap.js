@@ -244,7 +244,10 @@ const VerifyMap = ({
         <MapHoister
           streamSearchDiv={streamSearchDiv}
           isMainMap={isMainMap}
-          setMap={(map) => setInnerMap(map) && setMap(map)}
+          setMap={(map) => {
+            setInnerMap(map);
+            setMap(map);
+          }}
           setStreamsLayer={setStreamsLayer}
           setLakesLayer={setLakesLayer}
           selectStation={selectStation}
