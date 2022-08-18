@@ -261,7 +261,13 @@ export default function StreamSearch({ map, streamsFeatureService, lakesFeatureS
     <div className="magic-zoom">
       <div className="row">
         <div className="input-group" {...getComboboxProps()}>
-          <input className="form-control" placeholder="stream/lake name" type="text" {...getInputProps()} />
+          <input
+            className="form-control"
+            placeholder="stream/lake name"
+            type="text"
+            name="stream search"
+            {...getInputProps()}
+          />
           <span className="input-group-addon">
             <span className="glyphicon glyphicon-search"></span>
           </span>
