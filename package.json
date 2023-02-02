@@ -105,7 +105,7 @@
     "grunt-contrib-connect": "^1.0.2",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-imagemin": "^2.0.1",
-    "grunt-contrib-jasmine": "2.0.1",
+    "grunt-contrib-jasmine": "4.0.0",
     "grunt-contrib-stylus": "^1.2.0",
     "grunt-contrib-uglify": "^5.2.1",
     "grunt-contrib-watch": "1.0.1",
