@@ -58,7 +58,12 @@ export default function useAuthentication() {
       const provider = new window.firebase.auth.OAuthProvider('oidc.utahid');
       provider.addScope('app:DWRElectroFishing');
 
-      const result = await window.firebase.auth.signInWithPopup(auth, provider);
+      let result;
+      if (window.Cypress) {
+        result = await window.firebase.auth.getRedirectResult(auth);
+      } else {
+        result = await window.firebase.auth.signInWithPopup(auth, provider);
+      }
       let intervalId;
       let expireTime = 0;
       if (result?.user) {
@@ -83,6 +88,8 @@ export default function useAuthentication() {
         } else {
           alert(`${result.user.email} is not authorized to use this app.`);
         }
+      } else if (window.Cypress) {
+        await window.firebase.auth.signInWithRedirect(auth, provider);
       }
 
       return () => {
