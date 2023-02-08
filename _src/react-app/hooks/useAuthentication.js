@@ -58,15 +58,14 @@ export default function useAuthentication() {
       const provider = new window.firebase.auth.OAuthProvider('oidc.utahid');
       provider.addScope('app:DWRElectroFishing');
 
-      const result = await window.firebase.auth.getRedirectResult(auth);
-
+      const result = await window.firebase.auth.signInWithPopup(auth, provider);
       let intervalId;
       let expireTime = 0;
       if (result?.user) {
         const response = await result.user.getIdTokenResult();
         if (checkClaims(response.claims)) {
           await initServiceWorker();
-          sendTokenToServiceWorker(response.token);
+          await sendTokenToServiceWorker(response.token); // todo: switch this to an access token?
           expireTime = new Date(response.expirationTime).getTime();
 
           if (!window.Cypress) {
@@ -75,7 +74,7 @@ export default function useAuthentication() {
                 console.log('refreshing token');
                 const response = await result.user.getIdTokenResult();
                 expireTime = new Date(response.expirationTime).getTime();
-                sendTokenToServiceWorker(response.token);
+                await sendTokenToServiceWorker(response.token);
               }
             }, config.authTokenCheckInterval);
           }
@@ -84,8 +83,6 @@ export default function useAuthentication() {
         } else {
           alert(`${result.user.email} is not authorized to use this app.`);
         }
-      } else {
-        await window.firebase.auth.signInWithRedirect(auth, provider);
       }
 
       return () => {
