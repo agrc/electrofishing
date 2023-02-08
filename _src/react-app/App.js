@@ -87,7 +87,7 @@ const App = () => {
     console.log('firebase app initialized');
   }, []);
 
-  const { user, logOut } = useAuthentication();
+  const { user, logOut, logIn } = useAuthentication();
   React.useEffect(() => {
     if (user) {
       appDispatch({ type: 'LOGIN', payload: user });
@@ -103,15 +103,21 @@ const App = () => {
 
         <div className="container main-container">
           <div className="inner-header">
-            <h4>Water Body</h4>
             {appState.user ? (
-              <span>
-                <span className="user">{appState.user.email}</span>
-                <button type="button" className="btn btn-link" onClick={logOut}>
-                  logout
-                </button>
-              </span>
-            ) : null}
+              <>
+                <h4>Water Body</h4>
+                <span>
+                  <span className="user">{appState.user.email}</span>
+                  <button type="button" className="btn btn-link" onClick={logOut}>
+                    Logout
+                  </button>
+                </span>
+              </>
+            ) : (
+              <button type="button" className="btn btn-link login-button" onClick={logIn}>
+                Login with UtahID
+              </button>
+            )}
           </div>
           {appState.user ? <NewCollectionEvent /> : null}
         </div>

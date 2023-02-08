@@ -45,67 +45,63 @@ export default function useAuthentication() {
   const [user, setUser] = React.useState(null);
   const authRef = React.useRef();
 
-  React.useEffect(() => {
-    const giddyUp = async () => {
-      const auth = window.firebase.auth.getAuth();
-      authRef.current = auth;
+  const logIn = async () => {
+    const auth = window.firebase.auth.getAuth();
+    authRef.current = auth;
 
-      if (process.env.REACT_APP_BUILD === 'development') {
-        // comment out this and the auth config in firebase.json to hit utahid directly
-        window.firebase.auth.connectAuthEmulator(auth, 'http://localhost:9099');
-      }
+    if (process.env.REACT_APP_BUILD === 'development') {
+      // comment out this and the auth config in firebase.json to hit utahid directly
+      window.firebase.auth.connectAuthEmulator(auth, 'http://localhost:9099');
+    }
 
-      const provider = new window.firebase.auth.OAuthProvider('oidc.utahid');
-      provider.addScope('app:DWRElectroFishing');
+    const provider = new window.firebase.auth.OAuthProvider('oidc.utahid');
+    provider.addScope('app:DWRElectroFishing');
 
-      let result;
-      if (window.Cypress) {
-        result = await window.firebase.auth.getRedirectResult(auth);
+    let result;
+    if (window.Cypress) {
+      result = await window.firebase.auth.getRedirectResult(auth);
+    } else {
+      result = await window.firebase.auth.signInWithPopup(auth, provider);
+    }
+    let intervalId;
+    let expireTime = 0;
+    if (result?.user) {
+      const response = await result.user.getIdTokenResult();
+      if (checkClaims(response.claims)) {
+        await initServiceWorker();
+        await sendTokenToServiceWorker(response.token); // todo: switch this to an access token?
+        expireTime = new Date(response.expirationTime).getTime();
+
+        if (!window.Cypress) {
+          intervalId = setInterval(async () => {
+            if (Date.now() > expireTime) {
+              console.log('refreshing token');
+              const response = await result.user.getIdTokenResult();
+              expireTime = new Date(response.expirationTime).getTime();
+              await sendTokenToServiceWorker(response.token);
+            }
+          }, config.authTokenCheckInterval);
+        }
+
+        setUser(result.user);
       } else {
-        result = await window.firebase.auth.signInWithPopup(auth, provider);
+        alert(`${result.user.email} is not authorized to use this app.`);
       }
-      let intervalId;
-      let expireTime = 0;
-      if (result?.user) {
-        const response = await result.user.getIdTokenResult();
-        if (checkClaims(response.claims)) {
-          await initServiceWorker();
-          await sendTokenToServiceWorker(response.token); // todo: switch this to an access token?
-          expireTime = new Date(response.expirationTime).getTime();
+    } else if (window.Cypress) {
+      await window.firebase.auth.signInWithRedirect(auth, provider);
+    }
 
-          if (!window.Cypress) {
-            intervalId = setInterval(async () => {
-              if (Date.now() > expireTime) {
-                console.log('refreshing token');
-                const response = await result.user.getIdTokenResult();
-                expireTime = new Date(response.expirationTime).getTime();
-                await sendTokenToServiceWorker(response.token);
-              }
-            }, config.authTokenCheckInterval);
-          }
-
-          setUser(result.user);
-        } else {
-          alert(`${result.user.email} is not authorized to use this app.`);
-        }
-      } else if (window.Cypress) {
-        await window.firebase.auth.signInWithRedirect(auth, provider);
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
       }
-
-      return () => {
-        if (intervalId) {
-          clearInterval(intervalId);
-        }
-      };
     };
-
-    return giddyUp();
-  }, []);
+  };
 
   const logOut = () => {
     window.firebase.auth.signOut(authRef.current);
     setUser(null);
   };
 
-  return { user, logOut };
+  return { user, logOut, logIn };
 }
