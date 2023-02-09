@@ -110,7 +110,6 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
     setCoordinates(config.emptyPoint);
     setStreamLake('');
     onPointDefSelected();
-    // TODO: clear selected stream or lake on map
 
     mainMap.eachLayer((layer) => layer?.refresh && layer.refresh());
     verifyMap.current.eachLayer((layer) => layer?.refresh && layer.refresh());
@@ -118,10 +117,13 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
     setTimeout(() => {
       $(modal.current).modal('hide');
       setShowSuccessMsg(false);
-      selectStation(
-        newStation.attributes[config.fieldNames.stations.NAME],
-        newStation.attributes[config.fieldNames.stations.STATION_ID]
-      );
+      // can't find a way to hook into when the layer is done refreshing...
+      setTimeout(() => {
+        selectStation(
+          newStation.attributes[config.fieldNames.stations.NAME],
+          newStation.attributes[config.fieldNames.stations.STATION_ID]
+        );
+      }, 1000);
     }, 500);
   };
 

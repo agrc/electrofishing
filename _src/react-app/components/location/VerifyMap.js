@@ -73,14 +73,14 @@ const MapHoister = ({ isMainMap, setMap, setStreamsLayer, setLakesLayer, selectS
   const updateStyle = useCallback(
     (geojson, layer) => {
       if (!isMainMap) return;
-      console.log('updating styles');
+      console.log(`updating styles ${selectedStationId}`);
       if (geojson.properties[config.fieldNames.stations.STATION_ID] === selectedStationId) {
         layer.setIcon(selectedIcon);
       } else {
         layer.setIcon(defaultIcon);
       }
     },
-    [selectedStationId, isMainMap]
+    [isMainMap, selectedStationId]
   );
 
   useEffect(() => {
