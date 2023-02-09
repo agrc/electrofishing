@@ -108,13 +108,13 @@ const App = () => {
                 <h4>Water Body</h4>
                 <span>
                   <span className="user">{appState.user.email}</span>
-                  <button type="button" className="btn btn-link" onClick={logOut}>
+                  <button id="logout" type="button" className="btn btn-link" onClick={logOut}>
                     Logout
                   </button>
                 </span>
               </>
             ) : (
-              <button type="button" className="btn btn-link login-button" onClick={logIn}>
+              <button id="login" type="button" className="btn btn-link login-button" onClick={logIn}>
                 Login with UtahID
               </button>
             )}

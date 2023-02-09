@@ -42,53 +42,61 @@ function checkClaims(claims) {
 }
 
 export default function useAuthentication() {
+  // TODO: switch to reactfire once we are done with AMD (see PLSS as an example)
   const [user, setUser] = React.useState(null);
   const authRef = React.useRef();
 
-  const logIn = async () => {
+  React.useEffect(() => {
     const auth = window.firebase.auth.getAuth();
+    console.log('auth', auth);
     authRef.current = auth;
 
     if (process.env.REACT_APP_BUILD === 'development') {
       // comment out this and the auth config in firebase.json to hit utahid directly
-      window.firebase.auth.connectAuthEmulator(auth, 'http://localhost:9099');
+      window.firebase.auth.connectAuthEmulator(authRef.current, 'http://localhost:9099');
     }
 
-    const provider = new window.firebase.auth.OAuthProvider('oidc.utahid');
-    provider.addScope('app:DWRElectroFishing');
-
-    let result;
-    if (window.Cypress) {
-      result = await window.firebase.auth.getRedirectResult(auth);
-    } else {
-      result = await window.firebase.auth.signInWithPopup(auth, provider);
-    }
-    let intervalId;
-    let expireTime = 0;
-    if (result?.user) {
-      const response = await result.user.getIdTokenResult();
-      if (checkClaims(response.claims)) {
-        await initServiceWorker();
-        await sendTokenToServiceWorker(response.token); // todo: switch this to an access token?
-        expireTime = new Date(response.expirationTime).getTime();
-
-        if (!window.Cypress) {
-          intervalId = setInterval(async () => {
-            if (Date.now() > expireTime) {
-              console.log('refreshing token');
-              const response = await result.user.getIdTokenResult();
-              expireTime = new Date(response.expirationTime).getTime();
-              await sendTokenToServiceWorker(response.token);
-            }
-          }, config.authTokenCheckInterval);
-        }
-
-        setUser(result.user);
-      } else {
-        alert(`${result.user.email} is not authorized to use this app.`);
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        initializeUser(user);
       }
-    } else if (window.Cypress) {
-      await window.firebase.auth.signInWithRedirect(auth, provider);
+    });
+  }, []);
+
+  const initializeUser = async (user) => {
+    const response = await user.getIdTokenResult();
+    if (checkClaims(response.claims)) {
+      setUser(user);
+    } else {
+      alert(`${user.email} is not authorized to use this app.`);
+    }
+  };
+
+  React.useEffect(() => {
+    let intervalId;
+    const initializeTokenRefresh = async () => {
+      let expireTime = 0;
+      await initServiceWorker();
+      const response = await user.getIdTokenResult();
+      await sendTokenToServiceWorker(response.token); // todo: switch this to an access token?
+      expireTime = new Date(response.expirationTime).getTime();
+
+      if (!window.Cypress) {
+        intervalId = setInterval(async () => {
+          if (Date.now() > expireTime) {
+            console.log('refreshing token');
+            const response = await user.getIdTokenResult();
+            expireTime = new Date(response.expirationTime).getTime();
+            await sendTokenToServiceWorker(response.token);
+          }
+        }, config.authTokenCheckInterval);
+      }
+    };
+
+    if (user) {
+      initializeTokenRefresh();
+
+      console.log('token refresh initialized');
     }
 
     return () => {
@@ -96,6 +104,20 @@ export default function useAuthentication() {
         clearInterval(intervalId);
       }
     };
+  }, [user]);
+
+  const logIn = () => {
+    const provider = new window.firebase.auth.OAuthProvider('oidc.utahid');
+    provider.addScope('app:DWRElectroFishing');
+
+    if (!window.Cypress) {
+      window.firebase.auth.signInWithPopup(authRef.current, provider);
+    } else {
+      window.firebase.auth.setPersistence(authRef.current, window.firebase.auth.browserSessionPersistence).then(() => {
+        return window.firebase.auth.signInWithRedirect(authRef.current, provider);
+      });
+      // window.firebase.auth.signInWithRedirect(authRef.current, provider);
+    }
   };
 
   const logOut = () => {
