@@ -84,7 +84,7 @@ export default function useAuthentication() {
       if (!window.Cypress) {
         intervalId = setInterval(async () => {
           if (Date.now() > expireTime) {
-            console.log('refreshing token');
+            console.log(`refreshing token at: ${new Date().toLocaleTimeString()}`);
             const response = await user.getIdTokenResult();
             expireTime = new Date(response.expirationTime).getTime();
             await sendTokenToServiceWorker(response.token);
@@ -96,7 +96,7 @@ export default function useAuthentication() {
     if (user) {
       initializeTokenRefresh();
 
-      console.log('token refresh initialized');
+      console.log(`token refresh initialized at: ${new Date().toLocaleTimeString()}`);
     }
 
     return () => {
