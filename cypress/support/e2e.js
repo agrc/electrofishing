@@ -20,11 +20,5 @@ import init from 'cypress-terminal-report/src/installLogsCollector';
 
 init();
 
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
-
 // ignore uncaught exceptions in app
 Cypress.on('uncaught:exception', () => false);
-// Cypress.Cookies.defaults({
-//   preserve: 'AMSessionDev',
-// });

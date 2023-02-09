@@ -116,7 +116,6 @@ export default function useAuthentication() {
       window.firebase.auth.setPersistence(authRef.current, window.firebase.auth.browserSessionPersistence).then(() => {
         return window.firebase.auth.signInWithRedirect(authRef.current, provider);
       });
-      // window.firebase.auth.signInWithRedirect(authRef.current, provider);
     }
   };
 
