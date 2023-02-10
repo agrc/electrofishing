@@ -3,12 +3,13 @@
 // https://web.dev/service-worker-lifecycle/
 
 self.addEventListener('install', () => {
-  console.log('service worker: install');
+  console.log(`service worker install at: ${new Date().toLocaleTimeString()}`);
 
   self.skipWaiting(); // don't wait for any previous workers to finish
 });
 
 self.addEventListener('activate', () => {
+  console.log(`service worker activate at: ${new Date().toLocaleTimeString()}`);
   // eslint-disable-next-line no-undef
   clients.claim(); // immediately begin to catch fetch events without a page reload
 });
@@ -16,7 +17,7 @@ self.addEventListener('activate', () => {
 let token;
 self.addEventListener('message', (event) => {
   if (event.data.type === 'access-token') {
-    console.log('service worker: message', event.data);
+    console.log(`service worker message: ${event.data} | at: ${new Date().toLocaleTimeString()}`, event.data);
     token = event.data.token;
   }
 });
@@ -41,4 +42,4 @@ self.addEventListener('fetch', (event) => {
   }
 });
 
-console.log('service worker: initialized');
+console.log(`service worker initialized at: ${new Date().toLocaleTimeString()}`);
