@@ -150,7 +150,7 @@ const NewCollectionEvent = () => {
     // TODO: handle stream reach geometry once geodefs have been converted to react components
 
     localforage.getItem(LOCAL_STORAGE_IN_PROGRESS_ITEM_ID).then((data) => {
-      if (data && Object.values(data).length) {
+      if (!window.Cypress && data && Object.values(data).length) {
         console.log('hydrating with cached data');
 
         eventDispatch({
@@ -351,9 +351,8 @@ const NewCollectionEvent = () => {
       attributes: { ...eventState[config.tableNames.samplingEvents].attributes },
       geometry: eventState[config.tableNames.samplingEvents].geometry,
     };
-    data[config.tableNames.samplingEvents].attributes[
-      config.fieldNames.samplingEvents.NUM_PASSES
-    ] = catchTb.getNumberOfPasses();
+    data[config.tableNames.samplingEvents].attributes[config.fieldNames.samplingEvents.NUM_PASSES] =
+      catchTb.getNumberOfPasses();
     data[config.tableNames.equipment] = methodTb.getData();
     data[config.tableNames.anodes] = methodTb.getAnodesData();
     data[config.tableNames.fish] = catchTb.getData();
