@@ -6,4 +6,5 @@ export function loadAndSignIn() {
   cy.get('#add-account-button > .mdc-button > .mdc-button__ripple', { timeout: 120000 }).click();
   cy.get('#autogen-button > .mdc-button__ripple').click();
   cy.get('#sign-in').click();
+  cy.get('body.loaded');
 }
