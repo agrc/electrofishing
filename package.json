@@ -46,6 +46,7 @@
     "printWidth": 120
   },
   "dependencies": {
+    "@tanstack/react-table": "^8.7.9",
     "clsx": "^1.2.1",
     "downshift": "^6.1.9",
     "esri-leaflet": "^3.0.1",

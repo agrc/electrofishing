@@ -3,7 +3,7 @@ import localforage from 'localforage';
 import config from '../config';
 import useSubscriptions from '../hooks/useSubscriptions';
 import Location from './location/Location';
-import Method from 'app/method/Method';
+import Method from './method/Method';
 import Catch from 'app/catch/Catch';
 import Habitat from 'app/habitat/Habitat';
 import SummaryReport from 'app/SummaryReport';
@@ -21,37 +21,64 @@ export const actionTypes = {
   CLEAR: 'CLEAR',
   OTHER: 'OTHER',
   HYDRATE: 'HYDRATE',
+  EQUIPMENT: 'EQUIPMENT',
+  ADD_EQUIPMENT: 'ADD_EQUIPMENT',
+  REMOVE_EQUIPMENT: 'REMOVE_EQUIPMENT',
 };
+const getNewEquipment = (eventId) => {
+  return {
+    [config.fieldNames.equipment.EVENT_ID]: eventId,
+    [config.fieldNames.equipment.TYPE]: 'backpack',
+    [config.fieldNames.equipment.EQUIPMENT_ID]: getGUID(),
+    [config.fieldNames.equipment.MODEL]: null,
+    [config.fieldNames.equipment.ARRAY_TYPE]: null,
+    [config.fieldNames.equipment.NUM_NETTERS]: null,
+    [config.fieldNames.equipment.CATHODE_TYPE]: null,
+    [config.fieldNames.equipment.NUM_ANODES]: null,
+    [config.fieldNames.equipment.CATHODE_LEN]: null,
+    [config.fieldNames.equipment.CATHODE_DIAMETER]: null,
+    [config.fieldNames.equipment.MACHINE_RES]: null,
+    [config.fieldNames.equipment.WAVEFORM]: null,
+    [config.fieldNames.equipment.VOLTAGE]: null,
+    [config.fieldNames.equipment.DUTY_CYCLE]: null,
+    [config.fieldNames.equipment.FREQUENCY]: null,
+    [config.fieldNames.equipment.AMPS]: null,
+    [config.fieldNames.equipment.DURATION]: null,
+  };
+};
+
 const getBlankState = () => {
-  const fn = config.fieldNames.samplingEvents;
   const guid = getGUID();
 
   // this can be removed once these widgets are converted to components and use eventState:
-  // Catch, Habitat, Equipment
+  // Catch, Habitat
   config.eventId = guid;
 
   return {
     [config.tableNames.samplingEvents]: {
       attributes: {
-        [fn.EVENT_ID]: guid,
-        [fn.GEO_DEF]: null,
-        [fn.LOCATION_NOTES]: null,
-        [fn.EVENT_DATE]: null,
-        [fn.EVENT_TIME]: null,
-        [fn.OBSERVERS]: null,
-        [fn.PURPOSE]: null,
-        [fn.WEATHER]: null,
-        [fn.STATION_ID]: null,
-        [fn.SEGMENT_LENGTH]: null,
-        [fn.NUM_PASSES]: null,
+        [config.fieldNames.samplingEvents.EVENT_ID]: guid,
+        [config.fieldNames.samplingEvents.GEO_DEF]: null,
+        [config.fieldNames.samplingEvents.LOCATION_NOTES]: null,
+        [config.fieldNames.samplingEvents.EVENT_DATE]: null,
+        [config.fieldNames.samplingEvents.EVENT_TIME]: null,
+        [config.fieldNames.samplingEvents.OBSERVERS]: null,
+        [config.fieldNames.samplingEvents.PURPOSE]: null,
+        [config.fieldNames.samplingEvents.WEATHER]: null,
+        [config.fieldNames.samplingEvents.STATION_ID]: null,
+        [config.fieldNames.samplingEvents.SEGMENT_LENGTH]: null,
+        [config.fieldNames.samplingEvents.NUM_PASSES]: null,
       },
       geometry: null,
     },
     other: {
       selectedStationName: '',
     },
+    [config.tableNames.equipment]: [getNewEquipment(guid)],
+    [config.tableNames.anodes]: [],
   };
 };
+
 const initialState = getBlankState();
 
 const reducer = (draft, action) => {
@@ -69,6 +96,45 @@ const reducer = (draft, action) => {
 
     case actionTypes.OTHER:
       draft.other[action.meta] = action.payload;
+
+      break;
+
+    case actionTypes.EQUIPMENT:
+      const found = draft[config.tableNames.equipment].some((equipment, index) => {
+        if (equipment[config.fieldNames.equipment.EQUIPMENT_ID] === action.meta) {
+          draft[config.tableNames.equipment][index] = action.payload.equipment;
+          draft[config.tableNames.anodes] = draft[config.tableNames.anodes].filter((anode) => {
+            return anode[config.fieldNames.anodes.EQUIPMENT_ID] !== action.meta;
+          });
+          draft[config.tableNames.anodes].push(...action.payload.anodes);
+
+          return true;
+        }
+
+        return false;
+      });
+
+      if (!found) {
+        throw new Error(`Equipment not found in state! Equipment ID: ${action.meta}`);
+      }
+
+      break;
+
+    case actionTypes.ADD_EQUIPMENT:
+      draft[config.tableNames.equipment].push(
+        getNewEquipment(draft[config.tableNames.samplingEvents].attributes[config.fieldNames.samplingEvents.EVENT_ID])
+      );
+
+      break;
+
+    case actionTypes.REMOVE_EQUIPMENT:
+      draft[config.tableNames.equipment] = draft[config.tableNames.equipment].filter((equipment) => {
+        return equipment[config.fieldNames.equipment.EQUIPMENT_ID] !== action.meta;
+      });
+
+      draft[config.tableNames.anodes] = draft[config.tableNames.anodes].filter((anode) => {
+        return anode[config.fieldNames.anodes.EQUIPMENT_ID] !== action.meta;
+      });
 
       break;
 
@@ -171,11 +237,9 @@ const NewCollectionEvent = () => {
   }, []);
 
   // dojo widgets
-  const methodTbDiv = React.useRef();
   const catchTbDiv = React.useRef();
   const habitatTbDiv = React.useRef();
   const reportSummaryDiv = React.useRef();
-  const methodTb = useDojoWidget(methodTbDiv, Method);
   const catchTb = useDojoWidget(catchTbDiv, Catch);
   const habitatTb = useDojoWidget(habitatTbDiv, Habitat);
   const reportSummary = useDojoWidget(reportSummaryDiv, SummaryReport);
@@ -235,7 +299,6 @@ const NewCollectionEvent = () => {
     let valid = true;
     const validationMethods = [
       // [method, scope, tabID]
-      [methodTb.isValid, methodTb, 'methodTab'],
       [catchTb.isValid, catchTb, 'catchTab'],
       [habitatTb.isValid, habitatTb, 'habitatTab'],
     ];
@@ -245,7 +308,7 @@ const NewCollectionEvent = () => {
     if (invalidInputs.length > 0) {
       const labels = thisDomNode.current.querySelectorAll('.form-group.has-error label');
       valid = invalidInputMsg + labels[0].textContent + '.';
-      const parentTab = labels.closest('.tab-pane')[0];
+      const parentTab = labels[0].closest('.tab-pane');
       showTab(parentTab.id);
 
       return valid;
@@ -269,7 +332,7 @@ const NewCollectionEvent = () => {
     }
 
     return validationReturn;
-  }, [allowNoFish, catchTb, eventState, habitatTb, methodTb]);
+  }, [allowNoFish, catchTb, eventState, habitatTb]);
 
   const clearReport = React.useCallback(() => {
     console.log('NewCollectionEvent:clearReport');
@@ -283,13 +346,12 @@ const NewCollectionEvent = () => {
       .catch(onError)
       .finally(() => {
         eventDispatch({ type: actionTypes.CLEAR });
-        methodTb.clear();
         catchTb.clear();
         habitatTb.clear();
         setValidateMsg(null);
         setAllowNoFish(false);
       });
-  }, [catchTb, eventDispatch, habitatTb, methodTb]);
+  }, [catchTb, eventDispatch, habitatTb]);
 
   const onSuccessfulSubmit = React.useCallback(() => {
     console.log('app/NewCollectionEvent:onSuccessfulSubmit');
@@ -353,8 +415,8 @@ const NewCollectionEvent = () => {
     };
     data[config.tableNames.samplingEvents].attributes[config.fieldNames.samplingEvents.NUM_PASSES] =
       catchTb.getNumberOfPasses();
-    data[config.tableNames.equipment] = methodTb.getData();
-    data[config.tableNames.anodes] = methodTb.getAnodesData();
+    data[config.tableNames.equipment] = eventState[config.tableNames.equipment];
+    data[config.tableNames.anodes] = eventState[config.tableNames.anodes];
     data[config.tableNames.fish] = catchTb.getData();
     data[config.tableNames.diet] = catchTb.moreInfoDialog.getData('diet');
     data[config.tableNames.tags] = catchTb.moreInfoDialog.getData('tags');
@@ -388,17 +450,7 @@ const NewCollectionEvent = () => {
         });
       }
     );
-  }, [
-    appDispatch,
-    catchTb,
-    eventState,
-    habitatTb,
-    methodTb,
-    onError,
-    onSuccessfulSubmit,
-    reportSummary,
-    validateReport,
-  ]);
+  }, [appDispatch, catchTb, eventState, habitatTb, onError, onSuccessfulSubmit, reportSummary, validateReport]);
 
   const onCancel = React.useCallback(() => {
     console.log('NewCollectionEvent:onCancel');
@@ -440,7 +492,7 @@ const NewCollectionEvent = () => {
             <Location />
           </div>
           <div className="tab-pane fade" id="methodTab">
-            <div ref={methodTbDiv}></div>
+            <Method />
           </div>
           <div className="tab-pane fade" id="catchTab">
             <div ref={catchTbDiv}></div>

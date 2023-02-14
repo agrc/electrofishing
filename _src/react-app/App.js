@@ -105,7 +105,6 @@ const App = () => {
           <div className="inner-header">
             {appState.user ? (
               <>
-                <h4>Water Body</h4>
                 <span>
                   <span className="user">{appState.user.email}</span>
                   <button id="logout" type="button" className="btn btn-link" onClick={logOut}>

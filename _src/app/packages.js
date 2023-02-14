@@ -96,6 +96,16 @@ require({
       main: 'react-transition-group',
     },
     {
+      name: 'react-table',
+      location: './react-table',
+      main: 'index.esm',
+    },
+    {
+      name: 'table-core',
+      location: './table-core',
+      main: 'index.esm',
+    },
+    {
       name: 'prop-types',
       location: '../node_modules/prop-types',
       main: 'prop-types',
@@ -111,4 +121,10 @@ require({
       main: 'uuid.min',
     },
   ],
+  map: {
+    '*': {
+      '@tanstack/react-table': 'react-table',
+      '@tanstack/table-core': 'table-core',
+    },
+  },
 });

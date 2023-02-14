@@ -48,13 +48,16 @@ describe('SubmitReport', () => {
 
     // method tab
     cy.get('a[href="#methodTab"]').click();
-    cy.get('[data-dojo-attach-point="numberNettersTxt"]').type('3');
+    cy.get('#MODEL_input').type('s{enter}');
+    cy.get('#NUM_NETTERS_input').type('3');
+    cy.get('#NUM_ANODES_input').type('2');
 
-    cy.get('[data-dojo-attach-point="numberAnodesTxt"]').type('{backspace}2');
-
-    cy.get('.equipment .dgrid-scroller table td.field-ANODE_DIAMETER').type('1');
-    cy.get('.equipment .dgrid .dgrid-row > .dgrid-row-table > tr > .dgrid-column-3').first().type('2');
-    cy.get('.equipment .dgrid .dgrid-row > .dgrid-row-table > tr > .dgrid-column-4').first().type('R');
+    // anode diameter
+    cy.get('.equipment tbody > :nth-child(1) > :nth-child(1) > div > input').type('1');
+    // stock diameter
+    cy.get('.equipment tbody > :nth-child(1) > :nth-child(2) > div > input').type('2');
+    // anode shape
+    cy.get('.equipment tbody > :nth-child(2) > :nth-child(3) .combobox input').type('R');
 
     // catch tab
     cy.get('a[href="#catchTab"]').click();

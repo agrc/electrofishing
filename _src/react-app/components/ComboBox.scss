@@ -22,4 +22,9 @@ $optionPadding: 3px 20px;
     color: #777;
     cursor: not-allowed;
   }
+  &.minimal {
+    .input-group {
+      width: 100%;
+    }
+  }
 }

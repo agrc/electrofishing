@@ -8,6 +8,8 @@ export NODE_ENV=production
 
 echo 'starting babel'
 node node_modules/@babel/cli/bin/babel.js --out-dir src/react-toastify node_modules/react-toastify/dist --config-file ./.babelrc
+node node_modules/@babel/cli/bin/babel.js --out-dir src/react-table node_modules/@tanstack/react-table/build/lib --config-file ./.babelrc
+node node_modules/@babel/cli/bin/babel.js --out-dir src/table-core node_modules/@tanstack/table-core/build/lib --config-file ./.babelrc
 node node_modules/@babel/cli/bin/babel.js --out-file src/clsx/index.js node_modules/clsx/dist/clsx.m.js --config-file ./.babelrc
 
 echo 'using esbuild to bundle service worker'

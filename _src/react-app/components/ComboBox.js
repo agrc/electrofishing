@@ -1,8 +1,9 @@
 import * as React from 'react';
 import propTypes from 'prop-types';
 import { useCombobox } from 'downshift';
+import clsx from 'clsx';
 
-const ComboBox = ({ items, onChange, value, id }) => {
+const ComboBox = React.forwardRef(function ComboBox({ items, onChange, value, id, minimal, onKeyDown }, ref) {
   const [inputItems, setInputItems] = React.useState(items);
   const {
     getComboboxProps,
@@ -48,29 +49,33 @@ const ComboBox = ({ items, onChange, value, id }) => {
   }, [items]);
 
   return (
-    <div className={`combobox dropdown ${isOpen && 'open'}`} {...getComboboxProps()}>
+    <div className={clsx('combobox', 'dropdown', isOpen && 'open', minimal && 'minimal')} {...getComboboxProps()}>
       <div className="input-group">
         <input
-          className="form-control"
+          className={clsx(!minimal && 'form-control')}
           {...getInputProps({
             onFocus: () => {
               if (!isOpen) {
                 openMenu();
               }
             },
+            onKeyDown,
+            ref,
           })}
         />
-        <span className="input-group-btn">
-          {value && value.toString().length > 0 ? (
-            <button className="btn btn-default" type="button" onClick={reset}>
-              <span className="glyphicon glyphicon-remove" />
-            </button>
-          ) : (
-            <button className="btn btn-default" type="button" {...getToggleButtonProps()}>
-              <span className="caret" />
-            </button>
-          )}
-        </span>
+        {!minimal ? (
+          <span className="input-group-btn">
+            {value && value.toString().length > 0 ? (
+              <button className="btn btn-default" type="button" onClick={reset}>
+                <span className="glyphicon glyphicon-remove" />
+              </button>
+            ) : (
+              <button className="btn btn-default" type="button" {...getToggleButtonProps()}>
+                <span className="caret" />
+              </button>
+            )}
+          </span>
+        ) : null}
       </div>
       <ul className="dropdown-menu" {...getMenuProps()}>
         {inputItems.length ? (
@@ -90,7 +95,7 @@ const ComboBox = ({ items, onChange, value, id }) => {
       </ul>
     </div>
   );
-};
+});
 
 ComboBox.propTypes = {
   items: propTypes.array.isRequired,

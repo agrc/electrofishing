@@ -1,11 +1,14 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'react';
 import ReactDOM from 'react-dom';
 import propTypes from 'prop-types';
 import OtherOptionHandler from './OtherOptionHandler';
 import ComboBox from './ComboBox';
 
 const otherTxt = '[other]';
-export default function DomainDrivenDropdown({ featureServiceUrl, fieldName, value, onChange, id }) {
+const DomainDrivenDropdown = forwardRef(function DomainDrivenDropdown(
+  { featureServiceUrl, fieldName, value, onChange, id, minimal, onKeyDown },
+  ref
+) {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -88,8 +91,19 @@ export default function DomainDrivenDropdown({ featureServiceUrl, fieldName, val
     [onChange]
   );
 
-  return <ComboBox items={items} onChange={onSelectionChange} value={value} id={id} />;
-}
+  return (
+    <ComboBox
+      items={items}
+      onChange={onSelectionChange}
+      value={value}
+      id={id}
+      minimal={minimal}
+      ref={ref}
+      onKeyDown={onKeyDown}
+    />
+  );
+});
+
 DomainDrivenDropdown.propTypes = {
   featureServiceUrl: propTypes.string.isRequired,
   fieldName: propTypes.string.isRequired,
@@ -97,3 +111,5 @@ DomainDrivenDropdown.propTypes = {
   onChange: propTypes.func,
   id: propTypes.string,
 };
+
+export default DomainDrivenDropdown;

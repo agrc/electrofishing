@@ -2,10 +2,7 @@
   .inner-header {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    h4 {
-      margin: 0;
-    }
+    justify-content: end;
     span {
       color: #9d9d9d;
       display: flex;
