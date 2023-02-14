@@ -1,7 +1,6 @@
 import React from 'react';
-import config from '../config';
 
-async function initServiceWorker() {
+function initServiceWorker() {
   if ('serviceWorker' in navigator === false) {
     window.alert('This browser does not support service workers. Please use a more modern browser.');
 
@@ -9,17 +8,10 @@ async function initServiceWorker() {
   }
 
   try {
-    await navigator.serviceWorker.register('ServiceWorker.js');
-
-    return navigator.serviceWorker.ready;
+    navigator.serviceWorker.register('ServiceWorker.js');
   } catch (error) {
     console.error('Service worker registration failed', error);
   }
-}
-
-async function sendTokenToServiceWorker(token) {
-  const registration = await navigator.serviceWorker.ready;
-  registration.active.postMessage({ type: 'access-token', token });
 }
 
 function checkClaims(claims) {
@@ -51,6 +43,8 @@ export default function useAuthentication() {
     console.log('auth', auth);
     authRef.current = auth;
 
+    initServiceWorker();
+
     if (process.env.REACT_APP_BUILD === 'development') {
       // comment out this and the auth config in firebase.json to hit utahid directly
       window.firebase.auth.connectAuthEmulator(authRef.current, 'http://localhost:9099');
@@ -71,40 +65,6 @@ export default function useAuthentication() {
       alert(`${user.email} is not authorized to use this app.`);
     }
   };
-
-  React.useEffect(() => {
-    let intervalId;
-    const initializeTokenRefresh = async () => {
-      let expireTime = 0;
-      await initServiceWorker();
-      const response = await user.getIdTokenResult();
-      await sendTokenToServiceWorker(response.token); // todo: switch this to an access token?
-      expireTime = new Date(response.expirationTime).getTime();
-
-      if (!window.Cypress) {
-        intervalId = setInterval(async () => {
-          if (Date.now() > expireTime) {
-            console.log(`refreshing token at: ${new Date().toLocaleTimeString()}`);
-            const response = await user.getIdTokenResult();
-            expireTime = new Date(response.expirationTime).getTime();
-            await sendTokenToServiceWorker(response.token);
-          }
-        }, config.authTokenCheckInterval);
-      }
-    };
-
-    if (user) {
-      initializeTokenRefresh();
-
-      console.log(`token refresh initialized at: ${new Date().toLocaleTimeString()}`);
-    }
-
-    return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
-    };
-  }, [user]);
 
   const logIn = () => {
     const provider = new window.firebase.auth.OAuthProvider('oidc.utahid');
