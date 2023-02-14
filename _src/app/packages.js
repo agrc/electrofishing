@@ -102,8 +102,8 @@ require({
     },
     {
       name: 'clsx',
-      location: '../node_modules/clsx/dist',
-      main: 'clsx.min',
+      location: './clsx',
+      main: 'index',
     },
     {
       name: 'uuid',

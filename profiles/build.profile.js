@@ -28,12 +28,6 @@ var profile = {
             ['.', '.', /(\/\.)|(~$)|(widgets|resources)/]
         ]
     }, {
-        name: 'clsx',
-        location: '../node_modules/clsx/dist',
-        trees: [
-            ['.', '.', /(\/\.)|(~$)|(m\.js)/]
-        ]
-    }, {
         name: 'downshift',
         location: '../node_modules/downshift/dist',
         trees: [
@@ -115,10 +109,10 @@ var profile = {
             ['.', '.', /(\/\.)|(.stories.js)/]
         ]
     }, {
-      name: 'react-toastify',
-      trees: [
-        ['.', '.', /(\/\.)|(index\.esm)/]
-      ]
+        name: 'react-toastify',
+        trees: [
+            ['.', '.', /(\/\.)|(index\.esm)/]
+        ]
     }, {
         name: 'toaster',
         location: './toaster',
