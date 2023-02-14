@@ -95,10 +95,10 @@ jobs:
           npm install -g grunt-cli
 
       - name: 📦 Build
-        run: |
-          set REACT_APP_QUAD_WORD=test
-          set REACT_APP_FIREBASE_CONFIG={}
-          npm run build
+        env:
+          REACT_APP_QUAD_WORD: test
+          REACT_APP_FIREBASE_CONFIG: '{}'
+        run: npm run build
 
   deploy-dev:
     runs-on: ubuntu-latest
