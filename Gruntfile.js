@@ -45,7 +45,7 @@ module.exports = function (grunt) {
     },
     copy: {
       dist: {
-        files: [{ expand: true, cwd: 'src/', src: ['*.html'], dest: 'dist/' }],
+        files: [{ expand: true, cwd: 'src/', src: ['*.html', 'ServiceWorker.js'], dest: 'dist/' }],
       },
       src: {
         expand: true,
