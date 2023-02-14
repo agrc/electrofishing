@@ -97,6 +97,7 @@ jobs:
       - name: 📦 Build
         run: |
           set REACT_APP_QUAD_WORD=test
+          set REACT_APP_FIREBASE_CONFIG={}
           npm run build
 
   deploy-dev:
