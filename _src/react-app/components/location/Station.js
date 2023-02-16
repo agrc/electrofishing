@@ -211,14 +211,18 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
         Station <span className="text-danger required">*</span>
       </h4>
       <p className="help-block">Select a station by clicking on the map above.</p>
-      <div className="form-inline">
-        <div className="form-group">
-          <input type="text" disabled value={selectedStationName} className="form-control" id="stationTxt" />
+      <div className="row">
+        <div className="col-xs-6">
+          <div className="input-group">
+            <input type="text" disabled value={selectedStationName} className="form-control" id="stationTxt" />
+            <span className="input-group-btn">
+              <a className="btn btn-default btn-success" data-toggle="modal" href="#stationModal">
+                <span className="glyphicon glyphicon-plus"></span>
+                Add New Station
+              </a>
+            </span>
+          </div>
         </div>
-        <a className="btn btn-default" data-toggle="modal" href="#stationModal">
-          <span className="glyphicon glyphicon-plus"></span>
-          Add New Station
-        </a>
       </div>
       <div className="modal fade" id="stationModal" role="dialog" tabIndex="-1" data-backdrop="static" ref={modal}>
         <div className="modal-dialog">
