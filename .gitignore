@@ -25,3 +25,6 @@ maps/ImportLog
 
 emulator_data/
 firebase-export*
+
+cypress/videos/
+cypress/screenshots/
