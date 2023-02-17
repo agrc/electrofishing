@@ -105,12 +105,10 @@ const App = () => {
           <div className="inner-header">
             {appState.user ? (
               <>
-                <span>
-                  <span className="user">{appState.user.email}</span>
-                  <button id="logout" type="button" className="btn btn-link" onClick={logOut}>
-                    Logout
-                  </button>
-                </span>
+                <span className="user">{appState.user.email}</span>
+                <button id="logout" type="button" className="btn btn-link" onClick={logOut}>
+                  Logout
+                </button>
               </>
             ) : (
               <button id="login" type="button" className="btn btn-link login-button" onClick={logIn}>
