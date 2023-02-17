@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef, useEffect, useCallback } from 'react';
+import React, { useContext } from 'react';
 import config from '../../config';
 import { EventContext, actionTypes } from '../NewCollectionEvent';
 import Equipment from './Equipment';

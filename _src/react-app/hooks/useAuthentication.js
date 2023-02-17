@@ -23,6 +23,7 @@ function checkClaims(claims) {
     prod: 'Prod',
     stage: 'AT',
     development: 'Dev',
+    test: 'Test',
   };
 
   return (
