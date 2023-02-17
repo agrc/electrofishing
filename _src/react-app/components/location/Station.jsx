@@ -218,7 +218,7 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
             <span className="input-group-btn">
               <a className="btn btn-default btn-success" data-toggle="modal" href="#stationModal">
                 <span className="glyphicon glyphicon-plus"></span>
-                Add New Station
+                &nbsp;Add New Station
               </a>
             </span>
           </div>
