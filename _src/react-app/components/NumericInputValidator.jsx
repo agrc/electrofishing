@@ -92,7 +92,3 @@ export default function NumericInputValidator({ children }) {
 
   return <>{children(getInputProps, getGroupClassName, validationMessage)}</>;
 }
-
-NumericInputValidator.propTypes = {
-  children: PropTypes.func.isRequired,
-};
