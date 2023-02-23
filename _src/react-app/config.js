@@ -187,7 +187,7 @@ const config = {
 
   // databaseVersion: Number
   //      localforage database version
-  databaseVersion: 1.0,
+  databaseVersion: 1.1,
 
   // version: String
   //      The app version number.
