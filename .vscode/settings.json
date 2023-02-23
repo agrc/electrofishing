@@ -14,6 +14,7 @@
     "deps",
     "dijkstras",
     "ellps",
+    "esbuild",
     "firestore",
     "fishsample",
     "flowtype",

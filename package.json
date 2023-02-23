@@ -112,7 +112,7 @@
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-testing-library": "^3.10.1",
-    "firebase-tools": "^11.2.2",
+    "firebase-tools": "^11.24.0",
     "grunt": "^1.5.2",
     "grunt-babel": "^8.0.0",
     "grunt-bump": "^0.8.0",
