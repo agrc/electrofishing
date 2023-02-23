@@ -38,6 +38,7 @@
     "oidc",
     "PLPRO",
     "PLSS",
+    "prebuild",
     "PSBR",
     "raftboat",
     "reactfire",

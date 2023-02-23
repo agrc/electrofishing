@@ -31,8 +31,9 @@ module.exports = function (grunt) {
     },
     bump: {
       options: {
+        commit: false,
+        createTag: false,
         files: bumpFiles,
-        commitFiles: bumpFiles.concat(['_src/ChangeLog.html']),
         push: false,
       },
     },
