@@ -89,7 +89,7 @@ function SummaryReport({ show, onHide, eventData, onConfirm }) {
   const [summaryData, setSummaryData] = React.useState(null);
 
   React.useEffect(() => {
-    $(modalRef.current).modal({ backdrop: 'static', keyboard: false });
+    $(modalRef.current).modal({ backdrop: 'static', keyboard: false, show: false });
   }, []);
 
   React.useEffect(() => {
