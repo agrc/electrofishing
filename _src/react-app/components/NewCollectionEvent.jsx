@@ -6,7 +6,6 @@ import Location from './location/Location';
 import Method from './method/Method';
 import Catch from 'app/catch/Catch';
 import Habitat from 'app/habitat/Habitat';
-import SummaryReport from 'app/SummaryReport';
 import submitJob from '../helpers/submitJob';
 import toastify from 'react-toastify';
 import useDojoWidget from '../hooks/useDojoWidget';
@@ -14,6 +13,7 @@ import { AppContext, actionTypes as appActionTypes } from '../App';
 import { useImmerReducer } from 'use-immer';
 import NumericInputValidator from 'ijit/modules/NumericInputValidator';
 import getGUID from '../helpers/getGUID';
+import SummaryReport from './SummaryReport';
 
 export const EventContext = React.createContext();
 export const actionTypes = {
@@ -159,7 +159,7 @@ const reducer = (draft, action) => {
 const cancelConfirmMsg = 'Are you sure? This will clear all values in the report.';
 
 // submitErrMsg: String
-const submitErrMsg = 'There was an error submitting the report!';
+const submitErrMsg = 'There was an error submitting the report';
 
 // invalidInputMsg: String
 const invalidInputMsg = 'Invalid value for ';
@@ -239,10 +239,8 @@ const NewCollectionEvent = () => {
   // dojo widgets
   const catchTbDiv = React.useRef();
   const habitatTbDiv = React.useRef();
-  const reportSummaryDiv = React.useRef();
   const catchTb = useDojoWidget(catchTbDiv, Catch);
   const habitatTb = useDojoWidget(habitatTbDiv, Habitat);
-  const reportSummary = useDojoWidget(reportSummaryDiv, SummaryReport);
 
   const showTab = (tabID) => {
     // summary:
@@ -366,27 +364,17 @@ const NewCollectionEvent = () => {
         behavior: 'smooth',
       });
     }, 500);
+  }, [clearReport]);
 
-    appDispatch({
-      type: appActionTypes.SUBMIT_LOADING,
-      payload: false,
-    });
-  }, [appDispatch, clearReport]);
+  const onError = (message) => {
+    console.log('app/NewCollectionEvent:onError');
 
-  const onError = React.useCallback(
-    (message) => {
-      console.log('app/NewCollectionEvent:onError');
+    setValidateMsg(`${submitErrMsg}: ${typeof message === 'string' ? message : message.message || message}`);
+    window.scrollTo(0, 0);
+  };
 
-      setValidateMsg(`${submitErrMsg}: ${typeof message === 'string' ? message : message.message || message}`);
-      window.scrollTo(0, 0);
-      appDispatch({
-        type: appActionTypes.SUBMIT_LOADING,
-        payload: false,
-      });
-    },
-    [appDispatch]
-  );
-
+  const [showSummary, setShowSummary] = React.useState(false);
+  const [submitData, setSubmitData] = React.useState(null); // this could be replaced by eventState once everything is moved to React
   const onSubmit = React.useCallback(() => {
     console.log('NewCollectionEvent:onSubmit');
 
@@ -425,32 +413,33 @@ const NewCollectionEvent = () => {
     data[config.tableNames.transect] = habitatTb.getTransectData();
     data[config.tableNames.transectMeasurements] = habitatTb.getTransectMeasurementData();
 
-    const data_txt = JSON.stringify(data);
+    setSubmitData(data);
+    setShowSummary(true);
+  }, [appDispatch, catchTb, eventState, habitatTb, validateReport]);
 
-    return reportSummary.verify(data).then(
-      async () => {
-        try {
-          await submitJob({ data: data_txt }, config.urls.newCollectionEvent);
+  const onConfirmSubmit = async () => {
+    const data_txt = JSON.stringify(submitData);
 
-          onSuccessfulSubmit();
-        } catch (error) {
-          onError(error.message);
-        }
+    try {
+      await submitJob({ data: data_txt }, config.urls.newCollectionEvent);
 
-        // stringify, parse is so that we have a clean object to store in localforage
-        return archivesLocalForage.current.setItem(
-          data[config.tableNames.samplingEvents].attributes[config.fieldNames.samplingEvents.EVENT_ID],
-          JSON.parse(JSON.stringify(data))
-        );
-      },
-      () => {
-        appDispatch({
-          type: appActionTypes.SUBMIT_LOADING,
-          payload: false,
-        });
-      }
+      onSuccessfulSubmit();
+    } catch (error) {
+      onError(error.message);
+    }
+
+    setShowSummary(false);
+    appDispatch({
+      type: appActionTypes.SUBMIT_LOADING,
+      payload: false,
+    });
+
+    // stringify, parse is so that we have a clean object to store in localforage
+    await archivesLocalForage.current.setItem(
+      submitData[config.tableNames.samplingEvents].attributes[config.fieldNames.samplingEvents.EVENT_ID],
+      JSON.parse(JSON.stringify(submitData))
     );
-  }, [appDispatch, catchTb, eventState, habitatTb, onError, onSuccessfulSubmit, reportSummary, validateReport]);
+  };
 
   const onCancel = React.useCallback(() => {
     console.log('NewCollectionEvent:onCancel');
@@ -501,7 +490,18 @@ const NewCollectionEvent = () => {
             <div ref={habitatTbDiv}></div>
           </div>
         </div>
-        <div ref={reportSummaryDiv}></div>
+        <SummaryReport
+          show={showSummary}
+          onHide={() => {
+            setShowSummary(false);
+            appDispatch({
+              type: appActionTypes.SUBMIT_LOADING,
+              payload: false,
+            });
+          }}
+          eventData={submitData}
+          onConfirm={onConfirmSubmit}
+        />
       </div>
     </EventContext.Provider>
   );

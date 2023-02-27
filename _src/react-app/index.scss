@@ -1,5 +1,6 @@
 @use 'App';
 @use 'components/NewCollectionEvent';
+@use 'components/SummaryReport';
 @use 'components/ComboBox';
 @use 'components/Header';
 @use 'components/OtherOptionHandler';
@@ -9,5 +10,6 @@
 @use 'components/location/StreamSearch';
 @use 'components/method/Method';
 @use 'components/DataGrid';
+
 @use '../../node_modules/react-toastify/scss/main.scss';
 @use '../../node_modules/leaflet/dist/leaflet.css';
