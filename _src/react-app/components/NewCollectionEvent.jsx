@@ -420,6 +420,7 @@ const NewCollectionEvent = () => {
   const onConfirmSubmit = async () => {
     const data_txt = JSON.stringify(submitData);
 
+    setShowSummary(false);
     try {
       await submitJob({ data: data_txt }, config.urls.newCollectionEvent);
 
@@ -428,7 +429,6 @@ const NewCollectionEvent = () => {
       onError(error.message);
     }
 
-    setShowSummary(false);
     appDispatch({
       type: appActionTypes.SUBMIT_LOADING,
       payload: false,
