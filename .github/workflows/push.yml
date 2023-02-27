@@ -34,6 +34,8 @@ jobs:
           github-app-key: ${{ secrets.UGRC_RELEASE_BOT_APP_KEY }}
           github-app-name: ${{ secrets.UGRC_RELEASE_BOT_NAME }}
           github-app-email: ${{ secrets.UGRC_RELEASE_BOT_EMAIL }}
+          extra-files: |
+            _src/react-app/config.js
 
   deploy-dev:
     name: Deploy to staging
