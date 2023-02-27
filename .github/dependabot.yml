@@ -7,3 +7,17 @@ updates:
       interval: monthly
     labels:
       - dependencies
+  - package-ecosystem: npm
+    target-branch: dev
+    directory: /
+    schedule:
+      interval: monthly
+    labels:
+      - dependencies
+  - package-ecosystem: npm
+    target-branch: dev
+    directory: functions/
+    schedule:
+      interval: monthly
+    labels:
+      - dependencies
