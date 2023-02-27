@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.1.0-1](https://github.com/agrc/electrofishing/compare/v2.1.0-0...v2.1.0-1) (2023-02-27)
+
+
+### 🐛 Bug Fixes
+
+* add release please manifest ([ffc453a](https://github.com/agrc/electrofishing/commit/ffc453a1c98c5305efeef7b20748b451b99e1b05))
+* prevent multiple submits ([d9ecd3d](https://github.com/agrc/electrofishing/commit/d9ecd3dfc3bab61d303b2ee8a4631402e8b8259e))
+* switch to extra-files action param ([379ba31](https://github.com/agrc/electrofishing/commit/379ba316b25fc9a4d960a6d8fe0cabae78e042a3))
+* update changelog link to point to gh releases ([b457ceb](https://github.com/agrc/electrofishing/commit/b457ceb8ea028c2227faef8f14b835ff8d4b7b7e))
+
 ## [2.1.0-0](https://github.com/agrc/electrofishing/compare/v2.0.1-1...v2.1.0-0) (2023-02-27)
 
 
