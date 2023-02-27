@@ -38,7 +38,12 @@ export default function Header({ submitLoading }) {
           </button>
           <span className="navbar-brand">
             Electro-Fishing Data Collection
-            <a className="version" href="ChangeLog.html" target="_blank">
+            <a
+              className="version"
+              href={`https://github.com/agrc/electrofishing/releases/tag/v${config.version}`}
+              target="_blank"
+              rel="noreferrer"
+            >
               {config.version}
             </a>
           </span>
