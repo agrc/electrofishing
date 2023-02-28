@@ -5,51 +5,41 @@ import clsx from 'clsx';
 
 const ComboBox = React.forwardRef(function ComboBox({ items, onChange, value, id, minimal, onKeyDown }, ref) {
   const [inputItems, setInputItems] = React.useState(items);
-  const {
-    getComboboxProps,
-    getInputProps,
-    getItemProps,
-    getMenuProps,
-    getToggleButtonProps,
-    highlightedIndex,
-    isOpen,
-    openMenu,
-    reset,
-  } = useCombobox({
-    inputId: id,
-    items: inputItems,
-    defaultHighlightedIndex: 0,
-    onInputValueChange: ({ inputValue }) => {
-      setInputItems(items.filter((item) => item.label.toLowerCase().startsWith(inputValue.toLowerCase())));
-    },
-    onSelectedItemChange: ({ selectedItem }) => {
-      console.log('onSelectedItemChange', selectedItem);
-      onChange(selectedItem?.value || null);
-    },
-    itemToString: (item) => (item ? item.label : ''),
-    selectedItem: items.filter((item) => item.value === value)[0] || '',
-    stateReducer: (state, actionAndChanges) => {
-      const { type, changes } = actionAndChanges;
-      // clear input on blur if there is no selected item
-      if (type === useCombobox.stateChangeTypes.InputBlur && state.inputValue !== state.selectedItem?.label) {
-        setInputItems(items);
-        return {
-          ...changes,
-          inputValue: '',
-          selectedItem: null,
-        };
-      }
+  const { getInputProps, getItemProps, getMenuProps, getToggleButtonProps, highlightedIndex, isOpen, openMenu, reset } =
+    useCombobox({
+      inputId: id,
+      items: inputItems,
+      defaultHighlightedIndex: 0,
+      onInputValueChange: ({ inputValue }) => {
+        setInputItems(items.filter((item) => item.label.toLowerCase().startsWith(inputValue.toLowerCase())));
+      },
+      onSelectedItemChange: ({ selectedItem }) => {
+        onChange(selectedItem?.value || null);
+      },
+      itemToString: (item) => (item ? item.label : ''),
+      selectedItem: items.filter((item) => item.value === value)[0] || '',
+      stateReducer: (_, actionAndChanges) => {
+        const { type, changes } = actionAndChanges;
+        // clear input on blur if there is no selected item
+        if (type === useCombobox.stateChangeTypes.InputBlur && changes.inputValue !== changes.selectedItem?.label) {
+          setInputItems(items);
+          return {
+            ...changes,
+            inputValue: '',
+            selectedItem: null,
+          };
+        }
 
-      return changes;
-    },
-  });
+        return changes;
+      },
+    });
 
   React.useEffect(() => {
     setInputItems(items);
   }, [items]);
 
   return (
-    <div className={clsx('combobox', 'dropdown', isOpen && 'open', minimal && 'minimal')} {...getComboboxProps()}>
+    <div className={clsx('combobox', 'dropdown', isOpen && 'open', minimal && 'minimal')}>
       <div className="input-group">
         <input
           className={clsx(!minimal && 'form-control')}
