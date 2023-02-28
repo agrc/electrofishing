@@ -2,7 +2,7 @@
 
 // inspired by: https://firebase.google.com/docs/auth/web/service-worker-sessions
 import { initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged, getIdToken } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, getIdToken, signOut } from 'firebase/auth';
 
 initializeApp(process.env.REACT_APP_FIREBASE_CONFIG);
 
@@ -29,7 +29,7 @@ const getIdTokenPromise = () => {
     });
   }
 
-  return getIdToken(auth.currentUser);
+  return getIdToken(auth.currentUser).catch(() => signOut().then(() => window.location.replace(window.location.href)));
 };
 
 self.addEventListener('install', (event) => {
