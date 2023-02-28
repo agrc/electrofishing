@@ -49,7 +49,7 @@
   "dependencies": {
     "@tanstack/react-table": "^8.7.9",
     "clsx": "^1.2.1",
-    "downshift": "^6.1.9",
+    "downshift": "^7.2.1",
     "esri-leaflet": "^3.0.1",
     "firebase": "^9.17.1",
     "immer": "^9.0.15",

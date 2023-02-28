@@ -71,15 +71,14 @@ export default function StreamSearch({ map, streamsFeatureService, lakesFeatureS
     }
   };
 
-  const { isOpen, getMenuProps, getInputProps, getComboboxProps, highlightedIndex, getItemProps, inputValue } =
-    useCombobox({
-      items: inputItems,
-      onInputValueChange: async ({ inputValue }) => {
-        setInputItems(await await getItems(inputValue));
-      },
-      itemToString: (item) => item.attributes[searchField],
-      onSelectedItemChange,
-    });
+  const { isOpen, getMenuProps, getInputProps, highlightedIndex, getItemProps, inputValue } = useCombobox({
+    items: inputItems,
+    onInputValueChange: async ({ inputValue }) => {
+      setInputItems(await await getItems(inputValue));
+    },
+    itemToString: (item) => item.attributes[searchField],
+    onSelectedItemChange,
+  });
 
   const streamsLayer = useRef();
   const lakesLayer = useRef();
@@ -260,7 +259,7 @@ export default function StreamSearch({ map, streamsFeatureService, lakesFeatureS
   return (
     <div className="magic-zoom">
       <div className="row">
-        <div className="input-group" {...getComboboxProps()}>
+        <div className="input-group">
           <input
             className="form-control"
             placeholder="stream/lake name"
