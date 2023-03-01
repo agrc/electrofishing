@@ -4,6 +4,7 @@ import propTypes from 'prop-types';
 import OtherOptionHandler from './OtherOptionHandler';
 import ComboBox from './ComboBox';
 
+const CACHE = {};
 const otherTxt = '[other]';
 const DomainDrivenDropdown = forwardRef(function DomainDrivenDropdown(
   { featureServiceUrl, fieldName, value, onChange, id, minimal, onKeyDown },
@@ -18,12 +19,22 @@ const DomainDrivenDropdown = forwardRef(function DomainDrivenDropdown(
 
     const controller = new AbortController();
     const makeRequest = async () => {
-      const signal = controller.signal;
-      const response = await fetch(`${featureServiceUrl}?f=json`, { signal });
-      const responseJson = await response.json();
+      const URL = `${featureServiceUrl}/fields?f=json`;
+
+      let fields;
+      if (CACHE[URL]) {
+        fields = CACHE[URL];
+      } else {
+        const signal = controller.signal;
+        const response = await fetch(URL, { signal });
+        const responseJson = await response.json();
+
+        fields = responseJson.fields;
+        CACHE[URL] = fields;
+      }
 
       let codedValues;
-      responseJson.fields.some((field) => {
+      fields.some((field) => {
         if (field.name === fieldName) {
           codedValues = field.domain.codedValues;
 
