@@ -18,10 +18,13 @@ const ComboBox = React.forwardRef(function ComboBox({ items, onChange, value, id
       },
       itemToString: (item) => (item ? item.label : ''),
       selectedItem: items.filter((item) => item.value === value)[0] || '',
-      stateReducer: (_, actionAndChanges) => {
+      stateReducer: (state, actionAndChanges) => {
         const { type, changes } = actionAndChanges;
-        // clear input on blur if there is no selected item
-        if (type === useCombobox.stateChangeTypes.InputBlur && changes.inputValue !== changes.selectedItem?.label) {
+        // clear input on blur if there is no selected item or if the input value is empty
+        if (
+          type === useCombobox.stateChangeTypes.InputBlur &&
+          (changes.inputValue !== changes.selectedItem?.label || state.inputValue === '')
+        ) {
           setInputItems(items);
           return {
             ...changes,
