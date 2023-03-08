@@ -10,6 +10,8 @@
 @use 'components/location/StreamSearch';
 @use 'components/method/Method';
 @use 'components/DataGrid';
+@use 'components/catch/Catch';
+@use 'components/GridTab';
 
 @use '../../node_modules/react-toastify/scss/main.scss';
 @use '../../node_modules/leaflet/dist/leaflet.css';

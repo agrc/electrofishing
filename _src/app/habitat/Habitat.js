@@ -22,6 +22,8 @@ define([
 
   'localforage',
 
+  'ijit/modules/NumericInputValidator',
+
   'bootstrap-combobox/js/bootstrap-combobox',
 ], function (
   FilteringSelectForGrid,
@@ -45,7 +47,9 @@ define([
 
   generateRandomUuid,
 
-  localforage
+  localforage,
+
+  NumericInputValidator
 ) {
   // TODO: remove once this module is converted to a component
   config = config.default;
@@ -212,6 +216,9 @@ define([
       );
 
       this._trackStore();
+
+      const validator = new NumericInputValidator();
+      validator.init(this.domNode);
 
       this.inherited(arguments);
     },

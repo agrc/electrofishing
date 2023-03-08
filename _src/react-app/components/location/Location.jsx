@@ -1,6 +1,6 @@
 import React, { useContext, useState, useRef, useEffect, useCallback } from 'react';
 import config from '../../config';
-import { actionTypes, EventContext } from '../NewCollectionEvent';
+import { actionTypes, useSamplingEventContext } from '../../hooks/samplingEventContext';
 import VerifyMap from './VerifyMap';
 import Station from './Station';
 import StartEndGeoDef from './StartEndGeoDef';
@@ -28,7 +28,7 @@ const emptyStartDistDirParams = {
 };
 
 const Location = () => {
-  const { eventState, eventDispatch } = useContext(EventContext);
+  const { eventState, eventDispatch } = useSamplingEventContext();
   const [validateMsg, setValidateMsg] = useState(null);
   const verifyMapBtn = useRef(null);
   const { appState } = useContext(AppContext);

@@ -73,6 +73,7 @@ const fieldNames = {
     LENGTH: 'LENGTH',
     WEIGHT: 'WEIGHT',
     NOTES: 'NOTES',
+    COUNT: 'COUNT', // only used client side for averaging weights
   },
   diet: {
     FISH_ID: 'FISH_ID',
@@ -187,7 +188,7 @@ const config = {
 
   // databaseVersion: Number
   //      localforage database version
-  databaseVersion: 1.1,
+  databaseVersion: 3, // whole numbers only
 
   // version: String
   //      The app version number.
@@ -300,8 +301,6 @@ const config = {
   tooSmallValue: 0,
 
   domains: {},
-
-  authTokenCheckInterval: 2500,
 
   emptyPoint: { x: '', y: '' },
 };

@@ -1,4 +1,4 @@
-export function loadAndSignIn() {
+export function loadAndSignIn(tab) {
   cy.viewport(1200, 1000);
   cy.visit('http://localhost:8000/src');
   cy.get('body').then(($body) => {
@@ -12,4 +12,10 @@ export function loadAndSignIn() {
   cy.get('#autogen-button > .mdc-button__ripple').click();
   cy.get('#sign-in').click();
   cy.get('body.loaded');
+
+  if (tab) {
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(1000);
+    cy.get(`a[href="#${tab}Tab"]`).click();
+  }
 }

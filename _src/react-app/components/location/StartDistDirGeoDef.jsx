@@ -36,7 +36,7 @@ export default function StartDistDirGeoDef({ map, params, setParams }) {
     <div className="start-dist-dir">
       <div className="form-inline">
         <PointDef label="Start" map={map} coordinates={params.start} setCoordinates={setStart} />
-        <div className="dist-block" data-dojo-attach-point="distGroup">
+        <div className="dist-block">
           <div className="form-group">
             <label className="control-label">Distance (in meters)</label>
             <input
@@ -47,11 +47,11 @@ export default function StartDistDirGeoDef({ map, params, setParams }) {
             />
           </div>
           <div className="btn-group" data-toggle="buttons">
-            <label className="btn btn-primary active" data-dojo-attach-point="upBtn" onClick={() => setDirection('up')}>
+            <label className="btn btn-primary active" onClick={() => setDirection('up')}>
               <input type="radio" name="up_down_stream" selected={params.direction === 'up'} />
               Upstream
             </label>
-            <label className="btn btn-primary" data-dojo-attach-point="downBtn" onClick={() => setDirection('down')}>
+            <label className="btn btn-primary" onClick={() => setDirection('down')}>
               <input type="radio" name="up_down_stream" selected={params.direction === 'down'} />
               Downstream
             </label>

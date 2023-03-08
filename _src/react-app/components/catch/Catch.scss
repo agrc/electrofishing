@@ -1,0 +1,59 @@
+@use 'MoreInfoDialog';
+@use 'Health';
+
+.catch {
+  margin-top: 10px;
+  min-height: 600px;
+
+  .data-grid {
+    margin-top: 10px;
+  }
+
+  .bulk-upload-container {
+    margin-top: after 10px;
+  }
+
+  .btn-right-container > div {
+    display: inline-block;
+  }
+
+  .btn-right-container .input-append {
+    margin-bottom: 0;
+  }
+
+  .btn-right-container .popover-content {
+    padding: 5px;
+  }
+
+  .btn-right-container {
+    margin-left: 1px;
+  }
+
+  .btn-primary {
+    background-color: #337ab7;
+
+    &.active {
+      background-color: #286090;
+    }
+  }
+
+  // got from: https://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3
+  .btn-file {
+    position: relative;
+    overflow: hidden;
+    input[type='file'] {
+      position: absolute;
+      top: 0;
+      right: 0;
+      min-width: 100%;
+      min-height: 100%;
+      font-size: 100px;
+      text-align: right;
+      opacity: 0;
+      outline: none;
+      background: white;
+      cursor: inherit;
+      display: block;
+    }
+  }
+}

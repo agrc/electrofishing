@@ -8,7 +8,7 @@ import topic from 'pubsub-js';
 import { AppContext, actionTypes } from '../../App';
 import StreamSearch from './StreamSearch';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
-import { EventContext } from '../NewCollectionEvent';
+import { useSamplingEventContext } from '../../hooks/samplingEventContext';
 
 const selectedIcon = new L.Icon({
   iconUrl: config.urls.selectedIcon,
@@ -60,7 +60,7 @@ const MapHoister = ({ isMainMap, setMap, setStreamsLayer, setLakesLayer, selectS
   const { appDispatch } = useContext(AppContext);
   const map = useMap();
   const mapInitialized = useRef(false);
-  const { eventState } = useContext(EventContext);
+  const { eventState } = useSamplingEventContext();
 
   useEffect(() => {
     if (map) {
@@ -73,7 +73,6 @@ const MapHoister = ({ isMainMap, setMap, setStreamsLayer, setLakesLayer, selectS
   const updateStyle = useCallback(
     (geojson, layer) => {
       if (!isMainMap) return;
-      console.log(`updating styles ${selectedStationId}`);
       if (geojson.properties[config.fieldNames.stations.STATION_ID] === selectedStationId) {
         layer.setIcon(selectedIcon);
       } else {
@@ -84,8 +83,6 @@ const MapHoister = ({ isMainMap, setMap, setStreamsLayer, setLakesLayer, selectS
   );
 
   useEffect(() => {
-    console.log('useEffect updateStyle');
-    // figure out how to make this fire after the new feature has been added to the layer, I think that it's firing before...
     stationsLayer.current?.eachFeature((layer) => updateStyle(layer.feature, layer));
   }, [updateStyle]);
 

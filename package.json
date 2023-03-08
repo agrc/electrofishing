@@ -55,6 +55,7 @@
     "immer": "^9.0.15",
     "leaflet": "^1.7.1",
     "localforage": "^1.9.0",
+    "lodash": "^4.17.21",
     "proj4": "^2.8.0",
     "proj4leaflet": "^1.0.2",
     "pubsub-js": "^1.9.0",

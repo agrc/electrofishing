@@ -1,10 +1,23 @@
-import React, { useState, useEffect, useRef, forwardRef } from 'react';
-import { useReactTable, getCoreRowModel, flexRender } from '@tanstack/react-table';
+import React, { useState, useEffect, forwardRef } from 'react';
+import { useReactTable, getCoreRowModel, flexRender, useFilters, getFilteredRowModel } from '@tanstack/react-table';
 import NumericInputValidator from './NumericInputValidator';
 import DomainDrivenDropdown from './DomainDrivenDropdown';
-import usePrevious from '../hooks/usePrevious';
+import PropTypes from 'prop-types';
+import clsx from 'clsx';
 
-export default function DataGrid({ data, onChange, columns, hiddenColumns, addNewRow }) {
+function DataGrid({
+  data,
+  onChangeAll, // called with all data
+  onChangeItem, // called only with rowIndex, columnId, and new value
+  columns,
+  hiddenColumns,
+  addNewRow,
+  filter,
+  selectedRow,
+  setSelectedRow,
+  highlight,
+  boldRows,
+}) {
   // inspiration from: https://codesandbox.io/s/github/tanstack/table/tree/main/examples/react/editable-data?from-embed=&file=/src/main.tsx
   const initialState = {};
 
@@ -13,43 +26,71 @@ export default function DataGrid({ data, onChange, columns, hiddenColumns, addNe
   }
 
   const updateCell = (rowIndex, columnId, value) => {
-    onChange(
-      data.map((row, index) => {
-        if (index === rowIndex) {
-          return {
-            ...data[rowIndex],
-            [columnId]: value,
-          };
-        }
+    if (onChangeItem) {
+      onChangeItem(rowIndex, columnId, value);
+    }
 
-        return row;
-      })
-    );
+    if (onChangeAll) {
+      onChangeAll(
+        data.map((row, index) => {
+          if (index === rowIndex) {
+            return {
+              ...data[rowIndex],
+              [columnId]: value,
+            };
+          }
+
+          return row;
+        })
+      );
+    }
   };
 
-  const table = useReactTable({
+  const tableOptions = {
     columns,
-    data,
+    data: data,
+    enableColumnFilters: true,
+    enableFilters: true,
+    enableRowSelection: true,
+    enableMultiRowSelection: false,
     getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     initialState,
     meta: {
       updateCell,
     },
-  });
+  };
+
+  if (setSelectedRow) {
+    tableOptions.onRowSelectionChange = (getNewSelection) => {
+      const newSelection = getNewSelection();
+      if (newSelection) {
+        setSelectedRow(Object.keys(newSelection)[0]);
+      } else {
+        setSelectedRow(null);
+      }
+    };
+    tableOptions.state = {
+      rowSelection: selectedRow !== null ? { [selectedRow]: true } : {},
+    };
+  }
+  const table = useReactTable(tableOptions, useFilters);
+
+  React.useEffect(() => {
+    if (filter) {
+      table.getColumn(filter.field).setFilterValue(filter.value);
+    }
+  }, [filter, table]);
 
   const rowModel = table.getRowModel();
-
-  // auto focus first cell when new row is added
-  const firstCellLastRowRef = useRef();
-  const previousData = usePrevious(data);
-  useEffect(() => {
-    if (data.length - previousData?.length === 1) {
-      firstCellLastRowRef?.current?.focus();
+  const selectRow = (row) => {
+    if (!row.getIsSelected()) {
+      row.toggleSelected(true);
     }
-  }, [data, previousData, rowModel.rows]);
+  };
 
   return (
-    <table className="table table-bordered table-condensed data-grid">
+    <table className="table table-bordered table-condensed data-grid table-striped">
       <thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
@@ -64,32 +105,31 @@ export default function DataGrid({ data, onChange, columns, hiddenColumns, addNe
 
       <tbody>
         {rowModel.rows.map((row) => (
-          <tr key={row.id}>
+          <tr
+            key={row.id}
+            className={clsx(row.getIsSelected() && 'info', boldRows && boldRows.includes(row.index) && 'bold')}
+            onFocus={() => selectRow(row)}
+            onClick={() => selectRow(row)}
+          >
             {row.getVisibleCells().map((cell) => {
-              const visibleCells = row.getVisibleCells();
-              const isLastRow = row.index === rowModel.rows.length - 1;
-              const isLastCell = cell.column.id === visibleCells[visibleCells.length - 1].column.id;
-              const isFirstCell = cell.column.id === visibleCells[0].column.id;
-              const isLastCellInLastRow = isLastRow && isLastCell;
-              const isFirstCellInLastRow = isLastRow && isFirstCell;
+              const isLastRow = row.index === rowModel.rows[rowModel.rows.length - 1].index;
 
               const additionalProps = {};
+              if (isLastRow && addNewRow) {
+                const visibleCells = row.getVisibleCells();
+                const isLastCell = cell.column.id === visibleCells[visibleCells.length - 1].column.id;
 
-              if (isLastCellInLastRow && addNewRow) {
-                additionalProps.onKeyDown = (event) => {
-                  if (event.key === 'Tab' && !event.shiftKey) {
-                    event.preventDefault();
-                    addNewRow();
-                  }
-                };
-              }
-
-              if (isFirstCellInLastRow && addNewRow) {
-                additionalProps.ref = firstCellLastRowRef;
+                if (isLastCell) {
+                  additionalProps.onKeyDown = (event) => {
+                    if (event.key === 'Tab' && !event.shiftKey) {
+                      addNewRow();
+                    }
+                  };
+                }
               }
 
               return (
-                <td key={cell.id}>
+                <td key={cell.id} className={highlight && highlight(row.original, cell.column.id) ? 'warning' : null}>
                   {flexRender(cell.column.columnDef.cell, { ...cell.getContext(), ...additionalProps })}
                 </td>
               );
@@ -100,6 +140,22 @@ export default function DataGrid({ data, onChange, columns, hiddenColumns, addNe
     </table>
   );
 }
+
+DataGrid.propTypes = {
+  data: PropTypes.array.isRequired,
+  onChangeItem: PropTypes.func,
+  onChangeAll: PropTypes.func,
+  columns: PropTypes.array.isRequired,
+  hiddenColumns: PropTypes.array.isRequired,
+  addNewRow: PropTypes.func.isRequired,
+  filter: PropTypes.shape({
+    field: PropTypes.string.isRequired,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  }),
+  highlight: PropTypes.func,
+};
+
+export default DataGrid;
 
 export const NumericInputCell = forwardRef(function NumericInputCell(
   { getValue, row: { index }, column, table, onKeyDown },
@@ -124,12 +180,13 @@ export const NumericInputCell = forwardRef(function NumericInputCell(
       {(getInputProps, getGroupClassName, validationMessage) => (
         <div className={getGroupClassName()}>
           <input
+            id={`numeric-input-cell-${index}-${column.id}`}
             value={value || ''}
             onBlur={onBlur}
             onKeyDown={onKeyDown}
             ref={ref}
             {...getInputProps({
-              onChange: (e) => setValue(e.target.valueAsNumber),
+              onChange: (e) => setValue(e.target.valueAsNumber || null),
               ...column.columnDef.meta?.inputProps,
             })}
           />
@@ -158,6 +215,7 @@ export const DomainDrivenDropdownCell = forwardRef(function DomainDrivenDropdown
       minimal
       onKeyDown={onKeyDown}
       ref={ref}
+      id={`dropdown-${index}-${column.id}`}
     />
   );
 });

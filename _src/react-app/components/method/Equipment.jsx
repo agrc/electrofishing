@@ -3,6 +3,7 @@ import config from '../../config';
 import DomainDrivenDropdown from '../DomainDrivenDropdown';
 import NumericInputValidator from '../NumericInputValidator';
 import DataGrid, { DomainDrivenDropdownCell, NumericInputCell } from '../DataGrid';
+import AddRemoveButtons from '../AddRemoveButtons';
 
 const ACTIVE = 'active';
 export const EQUIPMENT_TYPES = {
@@ -223,7 +224,7 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
         <div className="col-md-8">
           <DataGrid
             data={state.anodes}
-            onChange={onAnodeGridChange}
+            onChangeAll={onAnodeGridChange}
             columns={columns}
             hiddenColumns={[fieldNamesAN.EQUIPMENT_ID]}
           />
@@ -340,26 +341,8 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
           )}
         </NumericInputValidator>
       </div>
-      {isLast ? (
-        <div className="btn-group" role="group">
-          <button className="btn btn-success btn-sm" onClick={addNew}>
-            <span className="glyphicon glyphicon-plus"></span>
-          </button>
-          {!isFirst ? <RemoveButton onClick={remove} /> : null}
-        </div>
-      ) : (
-        <RemoveButton onClick={remove} />
-      )}
-      <hr className="hr--bold" />
+      <AddRemoveButtons addNew={addNew} remove={remove} isLast={isLast} isFirst={isFirst} />
     </div>
-  );
-}
-
-function RemoveButton({ onClick }) {
-  return (
-    <button className="btn btn-danger btn-sm" onClick={onClick}>
-      <span className="glyphicon glyphicon-minus"></span>
-    </button>
   );
 }
 

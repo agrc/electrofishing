@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 export function getValidationMessage(value, min, max, step) {
   // summary:
-  //      validates the value against the min and max
+  //      validates the value against the min, max, and/or step
   // value: Number
   // min: String
   // max: String
@@ -31,11 +30,22 @@ export function getValidationMessage(value, min, max, step) {
     return 'Value must be a whole number!';
   }
 
-  // check for range or no range specified
-  if (min === null || max === null || (parsedValue >= parsedMin && parsedValue <= parsedMax)) {
+  if (Number.isNaN(parsedMin) && Number.isNaN(parsedMax)) {
     return null;
   } else {
-    return `Value must be within ${min} and ${max}!`;
+    // check for single min or max value
+    if (!Number.isNaN(parsedMax)) {
+      if (parsedValue > parsedMax) {
+        return `Value must be less than ${max}!`;
+      }
+    }
+    if (!Number.isNaN(parsedMin)) {
+      if (parsedValue < parsedMin) {
+        return `Value must be greater than ${min}!`;
+      }
+    }
+
+    return null;
   }
 }
 

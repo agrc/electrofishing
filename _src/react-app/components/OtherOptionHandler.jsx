@@ -52,7 +52,7 @@ export default function OtherOptionHandler({ show, setShow, existingOptions, oth
             <div className="modal-body">
               <fieldset>
                 <legend>Existing Options</legend>
-                <ul data-dojo-attach-point="existingOptionsList">
+                <ul>
                   {existingOptions
                     .filter((option) => option !== '' && option !== otherTxt)
                     .map((option) => (
@@ -79,13 +79,7 @@ export default function OtherOptionHandler({ show, setShow, existingOptions, oth
               <button className="btn btn-default" data-dismiss="modal" onClick={onCancel} tabIndex="4">
                 Cancel
               </button>
-              <button
-                className="btn btn-primary"
-                tabIndex="3"
-                onClick={onSubmit}
-                disabled={submitDisabled}
-                data-dojo-attach-point="submitBtn"
-              >
+              <button className="btn btn-primary" tabIndex="3" onClick={onSubmit} disabled={submitDisabled}>
                 Submit
               </button>
             </div>
