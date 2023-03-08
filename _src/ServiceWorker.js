@@ -2,14 +2,23 @@
 
 // inspired by: https://firebase.google.com/docs/auth/web/service-worker-sessions
 import { initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged, getIdToken, signOut } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, getIdToken } from 'firebase/auth';
 
 initializeApp(process.env.REACT_APP_FIREBASE_CONFIG);
 
 const auth = getAuth();
+
+const onError = () => {
+  self.clients.matchAll().then((matchedClients) => {
+    matchedClients.forEach((client) => {
+      client.postMessage({ type: 'idTokenError' });
+    });
+  });
+};
+
 const getIdTokenPromise = () => {
   if (!auth.currentUser) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
           unsubscribe();
@@ -18,7 +27,8 @@ const getIdTokenPromise = () => {
               resolve(idToken);
             },
             (error) => {
-              console.error(`Error getting ID token: ${error}`);
+              console.error('Error getting ID token after auth state change', error);
+              onError();
               resolve(null);
             }
           );
@@ -29,7 +39,11 @@ const getIdTokenPromise = () => {
     });
   }
 
-  return getIdToken(auth.currentUser).catch(() => signOut().then(() => window.location.replace(window.location.href)));
+  return getIdToken(auth.currentUser).catch((error) => {
+    console.log('error getting initial id token', error);
+
+    onError(error);
+  });
 };
 
 self.addEventListener('install', (event) => {
@@ -41,7 +55,7 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   console.log(`service worker activate at: ${new Date().toLocaleTimeString()}`);
   // eslint-disable-next-line no-undef
-  event.waitUntil(clients.claim()); // immediately begin to catch fetch events without a page reload
+  event.waitUntil(self.clients.claim()); // immediately begin to catch fetch events without a page reload
 });
 
 // Get underlying body if available. Works for text and json bodies.
