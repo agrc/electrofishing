@@ -322,7 +322,10 @@ const reducer = (draft, action) => {
       config.eventId =
         action.payload[config.tableNames.samplingEvents].attributes[config.fieldNames.samplingEvents.EVENT_ID];
 
-      return action.payload;
+      return {
+        ...getBlankState(), // fill in missing holes if we have added new props since the last release
+        ...action.payload,
+      };
 
     default:
       break;
