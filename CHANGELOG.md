@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0-3](https://github.com/agrc/electrofishing/compare/v2.1.0-2...v2.1.0-3) (2023-03-08)
+
+
+### 🐛 Bug Fixes
+
+* handle when there is missing props in cached state ([b7bbe60](https://github.com/agrc/electrofishing/commit/b7bbe6034db58c10483cf28f814fe5ba7160d5bb))
+
 ## [2.1.0-2](https://github.com/agrc/electrofishing/compare/v2.1.0-1...v2.1.0-2) (2023-03-08)
 
 
