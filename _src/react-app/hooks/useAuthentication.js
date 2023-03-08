@@ -56,6 +56,14 @@ export default function useAuthentication() {
         initializeUser(user);
       }
     });
+
+    // if there's a problem in the service worker, log out and try again
+    navigator.serviceWorker.addEventListener('message', (event) => {
+      console.log('Service worker message received', event);
+      if (event.data.type === 'idTokenError') {
+        logOut();
+      }
+    });
   }, []);
 
   const initializeUser = async (user) => {
