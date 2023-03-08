@@ -19,7 +19,7 @@ const DomainDrivenDropdown = forwardRef(function DomainDrivenDropdown(
 
     const controller = new AbortController();
     const makeRequest = async () => {
-      const URL = `${featureServiceUrl}/fields?f=json`;
+      const URL = `${featureServiceUrl}?f=json`;
 
       let fields;
       if (CACHE[URL]) {

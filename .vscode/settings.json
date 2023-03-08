@@ -24,6 +24,7 @@
     "geodef",
     "geodefs",
     "GNIS",
+    "healths",
     "HEMATOCRIT",
     "Heyman",
     "hostingchannels",
@@ -43,6 +44,7 @@
     "PLSS",
     "prebuild",
     "PSBR",
+    "Pseudobranches",
     "raftboat",
     "reactfire",
     "SAMEORIGIN",
@@ -52,6 +54,7 @@
     "startend",
     "tanstack",
     "testid",
+    "TMPL",
     "toastify",
     "UDWR",
     "unproject",
@@ -71,4 +74,5 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "python.formatting.provider": "yapf",
+  "testing.automaticallyOpenPeekView": "never",
 }

@@ -1,0 +1,17 @@
+.more-info-dialog {
+  .modal-dialog {
+    .modal-content {
+      height: 100%;
+      .nav-tabs {
+        margin-bottom: 10px;
+      }
+      .tab-content {
+        overflow-y: auto;
+        .hard-body-parts,
+        .diet {
+          height: 350px;
+        }
+      }
+    }
+  }
+}

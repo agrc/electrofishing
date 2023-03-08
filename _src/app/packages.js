@@ -56,6 +56,11 @@ require({
       main: 'localforage',
     },
     {
+      name: 'lodash',
+      location: '../node_modules/lodash',
+      main: 'lodash',
+    },
+    {
       name: 'pubsub-js',
       location: '../node_modules/pubsub-js',
       main: 'src/pubsub',

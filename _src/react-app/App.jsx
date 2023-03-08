@@ -6,6 +6,7 @@ import NewCollectionEvent from './components/NewCollectionEvent';
 import useDojoWidget from './hooks/useDojoWidget';
 import SettingsDialog from 'app/SettingsDialog';
 import useAuthentication from './hooks/useAuthentication';
+import { SamplingEventProvider } from './hooks/samplingEventContext';
 
 export const AppContext = React.createContext();
 export const actionTypes = {
@@ -74,7 +75,7 @@ const App = () => {
   const [appState, appDispatch] = useImmerReducer(reducer, initialState);
 
   React.useEffect(() => {
-    // for tests?
+    // for cypress tests
     document.body.className += ' loaded';
   }, []);
 
@@ -116,7 +117,11 @@ const App = () => {
               </button>
             )}
           </div>
-          {appState.user ? <NewCollectionEvent /> : null}
+          {appState.user ? (
+            <SamplingEventProvider>
+              <NewCollectionEvent />
+            </SamplingEventProvider>
+          ) : null}
         </div>
 
         <div ref={settingsDialogDiv}></div>

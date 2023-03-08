@@ -4,155 +4,15 @@ import config from '../config';
 import useSubscriptions from '../hooks/useSubscriptions';
 import Location from './location/Location';
 import Method from './method/Method';
-import Catch from 'app/catch/Catch';
 import Habitat from 'app/habitat/Habitat';
 import submitJob from '../helpers/submitJob';
 import toastify from 'react-toastify';
 import useDojoWidget from '../hooks/useDojoWidget';
 import { AppContext, actionTypes as appActionTypes } from '../App';
-import { useImmerReducer } from 'use-immer';
-import NumericInputValidator from 'ijit/modules/NumericInputValidator';
-import getGUID from '../helpers/getGUID';
 import SummaryReport from './SummaryReport';
-
-export const EventContext = React.createContext();
-export const actionTypes = {
-  LOCATION: 'LOCATION',
-  CLEAR: 'CLEAR',
-  OTHER: 'OTHER',
-  HYDRATE: 'HYDRATE',
-  EQUIPMENT: 'EQUIPMENT',
-  ADD_EQUIPMENT: 'ADD_EQUIPMENT',
-  REMOVE_EQUIPMENT: 'REMOVE_EQUIPMENT',
-};
-const getNewEquipment = (eventId) => {
-  return {
-    [config.fieldNames.equipment.EVENT_ID]: eventId,
-    [config.fieldNames.equipment.TYPE]: 'backpack',
-    [config.fieldNames.equipment.EQUIPMENT_ID]: getGUID(),
-    [config.fieldNames.equipment.MODEL]: null,
-    [config.fieldNames.equipment.ARRAY_TYPE]: null,
-    [config.fieldNames.equipment.NUM_NETTERS]: null,
-    [config.fieldNames.equipment.CATHODE_TYPE]: null,
-    [config.fieldNames.equipment.NUM_ANODES]: null,
-    [config.fieldNames.equipment.CATHODE_LEN]: null,
-    [config.fieldNames.equipment.CATHODE_DIAMETER]: null,
-    [config.fieldNames.equipment.MACHINE_RES]: null,
-    [config.fieldNames.equipment.WAVEFORM]: null,
-    [config.fieldNames.equipment.VOLTAGE]: null,
-    [config.fieldNames.equipment.DUTY_CYCLE]: null,
-    [config.fieldNames.equipment.FREQUENCY]: null,
-    [config.fieldNames.equipment.AMPS]: null,
-    [config.fieldNames.equipment.DURATION]: null,
-  };
-};
-
-const getBlankState = () => {
-  const guid = getGUID();
-
-  // this can be removed once these widgets are converted to components and use eventState:
-  // Catch, Habitat
-  config.eventId = guid;
-
-  return {
-    [config.tableNames.samplingEvents]: {
-      attributes: {
-        [config.fieldNames.samplingEvents.EVENT_ID]: guid,
-        [config.fieldNames.samplingEvents.GEO_DEF]: null,
-        [config.fieldNames.samplingEvents.LOCATION_NOTES]: null,
-        [config.fieldNames.samplingEvents.EVENT_DATE]: null,
-        [config.fieldNames.samplingEvents.EVENT_TIME]: null,
-        [config.fieldNames.samplingEvents.OBSERVERS]: null,
-        [config.fieldNames.samplingEvents.PURPOSE]: null,
-        [config.fieldNames.samplingEvents.WEATHER]: null,
-        [config.fieldNames.samplingEvents.STATION_ID]: null,
-        [config.fieldNames.samplingEvents.SEGMENT_LENGTH]: null,
-        [config.fieldNames.samplingEvents.NUM_PASSES]: null,
-      },
-      geometry: null,
-    },
-    other: {
-      selectedStationName: '',
-    },
-    [config.tableNames.equipment]: [getNewEquipment(guid)],
-    [config.tableNames.anodes]: [],
-  };
-};
-
-const initialState = getBlankState();
-
-const reducer = (draft, action) => {
-  switch (action.type) {
-    case actionTypes.LOCATION:
-      if (action.meta === 'geometry') {
-        draft[config.tableNames.samplingEvents].geometry = action.payload.geometry;
-        draft[config.tableNames.samplingEvents].attributes[config.fieldNames.samplingEvents.GEO_DEF] =
-          action.payload.geoDef;
-      } else {
-        draft[config.tableNames.samplingEvents].attributes[action.meta] = action.payload;
-      }
-
-      break;
-
-    case actionTypes.OTHER:
-      draft.other[action.meta] = action.payload;
-
-      break;
-
-    case actionTypes.EQUIPMENT:
-      const found = draft[config.tableNames.equipment].some((equipment, index) => {
-        if (equipment[config.fieldNames.equipment.EQUIPMENT_ID] === action.meta) {
-          draft[config.tableNames.equipment][index] = action.payload.equipment;
-          draft[config.tableNames.anodes] = draft[config.tableNames.anodes].filter((anode) => {
-            return anode[config.fieldNames.anodes.EQUIPMENT_ID] !== action.meta;
-          });
-          draft[config.tableNames.anodes].push(...action.payload.anodes);
-
-          return true;
-        }
-
-        return false;
-      });
-
-      if (!found) {
-        throw new Error(`Equipment not found in state! Equipment ID: ${action.meta}`);
-      }
-
-      break;
-
-    case actionTypes.ADD_EQUIPMENT:
-      draft[config.tableNames.equipment].push(
-        getNewEquipment(draft[config.tableNames.samplingEvents].attributes[config.fieldNames.samplingEvents.EVENT_ID])
-      );
-
-      break;
-
-    case actionTypes.REMOVE_EQUIPMENT:
-      draft[config.tableNames.equipment] = draft[config.tableNames.equipment].filter((equipment) => {
-        return equipment[config.fieldNames.equipment.EQUIPMENT_ID] !== action.meta;
-      });
-
-      draft[config.tableNames.anodes] = draft[config.tableNames.anodes].filter((anode) => {
-        return anode[config.fieldNames.anodes.EQUIPMENT_ID] !== action.meta;
-      });
-
-      break;
-
-    case actionTypes.CLEAR:
-      return getBlankState();
-
-    case actionTypes.HYDRATE:
-      // this can be removed once these widgets are converted to components and use eventState:
-      // Catch, Habitat, Equipment
-      config.eventId =
-        action.payload[config.tableNames.samplingEvents].attributes[config.fieldNames.samplingEvents.EVENT_ID];
-
-      return action.payload;
-
-    default:
-      break;
-  }
-};
+import Catch from './catch/Catch';
+import { useSamplingEventContext, actionTypes } from '../hooks/samplingEventContext';
+import { getFishDataForSubmission } from '../helpers/data';
 
 // cancelConfirmMsg: String
 //      The message displayed in the cancel confirm dialog
@@ -193,7 +53,7 @@ const NewCollectionEvent = () => {
   const [showSuccess, setShowSuccess] = React.useState(false);
   const thisDomNode = React.useRef();
   const [validateMsg, setValidateMsg] = React.useState();
-  const [eventState, eventDispatch] = useImmerReducer(reducer, initialState);
+  const { eventState, eventDispatch } = useSamplingEventContext();
   const { appDispatch } = React.useContext(AppContext);
 
   // archivesLocalForage: localforage instance
@@ -227,19 +87,8 @@ const NewCollectionEvent = () => {
     });
   }, [eventDispatch]);
 
-  React.useEffect(() => {
-    const validator = new NumericInputValidator();
-    validator.init();
-
-    return () => {
-      validator.destroy();
-    };
-  }, []);
-
   // dojo widgets
-  const catchTbDiv = React.useRef();
   const habitatTbDiv = React.useRef();
-  const catchTb = useDojoWidget(catchTbDiv, Catch);
   const habitatTb = useDojoWidget(habitatTbDiv, Habitat);
 
   const showTab = (tabID) => {
@@ -293,11 +142,21 @@ const NewCollectionEvent = () => {
       return requiredFieldsValidation;
     }
 
+    // catch tab
+    if (
+      (eventState[config.tableNames.fish].length === 0 ||
+        eventState[config.tableNames.fish][0][config.fieldNames.fish.SPECIES_CODE] === null) &&
+      !allowNoFish
+    ) {
+      showTab('catchTab');
+
+      return config.noFish;
+    }
+
     // older validation methods...
     let valid = true;
     const validationMethods = [
       // [method, scope, tabID]
-      [catchTb.isValid, catchTb, 'catchTab'],
       [habitatTb.isValid, habitatTb, 'habitatTab'],
     ];
     let validationReturn;
@@ -312,11 +171,10 @@ const NewCollectionEvent = () => {
       return valid;
     }
 
+    // TODO: remove this once Habitat is converted to React
     valid = validationMethods.every((a) => {
       validationReturn = a[0].apply(a[1]);
-      if (a[2] === 'catchTab' && allowNoFish) {
-        return true;
-      } else if (validationReturn !== true) {
+      if (validationReturn !== true) {
         showTab(a[2]);
 
         return false;
@@ -330,7 +188,7 @@ const NewCollectionEvent = () => {
     }
 
     return validationReturn;
-  }, [allowNoFish, catchTb, eventState, habitatTb]);
+  }, [allowNoFish, eventState, habitatTb]);
 
   const clearReport = React.useCallback(() => {
     console.log('NewCollectionEvent:clearReport');
@@ -344,12 +202,11 @@ const NewCollectionEvent = () => {
       .catch(onError)
       .finally(() => {
         eventDispatch({ type: actionTypes.CLEAR });
-        catchTb.clear();
         habitatTb.clear();
         setValidateMsg(null);
         setAllowNoFish(false);
       });
-  }, [catchTb, eventDispatch, habitatTb]);
+  }, [eventDispatch, habitatTb]);
 
   const onSuccessfulSubmit = React.useCallback(() => {
     console.log('app/NewCollectionEvent:onSuccessfulSubmit');
@@ -396,26 +253,34 @@ const NewCollectionEvent = () => {
     });
 
     const data = {};
-    data[config.tableNames.samplingEvents] = {
-      // clone this so that we can add number of passes
-      attributes: { ...eventState[config.tableNames.samplingEvents].attributes },
-      geometry: eventState[config.tableNames.samplingEvents].geometry,
-    };
-    data[config.tableNames.samplingEvents].attributes[config.fieldNames.samplingEvents.NUM_PASSES] =
-      catchTb.getNumberOfPasses();
-    data[config.tableNames.equipment] = eventState[config.tableNames.equipment];
-    data[config.tableNames.anodes] = eventState[config.tableNames.anodes];
-    data[config.tableNames.fish] = catchTb.getData();
-    data[config.tableNames.diet] = catchTb.moreInfoDialog.getData('diet');
-    data[config.tableNames.tags] = catchTb.moreInfoDialog.getData('tags');
-    data[config.tableNames.health] = catchTb.moreInfoDialog.getData('health');
-    data[config.tableNames.habitat] = habitatTb.getData();
-    data[config.tableNames.transect] = habitatTb.getTransectData();
-    data[config.tableNames.transectMeasurements] = habitatTb.getTransectMeasurementData();
 
-    setSubmitData(data);
-    setShowSummary(true);
-  }, [appDispatch, catchTb, eventState, habitatTb, validateReport]);
+    try {
+      data[config.tableNames.samplingEvents] = {
+        attributes: eventState[config.tableNames.samplingEvents].attributes,
+        geometry: eventState[config.tableNames.samplingEvents].geometry,
+      };
+      data[config.tableNames.equipment] = eventState[config.tableNames.equipment];
+      data[config.tableNames.anodes] = eventState[config.tableNames.anodes];
+
+      data[config.tableNames.fish] = getFishDataForSubmission(eventState[config.tableNames.fish]);
+      data[config.tableNames.diet] = eventState[config.tableNames.diet];
+      data[config.tableNames.tags] = eventState[config.tableNames.tags];
+      data[config.tableNames.health] = eventState[config.tableNames.health];
+
+      data[config.tableNames.habitat] = habitatTb.getData();
+      data[config.tableNames.transect] = habitatTb.getTransectData();
+      data[config.tableNames.transectMeasurements] = habitatTb.getTransectMeasurementData();
+
+      setSubmitData(data);
+      setShowSummary(true);
+    } catch (error) {
+      appDispatch({
+        type: appActionTypes.SUBMIT_LOADING,
+        payload: false,
+      });
+      onError(error.message);
+    }
+  }, [appDispatch, eventState, habitatTb, validateReport]);
 
   const onConfirmSubmit = async () => {
     const data_txt = JSON.stringify(submitData);
@@ -457,53 +322,51 @@ const NewCollectionEvent = () => {
   }, [addSubscription, onSubmit, onCancel]);
 
   return (
-    <EventContext.Provider value={{ eventState, eventDispatch }}>
-      <div className="new-collection-event" ref={thisDomNode}>
-        {validateMsg ? (
-          <div className="alert alert-danger">
-            {validateMsg === config.noFish ? (
-              <NoFishException allowNoFish={allowNoFish} setAllowNoFish={setAllowNoFish} />
-            ) : (
-              validateMsg
-            )}
-          </div>
-        ) : null}
-        {showSuccess ? (
-          <div className="alert alert-success">
-            The report has been submitted successfully.
-            <button className="btn btn-success pull-right" onClick={() => setShowSuccess(false)}>
-              Close
-            </button>
-          </div>
-        ) : null}
-        <div className="tab-content">
-          <div className="tab-pane fade in active" id="locationTab">
-            <Location />
-          </div>
-          <div className="tab-pane fade" id="methodTab">
-            <Method />
-          </div>
-          <div className="tab-pane fade" id="catchTab">
-            <div ref={catchTbDiv}></div>
-          </div>
-          <div className="tab-pane fade" id="habitatTab">
-            <div ref={habitatTbDiv}></div>
-          </div>
+    <div className="new-collection-event" ref={thisDomNode}>
+      {validateMsg ? (
+        <div className="alert alert-danger">
+          {validateMsg === config.noFish ? (
+            <NoFishException allowNoFish={allowNoFish} setAllowNoFish={setAllowNoFish} />
+          ) : (
+            validateMsg
+          )}
         </div>
-        <SummaryReport
-          show={showSummary}
-          onHide={() => {
-            setShowSummary(false);
-            appDispatch({
-              type: appActionTypes.SUBMIT_LOADING,
-              payload: false,
-            });
-          }}
-          eventData={submitData}
-          onConfirm={onConfirmSubmit}
-        />
+      ) : null}
+      {showSuccess ? (
+        <div className="alert alert-success">
+          The report has been submitted successfully.
+          <button className="btn btn-success pull-right" onClick={() => setShowSuccess(false)}>
+            Close
+          </button>
+        </div>
+      ) : null}
+      <div className="tab-content">
+        <div className="tab-pane fade in active" id="locationTab">
+          <Location />
+        </div>
+        <div className="tab-pane fade" id="methodTab">
+          <Method />
+        </div>
+        <div className="tab-pane fade" id="catchTab">
+          <Catch />
+        </div>
+        <div className="tab-pane fade" id="habitatTab">
+          <div ref={habitatTbDiv}></div>
+        </div>
       </div>
-    </EventContext.Provider>
+      <SummaryReport
+        show={showSummary}
+        onHide={() => {
+          setShowSummary(false);
+          appDispatch({
+            type: appActionTypes.SUBMIT_LOADING,
+            payload: false,
+          });
+        }}
+        eventData={submitData}
+        onConfirm={onConfirmSubmit}
+      />
+    </div>
   );
 };
 

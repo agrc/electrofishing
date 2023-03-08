@@ -18,7 +18,7 @@ describe('AddNewStation', () => {
     cy.findByRole('textbox', {
       name: /name/i,
     }).type(newStationName);
-    cy.findByRole('textbox', {
+    cy.findByRole('combobox', {
       name: /stream type/i,
     }).type('c{enter}');
     cy.get('.modal-body > .point-def > :nth-child(1) > .btn > .glyphicon').click();

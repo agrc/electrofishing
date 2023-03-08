@@ -52,18 +52,22 @@ const ComboBox = React.forwardRef(function ComboBox({ items, onChange, value, id
                 openMenu();
               }
             },
-            onKeyDown,
+            onKeyDown: (event) => {
+              if (onKeyDown) {
+                onKeyDown(event);
+              }
+            },
             ref,
           })}
         />
         {!minimal ? (
           <span className="input-group-btn">
             {value && value.toString().length > 0 ? (
-              <button className="btn btn-default" type="button" onClick={reset}>
+              <button className="btn btn-default" type="button" onClick={reset} tabIndex="-1">
                 <span className="glyphicon glyphicon-remove" />
               </button>
             ) : (
-              <button className="btn btn-default" type="button" {...getToggleButtonProps()}>
+              <button className="btn btn-default" type="button" {...getToggleButtonProps()} tabIndex="-1">
                 <span className="caret" />
               </button>
             )}
@@ -77,6 +81,7 @@ const ComboBox = React.forwardRef(function ComboBox({ items, onChange, value, id
               <button
                 className={`btn btn-link ${highlightedIndex === index && 'active'}`}
                 {...getItemProps({ item, index })}
+                tabIndex="-1" // prevent focus from moving to body when tabbing out of the input
               >
                 {item.label}
               </button>

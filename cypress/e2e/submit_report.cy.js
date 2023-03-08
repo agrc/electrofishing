@@ -4,8 +4,6 @@ import { loadAndSignIn } from './utils';
 /* eslint-disable cypress/no-unnecessary-waiting */
 describe('SubmitReport', () => {
   beforeEach(() => {
-    // TODO: import the db name (appName) from react-app/config once it's converted to
-    // an es module
     indexedDB.deleteDatabase('electrofishing');
   });
 
@@ -36,10 +34,10 @@ describe('SubmitReport', () => {
 
     // fill out the rest of the location tab
     cy.findByLabelText(/collection date/i).type('2020-11-19');
-    cy.findByRole('textbox', {
+    cy.findByRole('combobox', {
       name: /survey purpose \(purpose of collection\)/i,
     }).type('Cat{enter}');
-    cy.findByRole('textbox', {
+    cy.findByRole('combobox', {
       name: /weather/i,
     }).type('cl{enter}');
     cy.findByRole('textbox', {
@@ -62,19 +60,21 @@ describe('SubmitReport', () => {
     // catch tab
     cy.get('a[href="#catchTab"]').click();
 
-    const GRID_DROPDOWN_DELAY = 500; // give the drop downs some time to catch up
-    cy.get('.catch .dgrid-scroller table td.field-SPECIES_CODE').type('B');
-    cy.wait(GRID_DROPDOWN_DELAY);
-    cy.get('.catch .dgrid-scroller table td.field-LENGTH_TYPE').type('s');
-    cy.wait(GRID_DROPDOWN_DELAY);
-    cy.get('.catch .dgrid-scroller table td.field-LENGTH').type('1');
-    cy.get('.catch .dgrid-scroller table td.field-WEIGHT').type('1');
+    // const GRID_DROPDOWN_DELAY = 500; // give the drop downs some time to catch up
+    cy.get('#dropdown-0-SPECIES_CODE').type('B');
+    // cy.wait(GRID_DROPDOWN_DELAY);
+    cy.get('#dropdown-0-LENGTH_TYPE').type('s');
+    // cy.wait(GRID_DROPDOWN_DELAY);
+    cy.get('#numeric-input-cell-0-LENGTH').type('1');
+    cy.get('#numeric-input-cell-0-WEIGHT').type('1');
     cy.focused().tab().tab().tab().tab();
 
     // add fish notes
-    cy.get('[data-tab="Notes_tab"]').click();
-    cy.get('[data-dojo-attach-point="notesTxtArea"]').type('test notes');
-    cy.get('.more-info-dialog [data-dojo-attach-point="submitBtn"]').click();
+    cy.findByRole('button', {
+      name: /notes/i,
+    }).click();
+    cy.get('#notesTxtArea').type('test notes');
+    cy.get('.more-info-dialog .modal-footer button').click();
 
     cy.get('.header button.btn-success[data-loading-text="submitting report..."]').click();
 

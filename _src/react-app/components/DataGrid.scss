@@ -1,9 +1,16 @@
 .data-grid {
   tr {
     height: 31.5px;
+    &.bold {
+      font-weight: bold;
+    }
   }
   td input {
     width: 100%;
     border: none;
+    background-color: transparent;
+    &:focus {
+      background-color: white;
+    }
   }
 }

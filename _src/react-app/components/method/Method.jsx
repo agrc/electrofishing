@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import config from '../../config';
-import { EventContext, actionTypes } from '../NewCollectionEvent';
+import { actionTypes, useSamplingEventContext } from '../../hooks/samplingEventContext';
 import Equipment from './Equipment';
 
 function Method() {
-  const { eventState, eventDispatch } = useContext(EventContext);
+  const { eventState, eventDispatch } = useSamplingEventContext();
 
   const onEquipmentChange = (newEquipment) => {
     eventDispatch({

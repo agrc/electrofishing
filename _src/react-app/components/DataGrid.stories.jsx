@@ -15,6 +15,9 @@ export const Default = () => {
       accessorKey: 'HIDDEN',
     },
     {
+      accessorKey: 'ID',
+    },
+    {
       header: 'Anode Diameter (cm)',
       accessorKey: 'DIAMETER',
       cell: NumericInputCell,
@@ -53,6 +56,21 @@ export const Default = () => {
   const [state, setState] = React.useState([
     {
       HIDDEN: '1',
+      ID: 1,
+      DIAMETER: 1,
+      NUMBER: 4,
+      SHAPE: '13',
+    },
+    {
+      HIDDEN: '1',
+      ID: 2,
+      DIAMETER: 1,
+      NUMBER: 4,
+      SHAPE: '13',
+    },
+    {
+      HIDDEN: '1',
+      ID: 3,
       DIAMETER: 1,
       NUMBER: 4,
       SHAPE: '13',
@@ -63,9 +81,20 @@ export const Default = () => {
     setState((old) => [...old, { HIDDEN: '2', DIAMETER: null, NUMBER: null, SHAPE: null }]);
   };
 
+  const [selectedRow, setSelectedRow] = React.useState(null);
+
   return (
     <>
-      <DataGrid data={state} onChange={setState} columns={columns} hiddenColumns={['HIDDEN']} addNewRow={addNewRow} />
+      <DataGrid
+        data={state}
+        onChangeAll={setState}
+        columns={columns}
+        hiddenColumns={['HIDDEN']}
+        addNewRow={addNewRow}
+        selectedRow={selectedRow}
+        setSelectedRow={setSelectedRow}
+      />
+      <pre>{selectedRow}</pre>
       <pre>{JSON.stringify(state, null, 2)}</pre>
     </>
   );
