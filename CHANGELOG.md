@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.1.0-2](https://github.com/agrc/electrofishing/compare/v2.1.0-1...v2.1.0-2) (2023-03-08)
+
+
+### 🐛 Bug Fixes
+
+* cache domain dropdown requests ([5388608](https://github.com/agrc/electrofishing/commit/53886086a6585b1dd76f4a6724a1477e2333e238))
+* if there is an issue with the refresh token, log out the user ([0ea823d](https://github.com/agrc/electrofishing/commit/0ea823de027d56fd6f5adbec4d68febfda851f55))
+* if there's an issue with auth token, log out the user and refresh ([1a3c76e](https://github.com/agrc/electrofishing/commit/1a3c76eb9e049b9ee63ca4c5b88a4aa9662af44e))
+* keep combobox empty on tab ([b6268bd](https://github.com/agrc/electrofishing/commit/b6268bd3e4d3c5ccff431d6cee2cd712dc737362))
+* React-ify Catch tab ([fe66a16](https://github.com/agrc/electrofishing/commit/fe66a16199091cbdf6e82f260ff6672ef3daf5ee))
+* select combox value on tab press ([3f21abe](https://github.com/agrc/electrofishing/commit/3f21abe326d64a0512c6e702c098f41abdecdd95))
+
 ## [2.1.0-1](https://github.com/agrc/electrofishing/compare/v2.1.0-0...v2.1.0-1) (2023-02-27)
 
 
