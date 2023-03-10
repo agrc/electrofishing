@@ -1,11 +1,11 @@
 import * as React from 'react';
 import config from '../config';
 import topic from 'pubsub-js';
-import { AppContext, actionTypes } from '../App';
+import { actionTypes, useAppContext } from '../App';
 
 export default function Header({ submitLoading }) {
   const submitButtonRef = React.useRef();
-  const { appDispatch, appState } = React.useContext(AppContext);
+  const { appDispatch, appState } = useAppContext();
 
   React.useEffect(() => {
     $(submitButtonRef.current).button(submitLoading ? 'loading' : 'reset');

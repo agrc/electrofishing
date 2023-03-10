@@ -3,12 +3,23 @@ import { useImmerReducer } from 'use-immer';
 import Header from './components/Header';
 import { ToastContainer } from 'react-toastify';
 import NewCollectionEvent from './components/NewCollectionEvent';
-import useDojoWidget from './hooks/useDojoWidget';
-import SettingsDialog from 'app/SettingsDialog';
+import SettingsDialog from './components/SettingsDialog';
 import useAuthentication from './hooks/useAuthentication';
 import { SamplingEventProvider } from './hooks/samplingEventContext';
+import config from './config';
 
-export const AppContext = React.createContext();
+const AppContext = React.createContext();
+
+export function useAppContext() {
+  const context = React.useContext(AppContext);
+
+  if (context === undefined) {
+    throw new Error('useAppContext must be used within a AppContext.Provider');
+  }
+
+  return context;
+}
+
 export const actionTypes = {
   CURRENT_MAP_ZOOM: 'CURRENT_MAP_ZOOM',
   CURRENT_MAP_CENTER: 'CURRENT_MAP_CENTER',
@@ -17,6 +28,7 @@ export const actionTypes = {
   CURRENT_TAB: 'CURRENT_TAB',
   LOGIN: 'LOGIN',
   LOGOUT: 'LOGOUT',
+  SETTINGS: 'SETTINGS',
 };
 
 const initialState = {
@@ -27,6 +39,11 @@ const initialState = {
   map: null,
   currentTab: 'locationTab',
   user: null,
+  // TODO: persist all of this using useLocalStorage
+  settings: {
+    coordType: config.coordTypes.utm83,
+    mouseWheelZooming: false,
+  },
 };
 
 const reducer = (draft, action) => {
@@ -66,6 +83,11 @@ const reducer = (draft, action) => {
 
       break;
 
+    case actionTypes.SETTINGS:
+      draft.settings[action.meta] = action.payload;
+
+      break;
+
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }
@@ -78,9 +100,6 @@ const App = () => {
     // for cypress tests
     document.body.className += ' loaded';
   }, []);
-
-  const settingsDialogDiv = React.useRef(null);
-  useDojoWidget(settingsDialogDiv, SettingsDialog);
 
   React.useLayoutEffect(() => {
     // this need to fire before the code in useAuthentication runs
@@ -124,7 +143,16 @@ const App = () => {
           ) : null}
         </div>
 
-        <div ref={settingsDialogDiv}></div>
+        <SettingsDialog
+          state={appState.settings}
+          onChange={(setting, value) =>
+            appDispatch({
+              type: actionTypes.SETTINGS,
+              meta: setting,
+              payload: value,
+            })
+          }
+        />
 
         <footer>
           <div className="container">

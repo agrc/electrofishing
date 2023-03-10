@@ -222,14 +222,12 @@ const config = {
   // topics: {key:String}
   //      Global pubsub-js topics used in the app
   topics: {
-    coordTypeToggle_onChange: 'coordTypeToggle_onChange',
     pointDef_onBtnClick: 'pointDef_onBtnClick',
     mapInit: 'verifyMap_mapinited',
     startDistDirGeoDef_onDistanceChange: 'startDistDirGeoDef_onDistanceChange',
     newCollectionEvent: 'app_newCollectionEvent',
     onSubmitReportClick: 'header_onSubmitReportClick',
     onCancelReportClick: 'header_onCancelReportClick',
-    mouseWheelZooming_onChange: 'app_mouseWheelZooming',
     onMapClick: 'verifyMap_mapClick',
   },
 

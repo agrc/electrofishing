@@ -7,7 +7,7 @@ import Method from './method/Method';
 import Habitat, { validateTransect } from './habitat/Habitat';
 import submitJob from '../helpers/submitJob';
 import toastify from 'react-toastify';
-import { AppContext, actionTypes as appActionTypes } from '../App';
+import { actionTypes as appActionTypes, useAppContext } from '../App';
 import SummaryReport from './SummaryReport';
 import Catch from './catch/Catch';
 import { useSamplingEventContext, actionTypes } from '../hooks/samplingEventContext';
@@ -50,7 +50,7 @@ const NewCollectionEvent = () => {
   const thisDomNode = React.useRef();
   const [validateMsg, setValidateMsg] = React.useState();
   const { eventState, eventDispatch } = useSamplingEventContext();
-  const { appDispatch } = React.useContext(AppContext);
+  const { appDispatch } = useAppContext();
 
   // archivesLocalForage: localforage instance
   //      used to manage archives in a separate instance that the inprogress stuff

@@ -7,6 +7,7 @@ import useSubscriptions from '../../hooks/useSubscriptions';
 import clsx from 'clsx';
 import topic from 'pubsub-js';
 import useUniqueId from '../../hooks/useUniqueId';
+import { useAppContext } from '../../App';
 
 // labels: {}
 //      The text for the different labels above the textboxes as well
@@ -54,13 +55,11 @@ const utm83crs = new L.Proj.CRS('EPSG:26912', '+proj=utm +zone=12 +ellps=GRS80 +
 });
 
 export default function PointDef({ label, map, coordinates, setCoordinates, twoLineLayout }) {
-  const [coordinateType, setCoordinateType] = React.useState(() => {
-    if (localStorage.coordType) {
-      return localStorage.coordType;
-    }
-
-    return config.coordTypes.utm83;
-  });
+  const {
+    appState: {
+      settings: { coordType },
+    },
+  } = useAppContext();
   const [isActive, setIsActive] = React.useState(false);
 
   const icon = React.useRef(null);
@@ -109,9 +108,9 @@ export default function PointDef({ label, map, coordinates, setCoordinates, twoL
         x = coordinates.x;
 
         // get it from the text boxes
-        if (coordinateType === config.coordTypes.latlng) {
+        if (coordType === config.coordTypes.latlng) {
           latlng = new L.LatLng(y, x);
-        } else if (coordinateType === config.coordTypes.utm83) {
+        } else if (coordType === config.coordTypes.utm83) {
           latlng = utm83crs.projection.unproject(new L.Point(x, y));
         } else {
           // utm27
@@ -131,7 +130,7 @@ export default function PointDef({ label, map, coordinates, setCoordinates, twoL
         map.fitBounds(group.current.getBounds().pad(0.05));
       }
     },
-    [coordinateType, coordinates.x, coordinates.y, map]
+    [coordType, coordinates.x, coordinates.y, map]
   );
 
   const [helpText, setHelpText] = React.useState(config.emptyPoint);
@@ -144,7 +143,7 @@ export default function PointDef({ label, map, coordinates, setCoordinates, twoL
       }
 
       // return true if we are in latlng
-      if (coordinateType === 'll') {
+      if (coordType === 'll') {
         return true;
       }
 
@@ -176,7 +175,7 @@ export default function PointDef({ label, map, coordinates, setCoordinates, twoL
 
       return true;
     },
-    [coordinateType, coordinates]
+    [coordType, coordinates]
   );
 
   const onMapClicked = useCallback(
@@ -190,12 +189,12 @@ export default function PointDef({ label, map, coordinates, setCoordinates, twoL
 
       updateMarkerPosition(event.latlng);
 
-      if (coordinateType === config.coordTypes.ll) {
+      if (coordType === config.coordTypes.ll) {
         setCoordinates({
           y: Math.round(event.latlng.lat * 1000000) / 1000000,
           x: Math.round(event.latlng.lng * 1000000) / 1000000,
         });
-      } else if (coordinateType === config.coordTypes.utm83) {
+      } else if (coordType === config.coordTypes.utm83) {
         projection = utm83crs.projection;
         pnt = projection.project(event.latlng);
         setCoordinates({ y: parseInt(pnt.y, 10), x: parseInt(pnt.x, 10) });
@@ -208,7 +207,7 @@ export default function PointDef({ label, map, coordinates, setCoordinates, twoL
 
       setHelpText(config.emptyPoint);
     },
-    [coordinateType, isActive, setCoordinates, updateMarkerPosition]
+    [coordType, isActive, setCoordinates, updateMarkerPosition]
   );
 
   // clear
@@ -234,7 +233,7 @@ export default function PointDef({ label, map, coordinates, setCoordinates, twoL
   }, [addSubscription, onMapClicked, onOtherMapBtnClicked]);
 
   let yLabelTxt, yPlaceHolder, xLabelTxt, xPlaceHolder;
-  if (coordinateType === config.coordTypes.ll) {
+  if (coordType === config.coordTypes.ll) {
     yLabelTxt = labels.ll.y;
     yPlaceHolder = labels.ll.placeY;
     xLabelTxt = labels.ll.x;

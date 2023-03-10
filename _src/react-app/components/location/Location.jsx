@@ -6,7 +6,7 @@ import Station from './Station';
 import StartEndGeoDef from './StartEndGeoDef';
 import StartDistDirGeoDef from './StartDistDirGeoDef';
 import useSubscriptions from '../../hooks/useSubscriptions';
-import { AppContext } from '../../App';
+import { useAppContext } from '../../App';
 import DomainDrivenDropdown from '../DomainDrivenDropdown';
 import getControlledInputProps from '../../helpers/getControlledInputProps';
 import topic from 'pubsub-js';
@@ -31,7 +31,7 @@ const Location = () => {
   const { eventState, eventDispatch } = useSamplingEventContext();
   const [validateMsg, setValidateMsg] = useState(null);
   const verifyMapBtn = useRef(null);
-  const { appState } = useContext(AppContext);
+  const { appState } = useAppContext();
   const [mainMap, setMainMap] = useState(null);
   const [startEndParams, setStartEndParams] = useState(emptyStartEndParams);
   const [startDistDirParams, setStartDistDirParams] = useState(emptyStartDistDirParams);

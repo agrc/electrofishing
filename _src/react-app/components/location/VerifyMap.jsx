@@ -1,11 +1,11 @@
-import React, { useState, useCallback, useEffect, useRef, useContext } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import config from '../../config';
 import L from 'leaflet';
 import propTypes from 'prop-types';
 import { featureLayer } from 'esri-leaflet';
 import topic from 'pubsub-js';
-import { AppContext, actionTypes } from '../../App';
+import { useAppContext, actionTypes } from '../../App';
 import StreamSearch from './StreamSearch';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import { useSamplingEventContext } from '../../hooks/samplingEventContext';
@@ -57,7 +57,7 @@ const MapHoister = ({ isMainMap, setMap, setStreamsLayer, setLakesLayer, selectS
   const stationsLayer = useRef();
   const streamsLayer = useRef();
   const lakesLayer = useRef();
-  const { appDispatch } = useContext(AppContext);
+  const { appDispatch } = useAppContext();
   const map = useMap();
   const mapInitialized = useRef(false);
   const { eventState } = useSamplingEventContext();
@@ -218,7 +218,7 @@ const VerifyMap = ({
   setLakesLayer = () => {},
   selectStation,
 }) => {
-  const { appState } = useContext(AppContext);
+  const { appState } = useAppContext();
   const streamSearchDiv = useRef();
   const [innerMap, setInnerMap] = useState(null);
 
@@ -234,7 +234,7 @@ const VerifyMap = ({
       <MapContainer
         className="map"
         keyboard={false}
-        scrollWheelZoom={localStorage.mouseWheelZooming === 'true'}
+        scrollWheelZoom={appState.mouseWheelZooming === 'true'}
         center={appState.center}
         zoom={appState.zoom}
       >
