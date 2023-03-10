@@ -4,10 +4,9 @@ import config from '../config';
 import useSubscriptions from '../hooks/useSubscriptions';
 import Location from './location/Location';
 import Method from './method/Method';
-import Habitat from 'app/habitat/Habitat';
+import Habitat, { validateTransect } from './habitat/Habitat';
 import submitJob from '../helpers/submitJob';
 import toastify from 'react-toastify';
-import useDojoWidget from '../hooks/useDojoWidget';
 import { AppContext, actionTypes as appActionTypes } from '../App';
 import SummaryReport from './SummaryReport';
 import Catch from './catch/Catch';
@@ -20,9 +19,6 @@ const cancelConfirmMsg = 'Are you sure? This will clear all values in the report
 
 // submitErrMsg: String
 const submitErrMsg = 'There was an error submitting the report';
-
-// invalidInputMsg: String
-const invalidInputMsg = 'Invalid value for ';
 
 // archivesStoreName: String
 //      the localforage store name used to store the object that contains
@@ -87,10 +83,6 @@ const NewCollectionEvent = () => {
     });
   }, [eventDispatch]);
 
-  // dojo widgets
-  const habitatTbDiv = React.useRef();
-  const habitatTb = useDojoWidget(habitatTbDiv, Habitat);
-
   const showTab = (tabID) => {
     // summary:
     //      shows the pass in tab
@@ -110,8 +102,12 @@ const NewCollectionEvent = () => {
     // component validation
     // location-specific
     if (!eventState[config.tableNames.samplingEvents].geometry) {
+      showTab('locationTab');
+
       return 'No valid stream reach defined! You may need to verify the location.';
     } else if (!eventState[config.tableNames.samplingEvents].attributes[config.fieldNames.samplingEvents.STATION_ID]) {
+      showTab('locationTab');
+
       return 'Please select a station!';
     }
 
@@ -153,42 +149,33 @@ const NewCollectionEvent = () => {
       return config.noFish;
     }
 
-    // older validation methods...
-    let valid = true;
-    const validationMethods = [
-      // [method, scope, tabID]
-      [habitatTb.isValid, habitatTb, 'habitatTab'],
-    ];
-    let validationReturn;
+    // habitat tab
+    if (![0, 100].includes(eventState.other.totalSediment)) {
+      showTab('habitatTab');
 
-    const invalidInputs = thisDomNode.current.querySelectorAll('.form-group.has-error input');
-    if (invalidInputs.length > 0) {
-      const labels = thisDomNode.current.querySelectorAll('.form-group.has-error label');
-      valid = invalidInputMsg + labels[0].textContent + '.';
-      const parentTab = labels[0].closest('.tab-pane');
-      showTab(parentTab.id);
-
-      return valid;
+      return 'Sediment Class Percentages must add up to 100!';
     }
 
-    // TODO: remove this once Habitat is converted to React
-    valid = validationMethods.every((a) => {
-      validationReturn = a[0].apply(a[1]);
-      if (validationReturn !== true) {
-        showTab(a[2]);
+    if (
+      eventState[config.tableNames.transect].some((transect) => {
+        const validationResult = validateTransect(
+          transect,
+          eventState[config.tableNames.transectMeasurements].filter(
+            (m) =>
+              m[config.fieldNames.transectMeasurements.TRANSECT_ID] === transect[config.fieldNames.transect.TRANSECT_ID]
+          )
+        );
 
-        return false;
-      }
+        return validationResult?.type === 'danger';
+      })
+    ) {
+      showTab('habitatTab');
 
-      return true;
-    });
-
-    if (valid) {
-      return true;
+      return 'One more more transects are not valid!';
     }
 
-    return validationReturn;
-  }, [allowNoFish, eventState, habitatTb]);
+    return true;
+  }, [allowNoFish, eventState]);
 
   const clearReport = React.useCallback(() => {
     console.log('NewCollectionEvent:clearReport');
@@ -202,11 +189,10 @@ const NewCollectionEvent = () => {
       .catch(onError)
       .finally(() => {
         eventDispatch({ type: actionTypes.CLEAR });
-        habitatTb.clear();
         setValidateMsg(null);
         setAllowNoFish(false);
       });
-  }, [eventDispatch, habitatTb]);
+  }, [eventDispatch]);
 
   const onSuccessfulSubmit = React.useCallback(() => {
     console.log('app/NewCollectionEvent:onSuccessfulSubmit');
@@ -267,9 +253,10 @@ const NewCollectionEvent = () => {
       data[config.tableNames.tags] = eventState[config.tableNames.tags];
       data[config.tableNames.health] = eventState[config.tableNames.health];
 
-      data[config.tableNames.habitat] = habitatTb.getData();
-      data[config.tableNames.transect] = habitatTb.getTransectData();
-      data[config.tableNames.transectMeasurements] = habitatTb.getTransectMeasurementData();
+      // TODO: do we need to remove empty records for these three tables?
+      data[config.tableNames.habitat] = [eventState[config.tableNames.habitat]];
+      data[config.tableNames.transect] = eventState[config.tableNames.transect];
+      data[config.tableNames.transectMeasurements] = eventState[config.tableNames.transectMeasurements];
 
       setSubmitData(data);
       setShowSummary(true);
@@ -280,7 +267,7 @@ const NewCollectionEvent = () => {
       });
       onError(error.message);
     }
-  }, [appDispatch, eventState, habitatTb, validateReport]);
+  }, [appDispatch, eventState, validateReport]);
 
   const onConfirmSubmit = async () => {
     const data_txt = JSON.stringify(submitData);
@@ -351,7 +338,7 @@ const NewCollectionEvent = () => {
           <Catch />
         </div>
         <div className="tab-pane fade" id="habitatTab">
-          <div ref={habitatTbDiv}></div>
+          <Habitat />
         </div>
       </div>
       <SummaryReport

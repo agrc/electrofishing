@@ -60,11 +60,8 @@ describe('SubmitReport', () => {
     // catch tab
     cy.get('a[href="#catchTab"]').click();
 
-    // const GRID_DROPDOWN_DELAY = 500; // give the drop downs some time to catch up
     cy.get('#dropdown-0-SPECIES_CODE').type('B');
-    // cy.wait(GRID_DROPDOWN_DELAY);
     cy.get('#dropdown-0-LENGTH_TYPE').type('s');
-    // cy.wait(GRID_DROPDOWN_DELAY);
     cy.get('#numeric-input-cell-0-LENGTH').type('1');
     cy.get('#numeric-input-cell-0-WEIGHT').type('1');
     cy.focused().tab().tab().tab().tab();
@@ -76,6 +73,23 @@ describe('SubmitReport', () => {
     cy.get('#notesTxtArea').type('test notes');
     cy.get('.more-info-dialog .modal-footer button').click();
 
+    // habitat tab
+    cy.get('a[href="#habitatTab"]').click();
+    cy.get('#BANKVEG_input').type('15');
+    cy.get('#DUND_input').type('d').tab();
+    cy.get('#SUB_FINES_input').type('10');
+    cy.get('#SUB_SAND_input').type('10');
+    cy.get('#SUB_GRAV_input').type('80');
+
+    // transect
+    cy.get('#BWID_input_1').type('3');
+    cy.get('#WWID_input_1').type('2');
+
+    // measurement grid
+    cy.findByRole('button', { name: /add row/i }).click();
+    cy.get('#numeric-input-cell-0-DEPTH').type('1');
+
+    // submit
     cy.get('.header button.btn-success[data-loading-text="submitting report..."]').click();
 
     cy.get('[data-testid="summaryConfirmBtn"]').click({ force: true });

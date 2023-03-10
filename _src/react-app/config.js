@@ -151,7 +151,6 @@ const fieldNames = {
     WWID: 'WWID',
     STARTING_BANK: 'STARTING_BANK',
     TRANSECT_ID: fldTRANSECT_ID,
-    TRANSECT_NUM: 'TRANSECT_NUM',
   },
   transectMeasurements: {
     DEPTH: 'DEPTH',

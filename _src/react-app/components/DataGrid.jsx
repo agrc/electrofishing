@@ -65,7 +65,7 @@ function DataGrid({
     tableOptions.onRowSelectionChange = (getNewSelection) => {
       const newSelection = getNewSelection();
       if (newSelection) {
-        setSelectedRow(Object.keys(newSelection)[0]);
+        setSelectedRow(parseInt(Object.keys(newSelection)[0]));
       } else {
         setSelectedRow(null);
       }

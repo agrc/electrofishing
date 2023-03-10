@@ -24,6 +24,10 @@ export const actionTypes = {
   ADD_DIET: 'ADD_DIET',
   UPDATE_DIET: 'UPDATE_DIET',
   REMOVE_DIET: 'REMOVE_DIET',
+  HABITAT: 'HABITAT',
+  UPDATE_TRANSECT: 'UPDATE_TRANSECT',
+  ADD_TRANSECT: 'ADD_TRANSECT',
+  UPDATE_MEASUREMENTS: 'UPDATE_MEASUREMENTS',
 };
 
 function getNewEquipment(eventId) {
@@ -78,17 +82,65 @@ export function getBlankFish() {
   };
 }
 
-const getBlankState = () => {
-  const guid = getGUID();
+const getBlankHabitat = (eventId) => {
+  return {
+    [config.fieldNames.habitat.EVENT_ID]: eventId,
+    [config.fieldNames.habitat.BANKVEG]: null,
+    [config.fieldNames.habitat.DOVR]: null,
+    [config.fieldNames.habitat.DUND]: null,
+    [config.fieldNames.habitat.LGWD]: null,
+    [config.fieldNames.habitat.POOL]: null,
+    [config.fieldNames.habitat.SPNG]: null,
+    [config.fieldNames.habitat.RIFF]: null,
+    [config.fieldNames.habitat.RUNA]: null,
+    [config.fieldNames.habitat.SUB_FINES]: null,
+    [config.fieldNames.habitat.SUB_SAND]: null,
+    [config.fieldNames.habitat.SUB_GRAV]: null,
+    [config.fieldNames.habitat.SUB_COBB]: null,
+    [config.fieldNames.habitat.SUB_RUBB]: null,
+    [config.fieldNames.habitat.SUB_BOUL]: null,
+    [config.fieldNames.habitat.SUB_BEDR]: null,
+    [config.fieldNames.habitat.SIN]: null,
+    [config.fieldNames.habitat.EROS]: null,
+    [config.fieldNames.habitat.TEMP]: null,
+    [config.fieldNames.habitat.PH]: null,
+    [config.fieldNames.habitat.CON]: null,
+    [config.fieldNames.habitat.OXYGEN]: null,
+    [config.fieldNames.habitat.SOLIDS]: null,
+    [config.fieldNames.habitat.TURBIDITY]: null,
+    [config.fieldNames.habitat.ALKALINITY]: null,
+    [config.fieldNames.habitat.BACKWATER]: null,
+  };
+};
 
-  // this can be removed once these widgets are converted to components and use eventState:
-  // Habitat
-  config.eventId = guid;
+const getNewTransect = (eventId) => {
+  return {
+    [config.fieldNames.transect.EVENT_ID]: eventId,
+    [config.fieldNames.transect.BWID]: null,
+    [config.fieldNames.transect.WWID]: null,
+    [config.fieldNames.transect.STARTING_BANK]: null,
+    [config.fieldNames.transect.TRANSECT_ID]: getGUID(),
+  };
+};
+
+const getNewMeasurement = (transectId) => {
+  return {
+    [config.fieldNames.transectMeasurements.TRANSECT_ID]: transectId,
+    [config.fieldNames.transectMeasurements.DEPTH]: null,
+    [config.fieldNames.transectMeasurements.VELOCITY]: null,
+    [config.fieldNames.transectMeasurements.SUBSTRATE]: null,
+    [config.fieldNames.transectMeasurements.DISTANCE_START]: null,
+  };
+};
+
+const getBlankState = () => {
+  const eventId = getGUID();
+  const transect = getNewTransect(eventId);
 
   return {
     [config.tableNames.samplingEvents]: {
       attributes: {
-        [config.fieldNames.samplingEvents.EVENT_ID]: guid,
+        [config.fieldNames.samplingEvents.EVENT_ID]: eventId,
         [config.fieldNames.samplingEvents.GEO_DEF]: null,
         [config.fieldNames.samplingEvents.LOCATION_NOTES]: null,
         [config.fieldNames.samplingEvents.EVENT_DATE]: null,
@@ -104,13 +156,17 @@ const getBlankState = () => {
     },
     other: {
       selectedStationName: '',
+      totalSediment: 0,
     },
-    [config.tableNames.equipment]: [getNewEquipment(guid)],
+    [config.tableNames.equipment]: [getNewEquipment(eventId)],
     [config.tableNames.anodes]: [],
-    [config.tableNames.fish]: [getNewFish(guid, 1, null)],
+    [config.tableNames.fish]: [getNewFish(eventId, 1, null)],
     [config.tableNames.health]: [],
     [config.tableNames.tags]: [],
     [config.tableNames.diet]: [],
+    [config.tableNames.habitat]: getBlankHabitat(eventId),
+    [config.tableNames.transect]: [transect],
+    [config.tableNames.transectMeasurements]: [],
   };
 };
 
@@ -130,6 +186,18 @@ const reducer = (draft, action) => {
   const addMoreInfoToFish = (fishId) => {
     const fish = draft[config.tableNames.fish].find((f) => f[config.fieldNames.fish.FISH_ID] === fishId);
     fish.moreInfo = true;
+  };
+
+  const updateTotalSediment = () => {
+    draft.other.totalSediment = [
+      config.fieldNames.habitat.SUB_FINES,
+      config.fieldNames.habitat.SUB_SAND,
+      config.fieldNames.habitat.SUB_GRAV,
+      config.fieldNames.habitat.SUB_COBB,
+      config.fieldNames.habitat.SUB_RUBB,
+      config.fieldNames.habitat.SUB_BOUL,
+      config.fieldNames.habitat.SUB_BEDR,
+    ].reduce((total, fieldName) => (total += draft[config.tableNames.habitat][fieldName] || 0), 0);
   };
 
   switch (action.type) {
@@ -310,6 +378,37 @@ const reducer = (draft, action) => {
       const dietToRemove = getDiet(action.meta.fishId, action.meta.dietIndex);
 
       draft[config.tableNames.diet] = draft[config.tableNames.diet].filter((t) => t !== dietToRemove);
+
+      break;
+
+    case actionTypes.HABITAT:
+      draft[config.tableNames.habitat][action.meta] = action.payload;
+
+      updateTotalSediment();
+
+      break;
+
+    case actionTypes.ADD_TRANSECT:
+      draft[config.tableNames.transect].push(getNewTransect());
+
+      break;
+
+    case actionTypes.UPDATE_TRANSECT:
+      const transectIndex = action.meta - 1;
+      draft[config.tableNames.transect][transectIndex] = {
+        ...draft[config.tableNames.transect][transectIndex],
+        ...action.payload,
+      };
+
+      break;
+
+    case actionTypes.UPDATE_MEASUREMENTS:
+      draft[config.tableNames.transectMeasurements] = action.payload;
+
+      break;
+
+    case actionTypes.ADD_MEASUREMENT:
+      draft[config.tableNames.transectMeasurements].push(getNewMeasurement(action.payload));
 
       break;
 

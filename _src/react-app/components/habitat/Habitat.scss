@@ -1,0 +1,11 @@
+.habitat {
+  .badge {
+    margin-left: 4px;
+  }
+  .text-danger .badge {
+    background-color: #b94a48;
+  }
+  .text-success .badge {
+    background-color: #468847;
+  }
+}
