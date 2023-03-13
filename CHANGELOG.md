@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.2.0-0](https://github.com/agrc/electrofishing/compare/v2.1.0-3...v2.2.0-0) (2023-03-13)
+
+
+### 🚀 Features
+
+* add error boundary ([e8e4c70](https://github.com/agrc/electrofishing/commit/e8e4c7022ec6db2aaa5666dfc33f9a1506f71054))
+
+
+### 🐛 Bug Fixes
+
+* another try on firebase emulators ([3651440](https://github.com/agrc/electrofishing/commit/3651440af73e642c2eb3ad73192ef38af8c9e95c))
+* auto-install function npm dependencies in base install ([ca7c931](https://github.com/agrc/electrofishing/commit/ca7c93163d829ab8bd3d757a8db5b527f76798e0))
+* Dojo Build -&gt; Vite ([2297eb4](https://github.com/agrc/electrofishing/commit/2297eb4973c66f3260bcce5907db89531a7cdab8))
+* **functions:** bump all deps and node runtime ([5c8c79e](https://github.com/agrc/electrofishing/commit/5c8c79e4307a281c0403501f61868501c217fb27))
+* persist settings between sessions ([f5b54c6](https://github.com/agrc/electrofishing/commit/f5b54c6ddad88d561eefbd02d9329fc6d0d75a7a))
+* React-ify Habitat Tab ([b33e094](https://github.com/agrc/electrofishing/commit/b33e094e91611ecac3878b75378fb8f990c04677))
+* React-ify SettingsDialog ([54208f3](https://github.com/agrc/electrofishing/commit/54208f392935758ad4940365e5aa2fa7ca1e722d))
+
 ## [2.1.0-3](https://github.com/agrc/electrofishing/compare/v2.1.0-2...v2.1.0-3) (2023-03-08)
 
 
