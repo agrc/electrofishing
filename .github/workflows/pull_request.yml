@@ -44,6 +44,8 @@ jobs:
           start: npm start
           install-command: npm ci
           browser: chrome
+          wait-on: 'http://127.0.0.1:4000'
+          wait-on-timeout: 120
 
       - name: Upload Cypress Screenshots
         uses: actions/upload-artifact@v3
