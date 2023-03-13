@@ -34,11 +34,6 @@ jobs:
           node-version: lts/*
           cache: npm
 
-      - name: Install functions deps
-        run: |
-          cd functions
-          npm ci
-
       - name: Cypress run
         uses: cypress-io/github-action@v5
         env:
