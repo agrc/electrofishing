@@ -4,10 +4,11 @@ import topic from 'pubsub-js';
 import { actionTypes, useAppContext } from '../App.jsx';
 import 'bootstrap';
 import PropTypes from 'prop-types';
+import useAuthentication from '../hooks/useAuthentication';
 
 function Header({ submitLoading }) {
   const submitButtonRef = React.useRef();
-  const { appDispatch, appState } = useAppContext();
+  const { appDispatch } = useAppContext();
 
   React.useEffect(() => {
     $(submitButtonRef.current).button(submitLoading ? 'loading' : 'reset');
@@ -16,11 +17,15 @@ function Header({ submitLoading }) {
   React.useEffect(() => {
     $('.header a[data-toggle="tab"]').on('shown.bs.tab', (event) => {
       appDispatch({
-        type: actionTypes.CURRENT_TAB,
-        payload: event.target.href.split('#')[1],
+        type: actionTypes.SETTINGS,
+        payload: {
+          currentTab: event.target.href.split('#')[1],
+        },
       });
     });
   }, [appDispatch]);
+
+  const { user } = useAuthentication();
 
   return (
     <div className="navbar navbar-inverse navbar-fixed-top header">
@@ -54,7 +59,7 @@ function Header({ submitLoading }) {
             data-loading-text="submitting report..."
             className="btn btn-success navbar-btn"
             ref={submitButtonRef}
-            disabled={!appState.user}
+            disabled={!user}
           >
             Submit Report
           </button>

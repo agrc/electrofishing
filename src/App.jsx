@@ -8,6 +8,7 @@ import useAuthentication from './hooks/useAuthentication';
 import { SamplingEventProvider } from './hooks/samplingEventContext.jsx';
 import config from './config';
 import { initializeApp } from 'firebase/app';
+import { current } from 'immer';
 
 const AppContext = React.createContext();
 
@@ -22,43 +23,40 @@ export function useAppContext() {
 }
 
 export const actionTypes = {
-  CURRENT_MAP_ZOOM: 'CURRENT_MAP_ZOOM',
-  CURRENT_MAP_CENTER: 'CURRENT_MAP_CENTER',
   SUBMIT_LOADING: 'SUBMIT_LOADING',
   MAP: 'MAP',
-  CURRENT_TAB: 'CURRENT_TAB',
-  LOGIN: 'LOGIN',
-  LOGOUT: 'LOGOUT',
   SETTINGS: 'SETTINGS',
 };
 
+const localStorageKey = 'electrofishing-app-state';
+function getCachedSettings() {
+  const value = localStorage.getItem(localStorageKey);
+  if (value === null) {
+    return null;
+  }
+
+  return JSON.parse(value);
+}
+
+function updateCachedSettings(values) {
+  localStorage.setItem(localStorageKey, JSON.stringify(values));
+}
+
 const initialState = {
-  zoom: 10,
-  // TODO: get from geolocation
-  center: L.latLng(40.6, -111.7),
   submitLoading: false,
   map: null,
-  currentTab: 'locationTab',
-  user: null,
-  // TODO: persist all of this using useLocalStorage
   settings: {
+    currentTab: 'locationTab',
+    zoom: 10,
+    center: L.latLng(40.6, -111.7),
     coordType: config.coordTypes.utm83,
     mouseWheelZooming: false,
+    ...getCachedSettings(),
   },
 };
 
 const reducer = (draft, action) => {
   switch (action.type) {
-    case actionTypes.CURRENT_MAP_ZOOM:
-      draft.zoom = action.payload;
-
-      break;
-
-    case actionTypes.CURRENT_MAP_CENTER:
-      draft.center = action.payload;
-
-      break;
-
     case actionTypes.SUBMIT_LOADING:
       draft.submitLoading = action.payload;
 
@@ -69,29 +67,19 @@ const reducer = (draft, action) => {
 
       break;
 
-    case actionTypes.CURRENT_TAB:
-      draft.currentTab = action.payload;
-
-      break;
-
-    case actionTypes.LOGIN:
-      draft.user = action.payload;
-
-      break;
-
-    case actionTypes.LOGOUT:
-      draft.user = null;
-
-      break;
-
     case actionTypes.SETTINGS:
-      draft.settings[action.meta] = action.payload;
+      draft.settings = {
+        ...draft.settings,
+        ...action.payload,
+      };
 
       break;
 
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }
+
+  updateCachedSettings(current(draft).settings);
 };
 
 const App = () => {
@@ -109,13 +97,6 @@ const App = () => {
   }, []);
 
   const { user, logOut, logIn } = useAuthentication();
-  React.useEffect(() => {
-    if (user) {
-      appDispatch({ type: 'LOGIN', payload: user });
-    } else {
-      appDispatch({ type: 'LOGOUT' });
-    }
-  }, [appDispatch, user]);
 
   return (
     <AppContext.Provider value={{ appState, appDispatch }}>
@@ -124,9 +105,9 @@ const App = () => {
 
         <div className="container main-container">
           <div className="inner-header">
-            {appState.user ? (
+            {user ? (
               <>
-                <span className="user">{appState.user.email}</span>
+                <span className="user">{user.email}</span>
                 <button id="logout" type="button" className="btn btn-link" onClick={logOut}>
                   Logout
                 </button>
@@ -137,7 +118,7 @@ const App = () => {
               </button>
             )}
           </div>
-          {appState.user ? (
+          {user ? (
             <SamplingEventProvider>
               <NewCollectionEvent />
             </SamplingEventProvider>
@@ -149,8 +130,9 @@ const App = () => {
           onChange={(setting, value) =>
             appDispatch({
               type: actionTypes.SETTINGS,
-              meta: setting,
-              payload: value,
+              payload: {
+                [setting]: value,
+              },
             })
           }
         />

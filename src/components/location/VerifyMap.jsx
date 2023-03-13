@@ -128,6 +128,7 @@ const MapHoister = ({ isMainMap, setMap, setStreamsLayer, setLakesLayer, selectS
       url: config.urls.streamsFeatureService,
     }).addTo(map);
     setStreamsLayer(streamsLayer.current);
+
     lakesLayer.current = featureLayer({
       url: config.urls.lakesFeatureService,
     }).addTo(map);
@@ -142,9 +143,6 @@ const MapHoister = ({ isMainMap, setMap, setStreamsLayer, setLakesLayer, selectS
         type: actionTypes.MAP,
         payload: map,
       });
-
-      // TODO: remove after all of the old dojo widgets that reference it are converted
-      config.app.map = map;
     }
 
     topic.subscribe(config.topics.pointDef_onBtnClick, (_, __, isActive) => {
@@ -196,7 +194,16 @@ const MapHoister = ({ isMainMap, setMap, setStreamsLayer, setLakesLayer, selectS
     };
 
     map.on({
-      moveend: () => toggleLabelsAndStyle(map.getZoom()),
+      moveend: () => {
+        toggleLabelsAndStyle(map.getZoom());
+        appDispatch({
+          type: actionTypes.SETTINGS,
+          payload: {
+            center: map.getCenter(),
+            zoom: map.getZoom(),
+          },
+        });
+      },
     });
 
     if (isMainMap) {
@@ -241,9 +248,9 @@ const VerifyMap = ({
       <MapContainer
         className="map"
         keyboard={false}
-        scrollWheelZoom={appState.mouseWheelZooming === 'true'}
-        center={appState.center}
-        zoom={appState.zoom}
+        scrollWheelZoom={appState.settings.mouseWheelZooming}
+        center={appState.settings.center}
+        zoom={appState.settings.zoom}
       >
         <MapHoister
           streamSearchDiv={streamSearchDiv}

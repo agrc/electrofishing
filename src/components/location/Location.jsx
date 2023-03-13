@@ -349,11 +349,11 @@ const Location = () => {
   };
 
   useEffect(() => {
-    if (appState.currentTab === 'locationTab') {
+    if (appState.settings.currentTab === 'locationTab') {
       // this prevents the map from getting messed up when it's hidden by another tab
       mainMap?.invalidateSize();
     }
-  }, [appState.currentTab, mainMap]);
+  }, [appState.settings.currentTab, mainMap]);
 
   const selectStation = (name, id) => {
     eventDispatch({
