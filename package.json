@@ -79,6 +79,7 @@
     "pubsub-js": "^1.9.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-error-boundary": "^3.1.4",
     "react-leaflet": "^4.2.1",
     "react-toastify": "^9.1.1",
     "use-immer": "^0.8.1",

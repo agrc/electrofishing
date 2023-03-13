@@ -17,3 +17,15 @@
 @use '../node_modules/react-toastify/scss/main.scss';
 @use '../node_modules/leaflet/dist/leaflet.css';
 @import url('../node_modules/bootstrap/dist/css/bootstrap.css');
+
+.error-boundary {
+  position: absolute;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  .alert {
+    width: 50%;
+  }
+}
