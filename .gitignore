@@ -1,4 +1,3 @@
-.grunt/
 *.pyc
 *.sde
 dist/

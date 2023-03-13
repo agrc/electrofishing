@@ -54,9 +54,7 @@ jobs:
           service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
           project-id: ${{ secrets.PROJECT_ID }}
           prebuild-command: |
-            npm install -g grunt-cli
             cd functions
-            npm ci
             echo "ENVIRONMENT=stage" > .env
             echo "AGS_HOST=https://wrimaps.at.utah.gov" >> .env
           build-command: npm run build:stage
@@ -81,9 +79,7 @@ jobs:
           service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
           project-id: ${{ secrets.PROJECT_ID }}
           prebuild-command: |
-            npm install -g grunt-cli
             cd functions
-            npm ci
             echo "ENVIRONMENT=prod" > .env
             echo "AGS_HOST=https://wrimaps.utah.gov" >> .env
           build-command: npm run build

@@ -45,9 +45,8 @@ jobs:
           VITE_QUAD_WORD: test
           VITE_FIREBASE_CONFIG: ${{ secrets.TEST_FIREBASE_CONFIG }}
         with:
-          build: npm run babel-deps && npm run babel-react
           start: npm start
-          install-command: npm ci --legacy-peer-deps
+          install-command: npm ci
           browser: chrome
 
       - name: Upload Cypress Screenshots
@@ -78,7 +77,7 @@ jobs:
           cache: npm
 
       - name: 📥 Download dependencies
-        run: npm ci --legacy-peer-deps
+        run: npm ci
 
       - name: 🧪 Run tests
         run: npm test
@@ -98,8 +97,7 @@ jobs:
 
       - name: 📥 Download dependencies
         run: |
-          npm ci --legacy-peer-deps
-          npm install -g grunt-cli
+          npm ci
 
       - name: 📦 Build
         env:
@@ -124,9 +122,7 @@ jobs:
           project-id: ${{ secrets.PROJECT_ID }}
           preview: yes
           prebuild-command: |
-            npm install -g grunt-cli
             cd functions
-            npm ci
             echo "ENVIRONMENT=stage" > .env
             echo "AGS_HOST=https://wrimaps.at.utah.gov" >> .env
           build-command: npm run build:stage
