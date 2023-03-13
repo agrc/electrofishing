@@ -1,9 +1,9 @@
-import React, { useState, useEffect, forwardRef } from 'react';
-import { useReactTable, getCoreRowModel, flexRender, getFilteredRowModel } from '@tanstack/react-table';
-import NumericInputValidator from './NumericInputValidator.jsx';
-import DomainDrivenDropdown from './DomainDrivenDropdown.jsx';
-import PropTypes from 'prop-types';
+import { flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from '@tanstack/react-table';
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React, { forwardRef, useEffect, useState } from 'react';
+import DomainDrivenDropdown from './DomainDrivenDropdown.jsx';
+import NumericInputValidator from './NumericInputValidator.jsx';
 
 function DataGrid({
   data,

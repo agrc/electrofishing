@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import config from '../config';
 import PropTypes from 'prop-types';
+import config from '../config';
 
 function SettingsDialog({ state: { coordType, mouseWheelZooming }, onChange }) {
   const coordTypeOptions = [

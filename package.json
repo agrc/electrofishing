@@ -2,29 +2,33 @@
   "name": "electrofishing",
   "version": "2.1.0-3",
   "scripts": {
-    "build:sw": "esbuild src/ServiceWorker.js --bundle --outfile=public/ServiceWorker.js --define:process.env.VITE_FIREBASE_CONFIG=$(npx dotenv -p VITE_FIREBASE_CONFIG)",
-    "build:stage": "export VITE_BUILD=stage && npm run build:sw && vite build",
     "build": "export VITE_BUILD=prod && npm run build:sw && vite build",
+    "build:stage": "export VITE_BUILD=stage && npm run build:sw && vite build",
+    "build:sw": "esbuild src/ServiceWorker.js --bundle --outfile=public/ServiceWorker.js --define:process.env.VITE_FIREBASE_CONFIG=$(npx dotenv -p VITE_FIREBASE_CONFIG)",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
+    "postinstall": "cd functions && npm install",
     "lint": "eslint . --ext .js,.jsx",
     "preview": "vite preview",
-    "postinstall": "cd functions && npm install",
+    "start": "concurrently \"npm run start:app\" \"npm run start:firebase-emulators\"",
     "start:app": "npm run build:sw && vite",
     "start:firebase-emulators": "firebase emulators:start --import emulator_data --export-on-exit --only firestore,functions,auth,ui",
-    "start": "concurrently \"npm run start:app\" \"npm run start:firebase-emulators\"",
     "storybook": "storybook dev",
     "test": "npm run lint && vitest"
   },
   "browserslist": [
     "last 2 versions and > 2%"
   ],
+  "prettier": {
+    "printWidth": 120,
+    "singleQuote": true
+  },
   "eslintConfig": {
     "env": {
       "browser": true,
       "es2022": true,
-      "node": true,
-      "jquery": true
+      "jquery": true,
+      "node": true
     },
     "parserOptions": {
       "ecmaFeatures": {
@@ -58,10 +62,6 @@
     "globals": {
       "L": "readonly"
     }
-  },
-  "prettier": {
-    "singleQuote": true,
-    "printWidth": 120
   },
   "dependencies": {
     "@tanstack/react-table": "^8.7.9",

@@ -1,13 +1,13 @@
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
 import React from 'react';
 import config from '../../config';
 import { actionTypes, useSamplingEventContext } from '../../hooks/samplingEventContext.jsx';
-import DomainDrivenDropdown from '../DomainDrivenDropdown.jsx';
-import NumericInputValidator from '../NumericInputValidator.jsx';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import GridTab from '../GridTab.jsx';
-import DataGridAddDeleteButtons from '../DataGridAddDeleteButtons.jsx';
 import DataGrid, { DomainDrivenDropdownCell, NumericInputCell } from '../DataGrid.jsx';
+import DataGridAddDeleteButtons from '../DataGridAddDeleteButtons.jsx';
+import DomainDrivenDropdown from '../DomainDrivenDropdown.jsx';
+import GridTab from '../GridTab.jsx';
+import NumericInputValidator from '../NumericInputValidator.jsx';
 
 const fnHabitat = config.fieldNames.habitat;
 const fnMeasurements = config.fieldNames.transectMeasurements;

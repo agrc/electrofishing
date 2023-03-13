@@ -1,5 +1,5 @@
-import * as React from 'react';
 import pubSub from 'pubsub-js';
+import * as React from 'react';
 
 export default function useSubscriptions() {
   const tokens = React.useRef({});

@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import 'proj4';
 import 'proj4leaflet';
+import PropTypes from 'prop-types';
+import topic from 'pubsub-js';
+import React, { useCallback, useEffect, useRef } from 'react';
+import { useAppContext } from '../../App.jsx';
 import config from '../../config';
 import useSubscriptions from '../../hooks/useSubscriptions';
-import clsx from 'clsx';
-import topic from 'pubsub-js';
 import useUniqueId from '../../hooks/useUniqueId';
-import { useAppContext } from '../../App.jsx';
 
 // labels: {}
 //      The text for the different labels above the textboxes as well

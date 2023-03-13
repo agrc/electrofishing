@@ -1,14 +1,14 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
-import { createRoot } from 'react-dom/client';
-import config from '../../config';
-import L from 'leaflet';
 import { featureLayer } from 'esri-leaflet';
-import topic from 'pubsub-js';
-import { useAppContext, actionTypes } from '../../App.jsx';
-import StreamSearch from './StreamSearch.jsx';
-import { MapContainer, TileLayer, useMap } from 'react-leaflet';
-import { useSamplingEventContext } from '../../hooks/samplingEventContext.jsx';
+import L from 'leaflet';
 import PropTypes from 'prop-types';
+import topic from 'pubsub-js';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { createRoot } from 'react-dom/client';
+import { MapContainer, TileLayer, useMap } from 'react-leaflet';
+import { actionTypes, useAppContext } from '../../App.jsx';
+import config from '../../config';
+import { useSamplingEventContext } from '../../hooks/samplingEventContext.jsx';
+import StreamSearch from './StreamSearch.jsx';
 
 const selectedIcon = new L.Icon({
   iconUrl: config.urls.selectedIcon,

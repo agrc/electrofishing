@@ -1,6 +1,6 @@
+import PropTypes from 'prop-types';
 import { useEffect, useRef } from 'react';
 import PointDef from './PointDef.jsx';
-import PropTypes from 'prop-types';
 
 export default function StartEndGeoDef({ map, coordinatePairs, setCoordinatePairs }) {
   const featureGroup = useRef(null);

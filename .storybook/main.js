@@ -3,7 +3,7 @@ const config = {
   stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'],
   framework: {
     name: '@storybook/react-vite',
-    options: {}
-  }
+    options: {},
+  },
 };
 export default config;

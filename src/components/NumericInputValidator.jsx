@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { useEffect, useRef, useState } from 'react';
 
 export function getValidationMessage(value, min, max, step) {
   // summary:

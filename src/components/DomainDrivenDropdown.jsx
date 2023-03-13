@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback, useRef, forwardRef } from 'react';
-import { createRoot } from 'react-dom/client';
 import PropTypes from 'prop-types';
-import OtherOptionHandler from './OtherOptionHandler.jsx';
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { createRoot } from 'react-dom/client';
 import ComboBox from './ComboBox.jsx';
+import OtherOptionHandler from './OtherOptionHandler.jsx';
 
 const CACHE = {};
 const otherTxt = '[other]';

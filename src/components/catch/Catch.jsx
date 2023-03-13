@@ -1,13 +1,13 @@
-import React from 'react';
-import config from '../../config';
-import DataGrid, { DomainDrivenDropdownCell, NumericInputCell } from '../DataGrid.jsx';
-import GridTab from '../GridTab.jsx';
-import { actionTypes, getBlankFish, useSamplingEventContext } from '../../hooks/samplingEventContext.jsx';
 import papaparse from 'papaparse/papaparse';
+import React from 'react';
 import { toast } from 'react-toastify';
-import MoreInfoDialog from './MoreInfoDialog.jsx';
+import config from '../../config';
+import { actionTypes, getBlankFish, useSamplingEventContext } from '../../hooks/samplingEventContext.jsx';
+import DataGrid, { DomainDrivenDropdownCell, NumericInputCell } from '../DataGrid.jsx';
 import DataGridAddDeleteButtons from '../DataGridAddDeleteButtons.jsx';
-import { getLastFishIdsWithEmptyWeights, batchFishWeights } from './batchUtils';
+import GridTab from '../GridTab.jsx';
+import { batchFishWeights, getLastFishIdsWithEmptyWeights } from './batchUtils';
+import MoreInfoDialog from './MoreInfoDialog.jsx';
 
 const fn = config.fieldNames.fish;
 const hiddenColumns = [fn.FISH_ID, fn.PASS_NUM, fn.NOTES];

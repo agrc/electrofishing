@@ -1,8 +1,8 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import getGUID from '../helpers/getGUID';
 import { useImmerReducer } from 'use-immer';
 import config from '../config';
-import PropTypes from 'prop-types';
+import getGUID from '../helpers/getGUID';
 
 const SamplingEventContext = React.createContext();
 export const actionTypes = {

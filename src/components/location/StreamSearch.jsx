@@ -1,7 +1,7 @@
-import { useRef, useState, useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { useCombobox } from 'downshift';
 import clsx from 'clsx';
+import { useCombobox } from 'downshift';
+import PropTypes from 'prop-types';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 const maxResultsToDisplay = 50;
 const fetchOptions = {

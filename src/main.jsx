@@ -1,10 +1,10 @@
+import { getAuth } from 'firebase/auth';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { ErrorBoundary } from 'react-error-boundary';
 import App from './App.jsx';
 import './index.scss';
-import { ErrorBoundary } from 'react-error-boundary';
-import PropTypes from 'prop-types';
-import { getAuth } from 'firebase/auth';
 
 function Fallback({ error }) {
   function reload() {

@@ -1,9 +1,9 @@
-import * as React from 'react';
-import config from '../config';
-import topic from 'pubsub-js';
-import { actionTypes, useAppContext } from '../App.jsx';
 import 'bootstrap';
 import PropTypes from 'prop-types';
+import topic from 'pubsub-js';
+import * as React from 'react';
+import { actionTypes, useAppContext } from '../App.jsx';
+import config from '../config';
 import useAuthentication from '../hooks/useAuthentication';
 
 function Header({ submitLoading }) {

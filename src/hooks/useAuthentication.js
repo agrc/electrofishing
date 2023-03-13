@@ -1,14 +1,14 @@
-import React from 'react';
 import {
-  getAuth,
+  browserSessionPersistence,
   connectAuthEmulator,
+  getAuth,
   OAuthProvider,
-  signInWithPopup,
   setPersistence,
+  signInWithPopup,
   signInWithRedirect,
   signOut,
-  browserSessionPersistence,
 } from 'firebase/auth';
+import React from 'react';
 
 function initServiceWorker() {
   if ('serviceWorker' in navigator === false) {

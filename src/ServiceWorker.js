@@ -2,7 +2,7 @@
 
 // inspired by: https://firebase.google.com/docs/auth/web/service-worker-sessions
 import { initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged, getIdToken } from 'firebase/auth';
+import { getAuth, getIdToken, onAuthStateChanged } from 'firebase/auth';
 
 initializeApp(process.env.VITE_FIREBASE_CONFIG);
 

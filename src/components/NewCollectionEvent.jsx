@@ -1,18 +1,18 @@
-import * as React from 'react';
 import localforage from 'localforage';
-import config from '../config';
-import useSubscriptions from '../hooks/useSubscriptions';
-import Location from './location/Location.jsx';
-import Method from './method/Method.jsx';
-import Habitat, { validateTransect } from './habitat/Habitat.jsx';
-import submitJob from '../helpers/submitJob';
+import PropTypes from 'prop-types';
+import * as React from 'react';
 import { toast } from 'react-toastify';
 import { actionTypes as appActionTypes, useAppContext } from '../App.jsx';
-import SummaryReport from './SummaryReport.jsx';
-import Catch from './catch/Catch.jsx';
-import { useSamplingEventContext, actionTypes } from '../hooks/samplingEventContext.jsx';
+import config from '../config';
 import { getFishDataForSubmission } from '../helpers/data';
-import PropTypes from 'prop-types';
+import submitJob from '../helpers/submitJob';
+import { actionTypes, useSamplingEventContext } from '../hooks/samplingEventContext.jsx';
+import useSubscriptions from '../hooks/useSubscriptions';
+import Catch from './catch/Catch.jsx';
+import Habitat, { validateTransect } from './habitat/Habitat.jsx';
+import Location from './location/Location.jsx';
+import Method from './method/Method.jsx';
+import SummaryReport from './SummaryReport.jsx';
 
 // cancelConfirmMsg: String
 //      The message displayed in the cancel confirm dialog

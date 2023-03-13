@@ -1,7 +1,7 @@
+import PropTypes from 'prop-types';
 import config from '../../config';
 import DomainDrivenDropdown from '../DomainDrivenDropdown.jsx';
 import NumericInputValidator from '../NumericInputValidator.jsx';
-import PropTypes from 'prop-types';
 
 const fn = config.fieldNames.health;
 

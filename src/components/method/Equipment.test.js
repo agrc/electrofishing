@@ -1,6 +1,6 @@
-import { getSideEffects, CATHODE_TYPES, EQUIPMENT_TYPES } from './Equipment.jsx';
-import { describe, test, expect } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import config from '../../config';
+import { CATHODE_TYPES, EQUIPMENT_TYPES, getSideEffects } from './Equipment.jsx';
 
 describe('getSideEffects', () => {
   test('should return an empty object if no changes are needed', () => {

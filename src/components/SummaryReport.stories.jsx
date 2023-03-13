@@ -1,6 +1,6 @@
 import React from 'react';
-import SummaryReport from './SummaryReport.jsx';
 import eventData from '../../tests/data/NewCollectionEventData.json';
+import SummaryReport from './SummaryReport.jsx';
 
 const story = {
   title: 'SummaryReport',

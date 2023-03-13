@@ -1,14 +1,14 @@
-import * as React from 'react';
-import { useImmerReducer } from 'use-immer';
-import Header from './components/Header.jsx';
-import { ToastContainer } from 'react-toastify';
-import NewCollectionEvent from './components/NewCollectionEvent.jsx';
-import SettingsDialog from './components/SettingsDialog.jsx';
-import useAuthentication from './hooks/useAuthentication';
-import { SamplingEventProvider } from './hooks/samplingEventContext.jsx';
-import config from './config';
 import { initializeApp } from 'firebase/app';
 import { current } from 'immer';
+import * as React from 'react';
+import { ToastContainer } from 'react-toastify';
+import { useImmerReducer } from 'use-immer';
+import Header from './components/Header.jsx';
+import NewCollectionEvent from './components/NewCollectionEvent.jsx';
+import SettingsDialog from './components/SettingsDialog.jsx';
+import config from './config';
+import { SamplingEventProvider } from './hooks/samplingEventContext.jsx';
+import useAuthentication from './hooks/useAuthentication';
 
 const AppContext = React.createContext();
 

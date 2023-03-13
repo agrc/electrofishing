@@ -1,13 +1,13 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import config from '../../config';
 import { actionTypes, useSamplingEventContext } from '../../hooks/samplingEventContext.jsx';
-import DomainDrivenDropdown from '../DomainDrivenDropdown.jsx';
-import Health from './Health.jsx';
-import PropTypes from 'prop-types';
-import Tag from './Tag.jsx';
+import useDebounce from '../../hooks/useDebounce';
 import DataGrid, { DomainDrivenDropdownCell, NumericInputCell } from '../DataGrid.jsx';
 import DataGridAddDeleteButtons from '../DataGridAddDeleteButtons.jsx';
-import useDebounce from '../../hooks/useDebounce';
+import DomainDrivenDropdown from '../DomainDrivenDropdown.jsx';
+import Health from './Health.jsx';
+import Tag from './Tag.jsx';
 
 const TABS = {
   diet: 'Diet_tab',

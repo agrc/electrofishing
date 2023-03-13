@@ -1,6 +1,6 @@
+import PropTypes from 'prop-types';
 import { useEffect, useRef } from 'react';
 import PointDef from './PointDef.jsx';
-import PropTypes from 'prop-types';
 
 export default function StartDistDirGeoDef({ map, params, setParams }) {
   const group = useRef(null);

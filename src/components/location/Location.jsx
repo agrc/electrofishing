@@ -1,15 +1,15 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
-import config from '../../config';
-import { actionTypes, useSamplingEventContext } from '../../hooks/samplingEventContext.jsx';
-import VerifyMap from './VerifyMap.jsx';
-import Station from './Station.jsx';
-import StartEndGeoDef from './StartEndGeoDef.jsx';
-import StartDistDirGeoDef from './StartDistDirGeoDef.jsx';
-import useSubscriptions from '../../hooks/useSubscriptions';
-import { useAppContext } from '../../App.jsx';
-import DomainDrivenDropdown from '../DomainDrivenDropdown.jsx';
-import getControlledInputProps from '../../helpers/getControlledInputProps';
 import topic from 'pubsub-js';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useAppContext } from '../../App.jsx';
+import config from '../../config';
+import getControlledInputProps from '../../helpers/getControlledInputProps';
+import { actionTypes, useSamplingEventContext } from '../../hooks/samplingEventContext.jsx';
+import useSubscriptions from '../../hooks/useSubscriptions';
+import DomainDrivenDropdown from '../DomainDrivenDropdown.jsx';
+import StartDistDirGeoDef from './StartDistDirGeoDef.jsx';
+import StartEndGeoDef from './StartEndGeoDef.jsx';
+import Station from './Station.jsx';
+import VerifyMap from './VerifyMap.jsx';
 
 // successfullyVerifiedMsg: String
 //      message displayed on the verify location button after success

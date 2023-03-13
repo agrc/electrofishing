@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import { getNewFish } from './samplingEventContext.jsx';
+import { describe, expect, it } from 'vitest';
 import config from '../config';
+import { getNewFish } from './samplingEventContext.jsx';
 
 const fn = config.fieldNames.fish;
 

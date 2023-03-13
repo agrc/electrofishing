@@ -1,9 +1,9 @@
+import PropTypes from 'prop-types';
 import config from '../../config';
+import AddRemoveButtons from '../AddRemoveButtons.jsx';
+import DataGrid, { DomainDrivenDropdownCell, NumericInputCell } from '../DataGrid.jsx';
 import DomainDrivenDropdown from '../DomainDrivenDropdown.jsx';
 import NumericInputValidator from '../NumericInputValidator.jsx';
-import DataGrid, { DomainDrivenDropdownCell, NumericInputCell } from '../DataGrid.jsx';
-import AddRemoveButtons from '../AddRemoveButtons.jsx';
-import PropTypes from 'prop-types';
 
 const ACTIVE = 'active';
 export const EQUIPMENT_TYPES = {

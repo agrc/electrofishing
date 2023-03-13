@@ -15,8 +15,8 @@
 
 // Import commands.js using ES2015 syntax:
 import 'cypress-plugin-tab';
-import './commands';
 import init from 'cypress-terminal-report/src/installLogsCollector';
+import './commands';
 
 init();
 

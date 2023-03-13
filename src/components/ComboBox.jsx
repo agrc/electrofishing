@@ -1,7 +1,7 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import { useCombobox } from 'downshift';
 import clsx from 'clsx';
+import { useCombobox } from 'downshift';
+import PropTypes from 'prop-types';
+import * as React from 'react';
 
 const ComboBox = React.forwardRef(function ComboBox({ items, onChange, value, id, minimal, onKeyDown }, ref) {
   const [inputItems, setInputItems] = React.useState(items);

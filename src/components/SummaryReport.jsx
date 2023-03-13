@@ -1,6 +1,6 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import config from '../config';
-import PropTypes from 'prop-types';
 
 const DECIMAL_PLACES = 2;
 

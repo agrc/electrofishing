@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import eventData from '../../tests/data/NewCollectionEventData.json';
-import { getSummaryData, getStats, getFultons } from './SummaryReport.jsx';
+import { getFultons, getStats, getSummaryData } from './SummaryReport.jsx';
 
 describe('getSummaryData', () => {
   it('should return an object with the correct keys', () => {

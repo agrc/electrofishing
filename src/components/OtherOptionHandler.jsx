@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useEffect, useRef, useState } from 'react';
 
 function OtherOptionHandler({ show, setShow, existingOptions, otherTxt, onOtherOptionAdded }) {
   const codeTxt = useRef(null);

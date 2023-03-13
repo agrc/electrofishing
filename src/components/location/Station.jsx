@@ -1,14 +1,14 @@
+import PropTypes from 'prop-types';
+import topic from 'pubsub-js';
 import React, { useRef, useState } from 'react';
-import VerifyMap from './VerifyMap.jsx';
-import DomainDrivenDropdown from '../DomainDrivenDropdown.jsx';
 import config from '../../config';
 import getGUID from '../../helpers/getGUID';
-import topic from 'pubsub-js';
-import useSubscriptions from '../../hooks/useSubscriptions';
 import submitJob from '../../helpers/submitJob';
+import useSubscriptions from '../../hooks/useSubscriptions';
 import useUniqueId from '../../hooks/useUniqueId';
+import DomainDrivenDropdown from '../DomainDrivenDropdown.jsx';
 import PointDef from './PointDef.jsx';
-import PropTypes from 'prop-types';
+import VerifyMap from './VerifyMap.jsx';
 
 // validateMsgs: Object
 //      The invalid messages displayed for this dialog
