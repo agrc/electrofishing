@@ -15,7 +15,7 @@ function addRow() {
 }
 
 function addPass() {
-  cy.get('.grid-tab > .btn-success > .glyphicon').click();
+  cy.get('.catch > .grid-tab > .btn-success').click();
 }
 
 function goToPass(pass) {

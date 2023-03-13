@@ -1,8 +1,9 @@
-module.exports = {
-  addons: ["@storybook/addon-links", "@storybook/addon-essentials", "@storybook/preset-scss"],
-  core: {
-    builder: 'webpack5'
-  },
-  staticDirs: ['../src'],
-  stories: ["../_src/**/*.stories.@(js|jsx|ts|tsx)"],
+const config = {
+  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/preset-scss'],
+  stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  framework: {
+    name: '@storybook/react-vite',
+    options: {}
+  }
 };
+export default config;

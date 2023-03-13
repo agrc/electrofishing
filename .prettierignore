@@ -1,16 +1,9 @@
-_SpecRunner.html
-.grunt
-.storybook
 .vscode
-bower.json
 data
-deploy
 dist
 maps
 mockups
 node_modules
 package-lock.json
 package.json
-profiles
 scripts
-src

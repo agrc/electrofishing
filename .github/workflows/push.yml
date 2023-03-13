@@ -35,7 +35,7 @@ jobs:
           github-app-name: ${{ secrets.UGRC_RELEASE_BOT_NAME }}
           github-app-email: ${{ secrets.UGRC_RELEASE_BOT_EMAIL }}
           extra-files: |
-            _src/react-app/config.js
+            src/config.js
 
   deploy-dev:
     name: Deploy to staging
@@ -59,10 +59,10 @@ jobs:
             npm ci
             echo "ENVIRONMENT=stage" > .env
             echo "AGS_HOST=https://wrimaps.at.utah.gov" >> .env
-          build-command: npm run build-stage
+          build-command: npm run build:stage
         env:
-          REACT_APP_QUAD_WORD: ${{ secrets.QUAD_WORD }}
-          REACT_APP_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+          VITE_QUAD_WORD: ${{ secrets.QUAD_WORD }}
+          VITE_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
 
   deploy-prod:
     name: Deploy to production
@@ -94,5 +94,5 @@ jobs:
           service-now-password: ${{ secrets.SN_PASSWORD }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
         env:
-          REACT_APP_QUAD_WORD: ${{ secrets.QUAD_WORD }}
-          REACT_APP_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+          VITE_QUAD_WORD: ${{ secrets.QUAD_WORD }}
+          VITE_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}

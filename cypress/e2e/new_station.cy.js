@@ -14,6 +14,7 @@ describe('AddNewStation', () => {
     cy.findByRole('link', {
       name: /add new station/i,
     }).click();
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(500);
     cy.findByRole('textbox', {
       name: /name/i,

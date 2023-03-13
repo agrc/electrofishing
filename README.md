@@ -44,14 +44,12 @@ Production: [https://electrofishing.ugrc.utah.gov](https://electrofishing.ugrc.u
 
 ### Cutting a new release
 
-1. Add a new entry to `_src/ChangeLog.html`.
-1. `grunt bump:<patch/minor/etc>`
+1. Merge release PR
 1. Republish Map and/or GP services, if needed (see steps above).
-1. Build and deploy app using steps above.
 
 ## Development
 
-`npm start` and open [http://localhost:8000/src/](http://localhost:8000/src/)
+`npm start` and open [http://localhost:5173/](http://localhost:5173/)
 
 ### Storybook
 

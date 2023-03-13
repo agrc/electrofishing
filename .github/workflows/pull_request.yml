@@ -42,8 +42,8 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v5
         env:
-          REACT_APP_QUAD_WORD: test
-          REACT_APP_FIREBASE_CONFIG: ${{ secrets.TEST_FIREBASE_CONFIG }}
+          VITE_QUAD_WORD: test
+          VITE_FIREBASE_CONFIG: ${{ secrets.TEST_FIREBASE_CONFIG }}
         with:
           build: npm run babel-deps && npm run babel-react
           start: npm start
@@ -103,8 +103,8 @@ jobs:
 
       - name: 📦 Build
         env:
-          REACT_APP_QUAD_WORD: test
-          REACT_APP_FIREBASE_CONFIG: '{}'
+          VITE_QUAD_WORD: test
+          VITE_FIREBASE_CONFIG: '{}'
         run: npm run build
 
   deploy-preview:
@@ -129,8 +129,8 @@ jobs:
             npm ci
             echo "ENVIRONMENT=stage" > .env
             echo "AGS_HOST=https://wrimaps.at.utah.gov" >> .env
-          build-command: npm run build-stage
+          build-command: npm run build:stage
           repo-token: ${{ secrets.GITHUB_TOKEN }}
         env:
-          REACT_APP_QUAD_WORD: ${{ secrets.QUAD_WORD }}
-          REACT_APP_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+          VITE_QUAD_WORD: ${{ secrets.QUAD_WORD }}
+          VITE_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}

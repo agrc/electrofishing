@@ -1,14 +1,10 @@
-_SpecRunner.html
-_src/app/**/*.css
 .grunt/
 *.pyc
 *.sde
 dist/
 node_modules/
 .env
-src/
 scripts/Scripts/settings/ImportLog
-deploy/*
 .DS_Store
 scripts/Scripts/settings/secrets.py
 
@@ -28,3 +24,5 @@ firebase-export*
 
 cypress/videos/
 cypress/screenshots/
+
+public/ServiceWorker.js

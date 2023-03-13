@@ -1,0 +1,13 @@
+.github
+.vscode
+build
+data
+emulator_data
+firebase-export*
+maps
+mockups
+node_modules
+scripts
+tests/data
+public/ServiceWorker.js
+package-lock.json

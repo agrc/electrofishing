@@ -1,10 +1,13 @@
 import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
+  plugins: [react()],
   define: {
-    'process.env.REACT_APP_FIREBASE_CONFIG': `'${JSON.stringify({
+    // this should be moved to .env.test
+    'process.env.VITE_FIREBASE_CONFIG': `'${JSON.stringify({
       projectId: 'electrofishing-testing',
     })}'`,
-    'process.env.REACT_APP_BUILD': '"test"',
+    'process.env.VITE_BUILD': '"test"',
   },
 });
