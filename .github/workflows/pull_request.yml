@@ -39,6 +39,7 @@ jobs:
         env:
           VITE_QUAD_WORD: test
           VITE_FIREBASE_CONFIG: ${{ secrets.TEST_FIREBASE_CONFIG }}
+          VITE_BUILD: development
         with:
           start: npm start
           install-command: npm ci
