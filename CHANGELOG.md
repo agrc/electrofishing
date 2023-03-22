@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.0-1](https://github.com/agrc/electrofishing/compare/v2.2.0-0...v2.2.0-1) (2023-03-22)
+
+
+### 🐛 Bug Fixes
+
+* fix bug preventing bulk uploading when there are no existing fish entries ([9fc81a8](https://github.com/agrc/electrofishing/commit/9fc81a8944a86db5988030b5765df7b4a61ac392)), closes [#296](https://github.com/agrc/electrofishing/issues/296)
+* fix bug preventing other dialog from being re-opened after clicking "x" ([68f2b53](https://github.com/agrc/electrofishing/commit/68f2b53a69ffa196cb415fe1cd9fb179753c8546)), closes [#295](https://github.com/agrc/electrofishing/issues/295)
+
 ## [2.2.0-0](https://github.com/agrc/electrofishing/compare/v2.1.0-3...v2.2.0-0) (2023-03-13)
 
 
