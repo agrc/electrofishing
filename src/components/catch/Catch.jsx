@@ -199,7 +199,7 @@ function Catch() {
       lastFish = visibleFishes[visibleFishes.length - 2];
     }
 
-    const startId = lastFish[fn.CATCH_ID] + 1;
+    const startId = lastFish ? lastFish[fn.CATCH_ID] + 1 : 1;
     const newFish = parseResults.data.map((data, i) => {
       return {
         ...getBlankFish(),
