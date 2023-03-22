@@ -20,10 +20,12 @@ function OtherOptionHandler({ show, setShow, existingOptions, otherTxt, onOtherO
 
   const onSubmit = () => {
     setShow(false);
-    onOtherOptionAdded({ code: codeTxt.current.value });
+    onOtherOptionAdded({ code: text });
+    setText('');
   };
 
   const onCancel = () => {
+    setText('');
     setShow(false);
   };
 
@@ -45,7 +47,7 @@ function OtherOptionHandler({ show, setShow, existingOptions, otherTxt, onOtherO
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <button className="close" data-dismiss="modal">
+              <button className="close" onClick={onCancel}>
                 &times;
               </button>
               <h4>Add Additional Option</h4>
