@@ -72,6 +72,7 @@ const columns = [
       inputProps: {
         min: 0,
         max: 1000,
+        step: 0.1,
       },
     },
   },
@@ -83,6 +84,7 @@ const columns = [
       inputProps: {
         min: 0,
         max: 10,
+        step: 0.1,
       },
     },
   },
@@ -105,6 +107,7 @@ const columns = [
       inputProps: {
         min: 0,
         max: 1000,
+        step: 0.1,
       },
     },
   },
