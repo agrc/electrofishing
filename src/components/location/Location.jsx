@@ -369,6 +369,13 @@ const Location = () => {
     });
   };
 
+  const today = new Date();
+  let month = today.getMonth() + 1;
+  if (month < 10) {
+    month = '0' + month;
+  }
+  const inputMax = `${today.getFullYear()}-${month}-${today.getDate()}`;
+
   return (
     <div className="location">
       <h4>Water Body</h4>
@@ -436,7 +443,7 @@ const Location = () => {
             Collection Date
           </label>
           <span className="text-danger required">*</span>
-          <input type="date" {...getLocationInputProps(fieldNames.EVENT_DATE)} />
+          <input type="date" max={inputMax} {...getLocationInputProps(fieldNames.EVENT_DATE)} />
         </div>
         <div className="form-group col-md-3">
           <label className="control-label" htmlFor={`${fieldNames.EVENT_TIME}_input`}>
