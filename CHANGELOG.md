@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.3.0-0](https://github.com/agrc/electrofishing/compare/v2.2.0-1...v2.3.0-0) (2023-03-23)
+
+
+### 🐛 Bug Fixes
+
+* allow decimal places on transect measurements ([770b050](https://github.com/agrc/electrofishing/commit/770b050987408c21450bfaf9b2ca360a8f7bea8d)), closes [#298](https://github.com/agrc/electrofishing/issues/298)
+* prevent collection date values in the future ([5f2353e](https://github.com/agrc/electrofishing/commit/5f2353e1a3a0285bfbd411ecf54b02fc294f0b4a)), closes [#250](https://github.com/agrc/electrofishing/issues/250)
+
+
+### 🚀 Features
+
+* add loading indicator to map ([58bee32](https://github.com/agrc/electrofishing/commit/58bee3268dfa080bdb31f65e16b8a90041f8fc06)), closes [#289](https://github.com/agrc/electrofishing/issues/289)
+
 ## [2.2.0-1](https://github.com/agrc/electrofishing/compare/v2.2.0-0...v2.2.0-1) (2023-03-22)
 
 
