@@ -17,6 +17,8 @@
 @use '../node_modules/react-toastify/scss/main.scss';
 @use '../node_modules/leaflet/dist/leaflet.css';
 @import url('../node_modules/bootstrap/dist/css/bootstrap.css');
+@import url('../node_modules/leaflet-loading/src/Control.Loading.css');
+@import url('../node_modules/spin.js/spin.css');
 
 .error-boundary {
   position: absolute;

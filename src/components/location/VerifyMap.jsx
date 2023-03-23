@@ -9,6 +9,10 @@ import { actionTypes, useAppContext } from '../../App.jsx';
 import config from '../../config';
 import { useSamplingEventContext } from '../../hooks/samplingEventContext.jsx';
 import StreamSearch from './StreamSearch.jsx';
+import 'leaflet-loading';
+import { Spinner } from 'spin.js';
+
+window.Spinner = Spinner;
 
 const selectedIcon = new L.Icon({
   iconUrl: config.urls.selectedIcon,
@@ -118,6 +122,13 @@ const MapHoister = ({ isMainMap, setMap, setStreamsLayer, setLakesLayer, selectS
 
   useEffect(() => {
     if (mapInitialized.current) return;
+
+    const loadingControl = L.Control.loading({
+      spinjs: true,
+      delayIndicator: 500,
+    });
+
+    map.addControl(loadingControl);
 
     stationsLayer.current = featureLayer({
       url: config.urls.stationsFeatureService,
