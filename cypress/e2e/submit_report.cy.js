@@ -1,4 +1,4 @@
-/* eslint-disable cypress/no-unnecessary-waiting, cypress/unsafe-to-chain-command */
+/* eslint-disable cypress/no-unnecessary-waiting */
 import commonIntercepts from './common_intercepts';
 import { loadAndSignIn } from './utils';
 
@@ -76,7 +76,8 @@ describe('SubmitReport', () => {
     // habitat tab
     cy.get('a[href="#habitatTab"]').click();
     cy.get('#BANKVEG_input').type('15');
-    cy.get('#DUND_input').type('d').tab();
+    cy.get('#DUND_input').as('dund').type('d');
+    cy.get('@dund').tab();
     cy.get('#SUB_FINES_input').type('10');
     cy.get('#SUB_SAND_input').type('10');
     cy.get('#SUB_GRAV_input').type('80');
