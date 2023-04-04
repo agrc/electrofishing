@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.3.0](https://github.com/agrc/electrofishing/compare/v2.3.0-0...v2.3.0) (2023-04-04)
+
+
+### 🐛 Bug Fixes
+
+* **function:** switch to node lts ([f22643d](https://github.com/agrc/electrofishing/commit/f22643d767f7d5842f127f37171dcdc08ede282d))
+* point dependabot back at main ([0c979d6](https://github.com/agrc/electrofishing/commit/0c979d680329782d9492e4898f327241003a0c4a))
+* Q2 Dep Bumps 🌲 ([bd44f95](https://github.com/agrc/electrofishing/commit/bd44f952fd496e67264a4fc029417857ecbbd288))
+
 ## [2.3.0-0](https://github.com/agrc/electrofishing/compare/v2.2.0-1...v2.3.0-0) (2023-03-23)
 
 
