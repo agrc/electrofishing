@@ -1,13 +1,21 @@
-/* eslint-disable cypress/no-unnecessary-waiting, cypress/unsafe-to-chain-command */
+/* eslint-disable cypress/no-unnecessary-waiting */
 import commonIntercepts from './common_intercepts';
 import { loadAndSignIn } from './utils';
 
 const COMBOBOX_TYPE_DELAY = 100;
 function populateFishRow(row) {
-  cy.get(`tbody > :nth-child(${row}) > :nth-child(2) input`).type('tm', { delay: COMBOBOX_TYPE_DELAY }).tab();
-  cy.focused().type('s', { delay: COMBOBOX_TYPE_DELAY }).tab();
-  cy.focused().type('1').tab();
-  cy.focused().type('1').tab();
+  const inputName = `input${row}`;
+  cy.get(`tbody > :nth-child(${row}) > :nth-child(2) input`).as(inputName).type('tm', { delay: COMBOBOX_TYPE_DELAY });
+  cy.get(`@${inputName}`).tab();
+  const comboName = `combo${row}`;
+  cy.focused().as(comboName).type('s', { delay: COMBOBOX_TYPE_DELAY });
+  cy.get(`@${comboName}`).tab();
+  const cell1Name = `cell1${row}`;
+  cy.focused().as(cell1Name).type('1');
+  cy.get(`@${cell1Name}`).tab();
+  const cell2Name = `cell2${row}`;
+  cy.focused().as(cell2Name).type('1');
+  cy.get(`@${cell2Name}`).tab();
 }
 
 function addRow() {
