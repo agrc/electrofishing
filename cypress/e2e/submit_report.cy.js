@@ -1,7 +1,7 @@
+/* eslint-disable cypress/no-unnecessary-waiting, cypress/unsafe-to-chain-command */
 import commonIntercepts from './common_intercepts';
 import { loadAndSignIn } from './utils';
 
-/* eslint-disable cypress/no-unnecessary-waiting */
 describe('SubmitReport', () => {
   beforeEach(() => {
     indexedDB.deleteDatabase('electrofishing');

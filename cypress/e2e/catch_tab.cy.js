@@ -1,4 +1,4 @@
-/* eslint-disable cypress/no-unnecessary-waiting */
+/* eslint-disable cypress/no-unnecessary-waiting, cypress/unsafe-to-chain-command */
 import commonIntercepts from './common_intercepts';
 import { loadAndSignIn } from './utils';
 
