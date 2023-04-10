@@ -8,6 +8,16 @@
 * allow for decimal places on more fields in habitat ([3319a36](https://github.com/agrc/electrofishing/commit/3319a367f06e39c615958ea9397099aa8369b7f8)), closes [#313](https://github.com/agrc/electrofishing/issues/313)
 * bump dependencies 🌲 ([2c8e119](https://github.com/agrc/electrofishing/commit/2c8e11934d4933c40806d2135c5c29f69259be16))
 
+## [2.3.0](https://github.com/agrc/electrofishing/compare/v2.3.0-0...v2.3.0) (2023-04-10)
+
+
+### 🐛 Bug Fixes
+
+* **function:** switch to node lts ([f22643d](https://github.com/agrc/electrofishing/commit/f22643d767f7d5842f127f37171dcdc08ede282d))
+* harden flakey cypress test ([6fa71cd](https://github.com/agrc/electrofishing/commit/6fa71cd2c6153bdaa0196c342cab6c9af9eead45))
+* point dependabot back at main ([0c979d6](https://github.com/agrc/electrofishing/commit/0c979d680329782d9492e4898f327241003a0c4a))
+* Q2 Dep Bumps 🌲 ([bd44f95](https://github.com/agrc/electrofishing/commit/bd44f952fd496e67264a4fc029417857ecbbd288))
+
 ## [2.3.0-1](https://github.com/agrc/electrofishing/compare/v2.3.0-0...v2.3.0-1) (2023-04-04)
 
 
