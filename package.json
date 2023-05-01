@@ -112,7 +112,7 @@
     "eslint-plugin-testing-library": "^5.10.2",
     "firebase-tools": "^11.25.2",
     "prettier": "^2.8.7",
-    "sass": "^1.60.0",
+    "sass": "^1.62.1",
     "storybook": "next",
     "vite": "^4.2.1",
     "vitest": "^0.29.8"
