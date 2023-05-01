@@ -81,7 +81,7 @@
     "pubsub-js": "^1.9.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-error-boundary": "^4.0.3",
+    "react-error-boundary": "^4.0.4",
     "react-leaflet": "^4.2.1",
     "react-toastify": "^9.1.2",
     "spin.js": "^4.1.1",
