@@ -69,7 +69,7 @@
     "clsx": "^1.2.1",
     "downshift": "^7.6.0",
     "esri-leaflet": "^3.0.1",
-    "firebase": "^9.19.1",
+    "firebase": "^9.21.0",
     "immer": "^9.0.21",
     "leaflet": "^1.7.1",
     "leaflet-loading": "^0.1.24",
