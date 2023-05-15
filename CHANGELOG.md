@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.1-0](https://github.com/agrc/electrofishing/compare/v2.3.0-1...v2.3.1-0) (2023-05-15)
+
+
+### 🐛 Bug Fixes
+
+* allow for decimal places on more fields in habitat ([3319a36](https://github.com/agrc/electrofishing/commit/3319a367f06e39c615958ea9397099aa8369b7f8)), closes [#313](https://github.com/agrc/electrofishing/issues/313)
+* bump dependencies 🌲 ([2c8e119](https://github.com/agrc/electrofishing/commit/2c8e11934d4933c40806d2135c5c29f69259be16))
+
 ## [2.3.0-1](https://github.com/agrc/electrofishing/compare/v2.3.0-0...v2.3.0-1) (2023-04-04)
 
 
