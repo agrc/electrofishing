@@ -351,6 +351,7 @@ function Habitat() {
             label="Conductivity (μs/cm)"
             min="0"
             max="15000"
+            step="0.1"
             field={fnHabitat.CON}
             value={habitat[fnHabitat.CON]}
           />
@@ -358,6 +359,7 @@ function Habitat() {
             label="Dissolved Oxygen (mg/l)"
             min="0"
             max="1500"
+            step="0.1"
             field={fnHabitat.OXYGEN}
             value={habitat[fnHabitat.OXYGEN]}
           />
@@ -365,6 +367,7 @@ function Habitat() {
             label="Total Dissolved Solids (ppm)"
             min="0"
             max="5000"
+            step="0.1"
             field={fnHabitat.SOLIDS}
             value={habitat[fnHabitat.SOLIDS]}
           />
@@ -372,6 +375,7 @@ function Habitat() {
             label="Turbidity (NTU)"
             min="0"
             max="3000"
+            step="0.1"
             field={fnHabitat.TURBIDITY}
             value={habitat[fnHabitat.TURBIDITY]}
           />
@@ -379,6 +383,7 @@ function Habitat() {
             label="Alkalinity (ppm CaCO3)"
             min="0"
             max="1000"
+            step="0.1"
             field={fnHabitat.ALKALINITY}
             value={habitat[fnHabitat.ALKALINITY]}
           />
