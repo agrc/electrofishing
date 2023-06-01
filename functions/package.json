@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "dotenv": "^16.0.3",
-    "firebase-admin": "^11.8.0",
+    "firebase-admin": "^11.9.0",
     "firebase-auth-arcgis-server-proxy": "^1.2.5",
     "firebase-functions": "^4.4.0"
   },
