@@ -114,7 +114,7 @@
     "firebase-tools": "^12.0.0",
     "prettier": "^2.8.8",
     "sass": "^1.62.1",
-    "storybook": "^7.0.12",
+    "storybook": "^7.0.24",
     "vite": "^4.3.6",
     "vitest": "^0.31.0"
   }
