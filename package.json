@@ -6,7 +6,7 @@
     "build:stage": "export VITE_BUILD=stage && npm run build:sw && vite build",
     "build:sw": "esbuild src/ServiceWorker.js --bundle --outfile=public/ServiceWorker.js --define:process.env.VITE_FIREBASE_CONFIG=$(npx dotenv -p VITE_FIREBASE_CONFIG)",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run",
+    "cypress:run": "cypress run --browser chrome",
     "postinstall": "cd functions && npm install",
     "lint": "eslint . --ext .js,.jsx",
     "preview": "vite preview",
