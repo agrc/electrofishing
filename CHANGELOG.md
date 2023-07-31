@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.3.2-0](https://github.com/agrc/electrofishing/compare/v2.3.1...v2.3.2-0) (2023-07-31)
+
+
+### 🐛 Bug Fixes
+
+* bump deps 🌲 ([900fe86](https://github.com/agrc/electrofishing/commit/900fe869d27267261b599942668b489c5b99bc81))
+* cypress tests ([94bfb26](https://github.com/agrc/electrofishing/commit/94bfb261ceab98873b41e1967ec0e68ee0ae37c0))
+* cypress tests ([62a607c](https://github.com/agrc/electrofishing/commit/62a607cdeb55d5aa74859b4e6a6a5dc8cc833216))
+* Q3 Dependency Bumps 🌲 ([edcdf68](https://github.com/agrc/electrofishing/commit/edcdf68b6f48f1e54b21a85a8dc3ef97653632d3))
+* run cypress tests via chrome and increase timeout ([297d1e6](https://github.com/agrc/electrofishing/commit/297d1e6158c2a7bd69a0921e68a7badd2cbb3539))
+* tab focused element ([5c97bee](https://github.com/agrc/electrofishing/commit/5c97bee0f629b5a4a9bda6c9626b9342d84c5bce))
+
 ## [2.3.1](https://github.com/agrc/electrofishing/compare/v2.3.0-1...v2.3.1) (2023-05-16)
 
 
