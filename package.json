@@ -1,6 +1,6 @@
 {
   "name": "electrofishing",
-  "version": "2.3.1",
+  "version": "2.3.2-0",
   "scripts": {
     "build": "export VITE_BUILD=prod && npm run build:sw && vite build",
     "build:stage": "export VITE_BUILD=stage && npm run build:sw && vite build",
