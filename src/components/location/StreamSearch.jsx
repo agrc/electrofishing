@@ -265,6 +265,7 @@ export default function StreamSearch({ map, streamsFeatureService, lakesFeatureS
             placeholder="stream/lake name"
             type="text"
             name="stream search"
+            data-testid="stream-search"
             {...getInputProps()}
           />
           <span className="input-group-addon">
