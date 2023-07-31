@@ -5,10 +5,12 @@ import { loadAndSignIn } from './utils';
 const COMBOBOX_TYPE_DELAY = 100;
 function populateFishRow(row) {
   const inputName = `input${row}`;
-  cy.get(`tbody > :nth-child(${row}) > :nth-child(2) input`).as(inputName).type('tm', { delay: COMBOBOX_TYPE_DELAY });
+  cy.get(`tbody > :nth-child(${row}) > :nth-child(2) input`)
+    .as(inputName)
+    .type('tm', { delay: COMBOBOX_TYPE_DELAY, force: true });
   cy.get(`@${inputName}`).tab();
   const comboName = `combo${row}`;
-  cy.focused().as(comboName).type('s', { delay: COMBOBOX_TYPE_DELAY });
+  cy.focused().as(comboName).type('s', { delay: COMBOBOX_TYPE_DELAY, force: true });
   cy.get(`@${comboName}`).tab();
   const cell1Name = `cell1${row}`;
   cy.focused().as(cell1Name).type('1');
