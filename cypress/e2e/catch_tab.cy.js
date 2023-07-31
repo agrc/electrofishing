@@ -14,10 +14,10 @@ function populateFishRow(row) {
   cy.get(`@${comboName}`).tab();
   const cell1Name = `cell1${row}`;
   cy.focused().as(cell1Name).type('1');
-  cy.get(`@${cell1Name}`).tab();
+  cy.focused().tab();
   const cell2Name = `cell2${row}`;
   cy.focused().as(cell2Name).type('1');
-  cy.get(`@${cell2Name}`).tab();
+  cy.focused().tab();
 }
 
 function addRow() {
