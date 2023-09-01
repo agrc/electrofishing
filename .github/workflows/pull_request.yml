@@ -36,7 +36,7 @@ jobs:
           cache: npm
 
       - name: Cypress run
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v6
         env:
           VITE_QUAD_WORD: test
           VITE_FIREBASE_CONFIG: ${{ secrets.TEST_FIREBASE_CONFIG }}
