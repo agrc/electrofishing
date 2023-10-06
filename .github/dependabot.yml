@@ -10,7 +10,7 @@ updates:
       major-app-dependencies:
         update-types: ['major']
   - package-ecosystem: npm
-    directory: /function
+    directory: /functions
     schedule:
       interval: monthly
     groups:
