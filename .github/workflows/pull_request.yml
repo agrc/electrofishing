@@ -27,7 +27,7 @@ jobs:
       - name: 💾 Cache firebase emulators
         uses: actions/cache@v3
         with:
-          path: ~/.cache/firebase/emulators
+          path: /home/runner/.cache/firebase/emulators
           key: ${{ runner.os }}-firebase-emulators-${{ hashFiles('emulator-cache/**') }}
         continue-on-error: true
 
