@@ -12,21 +12,19 @@
     <div id="root"></div>
     <script type="module" src="src/main.jsx"></script>
 
-    <!-- GOOGLE ANALYTICS -->
-    <script type="text/javascript">
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'CODE???']);
-      _gaq.push(['_trackPageview']);
-
-      (function () {
-        var ga = document.createElement('script');
-        ga.type = 'text/javascript';
-        ga.async = true;
-        ga.src =
-          ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(ga, s);
-      })();
+    <!-- Google Analytics -->
+    <script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-2DZDCJS6E7"
+      ></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+    
+        gtag('config', 'G-2DZDCJS6E7', { debug_mode: JSON.parse('%DEV%') });
     </script>
   </body>
 </htmlu>
