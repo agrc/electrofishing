@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.3.3](https://github.com/agrc/electrofishing/compare/v2.3.2...v2.3.3) (2023-10-09)
+
+
+### 🐛 Bug Fixes
+
+* remote old google analytics config ([3a3b7d3](https://github.com/agrc/electrofishing/commit/3a3b7d3d16a185a6826a0f6ab73e8ce147ccb22e))
+
+
+### 🌲 Dependencies
+
+* bump the safe-app-dependencies group with 27 updates ([410ea0f](https://github.com/agrc/electrofishing/commit/410ea0f2b834a9335a4e54f8ff34e55192ae517e))
+* npm audit fix ([ca8b7d3](https://github.com/agrc/electrofishing/commit/ca8b7d33de92e09a6e333ea157ed5c0d7e983446))
+* Q4 Dependency Bumps 🌲 ([637bca1](https://github.com/agrc/electrofishing/commit/637bca1459ae526fbb7391c6364d42656d2cc1a5))
+
 ## [2.3.2](https://github.com/agrc/electrofishing/compare/v2.3.1...v2.3.2) (2023-08-01)
 
 
