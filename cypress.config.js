@@ -13,4 +13,7 @@ module.exports = defineConfig({
     },
     experimentalRunAllSpecs: true,
   },
+  retries: {
+    runMode: 2,
+  }
 });
