@@ -65,7 +65,7 @@
   },
   "dependencies": {
     "@tanstack/react-table": "^8.10.6",
-    "bootstrap": "^3.4.1",
+    "bootstrap": "^4.6.2",
     "clsx": "^2.0.0",
     "downshift": "^8.2.2",
     "esri-leaflet": "^3.0.11",
