@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: ⬇️ Set up code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 💾 Cache firebase emulators
         uses: actions/cache@v3
@@ -36,7 +36,7 @@ jobs:
           cache: npm
 
       - name: Cypress run
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v6
         env:
           VITE_QUAD_WORD: test
           VITE_FIREBASE_CONFIG: ${{ secrets.TEST_FIREBASE_CONFIG }}
@@ -67,7 +67,7 @@ jobs:
 
     steps:
       - name: ⬇️ Set up code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: ⎔ Setup Node.js
         uses: actions/setup-node@v3
@@ -86,7 +86,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: ⎔ Setup Node.js
         uses: actions/setup-node@v3
