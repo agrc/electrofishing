@@ -10,4 +10,7 @@ export default defineConfig({
     })}'`,
     'process.env.VITE_BUILD': '"test"',
   },
+  server: {
+    host: true,
+  },
 });
