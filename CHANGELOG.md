@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.4](https://github.com/agrc/electrofishing/compare/v2.3.3...v2.3.4) (2023-10-20)
+
+
+### 🌲 Dependencies
+
+* **dev:** bump @babel/traverse from 7.23.0 to 7.23.2 ([5fd9d88](https://github.com/agrc/electrofishing/commit/5fd9d88d3502aa1d3e06045a41df4d4e3c96e63b))
+
 ## [2.3.3](https://github.com/agrc/electrofishing/compare/v2.3.2...v2.3.3) (2023-10-09)
 
 
