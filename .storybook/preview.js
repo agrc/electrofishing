@@ -1,9 +1,5 @@
 import '../src/index.scss';
 
-const preview = {
-  parameters: {
-    actions: { argTypesRegex: '^on[A-Z].*' },
-  },
-};
+const preview = {};
 
 export default preview;
