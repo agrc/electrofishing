@@ -2,6 +2,8 @@ import topic from 'pubsub-js';
 import { useState } from 'react';
 import config from '../../config';
 import StartDistDirGeoDef from './StartDistDirGeoDef.jsx';
+import { initializeApp } from 'firebase/app';
+import { AppContext } from '../../App.jsx';
 
 const story = {
   title: 'StartDistDirGeoDef ',
@@ -9,6 +11,8 @@ const story = {
 };
 
 export default story;
+
+initializeApp(JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG));
 
 export const Default = () => {
   const map = {
@@ -35,8 +39,10 @@ export const Default = () => {
 
   return (
     <>
-      <StartDistDirGeoDef map={map} params={params} setParams={setParams} />
-      <button onClick={mapClick}>Map click</button>
+      <AppContext.Provider value={{ appState: { settings: { coordType: 'something' } }, appDispatch: () => {} }}>
+        <StartDistDirGeoDef map={map} params={params} setParams={setParams} />
+        <button onClick={mapClick}>Map click</button>
+      </AppContext.Provider>
     </>
   );
 };

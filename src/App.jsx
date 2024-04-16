@@ -10,7 +10,7 @@ import config from './config';
 import { SamplingEventProvider } from './hooks/samplingEventContext.jsx';
 import useAuthentication from './hooks/useAuthentication';
 
-const AppContext = React.createContext();
+export const AppContext = React.createContext();
 
 export function useAppContext() {
   const context = React.useContext(AppContext);

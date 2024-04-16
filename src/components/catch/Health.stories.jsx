@@ -7,4 +7,4 @@ const story = {
 
 export default story;
 
-export const Default = () => <Health />;
+export const Default = () => <Health state={{ EYE: 'test' }} onChange={() => {}} />;
