@@ -85,11 +85,6 @@ const reducer = (draft, action) => {
 const App = () => {
   const [appState, appDispatch] = useImmerReducer(reducer, initialState);
 
-  React.useEffect(() => {
-    // for cypress tests
-    document.body.className += ' loaded';
-  }, []);
-
   React.useLayoutEffect(() => {
     // this need to fire before the code in useAuthentication runs
     initializeApp(JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG));

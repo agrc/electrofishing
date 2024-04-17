@@ -1,11 +1,9 @@
 import {
-  browserSessionPersistence,
   connectAuthEmulator,
   getAuth,
   OAuthProvider,
-  setPersistence,
   signInWithPopup,
-  signInWithRedirect,
+  onAuthStateChanged,
   signOut,
 } from 'firebase/auth';
 import React from 'react';
@@ -39,7 +37,7 @@ function checkClaims(claims) {
   return (
     claims.firebase?.sign_in_attributes?.['DWRElectroFishing:AccessGranted'] &&
     claims.firebase.sign_in_attributes['DWRElectroFishing:AccessGranted'].includes(
-      utahIDEnvironments[import.meta.env.VITE_BUILD]
+      utahIDEnvironments[import.meta.env.VITE_BUILD],
     )
   );
 }
@@ -61,7 +59,7 @@ export default function useAuthentication() {
       connectAuthEmulator(authRef.current, 'http://127.0.0.1:9099');
     }
 
-    auth.onAuthStateChanged((user) => {
+    onAuthStateChanged(auth, (user) => {
       if (user) {
         initializeUser(user);
       }
@@ -89,13 +87,7 @@ export default function useAuthentication() {
     const provider = new OAuthProvider('oidc.utahid');
     provider.addScope('app:DWRElectroFishing');
 
-    if (!window.Cypress) {
-      signInWithPopup(authRef.current, provider);
-    } else {
-      setPersistence(authRef.current, browserSessionPersistence).then(() => {
-        return signInWithRedirect(authRef.current, provider);
-      });
-    }
+    signInWithPopup(authRef.current, provider);
   };
 
   const logOut = () => {

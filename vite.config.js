@@ -13,4 +13,8 @@ export default defineConfig({
   server: {
     host: true,
   },
+  exclude: ['./e2e/**', './playwright-report/**'],
+  test: {
+    exclude: ['./e2e/**', '**/node_modules/**'],
+  },
 });
