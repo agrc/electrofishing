@@ -2,17 +2,18 @@
   "name": "electrofishing",
   "version": "2.3.3",
   "scripts": {
-    "build": "export VITE_BUILD=prod && npm run build:sw && vite build",
     "build:stage": "export VITE_BUILD=stage && npm run build:sw && vite build",
     "build:sw": "esbuild src/ServiceWorker.js --bundle --outfile=public/ServiceWorker.js --define:process.env.VITE_FIREBASE_CONFIG=$(npx dotenv -p VITE_FIREBASE_CONFIG)",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run --browser chrome",
-    "postinstall": "cd functions && npm install",
+    "build": "export VITE_BUILD=prod && npm run build:sw && vite build",
+    "e2e": "playwright test",
     "lint": "eslint . --ext .js,.jsx",
+    "postinstall": "cd functions && npm install",
     "preview": "vite preview",
-    "start": "concurrently \"npm run start:app\" \"npm run start:firebase-emulators\"",
     "start:app": "npm run build:sw && vite",
+    "start:e2e-resources": "concurrently \"firebase emulators:start --only firestore,auth\" \"vite\"",
+    "start:e2e": "playwright test --ui",
     "start:firebase-emulators": "firebase emulators:start --import emulator_data --export-on-exit --only firestore,functions,auth,ui",
+    "start": "concurrently \"npm run start:app\" \"npm run start:firebase-emulators\"",
     "storybook": "storybook dev -p 9009",
     "test": "npm run lint && vitest"
   },
@@ -43,7 +44,6 @@
       }
     },
     "plugins": [
-      "cypress",
       "react",
       "prettier",
       "import",
@@ -56,8 +56,7 @@
       "plugin:react/jsx-runtime",
       "plugin:react-hooks/recommended",
       "plugin:import/recommended",
-      "prettier",
-      "plugin:cypress/recommended"
+      "prettier"
     ],
     "globals": {
       "L": "readonly"
@@ -89,23 +88,20 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.43.1",
     "@storybook/addon-actions": "^8.0.8",
     "@storybook/addon-essentials": "^8.0.8",
     "@storybook/addon-links": "^8.0.8",
     "@storybook/preset-scss": "^1.0.3",
     "@storybook/react": "^8.0.8",
     "@storybook/react-vite": "^8.0.8",
-    "@testing-library/cypress": "^10.0.1",
+    "@types/node": "^20.12.7",
     "@vitejs/plugin-react": "^4.2.1",
     "concurrently": "^8.2.2",
-    "cypress": "^13.7.3",
-    "cypress-plugin-tab": "^1.0.5",
-    "cypress-terminal-report": "^5.3.7",
     "dotenv-cli": "^7.4.1",
     "esbuild": "^0.20.2",
     "eslint": "^8.51.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-cypress": "^2.15.2",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-react": "^7.34.1",
