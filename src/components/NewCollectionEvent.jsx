@@ -78,7 +78,7 @@ const NewCollectionEvent = () => {
     // TODO: handle stream reach geometry once geodefs have been converted to react components
 
     localforage.getItem(LOCAL_STORAGE_IN_PROGRESS_ITEM_ID).then((data) => {
-      if (!window.Cypress && data && Object.values(data).length) {
+      if (!window.IS_PLAYWRIGHT && data && Object.values(data).length) {
         console.log('hydrating with cached data');
 
         eventDispatch({
@@ -168,8 +168,9 @@ const NewCollectionEvent = () => {
           transect,
           eventState[config.tableNames.transectMeasurements].filter(
             (m) =>
-              m[config.fieldNames.transectMeasurements.TRANSECT_ID] === transect[config.fieldNames.transect.TRANSECT_ID]
-          )
+              m[config.fieldNames.transectMeasurements.TRANSECT_ID] ===
+              transect[config.fieldNames.transect.TRANSECT_ID],
+          ),
         );
 
         return validationResult?.type === 'danger';
@@ -295,7 +296,7 @@ const NewCollectionEvent = () => {
     // stringify, parse is so that we have a clean object to store in localforage
     await archivesLocalForage.current.setItem(
       submitData[config.tableNames.samplingEvents].attributes[config.fieldNames.samplingEvents.EVENT_ID],
-      JSON.parse(JSON.stringify(submitData))
+      JSON.parse(JSON.stringify(submitData)),
     );
   };
 
