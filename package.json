@@ -1,6 +1,6 @@
 {
   "name": "electrofishing",
-  "version": "2.3.3",
+  "version": "2.4.0-0",
   "scripts": {
     "build:stage": "export VITE_BUILD=stage && npm run build:sw && vite build",
     "build:sw": "esbuild src/ServiceWorker.js --bundle --outfile=public/ServiceWorker.js --define:process.env.VITE_FIREBASE_CONFIG=$(npx dotenv -p VITE_FIREBASE_CONFIG)",
