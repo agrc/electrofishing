@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.4.0](https://github.com/agrc/electrofishing/compare/v2.3.3...v2.4.0) (2024-04-18)
+
+
+### 🚀 Features
+
+* add analytics ([648ee7a](https://github.com/agrc/electrofishing/commit/648ee7ac6b553386056b759ef01927ec28a69f7a))
+
+
+### 🌲 Dependencies
+
+* bump firebase-admin ([89b52de](https://github.com/agrc/electrofishing/commit/89b52de02977e66b3e755124c603ee6350a083da))
+* **dev:** bump @babel/traverse from 7.23.0 to 7.23.2 ([5fd9d88](https://github.com/agrc/electrofishing/commit/5fd9d88d3502aa1d3e06045a41df4d4e3c96e63b))
+* **dev:** bump firebase-tools in the safe-app-dependencies group ([44ffd2d](https://github.com/agrc/electrofishing/commit/44ffd2d8762c754b58917c64fecfa2d3c3efb89d))
+* Q4 dependency bumps ([d8f6150](https://github.com/agrc/electrofishing/commit/d8f615028bc1b775e32529200336a2e76ceafbef))
+
 ## [2.4.0-0](https://github.com/agrc/electrofishing/compare/v2.3.3...v2.4.0-0) (2024-04-18)
 
 
