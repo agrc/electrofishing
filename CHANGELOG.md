@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.4.0-0](https://github.com/agrc/electrofishing/compare/v2.3.3...v2.4.0-0) (2024-04-18)
+
+
+### 🚀 Features
+
+* add analytics ([648ee7a](https://github.com/agrc/electrofishing/commit/648ee7ac6b553386056b759ef01927ec28a69f7a))
+
+
+### 🌲 Dependencies
+
+* **dev:** bump @babel/traverse from 7.23.0 to 7.23.2 ([5fd9d88](https://github.com/agrc/electrofishing/commit/5fd9d88d3502aa1d3e06045a41df4d4e3c96e63b))
+* Q4 dependency bumps ([d8d5de9](https://github.com/agrc/electrofishing/commit/d8d5de91daec86dd92f2c0b3646c96fca486e11e))
+
 ## [2.3.3](https://github.com/agrc/electrofishing/compare/v2.3.2...v2.3.3) (2023-10-09)
 
 
