@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.4.1-0](https://github.com/agrc/electrofishing/compare/v2.4.0...v2.4.1-0) (2024-07-03)
+
+
+### Dependencies
+
+* npm audit fix ([efa4044](https://github.com/agrc/electrofishing/commit/efa404425e665aecf4bc05dd10aff3a563342f55))
+* Q1 dependency bumps 🌲 ([a98c2c6](https://github.com/agrc/electrofishing/commit/a98c2c670fd54a36804810bbc1bbd2d7ad76785c))
+
 ## [2.4.0](https://github.com/agrc/electrofishing/compare/v2.3.3...v2.4.0) (2024-04-18)
 
 
