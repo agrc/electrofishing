@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.4.1](https://github.com/agrc/electrofishing/compare/v2.4.0...v2.4.1) (2024-07-03)
+
+
+### Dependencies
+
+* bump firebase ([b2b052d](https://github.com/agrc/electrofishing/commit/b2b052d3e3f377af8b9e661554944379c49978bc))
+* npm audit fix ([139350f](https://github.com/agrc/electrofishing/commit/139350f86ce685b0d16e874bb6f180dc3c7354df))
+* Q1 dependency bumps 🌲 ([2bd7e04](https://github.com/agrc/electrofishing/commit/2bd7e04cf0b5e1459ed5fd6d5269ed8a0f47b452))
+
 ## [2.4.1-0](https://github.com/agrc/electrofishing/compare/v2.4.0...v2.4.1-0) (2024-07-03)
 
 
