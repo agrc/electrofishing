@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.2](https://github.com/agrc/electrofishing/compare/v2.4.1...v2.4.2) (2024-07-08)
+
+
+### Bug Fixes
+
+* update package lock file ([0721c0d](https://github.com/agrc/electrofishing/commit/0721c0db8ca2428db508a8af1b5011faabe2024f))
+
 ## [2.4.1](https://github.com/agrc/electrofishing/compare/v2.4.0...v2.4.1) (2024-07-03)
 
 
