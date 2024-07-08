@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.3-0](https://github.com/agrc/electrofishing/compare/v2.4.2...v2.4.3-0) (2024-07-08)
+
+
+### Bug Fixes
+
+* test release output ([f7f70c4](https://github.com/agrc/electrofishing/commit/f7f70c4f905d5248a6a8130521142553feb97bee))
+
 ## [2.4.2](https://github.com/agrc/electrofishing/compare/v2.4.1...v2.4.2) (2024-07-08)
 
 
