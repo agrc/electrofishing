@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.3-1](https://github.com/agrc/electrofishing/compare/v2.4.2...v2.4.3-1) (2024-10-02)
+
+
+### Dependencies
+
+* FY25Q2 dependency updates 🌲 ([f43fbe5](https://github.com/agrc/electrofishing/commit/f43fbe536e82aa306e371bbbf77dfbe602545b64))
+
 ## [2.4.2](https://github.com/agrc/electrofishing/compare/v2.4.1...v2.4.2) (2024-07-08)
 
 
