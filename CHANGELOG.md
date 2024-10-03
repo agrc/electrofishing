@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.4.3](https://github.com/agrc/electrofishing/compare/v2.4.2...v2.4.3) (2024-10-03)
+
+
+### Dependencies
+
+* bump the npm_and_yarn group in /functions with 2 updates ([631646f](https://github.com/agrc/electrofishing/commit/631646f6109ee76d6c574f65d63693c0ea79de0f))
+* bump the npm_and_yarn group in /functions with 5 updates ([152aac4](https://github.com/agrc/electrofishing/commit/152aac4c8f39de56f95dc83ccf9fc969c997f539))
+* bump the safe-function-dependencies group across 1 directory with 2 updates ([4c35466](https://github.com/agrc/electrofishing/commit/4c35466f8fa76b051e53bda27e538ab8a0e38b10))
+* FY25Q2 dependency updates 🌲 ([484681e](https://github.com/agrc/electrofishing/commit/484681e11791bbe917483c180d7f36db1c65b17b))
+
 ## [2.4.2](https://github.com/agrc/electrofishing/compare/v2.4.1...v2.4.2) (2024-07-08)
 
 
