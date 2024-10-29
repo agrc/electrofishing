@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import initProxy from 'firebase-auth-arcgis-server-proxy';
+import initProxy from '@ugrc/firebase-auth-arcgis-server-proxy';
 import functions from 'firebase-functions';
 
 const options = {
@@ -35,7 +35,7 @@ const options = {
     return (
       claims.firebase?.sign_in_attributes?.['DWRElectroFishing:AccessGranted'] &&
       claims.firebase.sign_in_attributes['DWRElectroFishing:AccessGranted'].includes(
-        utahIDEnvironments[process.env.ENVIRONMENT]
+        utahIDEnvironments[process.env.ENVIRONMENT],
       )
     );
   },
