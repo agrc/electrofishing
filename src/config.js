@@ -191,7 +191,7 @@ const config = {
 
   // version: String
   //      The app version number.
-  version: '2.4.4', // x-release-please-version
+  version: '2.4.5', // x-release-please-version
 
   // coordTypes: {key:String}
   //      Coordinate types as used in app/SettingsDialog

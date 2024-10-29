@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.5](https://github.com/agrc/electrofishing/compare/v2.4.4...v2.4.5) (2024-10-29)
+
+
+### Dependencies
+
+* dependabot dependency updates 🌲 ([adedfea](https://github.com/agrc/electrofishing/commit/adedfea9abdb610315d98f839436dcefa2962b42))
+
 ## [2.4.4](https://github.com/agrc/electrofishing/compare/v2.4.3...v2.4.4) (2024-10-03)
 
 
