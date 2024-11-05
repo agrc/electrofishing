@@ -3,6 +3,7 @@ import React from 'react';
 import { useImmerReducer } from 'use-immer';
 import config from '../config';
 import getGUID from '../helpers/getGUID';
+import { EQUIPMENT_TYPES } from '../components/method/Equipment.jsx';
 
 const SamplingEventContext = React.createContext();
 export const actionTypes = {
@@ -34,7 +35,7 @@ export const actionTypes = {
 function getNewEquipment(eventId) {
   return {
     [config.fieldNames.equipment.EVENT_ID]: eventId,
-    [config.fieldNames.equipment.TYPE]: 'backpack',
+    [config.fieldNames.equipment.TYPE]: EQUIPMENT_TYPES.BACKPACK,
     [config.fieldNames.equipment.EQUIPMENT_ID]: getGUID(),
     [config.fieldNames.equipment.MODEL]: null,
     [config.fieldNames.equipment.ARRAY_TYPE]: null,
@@ -242,7 +243,7 @@ const reducer = (draft, action) => {
 
     case actionTypes.ADD_EQUIPMENT:
       draft[config.tableNames.equipment].push(
-        getNewEquipment(draft[config.tableNames.samplingEvents].attributes[config.fieldNames.samplingEvents.EVENT_ID])
+        getNewEquipment(draft[config.tableNames.samplingEvents].attributes[config.fieldNames.samplingEvents.EVENT_ID]),
       );
 
       break;
@@ -271,8 +272,8 @@ const reducer = (draft, action) => {
         getNewFish(
           draft[config.tableNames.samplingEvents].attributes[config.fieldNames.samplingEvents.EVENT_ID],
           newPass,
-          null
-        )
+          null,
+        ),
       );
 
       break;
@@ -283,32 +284,32 @@ const reducer = (draft, action) => {
         getNewFish(
           draft[config.tableNames.samplingEvents].attributes[config.fieldNames.samplingEvents.EVENT_ID],
           action.payload,
-          draft[config.tableNames.fish]
-        )
+          draft[config.tableNames.fish],
+        ),
       );
 
       break;
 
     case actionTypes.REMOVE_FISH:
       draft[config.tableNames.fish] = draft[config.tableNames.fish].filter(
-        (fish) => fish[config.fieldNames.fish.FISH_ID] !== action.payload
+        (fish) => fish[config.fieldNames.fish.FISH_ID] !== action.payload,
       );
 
       draft[config.tableNames.tags] = draft[config.tableNames.tags].filter(
-        (tag) => tag[config.fieldNames.tags.FISH_ID] !== action.payload
+        (tag) => tag[config.fieldNames.tags.FISH_ID] !== action.payload,
       );
       draft[config.tableNames.health] = draft[config.tableNames.health].filter(
-        (health) => health[config.fieldNames.health.FISH_ID] !== action.payload
+        (health) => health[config.fieldNames.health.FISH_ID] !== action.payload,
       );
       draft[config.tableNames.diet] = draft[config.tableNames.diet].filter(
-        (diet) => diet[config.fieldNames.diet.FISH_ID] !== action.payload
+        (diet) => diet[config.fieldNames.diet.FISH_ID] !== action.payload,
       );
 
       break;
 
     case actionTypes.UPDATE_FISH: {
       const updateFishIndex = draft[config.tableNames.fish].findIndex(
-        (f) => f[config.fieldNames.fish.FISH_ID] === action.meta
+        (f) => f[config.fieldNames.fish.FISH_ID] === action.meta,
       );
       draft[config.tableNames.fish][updateFishIndex] = {
         ...draft[config.tableNames.fish][updateFishIndex],
@@ -319,7 +320,7 @@ const reducer = (draft, action) => {
     }
     case actionTypes.UPDATE_HEALTH: {
       const updateHealthIndex = draft[config.tableNames.health].findIndex(
-        (f) => f[config.fieldNames.fish.FISH_ID] === action.meta
+        (f) => f[config.fieldNames.fish.FISH_ID] === action.meta,
       );
 
       if (updateHealthIndex === -1) {
