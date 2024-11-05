@@ -16,7 +16,7 @@ export const Default = () => {
   const [state, setState] = useState({
     equipment: {
       [fieldNames.EVENT_ID]: getGUID(),
-      [fieldNames.TYPE]: 'backpack',
+      [fieldNames.TYPE]: 'Backpack/Canoe',
       [fieldNames.EQUIPMENT_ID]: getGUID(),
       [fieldNames.MODEL]: null,
       [fieldNames.ARRAY_TYPE]: null,

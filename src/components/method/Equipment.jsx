@@ -7,9 +7,9 @@ import NumericInputValidator from '../NumericInputValidator.jsx';
 
 const ACTIVE = 'active';
 export const EQUIPMENT_TYPES = {
-  BACKPACK: 'backpack',
-  CANOEBARGE: 'canoebarge',
-  RAFTBOAT: 'raftboat',
+  BACKPACK: 'Backpack',
+  CANOEBARGE: 'Canoe/Barge',
+  RAFTBOAT: 'Raft/Boat',
 };
 export const CATHODE_TYPES = {
   BOAT: 'Boat',
@@ -87,7 +87,7 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
         const value = c.accessorKey === fieldNamesAN.EQUIPMENT_ID ? state.equipment[fieldNamesEQ.EQUIPMENT_ID] : null;
 
         return [c.accessorKey, value];
-      })
+      }),
     );
   }
 
