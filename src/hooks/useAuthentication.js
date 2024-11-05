@@ -54,7 +54,7 @@ export default function useAuthentication() {
 
     initServiceWorker();
 
-    if (import.meta.env.VITE_BUILD === 'development') {
+    if (import.meta.env.VITE_BUILD === 'development' && !authRef.current.emulatorConfig) {
       // comment out this and the auth config in firebase.json to hit utahid directly
       connectAuthEmulator(authRef.current, 'http://127.0.0.1:9099');
     }
