@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.6-0](https://github.com/agrc/electrofishing/compare/v2.4.5...v2.4.6-0) (2024-11-05)
+
+
+### Bug Fixes
+
+* make equipment type values match domain values ([3d65a97](https://github.com/agrc/electrofishing/commit/3d65a9729f8c6d6696b21b90835293b81dc0a3ea))
+
 ## [2.4.5](https://github.com/agrc/electrofishing/compare/v2.4.4...v2.4.5) (2024-10-29)
 
 
