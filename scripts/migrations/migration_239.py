@@ -38,7 +38,7 @@ def fix_values():
     ]
     field_name = "TYPE"
     print("fixing equipment type values...")
-    layer = arcpy.management.MakeFeatureLayer("Equipment", "equipment_layer")
+    layer = arcpy.management.MakeTableView("Equipment", "equipment_layer")
 
     for old_value, new_value in mappings:
         print(f"fixing {old_value} to {new_value}")
