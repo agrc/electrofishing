@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.4.6](https://github.com/agrc/electrofishing/compare/v2.4.5...v2.4.6) (2024-11-06)
+
+
+### Features
+
+* add data submitter to sampling event data ([5a6d613](https://github.com/agrc/electrofishing/commit/5a6d613d527342632d23bd77cd325e24a2ebc854)), closes [#239](https://github.com/agrc/electrofishing/issues/239)
+
+
+### Bug Fixes
+
+* make equipment type values match domain values ([3b93f10](https://github.com/agrc/electrofishing/commit/3b93f10de58129e86326126a05f2878aac0fb073))
+
+
+### Dependencies
+
+* bump the npm_and_yarn group with 2 updates ([c64a1dc](https://github.com/agrc/electrofishing/commit/c64a1dc773b35c6d2207418db435d6feb65a3fd3))
+
 ## [2.5.0-0](https://github.com/agrc/electrofishing/compare/v2.4.6-0...v2.5.0-0) (2024-11-06)
 
 
