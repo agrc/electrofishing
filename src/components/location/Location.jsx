@@ -10,6 +10,7 @@ import StartDistDirGeoDef from './StartDistDirGeoDef.jsx';
 import StartEndGeoDef from './StartEndGeoDef.jsx';
 import Station from './Station.jsx';
 import VerifyMap from './VerifyMap.jsx';
+import useAuthentication from '../../hooks/useAuthentication';
 
 // successfullyVerifiedMsg: String
 //      message displayed on the verify location button after success
@@ -36,6 +37,17 @@ const Location = () => {
   const [startEndParams, setStartEndParams] = useState(emptyStartEndParams);
   const [startDistDirParams, setStartDistDirParams] = useState(emptyStartDistDirParams);
   const [currentGeoDef, setCurrentGeoDef] = useState(START_END);
+  const { user } = useAuthentication();
+
+  useEffect(() => {
+    if (user) {
+      eventDispatch({
+        type: actionTypes.LOCATION,
+        meta: fieldNames.SUBMITTER,
+        payload: user.email,
+      });
+    }
+  }, [eventDispatch, user]);
 
   const path = useRef(null);
   const geometry = eventState[config.tableNames.samplingEvents].geometry;
@@ -198,7 +210,7 @@ const Location = () => {
           paths.push(
             path.map(function (c) {
               return [c[1], c[0]];
-            })
+            }),
           );
         });
         returnData.path = paths;
@@ -344,7 +356,7 @@ const Location = () => {
       actionTypes.LOCATION,
       config.tableNames.samplingEvents,
       fieldName,
-      parser
+      parser,
     );
   };
 
