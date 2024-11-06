@@ -37,6 +37,7 @@ const fieldNames = {
     WEATHER: 'WEATHER',
     PURPOSE: 'SURVEY_PURPOSE',
     OBSERVERS: 'OBSERVERS',
+    SUBMITTER: 'SUBMITTER',
   },
   equipment: {
     EVENT_ID: fldEVENT_ID,

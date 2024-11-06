@@ -153,6 +153,7 @@ const getBlankState = () => {
         [config.fieldNames.samplingEvents.STATION_ID]: null,
         [config.fieldNames.samplingEvents.SEGMENT_LENGTH]: null,
         [config.fieldNames.samplingEvents.NUM_PASSES]: 1,
+        [config.fieldNames.samplingEvents.SUBMITTER]: null,
       },
       geometry: null,
     },
