@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.0-0](https://github.com/agrc/electrofishing/compare/v2.4.6-0...v2.5.0-0) (2024-11-06)
+
+
+### Features
+
+* add data submitter to sampling event data ([895ca11](https://github.com/agrc/electrofishing/commit/895ca1106ea975b96c8d6864a79cd2ac5d79e7c1)), closes [#239](https://github.com/agrc/electrofishing/issues/239)
+
 ## [2.4.6-0](https://github.com/agrc/electrofishing/compare/v2.4.5...v2.4.6-0) (2024-11-05)
 
 
