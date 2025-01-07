@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import initProxy from '@ugrc/firebase-auth-arcgis-server-proxy';
-import functions from 'firebase-functions';
+import { onRequest } from 'firebase-functions/https';
 
 const options = {
   host: process.env.AGS_HOST,
@@ -43,4 +43,4 @@ const options = {
 
 const [proxy, secrets] = initProxy(options);
 
-export const maps = functions.runWith({ secrets, invoker: 'public' }).https.onRequest(proxy);
+export const maps = onRequest({ secrets, invoker: 'public' }, proxy);
