@@ -13,7 +13,7 @@ test('submits a report', async ({ page }) => {
   await page.locator('.map').first().click();
   await page.getByRole('button', { name: 'Verify Location' }).click();
   await page.getByLabel('Collection Date').fill('2024-04-17');
-  await page.locator('[id="downshift-\\:r7\\:-toggle-button"]').click();
+  await page.locator('[id="downshift-\\:r3\\:-toggle-button"]').click();
   await page.getByRole('option', { name: 'Depletion estimate' }).click();
   await page.getByLabel('Observers').click();
   await page.getByLabel('Observers').fill('test observer');
@@ -45,10 +45,10 @@ test('submits a report', async ({ page }) => {
   await page.locator('#numeric-input-cell-0-COUNT').press('Tab');
   await page.getByRole('button', { name: 'Diet' }).click();
   await page.locator('#dropdown-0-CLASS').click();
-  await page.locator('#dropdown-0-CLASS').fill('');
+  await page.locator('#dropdown-0-CLASS').fill('a', { force: true });
   await page.locator('#dropdown-0-CLASS').press('Tab');
-  await page.locator('a').filter({ hasText: 'Health' }).click();
-  await page.locator('[id="downshift-\\:r1n\\:-toggle-button"]').click();
+  await page.locator('li a[href="#Health_tab"]').click();
+  await page.locator('[id="downshift-\\:rr\\:-toggle-button"]').click();
   await page.locator('#Health_tab').getByText('Blind (1)').click();
   await page.getByText('OK', { exact: true }).click();
   await page.getByRole('link', { name: 'Habitat' }).click();
