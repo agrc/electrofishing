@@ -1,5 +1,7 @@
 import '../src/index.scss';
 
-const preview = {};
+const preview = {
+  tags: ['autodocs']
+};
 
 export default preview;
