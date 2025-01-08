@@ -6,7 +6,7 @@
     "build:sw": "esbuild src/ServiceWorker.js --bundle --outfile=public/ServiceWorker.js --define:process.env.VITE_FIREBASE_CONFIG=$(npx dotenv -p VITE_FIREBASE_CONFIG)",
     "build": "export VITE_BUILD=prod && npm run build:sw && vite build",
     "e2e": "playwright test",
-    "lint": "eslint . --ext .js,.jsx",
+    "lint": "eslint .",
     "postinstall": "cd functions && npm install",
     "preview": "vite preview",
     "start:app": "npm run build:sw && vite",
@@ -23,44 +23,6 @@
   "prettier": {
     "printWidth": 120,
     "singleQuote": true
-  },
-  "eslintConfig": {
-    "env": {
-      "browser": true,
-      "es2022": true,
-      "jquery": true,
-      "node": true
-    },
-    "parserOptions": {
-      "ecmaFeatures": {
-        "jsx": true
-      },
-      "ecmaVersion": "latest",
-      "sourceType": "module"
-    },
-    "settings": {
-      "react": {
-        "version": "detect"
-      }
-    },
-    "plugins": [
-      "react",
-      "prettier",
-      "import",
-      "react-hooks",
-      "testing-library"
-    ],
-    "extends": [
-      "eslint:recommended",
-      "plugin:react/recommended",
-      "plugin:react/jsx-runtime",
-      "plugin:react-hooks/recommended",
-      "plugin:import/recommended",
-      "prettier"
-    ],
-    "globals": {
-      "L": "readonly"
-    }
   },
   "dependencies": {
     "@tanstack/react-table": "^8.20.6",
@@ -89,6 +51,9 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.3",
+    "@eslint/compat": "^1.2.4",
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.17.0",
     "@playwright/test": "^1.49.1",
     "@storybook/addon-actions": "^8.4.7",
     "@storybook/addon-essentials": "^8.4.7",
@@ -109,6 +74,7 @@
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-testing-library": "^7.1.1",
     "firebase-tools": "^13.29.1",
+    "globals": "^15.14.0",
     "prettier": "^3.4.2",
     "sass": "^1.83.1",
     "storybook": "^8.4.7",

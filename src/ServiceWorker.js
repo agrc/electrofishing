@@ -1,5 +1,3 @@
-/* eslint-disable no-restricted-globals */
-
 // inspired by: https://firebase.google.com/docs/auth/web/service-worker-sessions
 import { initializeApp } from 'firebase/app';
 import { getAuth, getIdToken, onAuthStateChanged } from 'firebase/auth';
@@ -30,7 +28,7 @@ const getIdTokenPromise = () => {
               console.error('Error getting ID token after auth state change', error);
               onError();
               resolve(null);
-            }
+            },
           );
         } else {
           console.error('No user is signed in.');
@@ -54,7 +52,6 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   console.log(`service worker activate at: ${new Date().toLocaleTimeString()}`);
-  // eslint-disable-next-line no-undef
   event.waitUntil(self.clients.claim()); // immediately begin to catch fetch events without a page reload
 });
 
@@ -101,7 +98,7 @@ self.addEventListener('fetch', (event) => {
           referrer: req.referrer,
           body,
         });
-      } catch (e) {
+      } catch {
         // This will fail for CORS requests. We just continue with the
         // fetch caching logic below and do not pass the ID token.
       }
