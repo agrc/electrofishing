@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.4.7](https://github.com/agrc/electrofishing/compare/v2.4.6...v2.4.7) (2025-01-08)
+
+
+### Bug Fixes
+
+* **functions:** upgrade to gen 2 function ([b9f9614](https://github.com/agrc/electrofishing/commit/b9f961424d7becef1dbae7ffc6dc9f3842ce9ed4))
+
+
+### Dependencies
+
+* **functions:** FY25 Q3 dependency bumps 🌲 ([9e1024c](https://github.com/agrc/electrofishing/commit/9e1024c3f6aaed632066652fbf81aa5191988f45))
+* FY25 Q3 dependency bumps 🌲 ([747864c](https://github.com/agrc/electrofishing/commit/747864c88e28be08c3cbeb1eb616714f80b7b66a))
+
 ## [2.5.0-1](https://github.com/agrc/electrofishing/compare/v2.4.6...v2.5.0-1) (2025-01-08)
 
 
