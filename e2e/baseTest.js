@@ -5,6 +5,7 @@ export const test = baseTest.extend({
     await context.addInitScript(() => {
       window.IS_PLAYWRIGHT = true;
     });
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     await use(context);
   },
 });
