@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.4.8](https://github.com/agrc/electrofishing/compare/v2.4.7...v2.4.8) (2025-01-16)
+
+
+### Bug Fixes
+
+* increase netters to allow a max value of 30 ([f81368b](https://github.com/agrc/electrofishing/commit/f81368b73325dc7f43736417c7143da3fb8fb0ea)), closes [#454](https://github.com/agrc/electrofishing/issues/454)
+* **toolbox:** better sql escaping of input values ([2f90227](https://github.com/agrc/electrofishing/commit/2f90227c7e8b1b9e90b13238dbb8c63e39f5d985)), closes [#456](https://github.com/agrc/electrofishing/issues/456)
+* **toolbox:** handle distance parameter with decimal place ([32c1ab3](https://github.com/agrc/electrofishing/commit/32c1ab3450a1fa4ee7c3596175a900e31ea2cfb2)), closes [#455](https://github.com/agrc/electrofishing/issues/455)
+
 ## [2.4.7](https://github.com/agrc/electrofishing/compare/v2.4.6...v2.4.7) (2025-01-08)
 
 
