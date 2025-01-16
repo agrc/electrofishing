@@ -184,7 +184,7 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
           {(getInputProps, getGroupClassName, validationMessage) => (
             <div className={getGroupClassName('form-group col-md-3')}>
               <label># Netters</label>
-              <input min="1" max="20" {...getInputProps(getEquipmentInputProps(fieldNamesEQ.NUM_NETTERS, parseInt))} />
+              <input min="1" max="30" {...getInputProps(getEquipmentInputProps(fieldNamesEQ.NUM_NETTERS, parseInt))} />
               {validationMessage}
             </div>
           )}
