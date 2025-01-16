@@ -60,7 +60,7 @@ for ds in [temp_dissolve, temp_split, out_data, out_wgs]:
         arcpy.Delete_management(ds)
 
 try:
-    distance = int(distance)
+    distance = float(distance)
 except:
     raise Exception(
         'Invalid value passed for distance parameter: {0}.'.format(distance))
