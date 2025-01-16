@@ -1,0 +1,179 @@
+{
+  "SamplingEvents": {
+    "attributes": {
+      "EVENT_ID": "{846580EF-0C03-4E5B-895D-D3F1C548736D}",
+      "GEO_DEF": "start:{\"x\":\"447682\",\"y\":\"4486702\"}|dist:30|dir:up",
+      "LOCATION_NOTES": "River+crossing+and+go+up+100'.+Used+two+4-wheelers+and+side+by+side+to+get+in+and+through+USFS+gates+above+Tibble.+Did+two+passes.",
+      "EVENT_DATE": "2024-08-07",
+      "EVENT_TIME": "10:00",
+      "OBSERVERS": "M.+Slater,+T.+Robinson,+Ernie,+Deb",
+      "SURVEY_PURPOSE": "Depletion+estimate",
+      "WEATHER": "sunny",
+      "STATION_ID": "{28C16795-AC5C-4FD5-82D9-272789F9C452}",
+      "SEGMENT_LENGTH": "30",
+      "NUM_PASSES": 2,
+      "SUBMITTER": "tjrobinson@utah.gov"
+    },
+    "geometry": {
+      "paths": [
+        [
+          [447660.12799999956, 4486721.8901],
+          [447666.9000000004, 4486718.699999999],
+          [447681.9249999998, 4486701.9328000005]
+        ]
+      ],
+      "spatialReference": { "wkid": 26912 }
+    }
+  },
+  "Equipment": [
+    {
+      "EVENT_ID": "{846580EF-0C03-4E5B-895D-D3F1C548736D}",
+      "TYPE": "Backpack",
+      "EQUIPMENT_ID": "{BBE3AE28-6794-4C7B-9CA5-7D434AA0A97A}",
+      "MODEL": "Smith+Root+B-12",
+      "ARRAY_TYPE": null,
+      "NUM_NETTERS": 2,
+      "CATHODE_TYPE": null,
+      "NUM_ANODES": 1,
+      "CATHODE_LEN": 305,
+      "CATHODE_DIAMETER": null,
+      "MACHINE_RES": null,
+      "WAVEFORM": "Pulsed+DC",
+      "VOLTAGE": 500,
+      "DUTY_CYCLE": 15,
+      "FREQUENCY": 40,
+      "AMPS": 0.2,
+      "PEDAL_TIME": null
+    }
+  ],
+  "Anodes": [
+    {
+      "EQUIPMENT_ID": "{BBE3AE28-6794-4C7B-9CA5-7D434AA0A97A}",
+      "ANODE_DIAMETER": 28,
+      "STOCK_DIAMETER": null,
+      "ANODE_SHAPE": "Round"
+    }
+  ],
+  "Fish": [
+    {
+      "EVENT_ID": "{846580EF-0C03-4E5B-895D-D3F1C548736D}",
+      "FISH_ID": "{FE04FE83-8E72-4DF8-A83E-AE5735FAC7DB}",
+      "PASS_NUM": 1,
+      "NOTES": null,
+      "CATCH_ID": 1,
+      "SPECIES_CODE": "CTBV",
+      "LENGTH_TYPE": "TOT",
+      "LENGTH": 160,
+      "WEIGHT": 44
+    },
+    {
+      "EVENT_ID": "{846580EF-0C03-4E5B-895D-D3F1C548736D}",
+      "FISH_ID": "{A5F999C7-BB39-468F-AB74-A9B4DAE35DCB}",
+      "PASS_NUM": 1,
+      "NOTES": null,
+      "CATCH_ID": 2,
+      "SPECIES_CODE": "CTBV",
+      "LENGTH_TYPE": "TOT",
+      "LENGTH": 230,
+      "WEIGHT": 115
+    },
+    {
+      "EVENT_ID": "{846580EF-0C03-4E5B-895D-D3F1C548736D}",
+      "FISH_ID": "{1631AED3-F2B4-443E-9162-E64714CC8B4D}",
+      "PASS_NUM": 1,
+      "NOTES": null,
+      "CATCH_ID": 3,
+      "SPECIES_CODE": "CTBV",
+      "LENGTH_TYPE": "TOT",
+      "LENGTH": 185,
+      "WEIGHT": 68
+    },
+    {
+      "EVENT_ID": "{846580EF-0C03-4E5B-895D-D3F1C548736D}",
+      "FISH_ID": "{D2A17161-5FE8-43AE-AECC-4CEEE7AA7E6C}",
+      "PASS_NUM": 1,
+      "NOTES": null,
+      "CATCH_ID": 4,
+      "SPECIES_CODE": "CTBV",
+      "LENGTH_TYPE": "TOT",
+      "LENGTH": 175,
+      "WEIGHT": 57
+    },
+    {
+      "EVENT_ID": "{846580EF-0C03-4E5B-895D-D3F1C548736D}",
+      "FISH_ID": "{E4C11524-EF70-4EEC-A525-2EDC839FD67D}",
+      "PASS_NUM": 1,
+      "NOTES": null,
+      "CATCH_ID": 5,
+      "SPECIES_CODE": "CTBV",
+      "LENGTH_TYPE": "TOT",
+      "LENGTH": 115,
+      "WEIGHT": 15
+    },
+    {
+      "EVENT_ID": "{846580EF-0C03-4E5B-895D-D3F1C548736D}",
+      "FISH_ID": "{C3E54648-B8CF-44B1-9661-E244DD0AE987}",
+      "PASS_NUM": 1,
+      "NOTES": null,
+      "CATCH_ID": 6,
+      "SPECIES_CODE": "CTBV",
+      "LENGTH_TYPE": "TOT",
+      "LENGTH": 120,
+      "WEIGHT": 17
+    },
+    {
+      "EVENT_ID": "{846580EF-0C03-4E5B-895D-D3F1C548736D}",
+      "FISH_ID": "{0438F505-D663-434A-82DC-19D940A0D45E}",
+      "PASS_NUM": 1,
+      "NOTES": null,
+      "CATCH_ID": 7,
+      "SPECIES_CODE": "CTBV",
+      "LENGTH_TYPE": "TOT",
+      "LENGTH": 130,
+      "WEIGHT": 22
+    }
+  ],
+  "Diet": [],
+  "Tags": [],
+  "Health": [],
+  "Habitat": [
+    {
+      "EVENT_ID": "{846580EF-0C03-4E5B-895D-D3F1C548736D}",
+      "BANKVEG": null,
+      "DOVR": null,
+      "DUND": null,
+      "LGWD": null,
+      "POOL": null,
+      "SPNG": null,
+      "RIFF": null,
+      "RUNA": null,
+      "SUB_FINES": null,
+      "SUB_SAND": null,
+      "SUB_GRAV": null,
+      "SUB_COBB": null,
+      "SUB_RUBB": null,
+      "SUB_BOUL": null,
+      "SUB_BEDR": null,
+      "SIN": null,
+      "EROS": null,
+      "TEMP_": 12.2,
+      "PH": null,
+      "CON": null,
+      "OXYGEN": null,
+      "SOLIDS": null,
+      "TURBIDITY": null,
+      "ALKALINITY": null,
+      "BACKWATER": null
+    }
+  ],
+  "Transect": [
+    {
+      "EVENT_ID": "{846580EF-0C03-4E5B-895D-D3F1C548736D}",
+      "BWID": null,
+      "WWID": null,
+      "STARTING_BANK": null,
+      "TRANSECT_ID": "{50EDFFB3-01B7-4431-995A-499C4F619681}"
+    }
+  ],
+  "TransectMeasurements": []
+}
