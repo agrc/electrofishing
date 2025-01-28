@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.5.0-2](https://github.com/agrc/electrofishing/compare/v2.4.8...v2.5.0-2) (2025-01-28)
+
+
+### Bug Fixes
+
+* add fish id to bulk-uploaded data ([800bebf](https://github.com/agrc/electrofishing/commit/800bebf5f1928070bf9eef89c3e0fed41999a477)), closes [#458](https://github.com/agrc/electrofishing/issues/458)
+
+
+### Dependencies
+
+* bump dependencies and apply security updates 🌲 ([10d6ceb](https://github.com/agrc/electrofishing/commit/10d6ceb44616fc784d361f3ee75dbbe5ea3c7c50))
+
 ## [2.4.8](https://github.com/agrc/electrofishing/compare/v2.4.7...v2.4.8) (2025-01-16)
 
 
