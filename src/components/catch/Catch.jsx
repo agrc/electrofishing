@@ -8,6 +8,7 @@ import DataGridAddDeleteButtons from '../DataGridAddDeleteButtons.jsx';
 import GridTab from '../GridTab.jsx';
 import { batchFishWeights, getLastFishIdsWithEmptyWeights } from './batchUtils';
 import MoreInfoDialog from './MoreInfoDialog.jsx';
+import getGUID from '../../helpers/getGUID.js';
 
 const fn = config.fieldNames.fish;
 const hiddenColumns = [fn.FISH_ID, fn.PASS_NUM, fn.NOTES];
@@ -204,6 +205,7 @@ function Catch() {
       return {
         ...getBlankFish(),
         [fn.EVENT_ID]: eventId,
+        [config.fieldNames.fish.FISH_ID]: getGUID(),
         [fn.PASS_NUM]: currentPass,
         [fn.CATCH_ID]: i + startId,
         ...data,
