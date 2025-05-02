@@ -9,6 +9,15 @@ import SettingsDialog from './components/SettingsDialog.jsx';
 import config from './config';
 import { SamplingEventProvider } from './hooks/samplingEventContext.jsx';
 import useAuthentication from './hooks/useAuthentication';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+    },
+  },
+});
 
 export const AppContext = React.createContext();
 
@@ -22,11 +31,7 @@ export function useAppContext() {
   return context;
 }
 
-export const actionTypes = {
-  SUBMIT_LOADING: 'SUBMIT_LOADING',
-  MAP: 'MAP',
-  SETTINGS: 'SETTINGS',
-};
+export const actionTypes = { SUBMIT_LOADING: 'SUBMIT_LOADING', MAP: 'MAP', SETTINGS: 'SETTINGS' };
 
 const localStorageKey = 'electrofishing-app-state';
 function getCachedSettings() {
@@ -68,10 +73,7 @@ const reducer = (draft, action) => {
       break;
 
     case actionTypes.SETTINGS:
-      draft.settings = {
-        ...draft.settings,
-        ...action.payload,
-      };
+      draft.settings = { ...draft.settings, ...action.payload };
 
       break;
 
@@ -94,56 +96,51 @@ const App = () => {
   const { user, logOut, logIn } = useAuthentication();
 
   return (
-    <AppContext.Provider value={{ appState, appDispatch }}>
-      <div className="app">
-        <Header submitLoading={appState.submitLoading} />
+    <QueryClientProvider client={queryClient}>
+      <AppContext.Provider value={{ appState, appDispatch }}>
+        <div className="app">
+          <Header submitLoading={appState.submitLoading} />
 
-        <div className="container main-container">
-          <div className="inner-header">
-            {user ? (
-              <>
-                <span className="user">{user.email}</span>
-                <button id="logout" type="button" className="btn btn-link" onClick={logOut}>
-                  Logout
+          <div className="container main-container">
+            <div className="inner-header">
+              {user ? (
+                <>
+                  <span className="user">{user.email}</span>
+                  <button id="logout" type="button" className="btn btn-link" onClick={logOut}>
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <button id="login" type="button" className="btn btn-link login-button" onClick={logIn}>
+                  Login with UtahID
                 </button>
-              </>
-            ) : (
-              <button id="login" type="button" className="btn btn-link login-button" onClick={logIn}>
-                Login with UtahID
-              </button>
-            )}
+              )}
+            </div>
+            {user ? (
+              <SamplingEventProvider>
+                <NewCollectionEvent />
+              </SamplingEventProvider>
+            ) : null}
           </div>
-          {user ? (
-            <SamplingEventProvider>
-              <NewCollectionEvent />
-            </SamplingEventProvider>
-          ) : null}
+
+          <SettingsDialog
+            state={appState.settings}
+            onChange={(setting, value) => appDispatch({ type: actionTypes.SETTINGS, payload: { [setting]: value } })}
+          />
+
+          <footer>
+            <div className="container">
+              Built by{' '}
+              <a href="http://gis.utah.gov/developer" title="UGRC" target="_blank" rel="noreferrer">
+                UGRC
+              </a>
+            </div>
+          </footer>
+
+          <ToastContainer />
         </div>
-
-        <SettingsDialog
-          state={appState.settings}
-          onChange={(setting, value) =>
-            appDispatch({
-              type: actionTypes.SETTINGS,
-              payload: {
-                [setting]: value,
-              },
-            })
-          }
-        />
-
-        <footer>
-          <div className="container">
-            Built by{' '}
-            <a href="http://gis.utah.gov/developer" title="UGRC" target="_blank" rel="noreferrer">
-              UGRC
-            </a>
-          </div>
-        </footer>
-
-        <ToastContainer />
-      </div>
-    </AppContext.Provider>
+      </AppContext.Provider>
+    </QueryClientProvider>
   );
 };
 
