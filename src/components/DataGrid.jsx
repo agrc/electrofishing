@@ -41,7 +41,7 @@ function DataGrid({
           }
 
           return row;
-        })
+        }),
       );
     }
   };
@@ -162,7 +162,7 @@ export default DataGrid;
 
 export const NumericInputCell = forwardRef(function NumericInputCell(
   { getValue, row: { index }, column, table, onKeyDown },
-  ref
+  ref,
 ) {
   const initialValue = getValue();
   // We need to keep and update the state of the cell normally
@@ -225,7 +225,7 @@ NumericInputCell.propTypes = {
 
 export const DomainDrivenDropdownCell = forwardRef(function DomainDrivenDropdownCell(
   { getValue, row: { index }, column, table, onKeyDown },
-  ref
+  ref,
 ) {
   const value = getValue();
 

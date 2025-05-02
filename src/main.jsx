@@ -68,5 +68,5 @@ root.render(
     >
       <App />
     </ErrorBoundary>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

@@ -32,7 +32,7 @@ function Method() {
       {eventState[config.tableNames.equipment].map((equipment, index) => {
         const id = equipment[config.fieldNames.equipment.EQUIPMENT_ID];
         const anodes = eventState[config.tableNames.anodes].filter(
-          (anode) => anode[config.fieldNames.anodes.EQUIPMENT_ID] === id
+          (anode) => anode[config.fieldNames.anodes.EQUIPMENT_ID] === id,
         );
 
         return (

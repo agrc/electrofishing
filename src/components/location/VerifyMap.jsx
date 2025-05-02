@@ -83,7 +83,7 @@ const MapHoister = ({ isMainMap, setMap, setStreamsLayer, setLakesLayer, selectS
         layer.setIcon(defaultIcon);
       }
     },
-    [isMainMap, selectedStationId]
+    [isMainMap, selectedStationId],
   );
 
   useEffect(() => {
@@ -112,12 +112,12 @@ const MapHoister = ({ isMainMap, setMap, setStreamsLayer, setLakesLayer, selectS
         layer.on('click', function () {
           selectStation(
             geojson.properties[config.fieldNames.stations.NAME],
-            geojson.properties[config.fieldNames.stations.STATION_ID]
+            geojson.properties[config.fieldNames.stations.STATION_ID],
           );
         });
       }
     },
-    [isMainMap, map, selectStation, updateStyle]
+    [isMainMap, map, selectStation, updateStyle],
   );
 
   useEffect(() => {
