@@ -41,17 +41,27 @@ const DomainDrivenDropdown = forwardRef(function DomainDrivenDropdown(
   const otherOptionHandlerRoot = useRef(null);
   const {
     status,
-    data: items = [],
+    data = [],
     error,
   } = useQuery({ queryKey: [featureServiceUrl], queryFn: () => makeRequest(featureServiceUrl, fieldName) });
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    if (status === 'success') {
+      setItems(data);
+    }
+  }, [data, status]);
 
   const [showOtherOptions, setShowOtherOptions] = useState(false);
-  const onOtherOptionAdded = (option) => {
-    const newItems = [...items];
-    newItems.push({ value: option.code, label: option.code });
-    setItems(newItems);
-    onChange({ target: { value: option.code } });
-  };
+  const onOtherOptionAdded = useCallback(
+    (option) => {
+      const newItems = [...items];
+      newItems.push({ value: option.code, label: option.code });
+      setItems(newItems);
+      onChange({ target: { value: option.code } });
+    },
+    [items, onChange],
+  );
 
   useEffect(() => {
     const otherOptionHandlerDiv = document.createElement('div');
