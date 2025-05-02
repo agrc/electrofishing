@@ -31,21 +31,26 @@ jobs:
           key: ${{ runner.os }}-firebase-emulators-${{ hashFiles('emulator-cache/**') }}
         continue-on-error: true
 
+      - name: 📦 Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
       - name: ⎔ Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
-          cache: npm
+          cache: pnpm
 
       - name: 📥 Download dependencies
-        run: npm ci
+        run: pnpm install
 
       - name: 💻 Install Playwright Browsers
         run: npx playwright install chromium --with-deps
 
       - name: 🚀 Start App
         run: |
-          npm run start:e2e-resources &
+          pnpm run start:e2e-resources &
           npx wait-on http://127.0.0.1:5173
           npx wait-on http://127.0.0.1:4000/auth
         env:
@@ -54,7 +59,7 @@ jobs:
           VITE_BUILD: development
 
       - name: ⏯️ Run Playwright Tests
-        run: npm run e2e
+        run: pnpm run e2e
 
       - name: ⬆️ Upload Artifacts
         uses: actions/upload-artifact@v4
@@ -74,17 +79,22 @@ jobs:
         with:
           show-progress: false
 
+      - name: 📦 Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
       - name: ⎔ Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
-          cache: npm
+          cache: pnpm
 
       - name: 📥 Download dependencies
-        run: npm ci
+        run: pnpm install
 
       - name: 🧪 Run tests
-        run: npm test
+        run: pnpm test
 
   test-build:
     name: Test build
@@ -95,21 +105,26 @@ jobs:
         with:
           show-progress: false
 
+      - name: 📦 Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
       - name: ⎔ Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
-          cache: npm
+          cache: pnpm
 
       - name: 📥 Download dependencies
         run: |
-          npm ci
+          pnpm install
 
       - name: 📦 Build
         env:
           VITE_QUAD_WORD: test
           VITE_FIREBASE_CONFIG: '{}'
-        run: npm run build
+        run: pnpm run build
 
   deploy-preview:
     name: Firebase preview
@@ -131,7 +146,7 @@ jobs:
             cd functions
             echo "ENVIRONMENT=stage" > .env
             echo "AGS_HOST=https://wrimaps.at.utah.gov" >> .env
-          build-command: npm run build:stage
+          build-command: pnpm run build:stage
           repo-token: ${{ secrets.GITHUB_TOKEN }}
         env:
           VITE_QUAD_WORD: ${{ secrets.QUAD_WORD }}

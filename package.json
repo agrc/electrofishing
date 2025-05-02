@@ -2,20 +2,19 @@
   "name": "electrofishing",
   "version": "2.4.9",
   "scripts": {
-    "build:stage": "export VITE_BUILD=stage && npm run build:sw && vite build",
+    "build:stage": "export VITE_BUILD=stage && pnpm run build:sw && vite build",
     "build:sw": "esbuild src/ServiceWorker.js --bundle --outfile=public/ServiceWorker.js --define:process.env.VITE_FIREBASE_CONFIG=$(npx dotenv -p VITE_FIREBASE_CONFIG)",
-    "build": "export VITE_BUILD=prod && npm run build:sw && vite build",
+    "build": "export VITE_BUILD=prod && pnpm run build:sw && vite build",
     "e2e": "playwright test",
     "lint": "eslint .",
-    "postinstall": "cd functions && npm install",
     "preview": "vite preview",
-    "start:app": "npm run build:sw && vite",
+    "start:app": "pnpm run build:sw && vite",
     "start:e2e-resources": "concurrently 'firebase emulators:start --only firestore,auth' 'vite'",
     "start:e2e": "playwright test --ui",
     "start:firebase-emulators": "firebase emulators:start --import emulator_data --export-on-exit --only firestore,functions,auth,ui",
-    "start": "concurrently 'wait-on http://127.0.0.1:4000 && npm run start:app' 'npm run start:firebase-emulators'",
+    "start": "concurrently 'wait-on http://127.0.0.1:4000 && pnpm run start:app' 'pnpm run start:firebase-emulators'",
     "storybook": "storybook dev -p 9009",
-    "test": "npm run lint && vitest"
+    "test": "pnpm run lint && vitest"
   },
   "browserslist": [
     "last 2 versions and > 2%"
@@ -39,6 +38,7 @@
     "papaparse": "^5.5.2",
     "proj4": "^2.15.0",
     "proj4leaflet": "^1.0.2",
+    "prop-types": "^15.8.1",
     "pubsub-js": "^1.9.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
