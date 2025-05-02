@@ -54,7 +54,6 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
     let message;
     let returnValue;
 
-    /* eslint-disable no-negated-condition */
     if (name === '') {
       message = validateMsgs.name;
       returnValue = false;
@@ -76,7 +75,6 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
       returnValue.attributes[config.fieldNames.stations.STREAM_TYPE] = streamType;
       returnValue.attributes[config.fieldNames.stations.WATER_ID] = streamLake;
     }
-    /* eslint-enable no-negated-condition */
 
     setValidateMsg(message);
 
@@ -116,7 +114,7 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
       setTimeout(() => {
         selectStation(
           newStation.attributes[config.fieldNames.stations.NAME],
-          newStation.attributes[config.fieldNames.stations.STATION_ID]
+          newStation.attributes[config.fieldNames.stations.STATION_ID],
         );
       }, 1000);
     }, 500);
@@ -140,9 +138,7 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
 
       feature.attributes[config.fieldNames.stations.STATION_ID] = getGUID();
 
-      const body = {
-        features: JSON.stringify([feature]),
-      };
+      const body = { features: JSON.stringify([feature]) };
 
       try {
         const responseJson = await submitJob(body, `${config.urls.stationsFeatureService}/addFeatures`);
@@ -166,7 +162,7 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
         setStreamLakeBtnIsActive(false);
       }
     },
-    [id]
+    [id],
   );
   const addSubscription = useSubscriptions();
   React.useEffect(() => {
@@ -311,10 +307,6 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
   );
 };
 
-Station.propTypes = {
-  mainMap: PropTypes.object,
-  selectStation: PropTypes.func,
-  selectedStationName: PropTypes.string,
-};
+Station.propTypes = { mainMap: PropTypes.object, selectStation: PropTypes.func, selectedStationName: PropTypes.string };
 
 export default Station;

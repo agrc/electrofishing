@@ -1,6 +1,5 @@
 import 'dotenv/config';
 import initProxy from '@ugrc/firebase-auth-arcgis-server-proxy';
-// eslint-disable-next-line import/no-unresolved
 import { onRequest } from 'firebase-functions/v2/https';
 
 const options = {
@@ -27,11 +26,7 @@ const options = {
       return true;
     }
 
-    const utahIDEnvironments = {
-      prod: 'Prod',
-      stage: 'AT',
-      development: 'Dev',
-    };
+    const utahIDEnvironments = { prod: 'Prod', stage: 'AT', development: 'Dev' };
 
     return (
       claims.firebase?.sign_in_attributes?.['DWRElectroFishing:AccessGranted'] &&
