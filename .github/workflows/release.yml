@@ -34,7 +34,7 @@ jobs:
             cd functions
             echo "ENVIRONMENT=stage" > .env
             echo "AGS_HOST=https://wrimaps.at.utah.gov" >> .env
-          build-command: npm run build:stage
+          build-command: pnpm run build:stage
         env:
           VITE_QUAD_WORD: ${{ secrets.QUAD_WORD }}
           VITE_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
@@ -58,7 +58,7 @@ jobs:
             cd functions
             echo "ENVIRONMENT=prod" > .env
             echo "AGS_HOST=https://wrimaps.utah.gov" >> .env
-          build-command: npm run build
+          build-command: pnpm run build
           service-now-instance: ${{ secrets.SN_INSTANCE }}
           service-now-table: ${{ secrets.SN_TABLE }}
           service-now-system-id: ${{ secrets.SN_SYS_ID }}
