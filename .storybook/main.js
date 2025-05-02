@@ -3,21 +3,21 @@ const config = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/preset-scss',
-    '@chromatic-com/storybook'
+    '@chromatic-com/storybook',
   ],
   stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'],
 
   framework: {
     name: '@storybook/react-vite',
-    options: {}
+    options: {},
   },
 
   docs: {
-    autodocs: true
+    autodocs: true,
   },
 
   typescript: {
-    reactDocgen: 'react-docgen-typescript'
-  }
+    reactDocgen: 'react-docgen-typescript',
+  },
 };
 export default config;

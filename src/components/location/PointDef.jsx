@@ -48,7 +48,7 @@ const validateDigits = {
 const utm27crs = new L.Proj.CRS(
   'EPSG:26712',
   '+proj=utm +zone=12 +ellps=clrk66 +datum=NAD27 +units=m +no_defs',
-  new L.Transformation(1, 5682968.14599198, -1, 10997674.9165387)
+  new L.Transformation(1, 5682968.14599198, -1, 10997674.9165387),
 );
 const utm83crs = new L.Proj.CRS('EPSG:26912', '+proj=utm +zone=12 +ellps=GRS80 +datum=NAD83 +units=m +no_defs', {
   transformation: new L.Transformation(1, 5120900, -1, 9998100),
@@ -93,7 +93,7 @@ export default function PointDef({ label, map, coordinates, setCoordinates, twoL
         setIsActive(false);
       }
     },
-    [id, map]
+    [id, map],
   );
 
   // update marker position
@@ -130,7 +130,7 @@ export default function PointDef({ label, map, coordinates, setCoordinates, twoL
         map.fitBounds(group.current.getBounds().pad(0.05));
       }
     },
-    [coordType, coordinates.x, coordinates.y, map]
+    [coordType, coordinates.x, coordinates.y, map],
   );
 
   const [helpText, setHelpText] = React.useState(config.emptyPoint);
@@ -175,7 +175,7 @@ export default function PointDef({ label, map, coordinates, setCoordinates, twoL
 
       return true;
     },
-    [coordType, coordinates]
+    [coordType, coordinates],
   );
 
   const onMapClicked = useCallback(
@@ -207,7 +207,7 @@ export default function PointDef({ label, map, coordinates, setCoordinates, twoL
 
       setHelpText(config.emptyPoint);
     },
-    [coordType, isActive, setCoordinates, updateMarkerPosition]
+    [coordType, isActive, setCoordinates, updateMarkerPosition],
   );
 
   // clear

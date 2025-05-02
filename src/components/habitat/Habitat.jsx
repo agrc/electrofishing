@@ -224,7 +224,7 @@ function Habitat() {
 
     if (currentTransect) {
       const measurementsForThisTransect = measurements.filter(
-        (m) => m[fnMeasurements.TRANSECT_ID] === currentTransectId
+        (m) => m[fnMeasurements.TRANSECT_ID] === currentTransectId,
       );
       setTransectValidation(validateTransect(currentTransect, measurementsForThisTransect));
     } else {
@@ -451,7 +451,7 @@ function Habitat() {
                 className={clsx(
                   'pull-right',
                   totalSedimentIsInvalid && 'text-danger',
-                  totalSediment === 100 && 'text-success'
+                  totalSediment === 100 && 'text-success',
                 )}
               >
                 <strong>Total</strong>
