@@ -67,7 +67,13 @@ const ComboBox = React.forwardRef(function ComboBox({ items, onChange, value, id
                 <span className="glyphicon glyphicon-remove" />
               </button>
             ) : (
-              <button className="btn btn-default" type="button" {...getToggleButtonProps()} tabIndex="-1">
+              <button
+                className="btn btn-default"
+                type="button"
+                {...getToggleButtonProps()}
+                tabIndex="-1"
+                id={`${id}_button`}
+              >
                 <span className="caret" />
               </button>
             )}
