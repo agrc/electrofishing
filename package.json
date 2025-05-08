@@ -1,6 +1,6 @@
 {
   "name": "electrofishing",
-  "version": "2.4.9",
+  "version": "2.5.0-3",
   "type": "module",
   "scripts": {
     "build:stage": "export VITE_BUILD=stage && pnpm run build:sw && vite build",
