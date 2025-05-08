@@ -92,11 +92,11 @@ const DomainDrivenDropdown = forwardRef(function DomainDrivenDropdown(
   };
 
   if (status === 'pending') {
-    return 'loading...';
+    return ' loading...';
   }
 
   if (error) {
-    return 'Error getting domain values';
+    return ' Error getting domain values';
   }
 
   return (
