@@ -43,7 +43,7 @@ const DomainDrivenDropdown = forwardRef(function DomainDrivenDropdown(
     status,
     data = [],
     error,
-  } = useQuery({ queryKey: [featureServiceUrl], queryFn: () => makeRequest(featureServiceUrl, fieldName) });
+  } = useQuery({ queryKey: [featureServiceUrl, fieldName], queryFn: () => makeRequest(featureServiceUrl, fieldName) });
   const [items, setItems] = useState([]);
 
   useEffect(() => {
