@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.11](https://github.com/agrc/electrofishing/compare/v2.4.10...v2.4.11) (2025-05-09)
+
+
+### Bug Fixes
+
+* add field name to query key for domain requests ([eb46ac5](https://github.com/agrc/electrofishing/commit/eb46ac56818c1c11f57a99a94c5996247d41e8ee))
+
 ## [2.4.10](https://github.com/agrc/electrofishing/compare/v2.4.9...v2.4.10) (2025-05-08)
 
 
