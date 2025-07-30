@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.12](https://github.com/agrc/electrofishing/compare/v2.4.11...v2.4.12) (2025-07-30)
+
+
+### Dependencies
+
+* bump react-error-boundary ([b630f30](https://github.com/agrc/electrofishing/commit/b630f3094f8e3a066f3c62ade74c19a36e895b2f))
+
 ## [2.4.11](https://github.com/agrc/electrofishing/compare/v2.4.10...v2.4.11) (2025-05-09)
 
 
