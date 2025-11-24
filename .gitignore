@@ -14,6 +14,7 @@ maps/.backups
 maps/Index
 maps/scratch*
 maps/ImportLog
+GpMessages/
 *.ags
 
 *.log

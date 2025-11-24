@@ -52,7 +52,7 @@ data = json.loads(arcpy.GetParameterAsText(0))
 
 #: log reports to file system - this could be disabled at some point
 outpath = (
-    rf'C:\temp\reports\{datetime.datetime.now().isoformat().replace(":", "-")}.json'
+    rf'D:\temp\reports\{datetime.datetime.now().isoformat().replace(":", "-")}.json'
 )
 with open(outpath, "w", encoding="utf-8") as outfile:
     json.dump(data, outfile, indent=2)
