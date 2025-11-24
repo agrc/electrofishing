@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Environment to run tests against'
+        description: "Environment to run tests against"
         type: environment
         required: true
 
@@ -33,7 +33,7 @@ jobs:
           prebuild-command: |
             cd functions
             echo "ENVIRONMENT=stage" > .env
-            echo "AGS_HOST=https://wrimaps.at.utah.gov" >> .env
+            echo "AGS_HOST=https://dwr-maps.at.utah.gov" >> .env
           build-command: pnpm run build:stage
         env:
           VITE_QUAD_WORD: ${{ secrets.QUAD_WORD }}

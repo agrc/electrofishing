@@ -39,7 +39,6 @@ Production: [https://electrofishing.ugrc.utah.gov](https://electrofishing.ugrc.u
    1. `NewCollectionEvent`
       - Test Input: **copy paste contents of** `scripts/Scripts/TestData/NewCollectionEventData.json` (minified)
       - `Synchronous`
-      - Copy `scripts/Scripts/settings` & `dijkstras.py` to `<ArcGISServerDirectory>directories\arcgissystem\arcgisinput\Electrofishing\Toolbox.GPServer\extracted\v101\scripts`.
 1. Releases to Firebase are deployed via GitHub Actions.
 
 ### Cutting a new release

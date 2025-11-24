@@ -37,7 +37,6 @@
     "Equipment": [
         {
             "MODEL": "",
-            "ANODE_SHAPE": "",
             "ARRAY_TYPE": "",
             "NUM_NETTERS": null,
             "CATHODE_TYPE": "",
@@ -144,8 +143,7 @@
             "LENGTH_TYPE": "TOT",
             "LENGTH": null,
             "WEIGHT": null,
-            "NOTES": "",
-            "isTrusted": true
+            "NOTES": ""
         },
         {
             "FISH_ID": "{9be3bb87-02f0-4d6e-8fdb-82762882d00d}",
