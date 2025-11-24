@@ -123,7 +123,7 @@ jobs:
       - name: 📦 Build
         env:
           VITE_QUAD_WORD: test
-          VITE_FIREBASE_CONFIG: '{}'
+          VITE_FIREBASE_CONFIG: "{}"
         run: pnpm run build
 
   deploy-preview:
@@ -145,7 +145,7 @@ jobs:
           prebuild-command: |
             cd functions
             echo "ENVIRONMENT=stage" > .env
-            echo "AGS_HOST=https://wrimaps.at.utah.gov" >> .env
+            echo "AGS_HOST=https://dwr-maps.at.utah.gov" >> .env
           build-command: pnpm run build:stage
           repo-token: ${{ secrets.GITHUB_TOKEN }}
         env:
