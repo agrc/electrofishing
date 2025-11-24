@@ -48,7 +48,7 @@ test('submits a report', async ({ page }) => {
   await page.locator('#dropdown-0-CLASS').fill('a', { force: true });
   await page.locator('#dropdown-0-CLASS').press('Tab');
   await page.locator('a').filter({ hasText: 'Health' }).click({ force: true });
-  await page.locator('[id="downshift-«r3»-toggle-button"]').click();
+  await page.locator('#EYE_input_button').click();
   await page.locator('#Health_tab').getByText('Blind (1)').click();
   await page.getByText('OK', { exact: true }).click();
   await page.getByRole('link', { name: 'Habitat' }).click();
