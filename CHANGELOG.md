@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.0-rc.4](https://github.com/agrc/electrofishing/compare/v2.4.12...v2.5.0-rc.4) (2025-11-24)
+
+
+### Dependencies
+
+* bump npm dependencies 🌲 ([8dd0674](https://github.com/agrc/electrofishing/commit/8dd067472211e65570435611e8d1ec0bdda2d453))
+
 ## [2.4.12](https://github.com/agrc/electrofishing/compare/v2.4.11...v2.4.12) (2025-07-30)
 
 
