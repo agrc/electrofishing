@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.4.13](https://github.com/agrc/electrofishing/compare/v2.4.12...v2.4.13) (2025-11-25)
+
+
+### Dependencies
+
+* bump npm dependencies 🌲 ([6d43669](https://github.com/agrc/electrofishing/commit/6d4366961579154ea166b87906617497808fe2b6))
+* bump the safe-app-dependencies group across 1 directory with 10 updates ([3840024](https://github.com/agrc/electrofishing/commit/38400244505f4842c95ff62eaad8b71f6a367900))
+
 ## [2.5.0-rc.4](https://github.com/agrc/electrofishing/compare/v2.4.12...v2.5.0-rc.4) (2025-11-24)
 
 
