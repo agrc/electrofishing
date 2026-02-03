@@ -1,6 +1,7 @@
 {
   "cSpell.words": [
     "agrc",
+    "arcgis",
     "arcgisinput",
     "arcgissystem",
     "autodocs",
@@ -30,6 +31,7 @@
     "Fultons",
     "geodef",
     "geodefs",
+    "geospatial",
     "GNIS",
     "healths",
     "HEMATOCRIT",
@@ -41,6 +43,7 @@
     "LEUKOCRIT",
     "listbox",
     "lngs",
+    "localforage",
     "mapinited",
     "mapservice",
     "MOREINFO",
@@ -72,6 +75,7 @@
     "unproject",
     "utahid",
     "VITE",
+    "Vitest",
     "waterbody",
     "WILDADMIN",
     "WWID",
