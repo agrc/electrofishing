@@ -131,7 +131,12 @@ const App = () => {
           <footer>
             <div className="container">
               Built by{' '}
-              <a href="https://gis.utah.gov/solutions/for-application-developers/" title="UGRC" target="_blank" rel="noreferrer">
+              <a
+                href="https://gis.utah.gov/solutions/for-application-developers/"
+                title="UGRC"
+                target="_blank"
+                rel="noreferrer"
+              >
                 UGRC
               </a>
             </div>

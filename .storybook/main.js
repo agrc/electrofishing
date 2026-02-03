@@ -1,10 +1,5 @@
 const config = {
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/preset-scss',
-    '@chromatic-com/storybook',
-    '@storybook/addon-docs'
-  ],
+  addons: ['@storybook/addon-links', '@storybook/preset-scss', '@chromatic-com/storybook', '@storybook/addon-docs'],
 
   stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'],
 
@@ -15,6 +10,6 @@ const config = {
 
   typescript: {
     reactDocgen: 'react-docgen-typescript',
-  }
+  },
 };
 export default config;
