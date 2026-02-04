@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import $ from 'jquery';
+import 'bootstrap';
 import config from '../../config';
 import { actionTypes, useSamplingEventContext } from '../../hooks/samplingEventContext.jsx';
 import useDebounce from '../../hooks/useDebounce';
@@ -223,24 +225,24 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
 
   return (
     <>
-      <div className="btn-right-container pull-right btn-toolbar">
+      <div className="btn-right-container float-right btn-toolbar">
         <div className="btn-group more-info">
-          <button className="btn btn-default" disabled={!enabled} onClick={() => setCurrentTab(TABS.diet)}>
+          <button className="btn btn-secondary" disabled={!enabled} onClick={() => setCurrentTab(TABS.diet)}>
             {' '}
             Diet
           </button>
-          <button className="btn btn-default" disabled={!enabled} onClick={() => setCurrentTab(TABS.tags)}>
+          <button className="btn btn-secondary" disabled={!enabled} onClick={() => setCurrentTab(TABS.tags)}>
             {' '}
             Tags
           </button>
-          <button className="btn btn-default" disabled={!enabled} onClick={() => setCurrentTab(TABS.health)}>
+          <button className="btn btn-secondary" disabled={!enabled} onClick={() => setCurrentTab(TABS.health)}>
             {' '}
             Health
           </button>
-          <button className="btn btn-default" disabled={!enabled} onClick={() => setCurrentTab(TABS.collection)}>
+          <button className="btn btn-secondary" disabled={!enabled} onClick={() => setCurrentTab(TABS.collection)}>
             Hard Body Parts
           </button>
-          <button className="btn btn-default" disabled={!enabled} onClick={() => setCurrentTab(TABS.notes)}>
+          <button className="btn btn-secondary" disabled={!enabled} onClick={() => setCurrentTab(TABS.notes)}>
             {' '}
             Notes
           </button>
@@ -255,9 +257,12 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
         ref={modal}
         data-backdrop="static"
       >
-        <div className="modal-dialog">
+        <div className="modal-dialog modal-xl">
           <div className="modal-content">
             <div className="modal-header">
+              <h4>
+                Fish #{fish && fish[config.fieldNames.fish.CATCH_ID]} (Pass #{currentPass})
+              </h4>
               <button
                 type="button"
                 className="close"
@@ -267,41 +272,38 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
               >
                 &times;
               </button>
-              <h4>
-                Fish #{fish && fish[config.fieldNames.fish.CATCH_ID]} (Pass #{currentPass})
-              </h4>
             </div>
             <div className="modal-body">
               <ul className="nav nav-tabs">
-                <li>
-                  <a href={`#${TABS.diet}`} data-toggle="tab">
+                <li className="nav-item">
+                  <a className="nav-link" href={`#${TABS.diet}`} data-toggle="tab">
                     Diet
                   </a>
                 </li>
-                <li>
-                  <a href={`#${TABS.tags}`} data-toggle="tab">
+                <li className="nav-item">
+                  <a className="nav-link" href={`#${TABS.tags}`} data-toggle="tab">
                     Tags
                   </a>
                 </li>
-                <li>
-                  <a href={`#${TABS.health}`} data-toggle="tab">
+                <li className="nav-item">
+                  <a className="nav-link" href={`#${TABS.health}`} data-toggle="tab">
                     Health
                   </a>
                 </li>
-                <li>
-                  <a href={`#${TABS.collection}`} data-toggle="tab">
+                <li className="nav-item">
+                  <a className="nav-link" href={`#${TABS.collection}`} data-toggle="tab">
                     Hard Body Parts
                   </a>
                 </li>
-                <li>
-                  <a href={`#${TABS.notes}`} data-toggle="tab">
+                <li className="nav-item">
+                  <a className="nav-link" href={`#${TABS.notes}`} data-toggle="tab">
                     Notes
                   </a>
                 </li>
               </ul>
               <div className="tab-content">
-                <div className="tab-pane fade diet" id={TABS.diet}>
-                  <div className="pull-right">
+                <div className="tab-pane fade" id={TABS.diet}>
+                  <div className="float-right">
                     <DataGridAddDeleteButtons
                       addNew={addNewDiet}
                       deleteCurrent={deleteCurrentDiet}
@@ -377,7 +379,7 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
               </div>
             </div>
             <div className="modal-footer">
-              <button className="btn btn-primary pull-right" onClick={() => setCurrentTab(null)}>
+              <button className="btn btn-primary float-right" onClick={() => setCurrentTab(null)}>
                 OK
               </button>
             </div>

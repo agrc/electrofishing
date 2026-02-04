@@ -9,6 +9,7 @@ import GridTab from '../GridTab.jsx';
 import { batchFishWeights, getLastFishIdsWithEmptyWeights } from './batchUtils';
 import MoreInfoDialog from './MoreInfoDialog.jsx';
 import getGUID from '../../helpers/getGUID.js';
+import $ from 'jquery';
 
 const fn = config.fieldNames.fish;
 const hiddenColumns = [fn.FISH_ID, fn.PASS_NUM, fn.NOTES];
@@ -238,7 +239,7 @@ function Catch() {
         setCurrentTab={setCurrentPass}
       />
 
-      <div className="btn-right-container pull-right btn-toolbar">
+      <div className="btn-right-container float-right btn-toolbar">
         <div className="btn-group">
           <button
             type="button"
@@ -281,11 +282,11 @@ function Catch() {
         highlight={(fish, column) => column === fn.WEIGHT && batchWeightFishIds.includes(fish[fn.FISH_ID])}
       />
 
-      <div className="bulk-upload-container pull-right">
+      <div className="bulk-upload-container float-right">
         <button className="btn btn-link" data-toggle="popover" ref={bulkUploadHelp}>
           help
         </button>
-        <label className="btn btn-default btn-file">
+        <label className="btn btn-secondary btn-file">
           Bulk Upload
           <input type="file" onChange={onBulkUploadClick} />
         </label>
@@ -294,7 +295,7 @@ function Catch() {
       <div className="hidden">
         <div ref={batchForm}>
           <div className="form-group">
-            <label className="control-label">Weight</label>
+            <label className="font-weight-bold">Weight</label>
             <input type="number" className="form-control" step="0.1" ref={batchWeightInput} />
           </div>
           <button className="btn btn-primary" style={{ width: '100%' }} ref={batchSubmitButton}>

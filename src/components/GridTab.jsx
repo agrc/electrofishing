@@ -1,11 +1,11 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import PropTypes from 'prop-types';
 
 function GridTab({ name, numTabs, addTab, currentTab, setCurrentTab }) {
   return (
     <div className="grid-tab">
       <b>{name} </b>
-      <div className="btn-group" data-toggle="buttons">
+      <div className="btn-group btn-group-toggle" data-toggle="buttons">
         {Array.from({ length: numTabs }, (_, i) => {
           const tabNumber = i + 1;
           return (
@@ -14,7 +14,7 @@ function GridTab({ name, numTabs, addTab, currentTab, setCurrentTab }) {
               className={clsx('btn btn-primary', tabNumber === currentTab && 'active')}
               onClick={() => setCurrentTab(tabNumber)}
             >
-              <input type="radio" name="tab" />
+              <input type="radio" name="tab" autoComplete="off" defaultChecked={tabNumber === currentTab} />
               {tabNumber}
             </label>
           );
@@ -26,8 +26,9 @@ function GridTab({ name, numTabs, addTab, currentTab, setCurrentTab }) {
           setCurrentTab(numTabs + 1);
           addTab();
         }}
+        aria-label="+"
       >
-        <i className="glyphicon glyphicon-plus"></i>
+        <i className="bi bi-plus-lg"></i>
       </button>
     </div>
   );

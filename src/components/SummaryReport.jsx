@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import $ from 'jquery';
+import 'bootstrap';
 import config from '../config';
 
 const DECIMAL_PLACES = 2;
@@ -113,10 +115,10 @@ function SummaryReport({ show, onHide, eventData, onConfirm }) {
         <div className="modal-dialog modal-lg" role="document">
           <div className="modal-content">
             <div className="modal-header">
+              <h4>Report Summary</h4>
               <button type="button" className="close" aria-label="Close" onClick={onHide}>
                 <span aria-hidden="true">&times;</span>
               </button>
-              <h4>Report Summary</h4>
             </div>
             <div className="modal-body">
               {summaryData ? (
@@ -182,7 +184,7 @@ function SummaryReport({ show, onHide, eventData, onConfirm }) {
               ) : null}
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-default" onClick={onHide}>
+              <button type="button" className="btn btn-secondary" onClick={onHide}>
                 Cancel
               </button>
               <button type="button" className="btn btn-success" data-testid="summaryConfirmBtn" onClick={onConfirm}>

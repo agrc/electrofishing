@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import { useCombobox } from 'downshift';
 import PropTypes from 'prop-types';
 import * as React from 'react';
@@ -42,7 +42,7 @@ const ComboBox = React.forwardRef(function ComboBox({ items, onChange, value, id
   }, [items]);
 
   return (
-    <div className={clsx('combobox', 'dropdown', isOpen && 'open', minimal && 'minimal')}>
+    <div className={clsx('combobox', 'dropdown', isOpen && 'show', minimal && 'minimal')}>
       <div className="input-group">
         <input
           className={clsx(!minimal && 'form-control')}
@@ -61,26 +61,26 @@ const ComboBox = React.forwardRef(function ComboBox({ items, onChange, value, id
           })}
         />
         {!minimal ? (
-          <span className="input-group-btn">
+          <div className="input-group-append">
             {value && value.toString().length > 0 ? (
-              <button className="btn btn-default" type="button" onClick={reset} tabIndex="-1">
-                <span className="glyphicon glyphicon-remove" />
+              <button className="btn btn-secondary" type="button" onClick={reset} tabIndex="-1">
+                <span className="bi bi-x-lg" />
               </button>
             ) : (
               <button
-                className="btn btn-default"
+                className="btn btn-secondary"
                 type="button"
                 {...getToggleButtonProps()}
                 tabIndex="-1"
                 id={`${id}_button`}
               >
-                <span className="caret" />
+                <span className="bi bi-caret-down-fill" />
               </button>
             )}
-          </span>
+          </div>
         ) : null}
       </div>
-      <ul className="dropdown-menu" {...getMenuProps()}>
+      <ul className={clsx('dropdown-menu', isOpen && 'show')} {...getMenuProps()}>
         {inputItems.length ? (
           inputItems.map((item, index) => (
             <li key={`${item.value}${index}`}>

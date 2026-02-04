@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import PropTypes from 'prop-types';
 import React from 'react';
 import config from '../../config';
@@ -19,7 +19,7 @@ const HabitatNumericInput = ({ min, max, step, label, field, value }) => {
     <NumericInputValidator>
       {(getInputProps, getGroupClassName, validationMessage) => (
         <div className={getGroupClassName('form-group')}>
-          <label className="control-label">{label}</label>
+          <label className="font-weight-bold">{label}</label>
           <input
             min={min}
             max={max}
@@ -250,7 +250,7 @@ function Habitat() {
           />
 
           <div className="form-group">
-            <label className="control-label">Dominant Overstory</label>
+            <label className="font-weight-bold">Dominant Overstory</label>
             <DomainDrivenDropdown
               featureServiceUrl={config.urls.habitatFeatureService}
               fieldName={fnHabitat.DOVR}
@@ -259,7 +259,7 @@ function Habitat() {
           </div>
 
           <div className="form-group">
-            <label className="control-label">Dominant Understory</label>
+            <label className="font-weight-bold">Dominant Understory</label>
             <DomainDrivenDropdown
               featureServiceUrl={config.urls.habitatFeatureService}
               fieldName={fnHabitat.DUND}
@@ -299,7 +299,7 @@ function Habitat() {
 
         <div className="col-md-3">
           <div className="form-group">
-            <label className="control-label">Presence of Spring</label>
+            <label className="font-weight-bold">Presence of Spring</label>
             <DomainDrivenDropdown
               featureServiceUrl={config.urls.habitatFeatureService}
               fieldName={fnHabitat.SPNG}
@@ -390,12 +390,12 @@ function Habitat() {
         </div>
 
         <div className="col-md-3">
-          <div className={clsx('panel', totalSedimentIsInvalid ? 'panel-danger' : 'panel-default')}>
-            <div className="panel-heading">
-              <h3 className="panel-title">Sediment Class Percentages</h3>
+          <div className={clsx('card', totalSedimentIsInvalid && 'border-danger')}>
+            <div className="card-header">
+              <h3 className="card-title">Sediment Class Percentages</h3>
               <small className="text-muted">Must add up to 100%</small>
             </div>
-            <div className="panel-body">
+            <div className="card-body">
               <HabitatNumericInput
                 label="Fines"
                 min="0"
@@ -449,13 +449,13 @@ function Habitat() {
 
               <div
                 className={clsx(
-                  'pull-right',
+                  'float-right',
                   totalSedimentIsInvalid && 'text-danger',
                   totalSediment === 100 && 'text-success',
                 )}
               >
                 <strong>Total</strong>
-                <span className="badge">{totalSediment}</span>
+                <span className="badge badge-secondary badge-pill">{totalSediment}</span>
               </div>
             </div>
           </div>
@@ -517,7 +517,7 @@ function Habitat() {
 
         <div className="col-md-3">
           <div className="form-group">
-            <label className="control-label">Starting bank</label>
+            <label className="font-weight-bold">Starting bank</label>
             <DomainDrivenDropdown
               featureServiceUrl={config.urls.transectFeatureService}
               fieldName={config.fieldNames.transect.STARTING_BANK}

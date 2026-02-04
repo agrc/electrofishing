@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
 
@@ -85,7 +85,7 @@ function NumericInputValidator({ children }) {
       },
       onKeyUp: validate,
       type: 'number',
-      className: clsx(isInvalid && 'has-error', originalProps.className),
+      className: clsx(isInvalid && 'is-invalid', originalProps.className),
       ref: inputRef,
     };
   };
@@ -98,8 +98,7 @@ function NumericInputValidator({ children }) {
   }, []);
 
   const getGroupClassName = (originalClassName) => clsx(originalClassName, isInvalid && 'has-error');
-  const validationMessage =
-    validation?.length > 0 ? <p className={clsx('help-block', isInvalid && 'has-error')}>{validation}</p> : null;
+  const validationMessage = validation?.length > 0 ? <div className="invalid-feedback">{validation}</div> : null;
 
   return <>{children(getInputProps, getGroupClassName, validationMessage)}</>;
 }

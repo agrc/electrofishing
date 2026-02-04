@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
+import $ from 'jquery';
+import 'bootstrap';
 
 function OtherOptionHandler({ show, setShow, existingOptions, otherTxt, onOtherOptionAdded }) {
   const codeTxt = useRef(null);
@@ -44,13 +46,13 @@ function OtherOptionHandler({ show, setShow, existingOptions, otherTxt, onOtherO
   return (
     <div className="option-option-handler">
       <div className="modal fade" ref={modal}>
-        <div className="modal-dialog">
+        <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
+              <h4>Add Additional Option</h4>
               <button className="close" onClick={onCancel}>
                 &times;
               </button>
-              <h4>Add Additional Option</h4>
             </div>
             <div className="modal-body">
               <fieldset>
@@ -79,7 +81,7 @@ function OtherOptionHandler({ show, setShow, existingOptions, otherTxt, onOtherO
               </fieldset>
             </div>
             <div className="modal-footer">
-              <button className="btn btn-default" data-dismiss="modal" onClick={onCancel} tabIndex="4">
+              <button className="btn btn-secondary" data-dismiss="modal" onClick={onCancel} tabIndex="4">
                 Cancel
               </button>
               <button className="btn btn-primary" tabIndex="3" onClick={onSubmit} disabled={submitDisabled}>

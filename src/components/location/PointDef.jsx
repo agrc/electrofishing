@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import 'proj4';
 import 'proj4leaflet';
 import PropTypes from 'prop-types';
@@ -36,7 +36,7 @@ const validateMsgs = {
 
 // validateErrorClass: String
 //      The bootstrap css class to add when there is a validate error
-const validateErrorClass = 'has-error';
+const validateErrorClass = 'is-invalid';
 
 // validateDigits: {}
 //      stores the number of digits there should be for utm values
@@ -273,60 +273,63 @@ export default function PointDef({ label, map, coordinates, setCoordinates, twoL
 
   const getButton = () => {
     return (
-      <>
-        <div className="form-group">
-          <label className="point-def__primary-label">{label}</label>
-        </div>
-        <button className={clsx('btn btn-default btn-sm padded', isActive && 'active')} onClick={onMapBtnClicked}>
-          <span className="glyphicon glyphicon-map-marker"></span>
+      <div className="d-flex align-items-center mr-3">
+        <label className="point-def__primary-label mb-0 mr-2 font-weight-bold">{label}</label>
+        <button
+          className={clsx('btn btn-secondary btn-sm', isActive && 'active')}
+          onClick={onMapBtnClicked}
+          type="button"
+          aria-label={`Select ${label} on map`}
+        >
+          <span className="bi bi-geo-alt-fill"></span>
         </button>
-      </>
+      </div>
     );
   };
 
   const getBoxes = () => {
     return (
       <>
-        <div className={clsx('form-group', helpText.y.length > 0 && validateErrorClass)}>
-          <label>{yLabelTxt}</label>
+        <div className="flex-grow-1 mr-2">
+          <label className="font-weight-bold">{yLabelTxt}</label>
           <input
             type="text"
-            className={clsx('form-control', !twoLineLayout && 'padded')}
+            className={clsx('form-control', helpText.y.length > 0 && validateErrorClass)}
             placeholder={yPlaceHolder}
             disabled={isActive}
             onBlur={onTextBoxBlur}
             value={coordinates.y}
             onChange={getOnTextBoxChange('y')}
           />
-          <span className={clsx('help-block', !twoLineLayout && 'padded')}>{helpText.y}</span>
+          <div className="invalid-feedback">{helpText.y}</div>
         </div>
 
-        <div className={clsx('form-group', helpText.x.length > 0 && validateErrorClass, twoLineLayout && 'padded')}>
-          <label>{xLabelTxt}</label>
+        <div className="flex-grow-1">
+          <label className="font-weight-bold">{xLabelTxt}</label>
           <input
             type="text"
-            className={clsx('form-control', !twoLineLayout && 'padded')}
+            className={clsx('form-control', helpText.x.length > 0 && validateErrorClass)}
             placeholder={xPlaceHolder}
             disabled={isActive}
             onBlur={onTextBoxBlur}
             value={coordinates.x}
             onChange={getOnTextBoxChange('x')}
           />
-          <span className={clsx('help-block', !twoLineLayout && 'padded')}>{helpText.x}</span>
+          <div className="invalid-feedback">{helpText.x}</div>
         </div>
       </>
     );
   };
 
   return (
-    <div className="point-def">
+    <div className="point-def mb-3">
       {twoLineLayout ? (
         <>
-          <div className="form-inline">{getButton()}</div>
-          <div className="form-inline">{getBoxes()}</div>
+          <div className="mb-2">{getButton()}</div>
+          <div className="d-flex">{getBoxes()}</div>
         </>
       ) : (
-        <div className="form-inline">
+        <div className="d-flex align-items-start">
           {getButton()}
           {getBoxes()}
         </div>

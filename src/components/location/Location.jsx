@@ -31,7 +31,8 @@ const emptyStartDistDirParams = {
 const Location = () => {
   const { eventState, eventDispatch } = useSamplingEventContext();
   const [validateMsg, setValidateMsg] = useState(null);
-  const verifyMapBtn = useRef(null);
+  const [validating, setValidating] = useState(false);
+  const [verified, setVerified] = useState(false);
   const { appState } = useAppContext();
   const [mainMap, setMainMap] = useState(null);
   const [startEndParams, setStartEndParams] = useState(emptyStartEndParams);
@@ -61,7 +62,8 @@ const Location = () => {
   }, [appState.map]);
 
   const clearValidation = useCallback(() => {
-    $(verifyMapBtn.current).button('reset');
+    setValidating(false);
+    setVerified(false);
     setValidateMsg(null);
     clearGeometry();
   }, [clearGeometry]);
@@ -93,8 +95,7 @@ const Location = () => {
       return distance;
     };
 
-    verifyMapBtn.current.innerHTML = successfullyVerifiedMsg;
-    verifyMapBtn.current.dataset.successful = true;
+    setVerified(true);
 
     const line = L.polyline(newPath, { color: 'red' }).addTo(appState.map);
     path.current = line;
@@ -297,13 +298,13 @@ const Location = () => {
   };
 
   const validateGeometry = async () => {
-    $(verifyMapBtn.current).button('loading');
+    setValidating(true);
 
     setValidateMsg(null);
 
     const onError = (msg) => {
       setValidateMsg(msg);
-      $(verifyMapBtn.current).button('reset');
+      setValidating(false);
     };
 
     let response;
@@ -331,6 +332,7 @@ const Location = () => {
             geoDef: response.geoDef,
           },
         });
+        setValidating(false);
       } else {
         onError(response.error_message);
       }
@@ -401,13 +403,20 @@ const Location = () => {
         Stream Reach <span className="text-danger required">*</span>
       </h4>
       <ul className="nav nav-pills">
-        <li className="active">
-          <a id="startEndTab" href="#loc_startend" data-toggle="tab" onClick={() => setCurrentGeoDef(START_END)}>
+        <li className="nav-item">
+          <a
+            className="nav-link active"
+            id="startEndTab"
+            href="#loc_startend"
+            data-toggle="tab"
+            onClick={() => setCurrentGeoDef(START_END)}
+          >
             Start | End
           </a>
         </li>
-        <li>
+        <li className="nav-item">
           <a
+            className="nav-link"
             id="startDistDirTab"
             href="#loc_startdistdir"
             data-toggle="tab"
@@ -418,27 +427,26 @@ const Location = () => {
         </li>
       </ul>
       <div className="tab-content">
-        <div className="tab-pane fade in active" id="loc_startend">
+        <div className="tab-pane fade show active" id="loc_startend">
           <StartEndGeoDef map={mainMap} coordinatePairs={startEndParams} setCoordinatePairs={setStartEndParams} />
         </div>
         <div className="tab-pane fade" id="loc_startdistdir">
           <StartDistDirGeoDef map={mainMap} params={startDistDirParams} setParams={setStartDistDirParams} />
         </div>
       </div>
-      <button
-        ref={verifyMapBtn}
-        className="btn btn-success"
-        data-loading-text="Verifying...this may take a few seconds."
-        onClick={validateGeometry}
-      >
-        Verify Location
+      <button className="btn btn-success" onClick={validateGeometry} disabled={validating}>
+        {validating
+          ? 'Verifying...this may take a few seconds.'
+          : verified
+            ? successfullyVerifiedMsg
+            : 'Verify Location'}
       </button>
       {validateMsg ? <div className="alert alert-danger">{validateMsg}</div> : null}
 
       <div className="row">
         <div className="form-group col-md-6">
           <label
-            className="control-label"
+            className="font-weight-bold"
             id={fieldNames.SEGMENT_LENGTH}
             htmlFor={`${fieldNames.SEGMENT_LENGTH}_input`}
           >
@@ -451,14 +459,14 @@ const Location = () => {
 
       <div className="row">
         <div className="form-group col-md-3">
-          <label className="control-label" id={fieldNames.EVENT_DATE} htmlFor={`${fieldNames.EVENT_DATE}_input`}>
+          <label className="font-weight-bold" id={fieldNames.EVENT_DATE} htmlFor={`${fieldNames.EVENT_DATE}_input`}>
             Collection Date
           </label>
           <span className="text-danger required">*</span>
           <input type="date" max={inputMax} {...getLocationInputProps(fieldNames.EVENT_DATE)} />
         </div>
         <div className="form-group col-md-3">
-          <label className="control-label" htmlFor={`${fieldNames.EVENT_TIME}_input`}>
+          <label className="font-weight-bold" htmlFor={`${fieldNames.EVENT_TIME}_input`}>
             Collection Time
           </label>
           <input type="time" {...getLocationInputProps(fieldNames.EVENT_TIME)} />
@@ -466,7 +474,7 @@ const Location = () => {
       </div>
       <div className="row">
         <div className="form-group col-md-6">
-          <label className="control-label" id={fieldNames.PURPOSE} htmlFor={`${fieldNames.PURPOSE}_input`}>
+          <label className="font-weight-bold" id={fieldNames.PURPOSE} htmlFor={`${fieldNames.PURPOSE}_input`}>
             Survey Purpose (Purpose of Collection)
           </label>
           <span className="text-danger required">*</span>
@@ -479,7 +487,7 @@ const Location = () => {
       </div>
       <div className="row">
         <div className="form-group col-md-6">
-          <label className="control-label" htmlFor={`${fieldNames.WEATHER}_input`}>
+          <label className="font-weight-bold" htmlFor={`${fieldNames.WEATHER}_input`}>
             Weather
           </label>
           <DomainDrivenDropdown
@@ -492,7 +500,7 @@ const Location = () => {
 
       <div className="row">
         <div className="form-group col-md-6">
-          <label className="control-label" htmlFor={`${fieldNames.LOCATION_NOTES}_input`}>
+          <label className="font-weight-bold" htmlFor={`${fieldNames.LOCATION_NOTES}_input`}>
             Additional Location Notes (optional)
           </label>
           <textarea {...getLocationInputProps(fieldNames.LOCATION_NOTES)} maxLength={1000} rows={5} />
@@ -501,7 +509,7 @@ const Location = () => {
 
       <div className="row">
         <div className="form-group col-md-6">
-          <label className="control-label" id={fieldNames.OBSERVERS} htmlFor={`${fieldNames.OBSERVERS}_input`}>
+          <label className="font-weight-bold" id={fieldNames.OBSERVERS} htmlFor={`${fieldNames.OBSERVERS}_input`}>
             Observers
           </label>
           <span className="text-danger required">*</span>

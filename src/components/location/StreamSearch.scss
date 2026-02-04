@@ -4,26 +4,18 @@
   top: 0px;
   right: 0px;
   z-index: 410;
-  width: 303px;
+  width: 350px;
   .input-group {
-    width: 274px;
-    input {
-      display: inline-block;
-      width: 233px;
-      box-sizing: content-box;
-      -moz-box-sizing: content-box;
-      min-height: 1px;
-      height: 17px;
-    }
+    width: 344px;
   }
   .matches-table {
-    width: 299px;
+    width: 344px;
     background-color: white;
     font-size: 12px;
     float: left;
     z-index: 99;
     position: absolute;
-    top: 40px;
+    top: 45px;
     .dropdown-menu {
       display: block;
       width: 100%;
@@ -46,8 +38,5 @@
     li.dropdown-header {
       white-space: pre-wrap;
     }
-  }
-  span.glyphicon-search {
-    top: 0;
   }
 }

@@ -32,7 +32,7 @@ function Health({ state, onChange }) {
   return (
     <div className="health">
       <div className="form-group">
-        <label className="control-label">Eye Condition</label>
+        <label className="font-weight-bold">Eye Condition</label>
         <DomainDrivenDropdown
           featureServiceUrl={config.urls.healthFeatureService}
           fieldName={fn.EYE}
@@ -41,7 +41,7 @@ function Health({ state, onChange }) {
       </div>
 
       <div className="form-group">
-        <label className="control-label">Gill Condition</label>
+        <label className="font-weight-bold">Gill Condition</label>
         <DomainDrivenDropdown
           featureServiceUrl={config.urls.healthFeatureService}
           fieldName={fn.GILL}
@@ -50,7 +50,7 @@ function Health({ state, onChange }) {
       </div>
 
       <div className="form-group">
-        <label className="control-label">Pseudobranches Condition</label>
+        <label className="font-weight-bold">Pseudobranches Condition</label>
         <DomainDrivenDropdown
           featureServiceUrl={config.urls.healthFeatureService}
           fieldName={fn.PSBR}
@@ -59,7 +59,7 @@ function Health({ state, onChange }) {
       </div>
 
       <div className="form-group">
-        <label className="control-label">Thymus Condition</label>
+        <label className="font-weight-bold">Thymus Condition</label>
         <DomainDrivenDropdown
           featureServiceUrl={config.urls.healthFeatureService}
           fieldName={fn.THYMUS}
@@ -68,7 +68,7 @@ function Health({ state, onChange }) {
       </div>
 
       <div className="form-group">
-        <label className="control-label">Fat Index</label>
+        <label className="font-weight-bold">Fat Index</label>
         <DomainDrivenDropdown
           featureServiceUrl={config.urls.healthFeatureService}
           fieldName={fn.FAT}
@@ -77,7 +77,7 @@ function Health({ state, onChange }) {
       </div>
 
       <div className="form-group">
-        <label className="control-label">Spleen Condition</label>
+        <label className="font-weight-bold">Spleen Condition</label>
         <DomainDrivenDropdown
           featureServiceUrl={config.urls.healthFeatureService}
           fieldName={fn.SPLEEN}
@@ -86,7 +86,7 @@ function Health({ state, onChange }) {
       </div>
 
       <div className="form-group">
-        <label className="control-label">Hind Gut Condition</label>
+        <label className="font-weight-bold">Hind Gut Condition</label>
         <DomainDrivenDropdown
           featureServiceUrl={config.urls.healthFeatureService}
           fieldName={fn.HIND}
@@ -95,7 +95,7 @@ function Health({ state, onChange }) {
       </div>
 
       <div className="form-group">
-        <label className="control-label">Kidney Condition</label>
+        <label className="font-weight-bold">Kidney Condition</label>
         <DomainDrivenDropdown
           featureServiceUrl={config.urls.healthFeatureService}
           fieldName={fn.KIDNEY}
@@ -104,7 +104,7 @@ function Health({ state, onChange }) {
       </div>
 
       <div className="form-group">
-        <label className="control-label">Liver Condition</label>
+        <label className="font-weight-bold">Liver Condition</label>
         <DomainDrivenDropdown
           featureServiceUrl={config.urls.healthFeatureService}
           fieldName={fn.LIVER}
@@ -113,7 +113,7 @@ function Health({ state, onChange }) {
       </div>
 
       <div className="form-group">
-        <label className="control-label">Bile Color</label>
+        <label className="font-weight-bold">Bile Color</label>
         <DomainDrivenDropdown
           featureServiceUrl={config.urls.healthFeatureService}
           fieldName={fn.BILE}
@@ -122,7 +122,7 @@ function Health({ state, onChange }) {
       </div>
 
       <div className="form-group">
-        <label className="control-label">Gender</label>
+        <label className="font-weight-bold">Gender</label>
         <DomainDrivenDropdown
           featureServiceUrl={config.urls.healthFeatureService}
           fieldName={fn.GENDER}
@@ -131,7 +131,7 @@ function Health({ state, onChange }) {
       </div>
 
       <div className="form-group">
-        <label className="control-label">Reproductive Condition</label>
+        <label className="font-weight-bold">Reproductive Condition</label>
         <DomainDrivenDropdown
           featureServiceUrl={config.urls.healthFeatureService}
           fieldName={fn.REPRODUCTIVE}
@@ -170,7 +170,7 @@ function Health({ state, onChange }) {
       </NumericInputValidator>
 
       <div className="form-group">
-        <label className="control-label">Fin Condition</label>
+        <label className="font-weight-bold">Fin Condition</label>
         <DomainDrivenDropdown
           featureServiceUrl={config.urls.healthFeatureService}
           fieldName={fn.FIN}
@@ -179,7 +179,7 @@ function Health({ state, onChange }) {
       </div>
 
       <div className="form-group">
-        <label className="control-label">Opercle Condition</label>
+        <label className="font-weight-bold">Opercle Condition</label>
         <DomainDrivenDropdown
           featureServiceUrl={config.urls.healthFeatureService}
           fieldName={fn.OPERCLE}

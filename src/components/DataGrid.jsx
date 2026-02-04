@@ -1,5 +1,5 @@
 import { flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from '@tanstack/react-table';
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import PropTypes from 'prop-types';
 import React, { forwardRef, useEffect, useState } from 'react';
 import DomainDrivenDropdown from './DomainDrivenDropdown.jsx';
@@ -191,6 +191,7 @@ export const NumericInputCell = forwardRef(function NumericInputCell(
             {...getInputProps({
               onChange: (e) => setValue(e.target.valueAsNumber || null),
               ...column.columnDef.meta?.inputProps,
+              className: 'form-control',
             })}
           />
           {validationMessage}

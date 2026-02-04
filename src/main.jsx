@@ -37,7 +37,7 @@ function Fallback({ error }) {
         <button onClick={reload} className="btn btn-block btn-info">
           Reload the page
         </button>
-        <button onClick={signOut} className="btn btn-block btn-default">
+        <button onClick={signOut} className="btn btn-block btn-secondary">
           Log out
         </button>
         <button onClick={clearSettings} className="btn btn-block btn-warning">

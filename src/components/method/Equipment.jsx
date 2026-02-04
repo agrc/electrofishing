@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { clsx } from 'clsx';
 import config from '../../config';
 import AddRemoveButtons from '../AddRemoveButtons.jsx';
 import DataGrid, { DomainDrivenDropdownCell, NumericInputCell } from '../DataGrid.jsx';
@@ -133,27 +134,30 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
   return (
     <div className="equipment">
       <ul className="nav nav-pills">
-        <li
-          className={state.equipment[fieldNamesEQ.TYPE] === EQUIPMENT_TYPES.BACKPACK ? ACTIVE : null}
-          onClick={() => onEquipmentChange(fieldNamesEQ.TYPE, EQUIPMENT_TYPES.BACKPACK)}
-        >
-          <a href="#" data-toggle="tab">
+        <li className="nav-item" onClick={() => onEquipmentChange(fieldNamesEQ.TYPE, EQUIPMENT_TYPES.BACKPACK)}>
+          <a
+            className={clsx('nav-link', state.equipment[fieldNamesEQ.TYPE] === EQUIPMENT_TYPES.BACKPACK && ACTIVE)}
+            href="#"
+            data-toggle="tab"
+          >
             Backpack
           </a>
         </li>
-        <li
-          className={state.equipment[fieldNamesEQ.TYPE] === EQUIPMENT_TYPES.CANOEBARGE ? ACTIVE : null}
-          onClick={() => onEquipmentChange(fieldNamesEQ.TYPE, EQUIPMENT_TYPES.CANOEBARGE)}
-        >
-          <a href="#" data-toggle="tab">
+        <li className="nav-item" onClick={() => onEquipmentChange(fieldNamesEQ.TYPE, EQUIPMENT_TYPES.CANOEBARGE)}>
+          <a
+            className={clsx('nav-link', state.equipment[fieldNamesEQ.TYPE] === EQUIPMENT_TYPES.CANOEBARGE && ACTIVE)}
+            href="#"
+            data-toggle="tab"
+          >
             Canoe/Barge
           </a>
         </li>
-        <li
-          className={state.equipment[fieldNamesEQ.TYPE] === EQUIPMENT_TYPES.RAFTBOAT ? ACTIVE : null}
-          onClick={() => onEquipmentChange(fieldNamesEQ.TYPE, EQUIPMENT_TYPES.RAFTBOAT)}
-        >
-          <a href="#" data-toggle="tab">
+        <li className="nav-item" onClick={() => onEquipmentChange(fieldNamesEQ.TYPE, EQUIPMENT_TYPES.RAFTBOAT)}>
+          <a
+            className={clsx('nav-link', state.equipment[fieldNamesEQ.TYPE] === EQUIPMENT_TYPES.RAFTBOAT && ACTIVE)}
+            href="#"
+            data-toggle="tab"
+          >
             Raft/Boat
           </a>
         </li>
@@ -206,7 +210,7 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
         <NumericInputValidator>
           {(getInputProps, getGroupClassName, validationMessage) => (
             <div className={getGroupClassName('form-group col-md-4')}>
-              <label className="control-label"># Anodes</label>
+              <label className="font-weight-bold"># Anodes</label>
               <input
                 value="1"
                 min="1"
@@ -232,7 +236,7 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
         <NumericInputValidator>
           {(getInputProps, getGroupClassName, validationMessage) => (
             <div className={getGroupClassName('form-group col-md-4')}>
-              <label className="control-label">Cathode Length (centimeters)</label>
+              <label className="font-weight-bold">Cathode Length (centimeters)</label>
               <input
                 min="1"
                 max="305"
@@ -247,7 +251,7 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
         <NumericInputValidator>
           {(getInputProps, getGroupClassName, validationMessage) => (
             <div className={getGroupClassName('form-group col-md-4')}>
-              <label className="control-label">Cathode Diameter (centimeters)</label>
+              <label className="font-weight-bold">Cathode Diameter (centimeters)</label>
               <input
                 min="0.1"
                 max="2.54"
@@ -261,14 +265,14 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
         </NumericInputValidator>
 
         <div className="form-group col-md-4">
-          <label className="control-label">Machine Resistance (ohms)</label>
+          <label className="font-weight-bold">Machine Resistance (ohms)</label>
           <input type="number" {...getEquipmentInputProps(fieldNamesEQ.MACHINE_RES, parseFloat)} />
         </div>
       </div>
 
       <div className="row">
         <div className="form-group col-md-4">
-          <label className="control-label">Waveform</label>
+          <label className="font-weight-bold">Waveform</label>
           <DomainDrivenDropdown
             featureServiceUrl={equipmentServiceUrl}
             fieldName={fieldNamesEQ.WAVEFORM}
@@ -279,7 +283,7 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
         <NumericInputValidator>
           {(getInputProps, getGroupClassName, validationMessage) => (
             <div className={getGroupClassName('form-group col-md-4')}>
-              <label className="control-label">Voltage (volts)</label>
+              <label className="font-weight-bold">Voltage (volts)</label>
               <input
                 min="0"
                 max="1000"
@@ -294,7 +298,7 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
         <NumericInputValidator>
           {(getInputProps, getGroupClassName, validationMessage) => (
             <div className={getGroupClassName('form-group col-md-4')}>
-              <label className="control-label">Duty Cycle (%)</label>
+              <label className="font-weight-bold">Duty Cycle (%)</label>
               <input min="0" max="100" {...getInputProps(getEquipmentInputProps(fieldNamesEQ.DUTY_CYCLE, parseInt))} />
               {validationMessage}
             </div>
@@ -306,7 +310,7 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
         <NumericInputValidator>
           {(getInputProps, getGroupClassName, validationMessage) => (
             <div className={getGroupClassName('form-group col-md-4')}>
-              <label className="control-label">Frequency (hertz)</label>
+              <label className="font-weight-bold">Frequency (hertz)</label>
               <input min="1" max="1000" {...getInputProps(getEquipmentInputProps(fieldNamesEQ.FREQUENCY, parseInt))} />
               {validationMessage}
             </div>
@@ -316,7 +320,7 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
         <NumericInputValidator>
           {(getInputProps, getGroupClassName, validationMessage) => (
             <div className={getGroupClassName('form-group col-md-4')}>
-              <label className="control-label">Amps</label>
+              <label className="font-weight-bold">Amps</label>
               <input
                 min="0"
                 max="150"
@@ -331,7 +335,7 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
         <NumericInputValidator>
           {(getInputProps, getGroupClassName, validationMessage) => (
             <div className={getGroupClassName('form-group col-md-4')}>
-              <label className="control-label">Duration/Pedal Time (seconds)</label>
+              <label className="font-weight-bold">Duration/Pedal Time (seconds)</label>
               <input min="1" max="7200" {...getInputProps(getEquipmentInputProps(fieldNamesEQ.DURATION, parseInt))} />
               {validationMessage}
             </div>

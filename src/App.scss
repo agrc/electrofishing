@@ -59,7 +59,8 @@
   z-index: 1051; /* required to make them appear on top of bootstrap modal*/
 }
 
-.form-group .help-block {
+.form-group .form-text,
+.form-group .invalid-feedback {
   margin: 0;
 }
 

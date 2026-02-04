@@ -38,7 +38,7 @@ export default function StartDistDirGeoDef({ map, params, setParams }) {
         <PointDef label="Start" map={map} coordinates={params.start} setCoordinates={setStart} />
         <div className="dist-block">
           <div className="form-group">
-            <label className="control-label">Distance (in meters)</label>
+            <label className="font-weight-bold">Distance (in meters)</label>
             <input
               type="number"
               className="form-control padded"
@@ -46,13 +46,24 @@ export default function StartDistDirGeoDef({ map, params, setParams }) {
               onChange={(event) => setDistance(event.target.value)}
             />
           </div>
-          <div className="btn-group" data-toggle="buttons">
-            <label className="btn btn-primary active" onClick={() => setDirection('up')}>
-              <input type="radio" name="up_down_stream" selected={params.direction === 'up'} />
+          <div className="btn-group btn-group-toggle" data-toggle="buttons">
+            <label
+              className={`btn btn-primary ${params.direction === 'up' ? 'active' : ''}`}
+              onClick={() => setDirection('up')}
+            >
+              <input type="radio" name="up_down_stream" autoComplete="off" defaultChecked={params.direction === 'up'} />
               Upstream
             </label>
-            <label className="btn btn-primary" onClick={() => setDirection('down')}>
-              <input type="radio" name="up_down_stream" selected={params.direction === 'down'} />
+            <label
+              className={`btn btn-primary ${params.direction === 'down' ? 'active' : ''}`}
+              onClick={() => setDirection('down')}
+            >
+              <input
+                type="radio"
+                name="up_down_stream"
+                autoComplete="off"
+                defaultChecked={params.direction === 'down'}
+              />
               Downstream
             </label>
           </div>

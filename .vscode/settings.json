@@ -91,6 +91,4 @@
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "python.formatting.provider": "yapf",
-  "testing.automaticallyOpenPeekView": "never",
 }

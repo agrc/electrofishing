@@ -7,9 +7,9 @@ test('submits a report', async ({ page }) => {
   await loadAndSignIn(page);
 
   await page.getByRole('button', { name: 'Marker' }).first().click();
-  await page.getByRole('button', { name: '' }).first().click();
+  await page.getByRole('button', { name: 'Select Start on map' }).click();
   await page.locator('.map').first().click();
-  await page.getByRole('button', { name: '' }).nth(1).click();
+  await page.getByRole('button', { name: 'Select End on map' }).click();
   await page.locator('.map').first().click();
   await page.getByRole('button', { name: 'Verify Location' }).click();
   await page.getByLabel('Collection Date').fill('2024-04-17');
