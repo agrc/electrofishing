@@ -13,7 +13,7 @@
     "start:app": "pnpm run build:sw && vite",
     "start:e2e-resources": "concurrently 'firebase emulators:start --only firestore,auth' 'vite'",
     "start:e2e": "playwright test --ui",
-    "start:firebase-emulators": "firebase emulators:start --import emulator_data --export-on-exit --only firestore,functions,auth,ui",
+    "start:firebase-emulators": "./scripts/start-emulators.sh",
     "start": "concurrently 'wait-on http://127.0.0.1:4000 && pnpm run start:app' 'pnpm run start:firebase-emulators'",
     "storybook": "storybook dev -p 9009",
     "test": "pnpm run lint && vitest"
