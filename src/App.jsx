@@ -128,20 +128,6 @@ const App = () => {
             onChange={(setting, value) => appDispatch({ type: actionTypes.SETTINGS, payload: { [setting]: value } })}
           />
 
-          <footer>
-            <div className="container">
-              Built by{' '}
-              <a
-                href="https://gis.utah.gov/solutions/for-application-developers/"
-                title="UGRC"
-                target="_blank"
-                rel="noreferrer"
-              >
-                UGRC
-              </a>
-            </div>
-          </footer>
-
           <ToastContainer />
         </div>
       </AppContext.Provider>
