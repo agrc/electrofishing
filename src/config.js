@@ -145,6 +145,7 @@ const fieldNames = {
     TURBIDITY: 'TURBIDITY',
     ALKALINITY: 'ALKALINITY',
     BACKWATER: 'BACKWATER',
+    DISCHARGE: 'DISCHARGE',
   },
   transect: {
     EVENT_ID: fldEVENT_ID,

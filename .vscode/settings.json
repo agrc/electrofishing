@@ -4,6 +4,7 @@
     "arcgis",
     "arcgisinput",
     "arcgissystem",
+    "arcpy",
     "autodocs",
     "autogen",
     "autoheight",

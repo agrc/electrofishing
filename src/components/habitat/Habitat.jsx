@@ -328,6 +328,14 @@ function Habitat() {
             field={fnHabitat.EROS}
             value={habitat[fnHabitat.EROS]}
           />
+          <HabitatNumericInput
+            label="Discharge (CFS)"
+            min="0"
+            max="20000"
+            step="0.001"
+            field={fnHabitat.DISCHARGE}
+            value={habitat[fnHabitat.DISCHARGE]}
+          />
         </div>
 
         <div className="col-md-3">

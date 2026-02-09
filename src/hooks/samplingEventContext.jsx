@@ -112,6 +112,7 @@ const getBlankHabitat = (eventId) => {
     [config.fieldNames.habitat.TURBIDITY]: null,
     [config.fieldNames.habitat.ALKALINITY]: null,
     [config.fieldNames.habitat.BACKWATER]: null,
+    [config.fieldNames.habitat.DISCHARGE]: null,
   };
 };
 
