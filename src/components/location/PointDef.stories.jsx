@@ -1,7 +1,6 @@
 import topic from 'pubsub-js';
-import { useState } from 'react';
+import { useState, useId } from 'react';
 import config from '../../config';
-import useUniqueId from '../../hooks/useUniqueId';
 import PointDef from './PointDef.jsx';
 import { initializeApp } from 'firebase/app';
 import { AppContext } from '../../App.jsx';
@@ -34,7 +33,7 @@ const mapClick = () => {
 
 export const Default = () => {
   const [coordinates, setCoordinates] = useState(config.emptyPoint);
-  const id = useUniqueId();
+  const id = useId();
 
   const otherButtonClick = () => {
     topic.publishSync(config.topics.pointDef_onBtnClick, id, true);
@@ -53,7 +52,7 @@ export const Default = () => {
 
 export const NewStationDialog = () => {
   const [coordinates, setCoordinates] = useState(config.emptyPoint);
-  const id = useUniqueId();
+  const id = useId();
 
   const otherButtonClick = () => {
     topic.publishSync(config.topics.pointDef_onBtnClick, id, true);

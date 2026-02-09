@@ -12,8 +12,4 @@ test('successfully zooms to a stream', async ({ page }) => {
   const stream = page.locator('path[stroke="yellow"]:not([d="M0 0"])');
 
   await expect(stream).toBeVisible();
-
-  await expect(stream).toBeVisible();
-
-  await expect(stream).toBeVisible();
 });

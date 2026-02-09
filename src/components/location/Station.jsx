@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
 import topic from 'pubsub-js';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useId } from 'react';
 import { Modal } from 'bootstrap';
 import config from '../../config';
 import getGUID from '../../helpers/getGUID';
 import submitJob from '../../helpers/submitJob';
 import useSubscriptions from '../../hooks/useSubscriptions';
-import useUniqueId from '../../hooks/useUniqueId';
 import DomainDrivenDropdown from '../DomainDrivenDropdown.jsx';
 import PointDef from './PointDef.jsx';
 import VerifyMap from './VerifyMap.jsx';
@@ -155,7 +154,7 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
     }
   };
 
-  const id = useUniqueId();
+  const id = useId();
   const onPointDefSelected = React.useCallback(
     (_, widget) => {
       // if widget is not the toggle stream lake button, then setStreamLakeBtnIsActive(false)
@@ -213,7 +212,7 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
         <div className="col-8">
           <div className="input-group">
             <input type="text" disabled value={selectedStationName} className="form-control" id="stationTxt" />
-            <a className="btn btn-secondary btn-success" data-bs-toggle="modal" href="#stationModal">
+            <a className="btn btn-success" data-bs-toggle="modal" href="#stationModal">
               <span className="bi bi-plus-lg"></span>
               &nbsp;Add New Station
             </a>

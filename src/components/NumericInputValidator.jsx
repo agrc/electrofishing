@@ -97,10 +97,9 @@ function NumericInputValidator({ children }) {
     }
   }, []);
 
-  const getGroupClassName = (originalClassName) => clsx(originalClassName, isInvalid && 'has-error');
   const validationMessage = validation?.length > 0 ? <div className="invalid-feedback">{validation}</div> : null;
 
-  return <>{children(getInputProps, getGroupClassName, validationMessage)}</>;
+  return <>{children(getInputProps, validationMessage)}</>;
 }
 
 NumericInputValidator.propTypes = {

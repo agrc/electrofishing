@@ -3,11 +3,10 @@ import 'proj4';
 import 'proj4leaflet';
 import PropTypes from 'prop-types';
 import topic from 'pubsub-js';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useId } from 'react';
 import { useAppContext } from '../../App.jsx';
 import config from '../../config';
 import useSubscriptions from '../../hooks/useSubscriptions';
-import useUniqueId from '../../hooks/useUniqueId';
 
 // labels: {}
 //      The text for the different labels above the textboxes as well
@@ -64,7 +63,7 @@ export default function PointDef({ label, map, coordinates, setCoordinates, twoL
 
   const icon = React.useRef(null);
   const addSubscription = useSubscriptions();
-  const id = useUniqueId();
+  const id = useId();
 
   const group = useRef(null);
   useEffect(() => {
@@ -291,25 +290,27 @@ export default function PointDef({ label, map, coordinates, setCoordinates, twoL
     return (
       <>
         <div className="d-flex flex-column">
-          <label className="d-flex align-items-center gap-2">
+          <label className="d-flex align-items-center gap-2" htmlFor={`${id}_y`}>
             <span className="flex-shrink-0">{yLabelTxt}</span>
-            <input
-              type="text"
-              className={clsx('form-control', helpText.y.length > 0 && validateErrorClass)}
-              placeholder={yPlaceHolder}
-              disabled={isActive}
-              onBlur={onTextBoxBlur}
-              value={coordinates.y}
-              onChange={getOnTextBoxChange('y')}
-            />
           </label>
+          <input
+            name={`${id}_y`}
+            type="text"
+            className={clsx('form-control', helpText.y.length > 0 && validateErrorClass)}
+            placeholder={yPlaceHolder}
+            disabled={isActive}
+            onBlur={onTextBoxBlur}
+            value={coordinates.y}
+            onChange={getOnTextBoxChange('y')}
+          />
           <div className="invalid-feedback">{helpText.y}</div>
         </div>
 
         <div className="d-flex flex-column">
-          <label className="d-flex align-items-center gap-2">
+          <label className="d-flex align-items-center gap-2" htmlFor={`${id}_x`}>
             <span className="flex-shrink-0">{xLabelTxt}</span>
             <input
+              name={`${id}_x`}
               type="text"
               className={clsx('form-control', helpText.x.length > 0 && validateErrorClass)}
               placeholder={xPlaceHolder}

@@ -85,7 +85,7 @@ const ComboBox = React.forwardRef(function ComboBox({ items, onChange, value, id
           inputItems.map((item, index) => (
             <li key={`${item.value}${index}`}>
               <button
-                className={`btn btn-link w-full rounded-0 border-0 text-decoration-none ${highlightedIndex === index && 'active'}`}
+                className={`btn btn-link w-100 rounded-0 border-0 text-decoration-none ${highlightedIndex === index && 'active'}`}
                 {...getItemProps({ item, index })}
                 tabIndex="-1" // prevent focus from moving to body when tabbing out of the input
               >

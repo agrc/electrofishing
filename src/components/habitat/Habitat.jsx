@@ -17,14 +17,14 @@ const HabitatNumericInput = ({ min, max, step, label, field, value }) => {
 
   return (
     <NumericInputValidator>
-      {(getInputProps, getGroupClassName, validationMessage) => (
-        <div className={getGroupClassName('form-group')}>
+      {(getInputProps, validationMessage) => (
+        <div className="form-group">
           <label>{label}</label>
           <input
             min={min}
             max={max}
             step={step}
-            value={value || ''}
+            value={value ?? ''}
             id={`${field}_input`}
             {...getInputProps({
               className: 'form-control',
@@ -491,8 +491,8 @@ function Habitat() {
       <div className="row">
         <div className="col-md-3">
           <NumericInputValidator>
-            {(getInputProps, getGroupClassName, validationMessage) => (
-              <div className={getGroupClassName('form-group')}>
+            {(getInputProps, validationMessage) => (
+              <div className="form-group">
                 <label>Bankfull Width (m)</label>
                 <input
                   step="0.01"
@@ -508,8 +508,8 @@ function Habitat() {
 
         <div className="col-md-3">
           <NumericInputValidator>
-            {(getInputProps, getGroupClassName, validationMessage) => (
-              <div className={getGroupClassName('form-group')}>
+            {(getInputProps, validationMessage) => (
+              <div className="form-group">
                 <label>Wetted Width (m)</label>
                 <input
                   step="0.01"

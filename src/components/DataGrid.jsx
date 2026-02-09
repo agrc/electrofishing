@@ -183,8 +183,8 @@ export const NumericInputCell = forwardRef(function NumericInputCell(
 
   return (
     <NumericInputValidator>
-      {(getInputProps, getGroupClassName, validationMessage) => (
-        <div className={getGroupClassName()}>
+      {(getInputProps, validationMessage) => (
+        <div>
           <input
             id={`numeric-input-cell-${index}-${column.id}`}
             value={value || ''}

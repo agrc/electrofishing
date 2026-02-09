@@ -72,8 +72,8 @@ function Tag({ state, onChange, addNew, remove, isLast, isFirst }) {
           />
         </div>
         <NumericInputValidator>
-          {(getInputProps, getGroupClassName, validationMessage) => (
-            <div className={getGroupClassName('col-md-3')}>
+          {(getInputProps, validationMessage) => (
+            <div className="col-md-3">
               <label>Transmitter Freq.</label>
               <input min="1" max="3000" {...getInputProps(getTagInputProps(fn.TRANSMITTER_FREQ))} />
               {validationMessage}

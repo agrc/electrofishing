@@ -185,8 +185,8 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
         ) : null}
 
         <NumericInputValidator>
-          {(getInputProps, getGroupClassName, validationMessage) => (
-            <div className={getGroupClassName('mb-3 col-md-3')}>
+          {(getInputProps, validationMessage) => (
+            <div className="mb-3 col-md-3">
               <label># Netters</label>
               <input min="1" max="30" {...getInputProps(getEquipmentInputProps(fieldNamesEQ.NUM_NETTERS, parseInt))} />
               {validationMessage}
@@ -208,8 +208,8 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
 
       <div className="row">
         <NumericInputValidator>
-          {(getInputProps, getGroupClassName, validationMessage) => (
-            <div className={getGroupClassName('mb-3 col-md-4')}>
+          {(getInputProps, validationMessage) => (
+            <div className="mb-3 col-md-4">
               <label># Anodes</label>
               <input
                 value="1"
@@ -234,8 +234,8 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
 
       <div className="row">
         <NumericInputValidator>
-          {(getInputProps, getGroupClassName, validationMessage) => (
-            <div className={getGroupClassName('mb-3 col-md-4')}>
+          {(getInputProps, validationMessage) => (
+            <div className="mb-3 col-md-4">
               <label>Cathode Length (centimeters)</label>
               <input
                 min="1"
@@ -249,8 +249,8 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
         </NumericInputValidator>
 
         <NumericInputValidator>
-          {(getInputProps, getGroupClassName, validationMessage) => (
-            <div className={getGroupClassName('mb-3 col-md-4')}>
+          {(getInputProps, validationMessage) => (
+            <div className="mb-3 col-md-4">
               <label>Cathode Diameter (centimeters)</label>
               <input
                 min="0.1"
@@ -281,8 +281,8 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
         </div>
 
         <NumericInputValidator>
-          {(getInputProps, getGroupClassName, validationMessage) => (
-            <div className={getGroupClassName('mb-3 col-md-4')}>
+          {(getInputProps, validationMessage) => (
+            <div className="mb-3 col-md-4">
               <label>Voltage (volts)</label>
               <input
                 min="0"
@@ -296,8 +296,8 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
         </NumericInputValidator>
 
         <NumericInputValidator>
-          {(getInputProps, getGroupClassName, validationMessage) => (
-            <div className={getGroupClassName('mb-3 col-md-4')}>
+          {(getInputProps, validationMessage) => (
+            <div className="mb-3 col-md-4">
               <label>Duty Cycle (%)</label>
               <input min="0" max="100" {...getInputProps(getEquipmentInputProps(fieldNamesEQ.DUTY_CYCLE, parseInt))} />
               {validationMessage}
@@ -308,8 +308,8 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
 
       <div className="row">
         <NumericInputValidator>
-          {(getInputProps, getGroupClassName, validationMessage) => (
-            <div className={getGroupClassName('mb-3 col-md-4')}>
+          {(getInputProps, validationMessage) => (
+            <div className="mb-3 col-md-4">
               <label>Frequency (hertz)</label>
               <input min="1" max="1000" {...getInputProps(getEquipmentInputProps(fieldNamesEQ.FREQUENCY, parseInt))} />
               {validationMessage}
@@ -318,8 +318,8 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
         </NumericInputValidator>
 
         <NumericInputValidator>
-          {(getInputProps, getGroupClassName, validationMessage) => (
-            <div className={getGroupClassName('mb-3 col-md-4')}>
+          {(getInputProps, validationMessage) => (
+            <div className="mb-3 col-md-4">
               <label>Amps</label>
               <input
                 min="0"
@@ -333,8 +333,8 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
         </NumericInputValidator>
 
         <NumericInputValidator>
-          {(getInputProps, getGroupClassName, validationMessage) => (
-            <div className={getGroupClassName('mb-3 col-md-4')}>
+          {(getInputProps, validationMessage) => (
+            <div className="mb-3 col-md-4">
               <label>Duration/Pedal Time (seconds)</label>
               <input min="1" max="7200" {...getInputProps(getEquipmentInputProps(fieldNamesEQ.DURATION, parseInt))} />
               {validationMessage}

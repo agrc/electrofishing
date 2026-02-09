@@ -140,8 +140,8 @@ function Health({ state, onChange }) {
       </div>
 
       <NumericInputValidator>
-        {(getInputProps, getGroupClassName, validationMessage) => (
-          <div className={getGroupClassName('mb-3')}>
+        {(getInputProps, validationMessage) => (
+          <div className="mb-3">
             <label>Hematocrit Count (%)</label>
             <input min="0" max="100" {...getInputProps(getHealthInputProps(fn.HEMATOCRIT, parseInt))} />
             {validationMessage}
@@ -150,8 +150,8 @@ function Health({ state, onChange }) {
       </NumericInputValidator>
 
       <NumericInputValidator>
-        {(getInputProps, getGroupClassName, validationMessage) => (
-          <div className={getGroupClassName('mb-3')}>
+        {(getInputProps, validationMessage) => (
+          <div className="mb-3">
             <label>Leukocrit Count (%)</label>
             <input min="0" max="100" {...getInputProps(getHealthInputProps(fn.LEUKOCRIT, parseInt))} />
             {validationMessage}
@@ -160,8 +160,8 @@ function Health({ state, onChange }) {
       </NumericInputValidator>
 
       <NumericInputValidator>
-        {(getInputProps, getGroupClassName, validationMessage) => (
-          <div className={getGroupClassName('mb-3')}>
+        {(getInputProps, validationMessage) => (
+          <div className="mb-3">
             <label>Plasma Protein (g/100 ml)</label>
             <input min="0.1" max="100.0" step="0.1" {...getInputProps(getHealthInputProps(fn.PLPRO, parseFloat))} />
             {validationMessage}

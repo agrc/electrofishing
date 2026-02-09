@@ -15,8 +15,8 @@ export const Default = () => {
     <>
       <pre>min: 1, max: 5</pre>
       <NumericInputValidator>
-        {(getInputProps, getGroupClassName, validationMessage) => (
-          <div className={getGroupClassName('mb-3')}>
+        {(getInputProps, validationMessage) => (
+          <div className="mb-3">
             <label># Netters</label>
             <input
               value={value}
@@ -32,8 +32,8 @@ export const Default = () => {
       </NumericInputValidator>
       <pre>min: 5</pre>
       <NumericInputValidator>
-        {(getInputProps, getGroupClassName, validationMessage) => (
-          <div className={getGroupClassName('mb-3')}>
+        {(getInputProps, validationMessage) => (
+          <div className="mb-3">
             <label># Netters</label>
             <input
               value={value}
