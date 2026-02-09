@@ -19,7 +19,7 @@ const HabitatNumericInput = ({ min, max, step, label, field, value }) => {
     <NumericInputValidator>
       {(getInputProps, getGroupClassName, validationMessage) => (
         <div className={getGroupClassName('form-group')}>
-          <label className="font-weight-bold">{label}</label>
+          <label>{label}</label>
           <input
             min={min}
             max={max}
@@ -250,7 +250,7 @@ function Habitat() {
           />
 
           <div className="form-group">
-            <label className="font-weight-bold">Dominant Overstory</label>
+            <label>Dominant Overstory</label>
             <DomainDrivenDropdown
               featureServiceUrl={config.urls.habitatFeatureService}
               fieldName={fnHabitat.DOVR}
@@ -259,7 +259,7 @@ function Habitat() {
           </div>
 
           <div className="form-group">
-            <label className="font-weight-bold">Dominant Understory</label>
+            <label>Dominant Understory</label>
             <DomainDrivenDropdown
               featureServiceUrl={config.urls.habitatFeatureService}
               fieldName={fnHabitat.DUND}
@@ -299,7 +299,7 @@ function Habitat() {
 
         <div className="col-md-3">
           <div className="form-group">
-            <label className="font-weight-bold">Presence of Spring</label>
+            <label>Presence of Spring</label>
             <DomainDrivenDropdown
               featureServiceUrl={config.urls.habitatFeatureService}
               fieldName={fnHabitat.SPNG}
@@ -449,13 +449,13 @@ function Habitat() {
 
               <div
                 className={clsx(
-                  'float-right',
+                  'float-end',
                   totalSedimentIsInvalid && 'text-danger',
                   totalSediment === 100 && 'text-success',
                 )}
               >
                 <strong>Total</strong>
-                <span className="badge badge-secondary badge-pill">{totalSediment}</span>
+                <span className="badge bg-secondary rounded-pill">{totalSediment}</span>
               </div>
             </div>
           </div>
@@ -517,7 +517,7 @@ function Habitat() {
 
         <div className="col-md-3">
           <div className="form-group">
-            <label className="font-weight-bold">Starting bank</label>
+            <label>Starting bank</label>
             <DomainDrivenDropdown
               featureServiceUrl={config.urls.transectFeatureService}
               fieldName={config.fieldNames.transect.STARTING_BANK}

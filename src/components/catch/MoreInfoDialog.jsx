@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import $ from 'jquery';
-import 'bootstrap';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
+import { Modal, Tab } from 'bootstrap';
 import config from '../../config';
 import { actionTypes, useSamplingEventContext } from '../../hooks/samplingEventContext.jsx';
 import useDebounce from '../../hooks/useDebounce';
@@ -20,17 +19,29 @@ const TABS = {
 };
 
 function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
-  const [currentTab, setCurrentTab] = React.useState(null);
+  const [currentTab, setCurrentTab] = useState(null);
   const { eventDispatch } = useSamplingEventContext();
   const enabled = fish && fish[config.fieldNames.fish.COUNT] === 1;
 
-  const modal = React.useRef(null);
-  React.useEffect(() => {
+  const modal = useRef(null);
+  const modalInstance = useRef(null);
+
+  useEffect(() => {
+    if (modal.current) {
+      modalInstance.current = new Modal(modal.current);
+    }
+    return () => modalInstance.current?.dispose();
+  }, []);
+
+  useEffect(() => {
     if (currentTab) {
-      $(modal.current).modal('show');
-      $(`a[href='#${currentTab}']`).tab('show');
+      modalInstance.current?.show();
+      const tabTriggerEl = document.querySelector(`a[href="#${currentTab}"]`);
+      if (tabTriggerEl) {
+        Tab.getOrCreateInstance(tabTriggerEl).show();
+      }
     } else {
-      $(modal.current).modal('hide');
+      modalInstance.current?.hide();
     }
   }, [currentTab]);
   const fishId = fish && fish[config.fieldNames.fish.FISH_ID];
@@ -46,7 +57,7 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
     });
   };
 
-  const addNewTag = React.useCallback(() => {
+  const addNewTag = useCallback(() => {
     eventDispatch({
       type: actionTypes.ADD_TAG,
       payload: {
@@ -73,7 +84,7 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
     });
   };
 
-  const addHealth = React.useCallback(() => {
+  const addHealth = useCallback(() => {
     const fn = config.fieldNames.health;
 
     eventDispatch({
@@ -104,7 +115,7 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
   }, [eventDispatch, fishId]);
 
   const fnDiet = config.fieldNames.diet;
-  const addNewDiet = React.useCallback(() => {
+  const addNewDiet = useCallback(() => {
     eventDispatch({
       type: actionTypes.ADD_DIET,
       payload: {
@@ -225,7 +236,7 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
 
   return (
     <>
-      <div className="btn-right-container float-right btn-toolbar">
+      <div className="btn-right-container float-end btn-toolbar">
         <div className="btn-group more-info">
           <button className="btn btn-secondary" disabled={!enabled} onClick={() => setCurrentTab(TABS.diet)}>
             {' '}
@@ -255,7 +266,7 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
         role="dialog"
         tabIndex="-1"
         ref={modal}
-        data-backdrop="static"
+        data-bs-backdrop="static"
       >
         <div className="modal-dialog modal-xl">
           <div className="modal-content">
@@ -265,45 +276,43 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
               </h4>
               <button
                 type="button"
-                className="close"
-                data-dismiss="modal"
-                aria-hidden="true"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
                 onClick={() => setCurrentTab(null)}
-              >
-                &times;
-              </button>
+              ></button>
             </div>
             <div className="modal-body">
-              <ul className="nav nav-tabs">
+              <ul className="nav nav-tabs mb-3">
                 <li className="nav-item">
-                  <a className="nav-link" href={`#${TABS.diet}`} data-toggle="tab">
+                  <a className="nav-link" href={`#${TABS.diet}`} data-bs-toggle="tab">
                     Diet
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href={`#${TABS.tags}`} data-toggle="tab">
+                  <a className="nav-link" href={`#${TABS.tags}`} data-bs-toggle="tab">
                     Tags
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href={`#${TABS.health}`} data-toggle="tab">
+                  <a className="nav-link" href={`#${TABS.health}`} data-bs-toggle="tab">
                     Health
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href={`#${TABS.collection}`} data-toggle="tab">
+                  <a className="nav-link" href={`#${TABS.collection}`} data-bs-toggle="tab">
                     Hard Body Parts
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href={`#${TABS.notes}`} data-toggle="tab">
+                  <a className="nav-link" href={`#${TABS.notes}`} data-bs-toggle="tab">
                     Notes
                   </a>
                 </li>
               </ul>
               <div className="tab-content">
                 <div className="tab-pane fade" id={TABS.diet}>
-                  <div className="float-right">
+                  <div className="float-end">
                     <DataGridAddDeleteButtons
                       addNew={addNewDiet}
                       deleteCurrent={deleteCurrentDiet}
@@ -379,7 +388,7 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
               </div>
             </div>
             <div className="modal-footer">
-              <button className="btn btn-primary float-right" onClick={() => setCurrentTab(null)}>
+              <button className="btn btn-primary float-end" onClick={() => setCurrentTab(null)}>
                 OK
               </button>
             </div>

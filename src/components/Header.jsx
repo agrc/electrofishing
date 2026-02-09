@@ -38,7 +38,7 @@ function Header({ submitLoading }) {
             </span>
             <button
               onClick={() => topic.publishSync(config.topics.onSubmitReportClick)}
-              className="btn btn-success my-2 my-sm-0 mr-2"
+              className="btn btn-success my-2 my-sm-0 me-2"
               disabled={!user || submitLoading}
             >
               {submitLoading ? 'submitting report...' : 'Submit Report'}
@@ -53,15 +53,15 @@ function Header({ submitLoading }) {
           <button
             type="button"
             className="navbar-toggler collapsed"
-            data-toggle="collapse"
-            data-target="#navbar-collapse"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbar-collapse"
             aria-expanded="false"
           >
             <span className="navbar-toggler-icon"></span>
           </button>
         </div>
         <div className="collapse navbar-collapse" id="navbar-collapse">
-          <ul className="navbar-nav mr-auto">
+          <ul className="navbar-nav me-auto">
             <li className="nav-item">
               <a
                 className={`nav-link ${currentTab === 'locationTab' ? 'active' : ''}`}
@@ -111,7 +111,7 @@ function Header({ submitLoading }) {
               </a>
             </li>
           </ul>
-          <ul className="navbar-nav ml-auto">
+          <ul className="navbar-nav ms-auto">
             <li className="nav-item">
               <a
                 className="nav-link"
@@ -123,7 +123,7 @@ function Header({ submitLoading }) {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" role="button" data-toggle="modal" href="#settingsModal">
+              <a className="nav-link" role="button" data-bs-toggle="modal" href="#settingsModal">
                 Settings <i className="icon-wrench"></i>
               </a>
             </li>

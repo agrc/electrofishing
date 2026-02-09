@@ -16,8 +16,8 @@ export const Default = () => {
       <pre>min: 1, max: 5</pre>
       <NumericInputValidator>
         {(getInputProps, getGroupClassName, validationMessage) => (
-          <div className={getGroupClassName('form-group')}>
-            <label className="font-weight-bold"># Netters</label>
+          <div className={getGroupClassName('mb-3')}>
+            <label># Netters</label>
             <input
               value={value}
               min="1"
@@ -33,8 +33,8 @@ export const Default = () => {
       <pre>min: 5</pre>
       <NumericInputValidator>
         {(getInputProps, getGroupClassName, validationMessage) => (
-          <div className={getGroupClassName('form-group')}>
-            <label className="font-weight-bold"># Netters</label>
+          <div className={getGroupClassName('mb-3')}>
+            <label># Netters</label>
             <input
               value={value}
               min="5"

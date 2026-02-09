@@ -15,7 +15,7 @@
 @use 'components/habitat/Habitat';
 
 @use '../node_modules/leaflet/dist/leaflet.css';
-@import '../node_modules/bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 @import url('../node_modules/leaflet-loading/src/Control.Loading.css');
 @import url('../node_modules/spin.js/spin.css');

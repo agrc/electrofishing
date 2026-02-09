@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import topic from 'pubsub-js';
-import React, { useRef, useState } from 'react';
-import $ from 'jquery';
-import 'bootstrap';
+import React, { useRef, useState, useEffect } from 'react';
+import { Modal } from 'bootstrap';
 import config from '../../config';
 import getGUID from '../../helpers/getGUID';
 import submitJob from '../../helpers/submitJob';
@@ -110,7 +109,7 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
     verifyMap.current.eachLayer((layer) => layer?.refresh && layer.refresh());
 
     setTimeout(() => {
-      $(modal.current).modal('hide');
+      Modal.getOrCreateInstance(modal.current).hide();
       setShowSuccessMsg(false);
       // can't find a way to hook into when the layer is done refreshing...
       setTimeout(() => {
@@ -182,17 +181,25 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
     }
   }, [id, onWaterBodyClick, streamLakeBtnIsActive]);
 
-  const modal = React.useRef(null);
-  React.useEffect(() => {
-    if (verifyMap.current && mainMap) {
-      $(modal.current).on('shown.bs.modal', () => {
+  const modal = useRef(null);
+  useEffect(() => {
+    const element = modal.current;
+    if (verifyMap.current && mainMap && element) {
+      const onShown = () => {
         verifyMap.current.invalidateSize();
-
         verifyMap.current.setView(mainMap.getCenter(), mainMap.getZoom());
-      });
-      $(modal.current).on('hidden.bs.modal', () => {
+      };
+      const onHidden = () => {
         mainMap.setView(verifyMap.current.getCenter(), verifyMap.current.getZoom());
-      });
+      };
+
+      element.addEventListener('shown.bs.modal', onShown);
+      element.addEventListener('hidden.bs.modal', onHidden);
+
+      return () => {
+        element.removeEventListener('shown.bs.modal', onShown);
+        element.removeEventListener('hidden.bs.modal', onHidden);
+      };
     }
   }, [mainMap]);
 
@@ -203,33 +210,27 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
       </h4>
       <p className="form-text text-muted">Select a station by clicking on the map above.</p>
       <div className="row">
-        <div className="col-6">
+        <div className="col-8">
           <div className="input-group">
             <input type="text" disabled value={selectedStationName} className="form-control" id="stationTxt" />
-            <div className="input-group-append">
-              <a className="btn btn-secondary btn-success" data-toggle="modal" href="#stationModal">
-                <span className="bi bi-plus-lg"></span>
-                &nbsp;Add New Station
-              </a>
-            </div>
+            <a className="btn btn-secondary btn-success" data-bs-toggle="modal" href="#stationModal">
+              <span className="bi bi-plus-lg"></span>
+              &nbsp;Add New Station
+            </a>
           </div>
         </div>
       </div>
-      <div className="modal fade" id="stationModal" role="dialog" tabIndex="-1" data-backdrop="static" ref={modal}>
+      <div className="modal fade" id="stationModal" role="dialog" tabIndex="-1" data-bs-backdrop="static" ref={modal}>
         <div className="modal-dialog modal-xl">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">Add New Station</h5>
-              <button className="close" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+              <button className="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
               <div className="row">
-                <div className="form-group col-md-6">
-                  <label htmlFor="stationNameTxt" className="font-weight-bold">
-                    Name
-                  </label>
+                <div className="mb-3 col-md-6">
+                  <label htmlFor="stationNameTxt">Name</label>
                   <input
                     id="stationNameTxt"
                     type="text"
@@ -239,10 +240,8 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
                     onChange={(event) => setStationName(event.target.value)}
                   />
                 </div>
-                <div className="form-group col-md-6">
-                  <label htmlFor="streamTypeSelect" className="font-weight-bold">
-                    Stream Type
-                  </label>
+                <div className="mb-3 col-md-6">
+                  <label htmlFor="streamTypeSelect">Stream Type</label>
                   <DomainDrivenDropdown
                     id="streamTypeSelect"
                     featureServiceUrl={config.urls.stationsFeatureService}
@@ -260,8 +259,8 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
                 twoLineLayout
               />
               <div className="stream-lake-button-container d-flex align-items-center mb-3">
-                <label className="mr-2 mb-0 font-weight-bold">Stream/Lake</label>
-                <div className="mr-2">
+                <label className="me-2 mb-0">Stream/Lake</label>
+                <div className="me-2">
                   <button
                     type="button"
                     className={`btn btn-secondary btn-sm ${streamLakeBtnIsActive ? 'active' : null}`}
@@ -290,7 +289,7 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
                 {showSuccessMsg ? <small className="text-success">Station added successfully!</small> : null}
               </div>
               <div>
-                <button type="button" className="btn btn-link" data-dismiss="modal">
+                <button type="button" className="btn btn-link" data-bs-dismiss="modal">
                   Cancel
                 </button>
                 <button type="button" className="btn btn-primary" onClick={onSubmit} disabled={submitting}>

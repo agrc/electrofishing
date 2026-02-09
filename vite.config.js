@@ -3,6 +3,14 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [react()],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // Silences the deprecation warnings from Bootstrap and other deps
+        quietDeps: true,
+      },
+    },
+  },
   define: {
     // this should be moved to .env.test
     'process.env.VITE_FIREBASE_CONFIG': `'${JSON.stringify({

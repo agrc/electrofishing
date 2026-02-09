@@ -408,7 +408,7 @@ const Location = () => {
             className="nav-link active"
             id="startEndTab"
             href="#loc_startend"
-            data-toggle="tab"
+            data-bs-toggle="tab"
             onClick={() => setCurrentGeoDef(START_END)}
           >
             Start | End
@@ -419,7 +419,7 @@ const Location = () => {
             className="nav-link"
             id="startDistDirTab"
             href="#loc_startdistdir"
-            data-toggle="tab"
+            data-bs-toggle="tab"
             onClick={() => setCurrentGeoDef('START_DIST_DIR')}
           >
             Start | Distance | Direction
@@ -444,12 +444,8 @@ const Location = () => {
       {validateMsg ? <div className="alert alert-danger">{validateMsg}</div> : null}
 
       <div className="row">
-        <div className="form-group col-md-6">
-          <label
-            className="font-weight-bold"
-            id={fieldNames.SEGMENT_LENGTH}
-            htmlFor={`${fieldNames.SEGMENT_LENGTH}_input`}
-          >
+        <div className="mb-3 col-md-6">
+          <label id={fieldNames.SEGMENT_LENGTH} htmlFor={`${fieldNames.SEGMENT_LENGTH}_input`}>
             Stream Length (meters)
           </label>
           <span className="text-danger required">*</span>
@@ -458,23 +454,21 @@ const Location = () => {
       </div>
 
       <div className="row">
-        <div className="form-group col-md-3">
-          <label className="font-weight-bold" id={fieldNames.EVENT_DATE} htmlFor={`${fieldNames.EVENT_DATE}_input`}>
+        <div className="mb-3 col-md-3">
+          <label id={fieldNames.EVENT_DATE} htmlFor={`${fieldNames.EVENT_DATE}_input`}>
             Collection Date
           </label>
           <span className="text-danger required">*</span>
           <input type="date" max={inputMax} {...getLocationInputProps(fieldNames.EVENT_DATE)} />
         </div>
-        <div className="form-group col-md-3">
-          <label className="font-weight-bold" htmlFor={`${fieldNames.EVENT_TIME}_input`}>
-            Collection Time
-          </label>
+        <div className="mb-3 col-md-3">
+          <label htmlFor={`${fieldNames.EVENT_TIME}_input`}>Collection Time</label>
           <input type="time" {...getLocationInputProps(fieldNames.EVENT_TIME)} />
         </div>
       </div>
       <div className="row">
-        <div className="form-group col-md-6">
-          <label className="font-weight-bold" id={fieldNames.PURPOSE} htmlFor={`${fieldNames.PURPOSE}_input`}>
+        <div className="mb-3 col-md-6">
+          <label id={fieldNames.PURPOSE} htmlFor={`${fieldNames.PURPOSE}_input`}>
             Survey Purpose (Purpose of Collection)
           </label>
           <span className="text-danger required">*</span>
@@ -486,10 +480,8 @@ const Location = () => {
         </div>
       </div>
       <div className="row">
-        <div className="form-group col-md-6">
-          <label className="font-weight-bold" htmlFor={`${fieldNames.WEATHER}_input`}>
-            Weather
-          </label>
+        <div className="mb-3 col-md-6">
+          <label htmlFor={`${fieldNames.WEATHER}_input`}>Weather</label>
           <DomainDrivenDropdown
             featureServiceUrl={featureServiceUrl}
             fieldName={fieldNames.WEATHER}
@@ -499,17 +491,15 @@ const Location = () => {
       </div>
 
       <div className="row">
-        <div className="form-group col-md-6">
-          <label className="font-weight-bold" htmlFor={`${fieldNames.LOCATION_NOTES}_input`}>
-            Additional Location Notes (optional)
-          </label>
+        <div className="mb-3 col-md-6">
+          <label htmlFor={`${fieldNames.LOCATION_NOTES}_input`}>Additional Location Notes (optional)</label>
           <textarea {...getLocationInputProps(fieldNames.LOCATION_NOTES)} maxLength={1000} rows={5} />
         </div>
       </div>
 
       <div className="row">
-        <div className="form-group col-md-6">
-          <label className="font-weight-bold" id={fieldNames.OBSERVERS} htmlFor={`${fieldNames.OBSERVERS}_input`}>
+        <div className="mb-3 col-md-6">
+          <label id={fieldNames.OBSERVERS} htmlFor={`${fieldNames.OBSERVERS}_input`}>
             Observers
           </label>
           <span className="text-danger required">*</span>

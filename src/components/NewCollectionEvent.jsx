@@ -351,7 +351,7 @@ const NewCollectionEvent = () => {
       {showSuccess ? (
         <div className="alert alert-success">
           The report has been submitted successfully.
-          <button className="btn btn-success float-right" onClick={() => setShowSuccess(false)}>
+          <button className="btn btn-success float-end" onClick={() => setShowSuccess(false)}>
             Close
           </button>
         </div>

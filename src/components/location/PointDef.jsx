@@ -273,8 +273,8 @@ export default function PointDef({ label, map, coordinates, setCoordinates, twoL
 
   const getButton = () => {
     return (
-      <div className="d-flex align-items-center mr-3">
-        <label className="point-def__primary-label mb-0 mr-2 font-weight-bold">{label}</label>
+      <label className="d-flex align-items-center gap-2">
+        {label}
         <button
           className={clsx('btn btn-secondary btn-sm', isActive && 'active')}
           onClick={onMapBtnClicked}
@@ -283,38 +283,42 @@ export default function PointDef({ label, map, coordinates, setCoordinates, twoL
         >
           <span className="bi bi-geo-alt-fill"></span>
         </button>
-      </div>
+      </label>
     );
   };
 
   const getBoxes = () => {
     return (
       <>
-        <div className="flex-grow-1 mr-2">
-          <label className="font-weight-bold">{yLabelTxt}</label>
-          <input
-            type="text"
-            className={clsx('form-control', helpText.y.length > 0 && validateErrorClass)}
-            placeholder={yPlaceHolder}
-            disabled={isActive}
-            onBlur={onTextBoxBlur}
-            value={coordinates.y}
-            onChange={getOnTextBoxChange('y')}
-          />
+        <div className="d-flex flex-column">
+          <label className="d-flex align-items-center gap-2">
+            <span className="flex-shrink-0">{yLabelTxt}</span>
+            <input
+              type="text"
+              className={clsx('form-control', helpText.y.length > 0 && validateErrorClass)}
+              placeholder={yPlaceHolder}
+              disabled={isActive}
+              onBlur={onTextBoxBlur}
+              value={coordinates.y}
+              onChange={getOnTextBoxChange('y')}
+            />
+          </label>
           <div className="invalid-feedback">{helpText.y}</div>
         </div>
 
-        <div className="flex-grow-1">
-          <label className="font-weight-bold">{xLabelTxt}</label>
-          <input
-            type="text"
-            className={clsx('form-control', helpText.x.length > 0 && validateErrorClass)}
-            placeholder={xPlaceHolder}
-            disabled={isActive}
-            onBlur={onTextBoxBlur}
-            value={coordinates.x}
-            onChange={getOnTextBoxChange('x')}
-          />
+        <div className="d-flex flex-column">
+          <label className="d-flex align-items-center gap-2">
+            <span className="flex-shrink-0">{xLabelTxt}</span>
+            <input
+              type="text"
+              className={clsx('form-control', helpText.x.length > 0 && validateErrorClass)}
+              placeholder={xPlaceHolder}
+              disabled={isActive}
+              onBlur={onTextBoxBlur}
+              value={coordinates.x}
+              onChange={getOnTextBoxChange('x')}
+            />
+          </label>
           <div className="invalid-feedback">{helpText.x}</div>
         </div>
       </>
@@ -329,7 +333,7 @@ export default function PointDef({ label, map, coordinates, setCoordinates, twoL
           <div className="d-flex">{getBoxes()}</div>
         </>
       ) : (
-        <div className="d-flex align-items-start">
+        <div className="d-flex align-items-center gap-4">
           {getButton()}
           {getBoxes()}
         </div>

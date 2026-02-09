@@ -90,7 +90,7 @@ function DataGrid({
   };
 
   return (
-    <table className="table table-bordered table-condensed data-grid table-striped">
+    <table className="table table-bordered table-sm data-grid table-striped">
       <thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
@@ -107,7 +107,7 @@ function DataGrid({
         {rowModel.rows.map((row) => (
           <tr
             key={row.id}
-            className={clsx(row.getIsSelected() && 'info', boldRows && boldRows.includes(row.index) && 'bold')}
+            className={clsx(row.getIsSelected() && 'table-info', boldRows && boldRows.includes(row.index) && 'bold')}
             onFocus={() => selectRow(row)}
             onClick={() => selectRow(row)}
           >
@@ -129,7 +129,10 @@ function DataGrid({
               }
 
               return (
-                <td key={cell.id} className={highlight && highlight(row.original, cell.column.id) ? 'warning' : null}>
+                <td
+                  key={cell.id}
+                  className={highlight && highlight(row.original, cell.column.id) ? 'table-warning' : null}
+                >
                   {flexRender(cell.column.columnDef.cell, { ...cell.getContext(), ...additionalProps })}
                 </td>
               );
@@ -191,7 +194,7 @@ export const NumericInputCell = forwardRef(function NumericInputCell(
             {...getInputProps({
               onChange: (e) => setValue(e.target.valueAsNumber || null),
               ...column.columnDef.meta?.inputProps,
-              className: 'form-control',
+              className: 'form-control p-0',
             })}
           />
           {validationMessage}

@@ -23,7 +23,7 @@ function Tag({ state, onChange, addNew, remove, isLast, isFirst }) {
   return (
     <div>
       <div className="row">
-        <div className="form-group col-md-3">
+        <div className="mb-3 col-md-3">
           <label>New Tag?</label>
           <DomainDrivenDropdown
             featureServiceUrl={config.urls.tagsFeatureService}
@@ -31,7 +31,7 @@ function Tag({ state, onChange, addNew, remove, isLast, isFirst }) {
             {...getTagInputProps(fn.NEW_TAG)}
           />
         </div>
-        <div className="form-group col-md-4">
+        <div className="mb-3 col-md-4">
           <label>Type</label>
           <DomainDrivenDropdown
             featureServiceUrl={config.urls.tagsFeatureService}
@@ -41,11 +41,11 @@ function Tag({ state, onChange, addNew, remove, isLast, isFirst }) {
         </div>
       </div>
       <div className="row">
-        <div className="form-group col-md-4">
+        <div className="mb-3 col-md-4">
           <label>Tag #</label>
           <input type="text" maxLength="50" {...getTagInputProps(fn.NUMBER)} />
         </div>
-        <div className="form-group col-md-3">
+        <div className="mb-3 col-md-3">
           <label>Color</label>
           <DomainDrivenDropdown
             featureServiceUrl={config.urls.tagsFeatureService}
@@ -53,7 +53,7 @@ function Tag({ state, onChange, addNew, remove, isLast, isFirst }) {
             {...getTagInputProps(fn.COLOR)}
           />
         </div>
-        <div className="form-group col-md-4">
+        <div className="mb-3 col-md-4">
           <label>Location</label>
           <DomainDrivenDropdown
             featureServiceUrl={config.urls.tagsFeatureService}
@@ -63,7 +63,7 @@ function Tag({ state, onChange, addNew, remove, isLast, isFirst }) {
         </div>
       </div>
       <div className="row">
-        <div className="form-group col-md-4">
+        <div className="mb-3 col-md-4">
           <label>Transponder Freq. (kHz)</label>
           <DomainDrivenDropdown
             featureServiceUrl={config.urls.tagsFeatureService}
@@ -81,7 +81,7 @@ function Tag({ state, onChange, addNew, remove, isLast, isFirst }) {
           )}
         </NumericInputValidator>
 
-        <div className="form-group col-md-4">
+        <div className="mb-3 col-md-4">
           <label>Transmitter Freq. Type</label>
           <DomainDrivenDropdown
             featureServiceUrl={config.urls.tagsFeatureService}

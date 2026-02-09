@@ -61,7 +61,7 @@ const ComboBox = React.forwardRef(function ComboBox({ items, onChange, value, id
           })}
         />
         {!minimal ? (
-          <div className="input-group-append">
+          <>
             {value && value.toString().length > 0 ? (
               <button className="btn btn-secondary" type="button" onClick={reset} tabIndex="-1">
                 <span className="bi bi-x-lg" />
@@ -77,7 +77,7 @@ const ComboBox = React.forwardRef(function ComboBox({ items, onChange, value, id
                 <span className="bi bi-caret-down-fill" />
               </button>
             )}
-          </div>
+          </>
         ) : null}
       </div>
       <ul className={clsx('dropdown-menu', isOpen && 'show')} {...getMenuProps()}>
@@ -85,7 +85,7 @@ const ComboBox = React.forwardRef(function ComboBox({ items, onChange, value, id
           inputItems.map((item, index) => (
             <li key={`${item.value}${index}`}>
               <button
-                className={`btn btn-link ${highlightedIndex === index && 'active'}`}
+                className={`btn btn-link w-full rounded-0 border-0 text-decoration-none ${highlightedIndex === index && 'active'}`}
                 {...getItemProps({ item, index })}
                 tabIndex="-1" // prevent focus from moving to body when tabbing out of the input
               >
