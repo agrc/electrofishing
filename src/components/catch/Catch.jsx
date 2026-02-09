@@ -253,7 +253,7 @@ function Catch() {
         <div className="btn-group">
           <button
             type="button"
-            className="btn btn-info btn-warning"
+            className="btn btn-info btn-warning mx-2"
             data-bs-toggle="popover"
             ref={batchButton}
             disabled={!batchWeightingIsAvailable}
