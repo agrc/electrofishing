@@ -294,7 +294,7 @@ export default function PointDef({ label, map, coordinates, setCoordinates, twoL
             <span className="flex-shrink-0">{yLabelTxt}</span>
           </label>
           <input
-            name={`${id}_y`}
+            id={`${id}_y`}
             type="text"
             className={clsx('form-control', helpText.y.length > 0 && validateErrorClass)}
             placeholder={yPlaceHolder}
@@ -310,7 +310,7 @@ export default function PointDef({ label, map, coordinates, setCoordinates, twoL
           <label className="d-flex align-items-center gap-2" htmlFor={`${id}_x`}>
             <span className="flex-shrink-0">{xLabelTxt}</span>
             <input
-              name={`${id}_x`}
+              id={`${id}_x`}
               type="text"
               className={clsx('form-control', helpText.x.length > 0 && validateErrorClass)}
               placeholder={xPlaceHolder}

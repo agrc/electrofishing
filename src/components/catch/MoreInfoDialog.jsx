@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useEffect, useCallback, useState } from 'react';
 import { Modal, Tab } from 'bootstrap';
 import config from '../../config';
 import { actionTypes, useSamplingEventContext } from '../../hooks/samplingEventContext.jsx';
@@ -19,31 +19,20 @@ const TABS = {
 };
 
 function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
-  const [currentTab, setCurrentTab] = useState(null);
   const { eventDispatch } = useSamplingEventContext();
   const enabled = fish && fish[config.fieldNames.fish.COUNT] === 1;
 
   const modal = useRef(null);
   const modalInstance = useRef(null);
+  const modalInitialized = useRef(false);
 
   useEffect(() => {
-    if (modal.current) {
+    if (modal.current && !modalInitialized.current) {
       modalInstance.current = new Modal(modal.current);
+      modalInitialized.current = true;
     }
-    return () => modalInstance.current?.dispose();
   }, []);
 
-  useEffect(() => {
-    if (currentTab) {
-      modalInstance.current?.show();
-      const tabTriggerEl = document.querySelector(`a[href="#${currentTab}"]`);
-      if (tabTriggerEl) {
-        Tab.getOrCreateInstance(tabTriggerEl).show();
-      }
-    } else {
-      modalInstance.current?.hide();
-    }
-  }, [currentTab]);
   const fishId = fish && fish[config.fieldNames.fish.FISH_ID];
 
   const onTagChange = (fishId, tagIndex, newTagData) => {
@@ -130,19 +119,50 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
   }, [eventDispatch, fishId]);
 
   // wait to create a new tag, health and diet until the user opens the more info dialog
-  React.useEffect(() => {
-    if (currentTab && tags.length === 0) {
-      addNewTag();
+  useEffect(() => {
+    const modalEl = modal.current;
+    if (!modalEl) return;
+
+    const onShow = (event) => {
+      const button = event.relatedTarget;
+      if (!button) return;
+
+      const tabTarget = button.getAttribute('data-tab-target');
+      if (tabTarget) {
+        const tabTrigger = modalEl.querySelector(`[href="${tabTarget}"]`);
+        if (tabTrigger) {
+          Tab.getOrCreateInstance(tabTrigger).show();
+        }
+      }
+    };
+
+    const onTabShown = (event) => {
+      const targetHash = event.target.getAttribute('href');
+
+      if (targetHash === `#${TABS.tags}` && tags.length === 0) {
+        addNewTag();
+      } else if (targetHash === `#${TABS.health}` && !health) {
+        addHealth();
+      } else if (targetHash === `#${TABS.diet}` && diets.length === 0) {
+        addNewDiet();
+      }
+    };
+
+    modalEl.addEventListener('show.bs.modal', onShow);
+    const navEl = modalEl.querySelector('.nav-tabs');
+
+    // shown.bs.tab events bubble to the nav element
+    if (navEl) {
+      navEl.addEventListener('shown.bs.tab', onTabShown);
     }
 
-    if (currentTab && !health) {
-      addHealth();
-    }
-
-    if (currentTab && diets.length === 0) {
-      addNewDiet();
-    }
-  }, [addHealth, addNewDiet, addNewTag, currentTab, diets.length, health, tags.length]);
+    return () => {
+      modalEl.removeEventListener('show.bs.modal', onShow);
+      if (navEl) {
+        navEl.removeEventListener('shown.bs.tab', onTabShown);
+      }
+    };
+  }, [addHealth, addNewDiet, addNewTag, diets.length, health, tags.length]);
 
   const hiddenDietColumns = [fnDiet.FISH_ID];
   const dietColumns = [
@@ -192,7 +212,7 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
     },
   ];
 
-  const [notes, setNotes] = React.useState((fish && fish[config.fieldNames.fish.NOTES]) || '');
+  const [notes, setNotes] = useState((fish && fish[config.fieldNames.fish.NOTES]) || '');
   const onNotesChange = useDebounce((newNotes) => {
     eventDispatch({
       type: actionTypes.UPDATE_FISH,
@@ -204,7 +224,7 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
     });
   }, 300);
 
-  React.useEffect(() => {
+  useEffect(() => {
     onNotesChange(notes);
   }, [notes, onNotesChange]);
 
@@ -221,7 +241,7 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
     });
   };
 
-  const [selectedDietIndex, setSelectedDietIndex] = React.useState(null);
+  const [selectedDietIndex, setSelectedDietIndex] = useState(null);
 
   const deleteCurrentDiet = () => {
     eventDispatch({
@@ -238,22 +258,52 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
     <>
       <div className="btn-right-container float-end btn-toolbar">
         <div className="btn-group more-info">
-          <button className="btn btn-secondary" disabled={!enabled} onClick={() => setCurrentTab(TABS.diet)}>
+          <button
+            className="btn btn-secondary"
+            disabled={!enabled}
+            data-bs-toggle="modal"
+            data-bs-target=".more-info-dialog"
+            data-tab-target={`#${TABS.diet}`}
+          >
             {' '}
             Diet
           </button>
-          <button className="btn btn-secondary" disabled={!enabled} onClick={() => setCurrentTab(TABS.tags)}>
+          <button
+            className="btn btn-secondary"
+            disabled={!enabled}
+            data-bs-toggle="modal"
+            data-bs-target=".more-info-dialog"
+            data-tab-target={`#${TABS.tags}`}
+          >
             {' '}
             Tags
           </button>
-          <button className="btn btn-secondary" disabled={!enabled} onClick={() => setCurrentTab(TABS.health)}>
+          <button
+            className="btn btn-secondary"
+            disabled={!enabled}
+            data-bs-toggle="modal"
+            data-bs-target=".more-info-dialog"
+            data-tab-target={`#${TABS.health}`}
+          >
             {' '}
             Health
           </button>
-          <button className="btn btn-secondary" disabled={!enabled} onClick={() => setCurrentTab(TABS.collection)}>
+          <button
+            className="btn btn-secondary"
+            disabled={!enabled}
+            data-bs-toggle="modal"
+            data-bs-target=".more-info-dialog"
+            data-tab-target={`#${TABS.collection}`}
+          >
             Hard Body Parts
           </button>
-          <button className="btn btn-secondary" disabled={!enabled} onClick={() => setCurrentTab(TABS.notes)}>
+          <button
+            className="btn btn-secondary"
+            disabled={!enabled}
+            data-bs-toggle="modal"
+            data-bs-target=".more-info-dialog"
+            data-tab-target={`#${TABS.notes}`}
+          >
             {' '}
             Notes
           </button>
@@ -274,13 +324,7 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
               <h4>
                 Fish #{fish && fish[config.fieldNames.fish.CATCH_ID]} (Pass #{currentPass})
               </h4>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-                onClick={() => setCurrentTab(null)}
-              ></button>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
               <ul className="nav nav-tabs mb-3">
@@ -388,7 +432,7 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
               </div>
             </div>
             <div className="modal-footer">
-              <button className="btn btn-primary float-end" onClick={() => setCurrentTab(null)}>
+              <button className="btn btn-primary float-end" data-bs-dismiss="modal">
                 OK
               </button>
             </div>

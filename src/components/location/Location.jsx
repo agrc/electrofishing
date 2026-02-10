@@ -40,6 +40,18 @@ const Location = () => {
   const [currentGeoDef, setCurrentGeoDef] = useState(START_END);
   const { user } = useAuthentication();
 
+  const navRef = useRef(null);
+  useEffect(() => {
+    const el = navRef.current;
+    if (!el) return;
+    const onTabShown = (e) => {
+      const def = e.target.getAttribute('data-geo-def');
+      if (def) setCurrentGeoDef(def);
+    };
+    el.addEventListener('shown.bs.tab', onTabShown);
+    return () => el.removeEventListener('shown.bs.tab', onTabShown);
+  }, []);
+
   useEffect(() => {
     if (user) {
       eventDispatch({
@@ -402,14 +414,14 @@ const Location = () => {
       <h4>
         Stream Reach <span className="text-danger required">*</span>
       </h4>
-      <ul className="nav nav-pills">
+      <ul className="nav nav-pills" ref={navRef}>
         <li className="nav-item">
           <a
             className="nav-link active"
             id="startEndTab"
             href="#loc_startend"
             data-bs-toggle="tab"
-            onClick={() => setCurrentGeoDef(START_END)}
+            data-geo-def={START_END}
           >
             Start | End
           </a>
@@ -420,7 +432,7 @@ const Location = () => {
             id="startDistDirTab"
             href="#loc_startdistdir"
             data-bs-toggle="tab"
-            onClick={() => setCurrentGeoDef('START_DIST_DIR')}
+            data-geo-def="START_DIST_DIR"
           >
             Start | Distance | Direction
           </a>

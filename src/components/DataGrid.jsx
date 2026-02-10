@@ -17,6 +17,7 @@ function DataGrid({
   setSelectedRow,
   highlight,
   boldRows,
+  idPrefix = '',
 }) {
   // inspiration from: https://codesandbox.io/s/github/tanstack/table/tree/main/examples/react/editable-data?from-embed=&file=/src/main.tsx
   const initialState = {};
@@ -58,6 +59,7 @@ function DataGrid({
     initialState,
     meta: {
       updateCell,
+      idPrefix,
     },
   };
 
@@ -159,6 +161,7 @@ DataGrid.propTypes = {
   selectedRow: PropTypes.number,
   setSelectedRow: PropTypes.func,
   boldRows: PropTypes.array,
+  idPrefix: PropTypes.string,
 };
 
 export default DataGrid;
@@ -186,7 +189,7 @@ export const NumericInputCell = forwardRef(function NumericInputCell(
       {(getInputProps, validationMessage) => (
         <div>
           <input
-            id={`numeric-input-cell-${index}-${column.id}`}
+            id={`numeric-input-cell-${index}-${column.id}${table.options.meta?.idPrefix}`}
             value={value || ''}
             onBlur={onBlur}
             onKeyDown={onKeyDown}
@@ -221,6 +224,7 @@ NumericInputCell.propTypes = {
     options: PropTypes.shape({
       meta: PropTypes.shape({
         updateCell: PropTypes.func.isRequired,
+        idPrefix: PropTypes.string,
       }),
     }),
   }).isRequired,
@@ -245,7 +249,7 @@ export const DomainDrivenDropdownCell = forwardRef(function DomainDrivenDropdown
       minimal
       onKeyDown={onKeyDown}
       ref={ref}
-      id={`dropdown-${index}-${column.id}`}
+      id={`dropdown-${index}-${column.id}${table.options.meta?.idPrefix}`}
     />
   );
 });
@@ -267,6 +271,7 @@ DomainDrivenDropdownCell.propTypes = {
     options: PropTypes.shape({
       meta: PropTypes.shape({
         updateCell: PropTypes.func.isRequired,
+        idPrefix: PropTypes.string,
       }),
     }),
   }).isRequired,
