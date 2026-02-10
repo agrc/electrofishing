@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import { useEffect, useId, useRef } from 'react';
-import { clsx } from 'clsx';
 import config from '../../config';
 import AddRemoveButtons from '../AddRemoveButtons.jsx';
 import DataGrid, { DomainDrivenDropdownCell, NumericInputCell } from '../DataGrid.jsx';
