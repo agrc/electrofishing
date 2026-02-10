@@ -290,8 +290,8 @@ export default function PointDef({ label, map, coordinates, setCoordinates, twoL
     return (
       <>
         <div className="d-flex flex-column">
-          <label className="d-flex align-items-center gap-2" htmlFor={`${id}_y`}>
-            <span className="flex-shrink-0">{yLabelTxt}</span>
+          <label htmlFor={`${id}_y`}>
+            <span>{yLabelTxt}</span>
           </label>
           <input
             id={`${id}_y`}
@@ -307,19 +307,19 @@ export default function PointDef({ label, map, coordinates, setCoordinates, twoL
         </div>
 
         <div className="d-flex flex-column">
-          <label className="d-flex align-items-center gap-2" htmlFor={`${id}_x`}>
-            <span className="flex-shrink-0">{xLabelTxt}</span>
-            <input
-              id={`${id}_x`}
-              type="text"
-              className={clsx('form-control', helpText.x.length > 0 && validateErrorClass)}
-              placeholder={xPlaceHolder}
-              disabled={isActive}
-              onBlur={onTextBoxBlur}
-              value={coordinates.x}
-              onChange={getOnTextBoxChange('x')}
-            />
+          <label htmlFor={`${id}_x`}>
+            <span>{xLabelTxt}</span>
           </label>
+          <input
+            id={`${id}_x`}
+            type="text"
+            className={clsx('form-control', helpText.x.length > 0 && validateErrorClass)}
+            placeholder={xPlaceHolder}
+            disabled={isActive}
+            onBlur={onTextBoxBlur}
+            value={coordinates.x}
+            onChange={getOnTextBoxChange('x')}
+          />
           <div className="invalid-feedback">{helpText.x}</div>
         </div>
       </>
@@ -331,7 +331,7 @@ export default function PointDef({ label, map, coordinates, setCoordinates, twoL
       {twoLineLayout ? (
         <>
           <div className="mb-2">{getButton()}</div>
-          <div className="d-flex">{getBoxes()}</div>
+          <div className="d-flex gap-2">{getBoxes()}</div>
         </>
       ) : (
         <div className="d-flex align-items-center gap-4">
