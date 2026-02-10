@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.5.0-rc.7](https://github.com/agrc/electrofishing/compare/v2.5.0-rc.6...v2.5.0-rc.7) (2026-02-10)
+
+
+### Bug Fixes
+
+* fix point def layout ([bce2ef4](https://github.com/agrc/electrofishing/commit/bce2ef4c2304a9110ce1770afb94528cae734fde))
+* minor layout improvements ([ed5edc8](https://github.com/agrc/electrofishing/commit/ed5edc812724698d242148163b0e95e46280e96d))
+
 ## [2.5.0-rc.6](https://github.com/agrc/electrofishing/compare/v2.5.0-rc.5...v2.5.0-rc.6) (2026-02-10)
 
 
