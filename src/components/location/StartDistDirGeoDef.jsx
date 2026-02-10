@@ -37,11 +37,11 @@ export default function StartDistDirGeoDef({ map, params, setParams }) {
       <div className="d-flex align-items-center flex-wrap gap-2">
         <PointDef label="Start" map={map} coordinates={params.start} setCoordinates={setStart} />
         <div className="dist-block">
-          <div className="mb-3">
+          <div className="mb-1">
             <label>Distance (in meters)</label>
             <input
               type="number"
-              className="form-control padded"
+              className="form-control"
               value={params.distance}
               onChange={(event) => setDistance(event.target.value)}
             />
