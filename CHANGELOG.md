@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.0-rc.6](https://github.com/agrc/electrofishing/compare/v2.5.0-rc.5...v2.5.0-rc.6) (2026-02-10)
+
+
+### Bug Fixes
+
+* fix Equipment component tabs to use unique id ([71849eb](https://github.com/agrc/electrofishing/commit/71849eb70a66bd51d954067440e64016b33836a7))
+
 ## [2.5.0-rc.5](https://github.com/agrc/electrofishing/compare/v2.4.13...v2.5.0-rc.5) (2026-02-10)
 
 
