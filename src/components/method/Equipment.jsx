@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useEffect, useRef } from 'react';
+import { useEffect, useId, useRef } from 'react';
 import { clsx } from 'clsx';
 import config from '../../config';
 import AddRemoveButtons from '../AddRemoveButtons.jsx';
@@ -83,6 +83,7 @@ export const getSideEffects = (fieldName, newValue) => {
 
 function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
   const tabsRef = useRef(null);
+  const id = useId();
 
   function getNewAnodeRow() {
     return Object.fromEntries(
@@ -336,8 +337,8 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
       <ul className="nav nav-pills" ref={tabsRef}>
         <li className="nav-item">
           <a
-            className={clsx('nav-link', state.equipment[fieldNamesEQ.TYPE] === EQUIPMENT_TYPES.BACKPACK && 'active')}
-            href="#backpack"
+            className={'nav-link active'}
+            href={`#backpack${id}`}
             data-bs-toggle="tab"
             data-equipment-type={EQUIPMENT_TYPES.BACKPACK}
           >
@@ -346,8 +347,8 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
         </li>
         <li className="nav-item">
           <a
-            className={clsx('nav-link', state.equipment[fieldNamesEQ.TYPE] === EQUIPMENT_TYPES.CANOEBARGE && 'active')}
-            href="#canoe"
+            className={'nav-link'}
+            href={`#canoe${id}`}
             data-bs-toggle="tab"
             data-equipment-type={EQUIPMENT_TYPES.CANOEBARGE}
           >
@@ -356,8 +357,8 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
         </li>
         <li className="nav-item">
           <a
-            className={clsx('nav-link', state.equipment[fieldNamesEQ.TYPE] === EQUIPMENT_TYPES.RAFTBOAT && 'active')}
-            href="#raft"
+            className={'nav-link'}
+            href={`#raft${id}`}
             data-bs-toggle="tab"
             data-equipment-type={EQUIPMENT_TYPES.RAFTBOAT}
           >
@@ -367,31 +368,13 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
       </ul>
 
       <div className="tab-content">
-        <div
-          className={clsx(
-            'tab-pane fade',
-            state.equipment[fieldNamesEQ.TYPE] === EQUIPMENT_TYPES.BACKPACK && 'show active',
-          )}
-          id="backpack"
-        >
+        <div className={'tab-pane fade show active'} id={`backpack${id}`}>
           {renderFields(EQUIPMENT_TYPES.BACKPACK)}
         </div>
-        <div
-          className={clsx(
-            'tab-pane fade',
-            state.equipment[fieldNamesEQ.TYPE] === EQUIPMENT_TYPES.CANOEBARGE && 'show active',
-          )}
-          id="canoe"
-        >
+        <div className={'tab-pane fade'} id={`canoe${id}`}>
           {renderFields(EQUIPMENT_TYPES.CANOEBARGE)}
         </div>
-        <div
-          className={clsx(
-            'tab-pane fade',
-            state.equipment[fieldNamesEQ.TYPE] === EQUIPMENT_TYPES.RAFTBOAT && 'show active',
-          )}
-          id="raft"
-        >
+        <div className={'tab-pane fade'} id={`raft${id}`}>
           {renderFields(EQUIPMENT_TYPES.RAFTBOAT)}
         </div>
       </div>
