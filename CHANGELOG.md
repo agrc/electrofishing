@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.5.0-rc.5](https://github.com/agrc/electrofishing/compare/v2.4.13...v2.5.0-rc.5) (2026-02-10)
+
+
+### Features
+
+* add discharge field to habitat tab ([7095b5b](https://github.com/agrc/electrofishing/commit/7095b5b464b6fdb81c58229f7d7361995f55fe8c)), closes [#415](https://github.com/agrc/electrofishing/issues/415)
+
+
+### Bug Fixes
+
+* fix some a11y errors on login screen ([8de4c04](https://github.com/agrc/electrofishing/commit/8de4c045efc1dab31b4a99187a818fbc5542bca1))
+
+
+### Dependencies
+
+* bootstrap v3 -&gt; v4 ([5fb3bc1](https://github.com/agrc/electrofishing/commit/5fb3bc13a1a442ca67c8fca5ff871060cdc828a8))
+* bootstrap v4 -&gt; v5 ([6ebe8ea](https://github.com/agrc/electrofishing/commit/6ebe8ea030d9e32035c4b6190a09fbdf2751b089))
+* bump npm dependencies 🌲 ([36f2f7f](https://github.com/agrc/electrofishing/commit/36f2f7f5746ec523baa01bbed33fbcda86072ee0))
+* bump npm dependencies 🌲 ([fe0a0d0](https://github.com/agrc/electrofishing/commit/fe0a0d0ce1ce0000fd6c8daa6a9e1eaa82780b12))
+
 ## [2.4.13](https://github.com/agrc/electrofishing/compare/v2.4.12...v2.4.13) (2025-11-25)
 
 
