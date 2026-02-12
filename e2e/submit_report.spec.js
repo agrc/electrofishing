@@ -7,9 +7,9 @@ test('submits a report', async ({ page }) => {
   await loadAndSignIn(page);
 
   await page.getByRole('button', { name: 'Marker' }).first().click();
-  await page.getByRole('button', { name: '' }).first().click();
+  await page.getByRole('button', { name: 'Select Start on map' }).click();
   await page.locator('.map').first().click();
-  await page.getByRole('button', { name: '' }).nth(1).click();
+  await page.getByRole('button', { name: 'Select End on map' }).click();
   await page.locator('.map').first().click();
   await page.getByRole('button', { name: 'Verify Location' }).click();
   await page.getByLabel('Collection Date').fill('2024-04-17');
@@ -18,18 +18,18 @@ test('submits a report', async ({ page }) => {
   await page.getByLabel('Observers').click();
   await page.getByLabel('Observers').fill('test observer');
   await page.getByRole('link', { name: 'Method' }).click();
-  await page.locator('#MODEL_input').click();
-  await page.locator('#MODEL_input').fill('s');
-  await page.locator('#MODEL_input').press('Enter');
-  await page.locator('#MODEL_input').press('Tab');
-  await page.locator('#NUM_NETTERS_input').fill('1');
-  await page.locator('#NUM_NETTERS_input').press('Tab');
-  await page.locator('#NUM_ANODES_input').fill('2');
-  await page.locator('#NUM_ANODES_input').press('Tab');
-  await page.locator('#numeric-input-cell-0-ANODE_DIAMETER').fill('2');
-  await page.locator('#numeric-input-cell-0-ANODE_DIAMETER').press('Tab');
-  await page.locator('#numeric-input-cell-0-STOCK_DIAMETER').fill('2');
-  await page.locator('#numeric-input-cell-0-STOCK_DIAMETER').press('Tab');
+  await page.locator('#MODEL_input_Backpack').click();
+  await page.locator('#MODEL_input_Backpack').fill('s');
+  await page.locator('#MODEL_input_Backpack').press('Enter');
+  await page.locator('#MODEL_input_Backpack').press('Tab');
+  await page.locator('#NUM_NETTERS_input_Backpack').fill('1');
+  await page.locator('#NUM_NETTERS_input_Backpack').press('Tab');
+  await page.locator('#NUM_ANODES_input_Backpack').fill('2');
+  await page.locator('#NUM_ANODES_input_Backpack').press('Tab');
+  await page.locator('#numeric-input-cell-0-ANODE_DIAMETER_Backpack').fill('2');
+  await page.locator('#numeric-input-cell-0-ANODE_DIAMETER_Backpack').press('Tab');
+  await page.locator('#numeric-input-cell-0-STOCK_DIAMETER_Backpack').fill('2');
+  await page.locator('#numeric-input-cell-0-STOCK_DIAMETER_Backpack').press('Tab');
 
   await page.getByRole('link', { name: 'Catch' }).click();
   await page.locator('#dropdown-0-SPECIES_CODE').click();

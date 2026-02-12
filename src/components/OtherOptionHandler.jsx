@@ -1,20 +1,31 @@
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
+import { Modal } from 'bootstrap';
 
 function OtherOptionHandler({ show, setShow, existingOptions, otherTxt, onOtherOptionAdded }) {
   const codeTxt = useRef(null);
+  const modal = useRef(null);
+  const modalInstance = useRef(null);
+
   useEffect(() => {
-    $(modal.current).on('shown.bs.modal', () => {
-      codeTxt.current.focus();
-    });
+    const element = modal.current;
+    if (element) {
+      modalInstance.current = new Modal(element);
+      const onShown = () => codeTxt.current.focus();
+      element.addEventListener('shown.bs.modal', onShown);
+
+      return () => {
+        element.removeEventListener('shown.bs.modal', onShown);
+        modalInstance.current.dispose();
+      };
+    }
   }, []);
 
-  const modal = useRef(null);
   useEffect(() => {
     if (show) {
-      $(modal.current).modal('show');
+      modalInstance.current?.show();
     } else {
-      $(modal.current).modal('hide');
+      modalInstance.current?.hide();
     }
   }, [show]);
 
@@ -44,13 +55,11 @@ function OtherOptionHandler({ show, setShow, existingOptions, otherTxt, onOtherO
   return (
     <div className="option-option-handler">
       <div className="modal fade" ref={modal}>
-        <div className="modal-dialog">
+        <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
-              <button className="close" onClick={onCancel}>
-                &times;
-              </button>
               <h4>Add Additional Option</h4>
+              <button className="btn-close" onClick={onCancel}></button>
             </div>
             <div className="modal-body">
               <fieldset>
@@ -65,7 +74,7 @@ function OtherOptionHandler({ show, setShow, existingOptions, otherTxt, onOtherO
               </fieldset>
               <fieldset>
                 <legend>New Option</legend>
-                <div className="form-group">
+                <div className="mb-3">
                   <input
                     ref={codeTxt}
                     className="form-control"
@@ -79,7 +88,7 @@ function OtherOptionHandler({ show, setShow, existingOptions, otherTxt, onOtherO
               </fieldset>
             </div>
             <div className="modal-footer">
-              <button className="btn btn-default" data-dismiss="modal" onClick={onCancel} tabIndex="4">
+              <button className="btn btn-secondary" data-bs-dismiss="modal" onClick={onCancel} tabIndex="4">
                 Cancel
               </button>
               <button className="btn btn-primary" tabIndex="3" onClick={onSubmit} disabled={submitDisabled}>

@@ -34,16 +34,16 @@ function Fallback({ error }) {
         <p>Something went wrong:</p>
         <pre>{error.message}</pre>
         <p>You can try:</p>
-        <button onClick={reload} className="btn btn-block btn-info">
+        <button onClick={reload} className="btn w-100 mb-2 btn-info">
           Reload the page
         </button>
-        <button onClick={signOut} className="btn btn-block btn-default">
+        <button onClick={signOut} className="btn w-100 mb-2 btn-secondary">
           Log out
         </button>
-        <button onClick={clearSettings} className="btn btn-block btn-warning">
+        <button onClick={clearSettings} className="btn w-100 mb-2 btn-warning">
           Clear cached settings
         </button>
-        <button onClick={clearData} className="btn btn-block btn-danger">
+        <button onClick={clearData} className="btn w-100 btn-danger">
           Clear in-progress report data
         </button>
       </div>

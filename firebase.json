@@ -78,6 +78,9 @@
     "source": "functions"
   },
   "emulators": {
+    "logging": {
+      "port": 4502
+    },
     "ui": {
       "enabled": true
     },
@@ -91,8 +94,9 @@
       "port": 5001
     },
     "hosting": {
-      "port": 5000
-    }
+      "port": 5005
+    },
+    "singleProjectMode": true
   },
   "firestore": {}
 }

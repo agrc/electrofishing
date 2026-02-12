@@ -34,25 +34,42 @@ export default function StartDistDirGeoDef({ map, params, setParams }) {
 
   return (
     <div className="start-dist-dir">
-      <div className="form-inline">
+      <div className="d-flex align-items-center flex-wrap gap-2">
         <PointDef label="Start" map={map} coordinates={params.start} setCoordinates={setStart} />
         <div className="dist-block">
-          <div className="form-group">
-            <label className="control-label">Distance (in meters)</label>
+          <div className="mb-1">
+            <label>Distance (in meters)</label>
             <input
               type="number"
-              className="form-control padded"
+              className="form-control"
               value={params.distance}
               onChange={(event) => setDistance(event.target.value)}
             />
           </div>
-          <div className="btn-group" data-toggle="buttons">
-            <label className="btn btn-primary active" onClick={() => setDirection('up')}>
-              <input type="radio" name="up_down_stream" selected={params.direction === 'up'} />
+          <div className="btn-group" role="group">
+            <input
+              type="radio"
+              className="btn-check"
+              name="up_down_stream"
+              id="direction_up"
+              autoComplete="off"
+              checked={params.direction === 'up'}
+              onChange={() => setDirection('up')}
+            />
+            <label className="btn btn-primary" htmlFor="direction_up">
               Upstream
             </label>
-            <label className="btn btn-primary" onClick={() => setDirection('down')}>
-              <input type="radio" name="up_down_stream" selected={params.direction === 'down'} />
+
+            <input
+              type="radio"
+              className="btn-check"
+              name="up_down_stream"
+              id="direction_down"
+              autoComplete="off"
+              checked={params.direction === 'down'}
+              onChange={() => setDirection('down')}
+            />
+            <label className="btn btn-primary" htmlFor="direction_down">
               Downstream
             </label>
           </div>

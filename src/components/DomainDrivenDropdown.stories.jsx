@@ -1,9 +1,19 @@
 import { useState } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import DomainDrivenDropdown from './DomainDrivenDropdown.jsx';
+
+const queryClient = new QueryClient();
 
 const story = {
   title: 'DomainDrivenDropdown',
   component: DomainDrivenDropdown,
+  decorators: [
+    (Story) => (
+      <QueryClientProvider client={queryClient}>
+        <Story />
+      </QueryClientProvider>
+    ),
+  ],
 };
 
 export default story;

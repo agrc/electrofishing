@@ -12,6 +12,6 @@ export default [
       'jsx-a11y/click-events-have-key-events': 'off',
       'jsx-a11y/tabindex-no-positive': 'off',
     },
-    languageOptions: { globals: { L: 'readonly', $: 'readonly' } },
+    languageOptions: { globals: { L: 'readonly' } },
   },
 ];

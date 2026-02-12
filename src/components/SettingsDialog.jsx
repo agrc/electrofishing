@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import React from 'react';
 import config from '../config';
 
 function SettingsDialog({ state: { coordType, mouseWheelZooming }, onChange }) {
@@ -18,42 +18,48 @@ function SettingsDialog({ state: { coordType, mouseWheelZooming }, onChange }) {
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <button type="button" className="close" data-dismiss="modal" aria-hidden="true">
-                &times;
-              </button>
-              <h4 className="modal-title">Settings</h4>
+              <h5 className="modal-title">Settings</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
               <h4>Coordinate Type</h4>
-              <div className="btn-group" data-toggle="buttons">
-                {coordTypeOptions.map(([value, label]) => (
-                  <label
-                    key={value}
-                    className={clsx('btn btn-primary', coordType === value && 'active')}
-                    onClick={() => onCoordTypeChange(value)}
-                  >
-                    <input type="radio" name="coord_options" />
-                    {label}
-                  </label>
+              <div className="btn-group" role="group">
+                {coordTypeOptions.map(([value, label], i) => (
+                  <React.Fragment key={value}>
+                    <input
+                      type="radio"
+                      className="btn-check"
+                      name="coord_options"
+                      id={`coord_option_${i}`}
+                      autoComplete="off"
+                      checked={coordType === value}
+                      onChange={() => onCoordTypeChange(value)}
+                    />
+                    <label className="btn btn-primary" htmlFor={`coord_option_${i}`}>
+                      {label}
+                    </label>
+                  </React.Fragment>
                 ))}
               </div>
 
               <h4>Map Settings</h4>
-              <div className="checkbox">
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={mouseWheelZooming}
-                    onChange={() => {
-                      onChange('mouseWheelZooming', !mouseWheelZooming);
-                    }}
-                  />
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  id="mouseWheelZooming"
+                  checked={mouseWheelZooming}
+                  onChange={() => {
+                    onChange('mouseWheelZooming', !mouseWheelZooming);
+                  }}
+                />
+                <label className="form-check-label" htmlFor="mouseWheelZooming">
                   Mouse wheel zooming (requires refresh)
                 </label>
               </div>
             </div>
             <div className="modal-footer">
-              <button className="btn btn-primary" data-dismiss="modal" aria-hidden="true">
+              <button className="btn btn-primary" data-bs-dismiss="modal" aria-hidden="true">
                 Close
               </button>
             </div>

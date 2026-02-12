@@ -24,6 +24,15 @@ jobs:
         with:
           show-progress: false
 
+      # required for firebase emulators
+      # this could potentially be removed once ubuntu-latest is mapped to something newer than ubuntu-24.04
+      # ref: https://github.com/actions/runner-images/issues/13082
+      - name: ⚙️ Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+
       - name: 💾 Cache firebase emulators
         uses: actions/cache@v4
         with:

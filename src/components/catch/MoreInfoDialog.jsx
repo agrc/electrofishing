@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import { useRef, useEffect, useCallback, useState } from 'react';
+import { Modal, Tab } from 'bootstrap';
 import config from '../../config';
 import { actionTypes, useSamplingEventContext } from '../../hooks/samplingEventContext.jsx';
 import useDebounce from '../../hooks/useDebounce';
@@ -18,19 +19,20 @@ const TABS = {
 };
 
 function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
-  const [currentTab, setCurrentTab] = React.useState(null);
   const { eventDispatch } = useSamplingEventContext();
   const enabled = fish && fish[config.fieldNames.fish.COUNT] === 1;
 
-  const modal = React.useRef(null);
-  React.useEffect(() => {
-    if (currentTab) {
-      $(modal.current).modal('show');
-      $(`a[href='#${currentTab}']`).tab('show');
-    } else {
-      $(modal.current).modal('hide');
+  const modal = useRef(null);
+  const modalInstance = useRef(null);
+  const modalInitialized = useRef(false);
+
+  useEffect(() => {
+    if (modal.current && !modalInitialized.current) {
+      modalInstance.current = new Modal(modal.current);
+      modalInitialized.current = true;
     }
-  }, [currentTab]);
+  }, []);
+
   const fishId = fish && fish[config.fieldNames.fish.FISH_ID];
 
   const onTagChange = (fishId, tagIndex, newTagData) => {
@@ -44,7 +46,7 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
     });
   };
 
-  const addNewTag = React.useCallback(() => {
+  const addNewTag = useCallback(() => {
     eventDispatch({
       type: actionTypes.ADD_TAG,
       payload: {
@@ -71,7 +73,7 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
     });
   };
 
-  const addHealth = React.useCallback(() => {
+  const addHealth = useCallback(() => {
     const fn = config.fieldNames.health;
 
     eventDispatch({
@@ -102,7 +104,7 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
   }, [eventDispatch, fishId]);
 
   const fnDiet = config.fieldNames.diet;
-  const addNewDiet = React.useCallback(() => {
+  const addNewDiet = useCallback(() => {
     eventDispatch({
       type: actionTypes.ADD_DIET,
       payload: {
@@ -117,19 +119,50 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
   }, [eventDispatch, fishId]);
 
   // wait to create a new tag, health and diet until the user opens the more info dialog
-  React.useEffect(() => {
-    if (currentTab && tags.length === 0) {
-      addNewTag();
+  useEffect(() => {
+    const modalEl = modal.current;
+    if (!modalEl) return;
+
+    const onShow = (event) => {
+      const button = event.relatedTarget;
+      if (!button) return;
+
+      const tabTarget = button.getAttribute('data-tab-target');
+      if (tabTarget) {
+        const tabTrigger = modalEl.querySelector(`[href="${tabTarget}"]`);
+        if (tabTrigger) {
+          Tab.getOrCreateInstance(tabTrigger).show();
+        }
+      }
+    };
+
+    const onTabShown = (event) => {
+      const targetHash = event.target.getAttribute('href');
+
+      if (targetHash === `#${TABS.tags}` && tags.length === 0) {
+        addNewTag();
+      } else if (targetHash === `#${TABS.health}` && !health) {
+        addHealth();
+      } else if (targetHash === `#${TABS.diet}` && diets.length === 0) {
+        addNewDiet();
+      }
+    };
+
+    modalEl.addEventListener('show.bs.modal', onShow);
+    const navEl = modalEl.querySelector('.nav-tabs');
+
+    // shown.bs.tab events bubble to the nav element
+    if (navEl) {
+      navEl.addEventListener('shown.bs.tab', onTabShown);
     }
 
-    if (currentTab && !health) {
-      addHealth();
-    }
-
-    if (currentTab && diets.length === 0) {
-      addNewDiet();
-    }
-  }, [addHealth, addNewDiet, addNewTag, currentTab, diets.length, health, tags.length]);
+    return () => {
+      modalEl.removeEventListener('show.bs.modal', onShow);
+      if (navEl) {
+        navEl.removeEventListener('shown.bs.tab', onTabShown);
+      }
+    };
+  }, [addHealth, addNewDiet, addNewTag, diets.length, health, tags.length]);
 
   const hiddenDietColumns = [fnDiet.FISH_ID];
   const dietColumns = [
@@ -179,7 +212,7 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
     },
   ];
 
-  const [notes, setNotes] = React.useState((fish && fish[config.fieldNames.fish.NOTES]) || '');
+  const [notes, setNotes] = useState((fish && fish[config.fieldNames.fish.NOTES]) || '');
   const onNotesChange = useDebounce((newNotes) => {
     eventDispatch({
       type: actionTypes.UPDATE_FISH,
@@ -191,7 +224,7 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
     });
   }, 300);
 
-  React.useEffect(() => {
+  useEffect(() => {
     onNotesChange(notes);
   }, [notes, onNotesChange]);
 
@@ -208,7 +241,7 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
     });
   };
 
-  const [selectedDietIndex, setSelectedDietIndex] = React.useState(null);
+  const [selectedDietIndex, setSelectedDietIndex] = useState(null);
 
   const deleteCurrentDiet = () => {
     eventDispatch({
@@ -223,24 +256,54 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
 
   return (
     <>
-      <div className="btn-right-container pull-right btn-toolbar">
+      <div className="btn-right-container float-end btn-toolbar">
         <div className="btn-group more-info">
-          <button className="btn btn-default" disabled={!enabled} onClick={() => setCurrentTab(TABS.diet)}>
+          <button
+            className="btn btn-secondary"
+            disabled={!enabled}
+            data-bs-toggle="modal"
+            data-bs-target=".more-info-dialog"
+            data-tab-target={`#${TABS.diet}`}
+          >
             {' '}
             Diet
           </button>
-          <button className="btn btn-default" disabled={!enabled} onClick={() => setCurrentTab(TABS.tags)}>
+          <button
+            className="btn btn-secondary"
+            disabled={!enabled}
+            data-bs-toggle="modal"
+            data-bs-target=".more-info-dialog"
+            data-tab-target={`#${TABS.tags}`}
+          >
             {' '}
             Tags
           </button>
-          <button className="btn btn-default" disabled={!enabled} onClick={() => setCurrentTab(TABS.health)}>
+          <button
+            className="btn btn-secondary"
+            disabled={!enabled}
+            data-bs-toggle="modal"
+            data-bs-target=".more-info-dialog"
+            data-tab-target={`#${TABS.health}`}
+          >
             {' '}
             Health
           </button>
-          <button className="btn btn-default" disabled={!enabled} onClick={() => setCurrentTab(TABS.collection)}>
+          <button
+            className="btn btn-secondary"
+            disabled={!enabled}
+            data-bs-toggle="modal"
+            data-bs-target=".more-info-dialog"
+            data-tab-target={`#${TABS.collection}`}
+          >
             Hard Body Parts
           </button>
-          <button className="btn btn-default" disabled={!enabled} onClick={() => setCurrentTab(TABS.notes)}>
+          <button
+            className="btn btn-secondary"
+            disabled={!enabled}
+            data-bs-toggle="modal"
+            data-bs-target=".more-info-dialog"
+            data-tab-target={`#${TABS.notes}`}
+          >
             {' '}
             Notes
           </button>
@@ -253,55 +316,47 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
         role="dialog"
         tabIndex="-1"
         ref={modal}
-        data-backdrop="static"
+        data-bs-backdrop="static"
       >
-        <div className="modal-dialog">
+        <div className="modal-dialog modal-xl">
           <div className="modal-content">
             <div className="modal-header">
-              <button
-                type="button"
-                className="close"
-                data-dismiss="modal"
-                aria-hidden="true"
-                onClick={() => setCurrentTab(null)}
-              >
-                &times;
-              </button>
               <h4>
                 Fish #{fish && fish[config.fieldNames.fish.CATCH_ID]} (Pass #{currentPass})
               </h4>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
-              <ul className="nav nav-tabs">
-                <li>
-                  <a href={`#${TABS.diet}`} data-toggle="tab">
+              <ul className="nav nav-tabs mb-3">
+                <li className="nav-item">
+                  <a className="nav-link" href={`#${TABS.diet}`} data-bs-toggle="tab">
                     Diet
                   </a>
                 </li>
-                <li>
-                  <a href={`#${TABS.tags}`} data-toggle="tab">
+                <li className="nav-item">
+                  <a className="nav-link" href={`#${TABS.tags}`} data-bs-toggle="tab">
                     Tags
                   </a>
                 </li>
-                <li>
-                  <a href={`#${TABS.health}`} data-toggle="tab">
+                <li className="nav-item">
+                  <a className="nav-link" href={`#${TABS.health}`} data-bs-toggle="tab">
                     Health
                   </a>
                 </li>
-                <li>
-                  <a href={`#${TABS.collection}`} data-toggle="tab">
+                <li className="nav-item">
+                  <a className="nav-link" href={`#${TABS.collection}`} data-bs-toggle="tab">
                     Hard Body Parts
                   </a>
                 </li>
-                <li>
-                  <a href={`#${TABS.notes}`} data-toggle="tab">
+                <li className="nav-item">
+                  <a className="nav-link" href={`#${TABS.notes}`} data-bs-toggle="tab">
                     Notes
                   </a>
                 </li>
               </ul>
               <div className="tab-content">
-                <div className="tab-pane fade diet" id={TABS.diet}>
-                  <div className="pull-right">
+                <div className="tab-pane fade" id={TABS.diet}>
+                  <div className="float-end">
                     <DataGridAddDeleteButtons
                       addNew={addNewDiet}
                       deleteCurrent={deleteCurrentDiet}
@@ -377,7 +432,7 @@ function MoreInfoDialog({ fish, health, tags, diets, currentPass }) {
               </div>
             </div>
             <div className="modal-footer">
-              <button className="btn btn-primary pull-right" onClick={() => setCurrentTab(null)}>
+              <button className="btn btn-primary float-end" data-bs-dismiss="modal">
                 OK
               </button>
             </div>

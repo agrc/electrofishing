@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { Modal } from 'bootstrap';
 import config from '../config';
 
 const DECIMAL_PLACES = 2;
@@ -86,22 +87,29 @@ export function getSummaryData(eventData) {
 }
 
 function SummaryReport({ show, onHide, eventData, onConfirm }) {
-  const modalRef = React.useRef(null);
-  const [summaryData, setSummaryData] = React.useState(null);
+  const modalRef = useRef(null);
+  const modalInstance = useRef(null);
+  const [summaryData, setSummaryData] = useState(null);
 
-  React.useEffect(() => {
-    $(modalRef.current).modal({ backdrop: 'static', keyboard: false, show: false });
+  useEffect(() => {
+    modalInstance.current = new Modal(modalRef.current, { backdrop: 'static', keyboard: false });
+
+    return () => {
+      if (modalInstance.current) {
+        modalInstance.current.dispose();
+      }
+    };
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (show) {
-      $(modalRef.current).modal('show');
+      modalInstance.current.show();
     } else {
-      $(modalRef.current).modal('hide');
+      modalInstance.current.hide();
     }
   }, [show]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (eventData && show) {
       setSummaryData(getSummaryData(eventData));
     }
@@ -113,10 +121,8 @@ function SummaryReport({ show, onHide, eventData, onConfirm }) {
         <div className="modal-dialog modal-lg" role="document">
           <div className="modal-content">
             <div className="modal-header">
-              <button type="button" className="close" aria-label="Close" onClick={onHide}>
-                <span aria-hidden="true">&times;</span>
-              </button>
               <h4>Report Summary</h4>
+              <button type="button" className="btn-close" aria-label="Close" onClick={onHide}></button>
             </div>
             <div className="modal-body">
               {summaryData ? (
@@ -182,7 +188,7 @@ function SummaryReport({ show, onHide, eventData, onConfirm }) {
               ) : null}
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-default" onClick={onHide}>
+              <button type="button" className="btn btn-secondary" onClick={onHide}>
                 Cancel
               </button>
               <button type="button" className="btn btn-success" data-testid="summaryConfirmBtn" onClick={onConfirm}>

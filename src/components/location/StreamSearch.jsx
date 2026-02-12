@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import { useCombobox } from 'downshift';
 import PropTypes from 'prop-types';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -268,8 +268,8 @@ export default function StreamSearch({ map, streamsFeatureService, lakesFeatureS
             data-testid="stream-search"
             {...getInputProps()}
           />
-          <span className="input-group-addon">
-            <span className="glyphicon glyphicon-search"></span>
+          <span className="input-group-text bg-white">
+            <span className="bi bi-search"></span>
           </span>
         </div>
         <div className="matches-table dropdown" {...getMenuProps()}>

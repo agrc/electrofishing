@@ -9,6 +9,7 @@ import GridTab from '../GridTab.jsx';
 import { batchFishWeights, getLastFishIdsWithEmptyWeights } from './batchUtils';
 import MoreInfoDialog from './MoreInfoDialog.jsx';
 import getGUID from '../../helpers/getGUID.js';
+import { Popover } from 'bootstrap';
 
 const fn = config.fieldNames.fish;
 const hiddenColumns = [fn.FISH_ID, fn.PASS_NUM, fn.NOTES];
@@ -135,34 +136,44 @@ function Catch() {
   const batchForm = React.useRef();
   const batchButton = React.useRef();
   const batchSubmitButton = React.useRef();
+  const batchPopoverInstance = React.useRef(null);
+
   React.useEffect(() => {
-    $(batchButton.current).popover({
+    batchPopoverInstance.current = new Popover(batchButton.current, {
       html: true,
       content: batchForm.current,
       placement: 'bottom',
       container: 'body',
       sanitize: false,
     });
+
+    return () => batchPopoverInstance.current?.dispose();
   }, []);
 
   React.useEffect(() => {
-    // this needs to be done via ref since the popover messes with the JSX dom events
-    batchSubmitButton.current.onclick = () => {
-      submitBatchFishWeights();
-      batchWeightInput.current.value = '';
-      $(batchButton.current).popover('hide');
-    };
+    if (batchSubmitButton.current) {
+      batchSubmitButton.current.onclick = () => {
+        submitBatchFishWeights();
+        if (batchWeightInput.current) {
+          batchWeightInput.current.value = '';
+        }
+        batchPopoverInstance.current?.hide();
+      };
+    }
   }, [submitBatchFishWeights]);
 
   const bulkUploadHelp = React.useRef();
   const bulkUploadHelpContent = React.useRef();
+  const bulkUploadHelpPopover = React.useRef(null);
   React.useEffect(() => {
-    $(bulkUploadHelp.current).popover({
+    bulkUploadHelpPopover.current = new Popover(bulkUploadHelp.current, {
       html: true,
       content: bulkUploadHelpContent.current,
       sanitize: false,
       placement: 'left',
     });
+
+    return () => bulkUploadHelpPopover.current?.dispose();
   }, []);
 
   const onBulkUploadClick = (event) => {
@@ -238,12 +249,12 @@ function Catch() {
         setCurrentTab={setCurrentPass}
       />
 
-      <div className="btn-right-container pull-right btn-toolbar">
+      <div className="btn-right-container float-end btn-toolbar">
         <div className="btn-group">
           <button
             type="button"
-            className="btn btn-info btn-warning"
-            data-toggle="popover"
+            className="btn btn-warning mx-2"
+            data-bs-toggle="popover"
             ref={batchButton}
             disabled={!batchWeightingIsAvailable}
           >
@@ -281,11 +292,11 @@ function Catch() {
         highlight={(fish, column) => column === fn.WEIGHT && batchWeightFishIds.includes(fish[fn.FISH_ID])}
       />
 
-      <div className="bulk-upload-container pull-right">
-        <button className="btn btn-link" data-toggle="popover" ref={bulkUploadHelp}>
+      <div className="bulk-upload-container float-end">
+        <button className="btn btn-link" data-bs-toggle="popover" ref={bulkUploadHelp}>
           help
         </button>
-        <label className="btn btn-default btn-file">
+        <label className="btn btn-secondary btn-file">
           Bulk Upload
           <input type="file" onChange={onBulkUploadClick} />
         </label>
@@ -293,9 +304,9 @@ function Catch() {
 
       <div className="hidden">
         <div ref={batchForm}>
-          <div className="form-group">
-            <label className="control-label">Weight</label>
-            <input type="number" className="form-control" step="0.1" ref={batchWeightInput} />
+          <div className="mb-3">
+            <label htmlFor="batchWeightInput">Weight</label>
+            <input type="number" className="form-control" step="0.1" ref={batchWeightInput} id="batchWeightInput" />
           </div>
           <button className="btn btn-primary" style={{ width: '100%' }} ref={batchSubmitButton}>
             Go

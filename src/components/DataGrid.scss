@@ -1,8 +1,15 @@
 .data-grid {
   tr {
-    height: 31.5px;
     &.bold {
       font-weight: bold;
+
+      input {
+        font-weight: bold;
+      }
+    }
+
+    td {
+      vertical-align: middle;
     }
   }
   td input {

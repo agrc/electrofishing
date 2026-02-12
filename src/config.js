@@ -145,6 +145,7 @@ const fieldNames = {
     TURBIDITY: 'TURBIDITY',
     ALKALINITY: 'ALKALINITY',
     BACKWATER: 'BACKWATER',
+    DISCHARGE: 'DISCHARGE',
   },
   transect: {
     EVENT_ID: fldEVENT_ID,
@@ -192,7 +193,7 @@ const config = {
 
   // version: String
   //      The app version number.
-  version: '2.4.13', // x-release-please-version
+  version: '2.5.0-rc.7', // x-release-please-version
 
   // coordTypes: {key:String}
   //      Coordinate types as used in app/SettingsDialog

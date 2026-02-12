@@ -6,7 +6,7 @@ function AddRemoveButtons({ addNew, remove, isLast, isFirst }) {
       {isLast ? (
         <div className="btn-group" role="group">
           <button className="btn btn-success btn-sm" onClick={addNew}>
-            <span className="glyphicon glyphicon-plus"></span>
+            <span className="bi bi-plus-lg"></span>
           </button>
           {!isFirst ? <RemoveButton onClick={remove} /> : null}
         </div>
@@ -30,7 +30,7 @@ export default AddRemoveButtons;
 function RemoveButton({ onClick }) {
   return (
     <button className="btn btn-danger btn-sm" onClick={onClick}>
-      <span className="glyphicon glyphicon-minus"></span>
+      <span className="bi bi-dash-lg"></span>
     </button>
   );
 }

@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import PropTypes from 'prop-types';
 import React from 'react';
 import config from '../../config';
@@ -17,14 +17,14 @@ const HabitatNumericInput = ({ min, max, step, label, field, value }) => {
 
   return (
     <NumericInputValidator>
-      {(getInputProps, getGroupClassName, validationMessage) => (
-        <div className={getGroupClassName('form-group')}>
-          <label className="control-label">{label}</label>
+      {(getInputProps, validationMessage) => (
+        <div className="form-group">
+          <label>{label}</label>
           <input
             min={min}
             max={max}
             step={step}
-            value={value || ''}
+            value={value ?? ''}
             id={`${field}_input`}
             {...getInputProps({
               className: 'form-control',
@@ -250,7 +250,7 @@ function Habitat() {
           />
 
           <div className="form-group">
-            <label className="control-label">Dominant Overstory</label>
+            <label>Dominant Overstory</label>
             <DomainDrivenDropdown
               featureServiceUrl={config.urls.habitatFeatureService}
               fieldName={fnHabitat.DOVR}
@@ -259,7 +259,7 @@ function Habitat() {
           </div>
 
           <div className="form-group">
-            <label className="control-label">Dominant Understory</label>
+            <label>Dominant Understory</label>
             <DomainDrivenDropdown
               featureServiceUrl={config.urls.habitatFeatureService}
               fieldName={fnHabitat.DUND}
@@ -299,7 +299,7 @@ function Habitat() {
 
         <div className="col-md-3">
           <div className="form-group">
-            <label className="control-label">Presence of Spring</label>
+            <label>Presence of Spring</label>
             <DomainDrivenDropdown
               featureServiceUrl={config.urls.habitatFeatureService}
               fieldName={fnHabitat.SPNG}
@@ -327,6 +327,14 @@ function Habitat() {
             max="100"
             field={fnHabitat.EROS}
             value={habitat[fnHabitat.EROS]}
+          />
+          <HabitatNumericInput
+            label="Discharge (CFS)"
+            min="0"
+            max="20000"
+            step="0.001"
+            field={fnHabitat.DISCHARGE}
+            value={habitat[fnHabitat.DISCHARGE]}
           />
         </div>
 
@@ -390,12 +398,12 @@ function Habitat() {
         </div>
 
         <div className="col-md-3">
-          <div className={clsx('panel', totalSedimentIsInvalid ? 'panel-danger' : 'panel-default')}>
-            <div className="panel-heading">
-              <h3 className="panel-title">Sediment Class Percentages</h3>
+          <div className={clsx('card', totalSedimentIsInvalid && 'border-danger')}>
+            <div className="card-header">
+              <h3 className="card-title">Sediment Class Percentages</h3>
               <small className="text-muted">Must add up to 100%</small>
             </div>
-            <div className="panel-body">
+            <div className="card-body">
               <HabitatNumericInput
                 label="Fines"
                 min="0"
@@ -449,13 +457,13 @@ function Habitat() {
 
               <div
                 className={clsx(
-                  'pull-right',
+                  'float-end',
                   totalSedimentIsInvalid && 'text-danger',
                   totalSediment === 100 && 'text-success',
                 )}
               >
                 <strong>Total</strong>
-                <span className="badge">{totalSediment}</span>
+                <span className="badge bg-secondary rounded-pill">{totalSediment}</span>
               </div>
             </div>
           </div>
@@ -483,8 +491,8 @@ function Habitat() {
       <div className="row">
         <div className="col-md-3">
           <NumericInputValidator>
-            {(getInputProps, getGroupClassName, validationMessage) => (
-              <div className={getGroupClassName('form-group')}>
+            {(getInputProps, validationMessage) => (
+              <div className="form-group">
                 <label>Bankfull Width (m)</label>
                 <input
                   step="0.01"
@@ -500,8 +508,8 @@ function Habitat() {
 
         <div className="col-md-3">
           <NumericInputValidator>
-            {(getInputProps, getGroupClassName, validationMessage) => (
-              <div className={getGroupClassName('form-group')}>
+            {(getInputProps, validationMessage) => (
+              <div className="form-group">
                 <label>Wetted Width (m)</label>
                 <input
                   step="0.01"
@@ -517,7 +525,7 @@ function Habitat() {
 
         <div className="col-md-3">
           <div className="form-group">
-            <label className="control-label">Starting bank</label>
+            <label>Starting bank</label>
             <DomainDrivenDropdown
               featureServiceUrl={config.urls.transectFeatureService}
               fieldName={config.fieldNames.transect.STARTING_BANK}

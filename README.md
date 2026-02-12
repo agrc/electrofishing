@@ -53,3 +53,7 @@ Production: [https://electrofishing.ugrc.utah.gov](https://electrofishing.ugrc.u
 ### Storybook
 
 `npm run storybook` (requires `npm start` to already be running)
+
+## Attribution
+
+This project was developed with the assistance of [GitHub Copilot](https://github.com/features/copilot).

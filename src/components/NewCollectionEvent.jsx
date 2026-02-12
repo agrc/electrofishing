@@ -1,6 +1,6 @@
 import localforage from 'localforage';
 import PropTypes from 'prop-types';
-import * as React from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { actionTypes as appActionTypes, useAppContext } from '../App.jsx';
 import config from '../config';
@@ -38,9 +38,18 @@ const NoFishException = ({ allowNoFish, setAllowNoFish }) => {
   return (
     <div className="no-fish-exception">
       <div>You must input at least one fish.</div>
-      <label htmlFor="allowNoFish_checkbox">
-        <input type="checkbox" onChange={onChange} id="allowNoFish_checkbox" checked={allowNoFish} /> Ignore Warning
-      </label>
+      <div className="form-check">
+        <input
+          className="form-check-input"
+          type="checkbox"
+          onChange={onChange}
+          id="allowNoFish_checkbox"
+          checked={allowNoFish}
+        />
+        <label className="form-check-label" htmlFor="allowNoFish_checkbox">
+          Ignore Warning
+        </label>
+      </div>
     </div>
   );
 };
@@ -51,18 +60,23 @@ NoFishException.propTypes = {
 };
 
 const NewCollectionEvent = () => {
-  const [allowNoFish, setAllowNoFish] = React.useState(false);
-  const [showSuccess, setShowSuccess] = React.useState(false);
-  const thisDomNode = React.useRef();
-  const [validateMsg, setValidateMsg] = React.useState();
+  const [allowNoFish, setAllowNoFish] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const thisDomNode = useRef();
+  const [validateMsg, setValidateMsg] = useState();
   const { eventState, eventDispatch } = useSamplingEventContext();
-  const { appDispatch } = useAppContext();
+  const {
+    appState: {
+      settings: { currentTab },
+    },
+    appDispatch,
+  } = useAppContext();
 
   // archivesLocalForage: localforage instance
   //      used to manage archives in a separate instance that the inprogress stuff
   //      this allows for easy clearing of inprogress without messing with archives
-  const archivesLocalForage = React.useRef();
-  React.useEffect(() => {
+  const archivesLocalForage = useRef();
+  useEffect(() => {
     archivesLocalForage.current = localforage.createInstance({
       name: archivesStoreName,
     });
@@ -70,10 +84,10 @@ const NewCollectionEvent = () => {
 
   // cache in-progress data so that we don't loose it on page refresh
   // TODO: look at using little state machine library for this
-  React.useEffect(() => {
+  useEffect(() => {
     localforage.setItem(LOCAL_STORAGE_IN_PROGRESS_ITEM_ID, eventState);
   }, [eventState]);
-  React.useEffect(() => {
+  useEffect(() => {
     console.log('getting cached data');
     // TODO: handle stream reach geometry once geodefs have been converted to react components
 
@@ -89,16 +103,24 @@ const NewCollectionEvent = () => {
     });
   }, [eventDispatch]);
 
-  const showTab = (tabID) => {
-    // summary:
-    //      shows the pass in tab
-    // tabID: String
-    console.log('app/NewCollectionEvent:showTab', tabID);
+  const showTab = useCallback(
+    (tabID) => {
+      // summary:
+      //      shows the pass in tab
+      // tabID: String
+      console.log('app/NewCollectionEvent:showTab', tabID);
 
-    $(`a[href="#${tabID}"]`).tab('show');
-  };
+      appDispatch({
+        type: appActionTypes.SETTINGS,
+        payload: {
+          currentTab: tabID,
+        },
+      });
+    },
+    [appDispatch],
+  );
 
-  const validateReport = React.useCallback(() => {
+  const validateReport = useCallback(() => {
     // summary:
     //      validates all of the values necessary to submit the report to the server
     //
@@ -182,9 +204,9 @@ const NewCollectionEvent = () => {
     }
 
     return true;
-  }, [allowNoFish, eventState]);
+  }, [allowNoFish, eventState, showTab]);
 
-  const clearReport = React.useCallback(() => {
+  const clearReport = useCallback(() => {
     console.log('NewCollectionEvent:clearReport');
 
     const onError = (error) => {
@@ -201,7 +223,7 @@ const NewCollectionEvent = () => {
       });
   }, [eventDispatch]);
 
-  const onSuccessfulSubmit = React.useCallback(() => {
+  const onSuccessfulSubmit = useCallback(() => {
     console.log('app/NewCollectionEvent:onSuccessfulSubmit');
 
     showTab('locationTab');
@@ -214,7 +236,7 @@ const NewCollectionEvent = () => {
         behavior: 'smooth',
       });
     }, 500);
-  }, [clearReport]);
+  }, [clearReport, showTab]);
 
   const onError = (message) => {
     console.log('app/NewCollectionEvent:onError');
@@ -223,9 +245,9 @@ const NewCollectionEvent = () => {
     window.scrollTo(0, 0);
   };
 
-  const [showSummary, setShowSummary] = React.useState(false);
-  const [submitData, setSubmitData] = React.useState(null); // this could be replaced by eventState once everything is moved to React
-  const onSubmit = React.useCallback(() => {
+  const [showSummary, setShowSummary] = useState(false);
+  const [submitData, setSubmitData] = useState(null); // this could be replaced by eventState once everything is moved to React
+  const onSubmit = useCallback(() => {
     console.log('NewCollectionEvent:onSubmit');
 
     setShowSuccess(false);
@@ -300,7 +322,7 @@ const NewCollectionEvent = () => {
     );
   };
 
-  const onCancel = React.useCallback(() => {
+  const onCancel = useCallback(() => {
     console.log('NewCollectionEvent:onCancel');
 
     if (window.confirm(cancelConfirmMsg)) {
@@ -310,7 +332,7 @@ const NewCollectionEvent = () => {
 
   // subscriptions
   const addSubscription = useSubscriptions();
-  React.useEffect(() => {
+  useEffect(() => {
     addSubscription(config.topics.onSubmitReportClick, onSubmit);
     addSubscription(config.topics.onCancelReportClick, onCancel);
   }, [addSubscription, onSubmit, onCancel]);
@@ -329,22 +351,22 @@ const NewCollectionEvent = () => {
       {showSuccess ? (
         <div className="alert alert-success">
           The report has been submitted successfully.
-          <button className="btn btn-success pull-right" onClick={() => setShowSuccess(false)}>
+          <button className="btn btn-success float-end" onClick={() => setShowSuccess(false)}>
             Close
           </button>
         </div>
       ) : null}
       <div className="tab-content">
-        <div className="tab-pane fade in active" id="locationTab">
+        <div className={`tab-pane fade ${currentTab === 'locationTab' ? 'show active' : ''}`} id="locationTab">
           <Location />
         </div>
-        <div className="tab-pane fade" id="methodTab">
+        <div className={`tab-pane fade ${currentTab === 'methodTab' ? 'show active' : ''}`} id="methodTab">
           <Method />
         </div>
-        <div className="tab-pane fade" id="catchTab">
+        <div className={`tab-pane fade ${currentTab === 'catchTab' ? 'show active' : ''}`} id="catchTab">
           <Catch />
         </div>
-        <div className="tab-pane fade" id="habitatTab">
+        <div className={`tab-pane fade ${currentTab === 'habitatTab' ? 'show active' : ''}`} id="habitatTab">
           <Habitat />
         </div>
       </div>

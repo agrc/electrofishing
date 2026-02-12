@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import topic from 'pubsub-js';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect, useId } from 'react';
+import { Modal } from 'bootstrap';
 import config from '../../config';
 import getGUID from '../../helpers/getGUID';
 import submitJob from '../../helpers/submitJob';
 import useSubscriptions from '../../hooks/useSubscriptions';
-import useUniqueId from '../../hooks/useUniqueId';
 import DomainDrivenDropdown from '../DomainDrivenDropdown.jsx';
 import PointDef from './PointDef.jsx';
 import VerifyMap from './VerifyMap.jsx';
@@ -25,7 +25,7 @@ const newStationErrMsg = 'There was an error submitting the station!';
 const Station = ({ mainMap, selectedStationName, selectStation }) => {
   const verifyMap = useRef(null);
   const [streamType, setStreamType] = useState(null);
-  const submitBtn = useRef(null);
+  const [submitting, setSubmitting] = useState(false);
   const [stationName, setStationName] = useState('');
   const [streamLake, setStreamLake] = useState('');
   const [validateMsg, setValidateMsg] = useState(null);
@@ -95,7 +95,7 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
   const onSuccessfulSubmit = (newStation) => {
     setShowSuccessMsg(true);
 
-    $(submitBtn.current).button('reset');
+    setSubmitting(false);
 
     // clear form
     setStationName('');
@@ -108,7 +108,7 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
     verifyMap.current.eachLayer((layer) => layer?.refresh && layer.refresh());
 
     setTimeout(() => {
-      $(modal.current).modal('hide');
+      Modal.getOrCreateInstance(modal.current).hide();
       setShowSuccessMsg(false);
       // can't find a way to hook into when the layer is done refreshing...
       setTimeout(() => {
@@ -127,14 +127,14 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
     console.log('app/location/Station:onError');
 
     setValidateMsg(message || newStationErrMsg);
-    $(submitBtn.current).button('reset');
+    setSubmitting(false);
   };
 
   const onSubmit = async () => {
     const feature = validate();
 
     if (feature) {
-      $(submitBtn.current).button('loading');
+      setSubmitting(true);
 
       feature.attributes[config.fieldNames.stations.STATION_ID] = getGUID();
 
@@ -154,7 +154,7 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
     }
   };
 
-  const id = useUniqueId();
+  const id = useId();
   const onPointDefSelected = React.useCallback(
     (_, widget) => {
       // if widget is not the toggle stream lake button, then setStreamLakeBtnIsActive(false)
@@ -180,17 +180,25 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
     }
   }, [id, onWaterBodyClick, streamLakeBtnIsActive]);
 
-  const modal = React.useRef(null);
-  React.useEffect(() => {
-    if (verifyMap.current && mainMap) {
-      $(modal.current).on('shown.bs.modal', () => {
+  const modal = useRef(null);
+  useEffect(() => {
+    const element = modal.current;
+    if (verifyMap.current && mainMap && element) {
+      const onShown = () => {
         verifyMap.current.invalidateSize();
-
         verifyMap.current.setView(mainMap.getCenter(), mainMap.getZoom());
-      });
-      $(modal.current).on('hidden.bs.modal', () => {
+      };
+      const onHidden = () => {
         mainMap.setView(verifyMap.current.getCenter(), verifyMap.current.getZoom());
-      });
+      };
+
+      element.addEventListener('shown.bs.modal', onShown);
+      element.addEventListener('hidden.bs.modal', onHidden);
+
+      return () => {
+        element.removeEventListener('shown.bs.modal', onShown);
+        element.removeEventListener('hidden.bs.modal', onHidden);
+      };
     }
   }, [mainMap]);
 
@@ -199,35 +207,29 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
       <h4 className="heading">
         Station <span className="text-danger required">*</span>
       </h4>
-      <p className="help-block">Select a station by clicking on the map above.</p>
+      <p className="form-text text-muted">Select a station by clicking on the map above.</p>
       <div className="row">
-        <div className="col-xs-6">
+        <div className="col-8">
           <div className="input-group">
             <input type="text" disabled value={selectedStationName} className="form-control" id="stationTxt" />
-            <span className="input-group-btn">
-              <a className="btn btn-default btn-success" data-toggle="modal" href="#stationModal">
-                <span className="glyphicon glyphicon-plus"></span>
-                &nbsp;Add New Station
-              </a>
-            </span>
+            <a className="btn btn-success" data-bs-toggle="modal" href="#stationModal">
+              <span className="bi bi-plus-lg"></span>
+              &nbsp;Add New Station
+            </a>
           </div>
         </div>
       </div>
-      <div className="modal fade" id="stationModal" role="dialog" tabIndex="-1" data-backdrop="static" ref={modal}>
-        <div className="modal-dialog">
+      <div className="modal fade" id="stationModal" role="dialog" tabIndex="-1" data-bs-backdrop="static" ref={modal}>
+        <div className="modal-dialog modal-xl">
           <div className="modal-content">
             <div className="modal-header">
-              <button className="close" type="button" data-dismiss="modal">
-                &times;
-              </button>
-              <h4 className="modal-titled">Add New Station</h4>
+              <h5 className="modal-title">Add New Station</h5>
+              <button className="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
               <div className="row">
-                <div className="form-group col-md-3">
-                  <label htmlFor="stationNameTxt" className="control-label">
-                    Name
-                  </label>
+                <div className="mb-3 col-md-6">
+                  <label htmlFor="stationNameTxt">Name</label>
                   <input
                     id="stationNameTxt"
                     type="text"
@@ -237,10 +239,8 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
                     onChange={(event) => setStationName(event.target.value)}
                   />
                 </div>
-                <div className="form-group col-md-3">
-                  <label htmlFor="streamTypeSelect" className="control-label">
-                    Stream Type
-                  </label>
+                <div className="mb-3 col-md-6">
+                  <label htmlFor="streamTypeSelect">Stream Type</label>
                   <DomainDrivenDropdown
                     id="streamTypeSelect"
                     featureServiceUrl={config.urls.stationsFeatureService}
@@ -257,18 +257,19 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
                 setCoordinates={setCoordinates}
                 twoLineLayout
               />
-              <div className="stream-lake-button-container form-inline">
-                <label>Stream/Lake</label>
-                <div className="form-group">
+              <div className="stream-lake-button-container d-flex align-items-center mb-3">
+                <label className="me-2 mb-0">Stream/Lake</label>
+                <div className="me-2">
                   <button
                     type="button"
-                    className={`btn btn-default btn-sm ${streamLakeBtnIsActive ? 'active' : null}`}
+                    className={`btn btn-secondary btn-sm ${streamLakeBtnIsActive ? 'active' : null}`}
                     onClick={() => setStreamLakeBtnIsActive(!streamLakeBtnIsActive)}
+                    aria-label="Select Stream/Lake on map"
                   >
-                    <span className="glyphicon glyphicon-map-marker"></span>
+                    <span className="bi bi-geo-alt-fill"></span>
                   </button>
                 </div>
-                <div className="form-group">
+                <div className="flex-grow-1">
                   <input value={streamLake} className="form-control" type="text" disabled id="streamLakeInput" />
                 </div>
               </div>
@@ -281,24 +282,19 @@ const Station = ({ mainMap, selectedStationName, selectStation }) => {
                 selectStation={selectStation}
               />
             </div>
-            <div className="modal-footer">
-              <div className="control-group has-error pull-left">
-                <span className="help-block">{validateMsg}</span>
+            <div className="modal-footer justify-content-between">
+              <div>
+                <small className="text-danger">{validateMsg}</small>
+                {showSuccessMsg ? <small className="text-success">Station added successfully!</small> : null}
               </div>
-              <div className="control-group has-success pull-left">
-                {showSuccessMsg ? <span className="help-block">Station added successfully!</span> : null}
+              <div>
+                <button type="button" className="btn btn-link" data-bs-dismiss="modal">
+                  Cancel
+                </button>
+                <button type="button" className="btn btn-primary" onClick={onSubmit} disabled={submitting}>
+                  {submitting ? 'Submitting new station...' : 'Add Station'}
+                </button>
               </div>
-              <button href="#" className="btn btn-link" data-dismiss="modal">
-                Cancel
-              </button>
-              <button
-                className="btn btn-primary"
-                ref={submitBtn}
-                data-loading-text="Submitting new station..."
-                onClick={onSubmit}
-              >
-                Add Station
-              </button>
             </div>
           </div>
         </div>

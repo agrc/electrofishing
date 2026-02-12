@@ -28,10 +28,10 @@ test('creates a new station', async ({ page }) => {
   const streamTypeSelect = page.locator('#streamTypeSelect');
   await streamTypeSelect.fill('c');
   await streamTypeSelect.press('Enter');
-  await page.locator('.modal-body > .point-def > :nth-child(1) > .btn > .glyphicon').click();
-  await page.locator('.station .leaflet-container').click();
-  await page.locator('.stream-lake-button-container > :nth-child(2) > .btn > .glyphicon').click();
-  await page.locator('[d="M-76 14L-87 0L-88 -4"]').click();
+  await page.getByRole('button', { name: 'Select Station on map' }).click({ force: true });
+  await page.locator('#stationModal .verify-map .leaflet-container').click({ force: true });
+  await page.getByRole('button', { name: 'Select Stream/Lake on map' }).click({ force: true });
+  await page.locator('[d="M-76 14L-87 0L-88 -4"]').click({ force: true });
   await page
     .getByRole('button', {
       name: /add station/i,

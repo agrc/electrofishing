@@ -1,5 +1,5 @@
 import { flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from '@tanstack/react-table';
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import PropTypes from 'prop-types';
 import React, { forwardRef, useEffect, useState } from 'react';
 import DomainDrivenDropdown from './DomainDrivenDropdown.jsx';
@@ -17,6 +17,7 @@ function DataGrid({
   setSelectedRow,
   highlight,
   boldRows,
+  idPrefix = '',
 }) {
   // inspiration from: https://codesandbox.io/s/github/tanstack/table/tree/main/examples/react/editable-data?from-embed=&file=/src/main.tsx
   const initialState = {};
@@ -58,6 +59,7 @@ function DataGrid({
     initialState,
     meta: {
       updateCell,
+      idPrefix,
     },
   };
 
@@ -90,7 +92,7 @@ function DataGrid({
   };
 
   return (
-    <table className="table table-bordered table-condensed data-grid table-striped">
+    <table className="table table-bordered table-sm data-grid table-striped">
       <thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
@@ -107,7 +109,7 @@ function DataGrid({
         {rowModel.rows.map((row) => (
           <tr
             key={row.id}
-            className={clsx(row.getIsSelected() && 'info', boldRows && boldRows.includes(row.index) && 'bold')}
+            className={clsx(row.getIsSelected() && 'table-info', boldRows && boldRows.includes(row.index) && 'bold')}
             onFocus={() => selectRow(row)}
             onClick={() => selectRow(row)}
           >
@@ -129,7 +131,10 @@ function DataGrid({
               }
 
               return (
-                <td key={cell.id} className={highlight && highlight(row.original, cell.column.id) ? 'warning' : null}>
+                <td
+                  key={cell.id}
+                  className={highlight && highlight(row.original, cell.column.id) ? 'table-warning' : null}
+                >
                   {flexRender(cell.column.columnDef.cell, { ...cell.getContext(), ...additionalProps })}
                 </td>
               );
@@ -156,6 +161,7 @@ DataGrid.propTypes = {
   selectedRow: PropTypes.number,
   setSelectedRow: PropTypes.func,
   boldRows: PropTypes.array,
+  idPrefix: PropTypes.string,
 };
 
 export default DataGrid;
@@ -180,10 +186,10 @@ export const NumericInputCell = forwardRef(function NumericInputCell(
 
   return (
     <NumericInputValidator>
-      {(getInputProps, getGroupClassName, validationMessage) => (
-        <div className={getGroupClassName()}>
+      {(getInputProps, validationMessage) => (
+        <div>
           <input
-            id={`numeric-input-cell-${index}-${column.id}`}
+            id={`numeric-input-cell-${index}-${column.id}${table.options.meta?.idPrefix}`}
             value={value || ''}
             onBlur={onBlur}
             onKeyDown={onKeyDown}
@@ -191,6 +197,7 @@ export const NumericInputCell = forwardRef(function NumericInputCell(
             {...getInputProps({
               onChange: (e) => setValue(e.target.valueAsNumber || null),
               ...column.columnDef.meta?.inputProps,
+              className: 'form-control p-0',
             })}
           />
           {validationMessage}
@@ -217,6 +224,7 @@ NumericInputCell.propTypes = {
     options: PropTypes.shape({
       meta: PropTypes.shape({
         updateCell: PropTypes.func.isRequired,
+        idPrefix: PropTypes.string,
       }),
     }),
   }).isRequired,
@@ -241,7 +249,7 @@ export const DomainDrivenDropdownCell = forwardRef(function DomainDrivenDropdown
       minimal
       onKeyDown={onKeyDown}
       ref={ref}
-      id={`dropdown-${index}-${column.id}`}
+      id={`dropdown-${index}-${column.id}${table.options.meta?.idPrefix}`}
     />
   );
 });
@@ -263,6 +271,7 @@ DomainDrivenDropdownCell.propTypes = {
     options: PropTypes.shape({
       meta: PropTypes.shape({
         updateCell: PropTypes.func.isRequired,
+        idPrefix: PropTypes.string,
       }),
     }),
   }).isRequired,

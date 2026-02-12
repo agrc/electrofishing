@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
+import { useEffect, useId, useRef } from 'react';
 import config from '../../config';
 import AddRemoveButtons from '../AddRemoveButtons.jsx';
 import DataGrid, { DomainDrivenDropdownCell, NumericInputCell } from '../DataGrid.jsx';
 import DomainDrivenDropdown from '../DomainDrivenDropdown.jsx';
 import NumericInputValidator from '../NumericInputValidator.jsx';
 
-const ACTIVE = 'active';
 export const EQUIPMENT_TYPES = {
   BACKPACK: 'Backpack',
   CANOEBARGE: 'Canoe/Barge',
@@ -81,6 +81,9 @@ export const getSideEffects = (fieldName, newValue) => {
 };
 
 function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
+  const tabsRef = useRef(null);
+  const id = useId();
+
   function getNewAnodeRow() {
     return Object.fromEntries(
       columns.map((c) => {
@@ -114,7 +117,31 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
     });
   };
 
-  const getEquipmentInputProps = (fieldName, parser) => {
+  const onEquipmentChangeRef = useRef(onEquipmentChange);
+  useEffect(() => {
+    onEquipmentChangeRef.current = onEquipmentChange;
+  });
+
+  useEffect(() => {
+    const el = tabsRef.current;
+    if (!el) return;
+
+    const onTabShown = (e) => {
+      const targetId = e.target.getAttribute('data-equipment-type');
+      if (targetId) {
+        onEquipmentChangeRef.current(fieldNamesEQ.TYPE, targetId);
+      }
+    };
+
+    // Attach to the nav container, events bubble
+    el.addEventListener('shown.bs.tab', onTabShown);
+
+    return () => {
+      el.removeEventListener('shown.bs.tab', onTabShown);
+    };
+  }, []);
+
+  const getEquipmentInputProps = (fieldName, parser, idSuffix = '') => {
     return {
       className: 'form-control',
       onChange: (event) => {
@@ -126,217 +153,229 @@ function Equipment({ state, onChange, addNew, remove, isLast, isFirst }) {
         return onEquipmentChange(fieldName, newValue);
       },
       value: state.equipment[fieldName] || '',
-      id: `${fieldName}_input`,
+      id: `${fieldName}_input${idSuffix}`,
     };
+  };
+
+  const renderFields = (type) => {
+    const isRaft = type === EQUIPMENT_TYPES.RAFTBOAT;
+    const isBackpack = type === EQUIPMENT_TYPES.BACKPACK;
+    const suffix = `_${type.replace(/[^a-zA-Z]/g, '')}`;
+    const gp = (name, parser) => getEquipmentInputProps(name, parser, suffix);
+
+    return (
+      <>
+        <div className="row">
+          <div className="mb-3 col-md-3">
+            <label htmlFor={`${fieldNamesEQ.MODEL}_input${suffix}`}>Model</label>
+            <DomainDrivenDropdown
+              featureServiceUrl={equipmentServiceUrl}
+              fieldName={fieldNamesEQ.MODEL}
+              {...gp(fieldNamesEQ.MODEL)}
+            />
+          </div>
+
+          {isRaft ? (
+            <div className="mb-3 col-md-3">
+              <label htmlFor={`${fieldNamesEQ.ARRAY_TYPE}_input${suffix}`}>Array Type</label>
+              <DomainDrivenDropdown
+                featureServiceUrl={equipmentServiceUrl}
+                fieldName={fieldNamesEQ.ARRAY_TYPE}
+                {...gp(fieldNamesEQ.ARRAY_TYPE)}
+              />
+            </div>
+          ) : null}
+
+          <NumericInputValidator>
+            {(getInputProps, validationMessage) => (
+              <div className="mb-3 col-md-3">
+                <label htmlFor={`${fieldNamesEQ.NUM_NETTERS}_input${suffix}`}># Netters</label>
+                <input min="1" max="30" {...getInputProps(gp(fieldNamesEQ.NUM_NETTERS, parseInt))} />
+                {validationMessage}
+              </div>
+            )}
+          </NumericInputValidator>
+
+          {!isBackpack ? (
+            <div className="mb-3 col-md-3">
+              <label htmlFor={`${fieldNamesEQ.CATHODE_TYPE}_input${suffix}`}>Cathode Type</label>
+              <DomainDrivenDropdown
+                featureServiceUrl={equipmentServiceUrl}
+                fieldName={fieldNamesEQ.CATHODE_TYPE}
+                {...gp(fieldNamesEQ.CATHODE_TYPE)}
+              />
+            </div>
+          ) : null}
+        </div>
+
+        <div className="row">
+          <NumericInputValidator>
+            {(getInputProps, validationMessage) => (
+              <div className="mb-3 col-md-4">
+                <label htmlFor={`${fieldNamesEQ.NUM_ANODES}_input${suffix}`}># Anodes</label>
+                <input value="1" min="1" max="5" {...getInputProps(gp(fieldNamesEQ.NUM_ANODES, parseInt))} />
+                {validationMessage}
+              </div>
+            )}
+          </NumericInputValidator>
+
+          <div className="col-md-8">
+            <DataGrid
+              data={state.anodes}
+              onChangeAll={onAnodeGridChange}
+              columns={columns}
+              hiddenColumns={[fieldNamesAN.EQUIPMENT_ID]}
+              idPrefix={suffix}
+            />
+          </div>
+        </div>
+
+        <div className="row">
+          <NumericInputValidator>
+            {(getInputProps, validationMessage) => (
+              <div className="mb-3 col-md-4">
+                <label htmlFor={`${fieldNamesEQ.CATHODE_LEN}_input${suffix}`}>Cathode Length (centimeters)</label>
+                <input min="1" max="305" step="0.01" {...getInputProps(gp(fieldNamesEQ.CATHODE_LEN, parseFloat))} />
+                {validationMessage}
+              </div>
+            )}
+          </NumericInputValidator>
+
+          <NumericInputValidator>
+            {(getInputProps, validationMessage) => (
+              <div className="mb-3 col-md-4">
+                <label htmlFor={`${fieldNamesEQ.CATHODE_DIAMETER}_input${suffix}`}>
+                  Cathode Diameter (centimeters)
+                </label>
+                <input
+                  min="0.1"
+                  max="2.54"
+                  step="0.01"
+                  disabled={state.equipment[fieldNamesEQ.CATHODE_TYPE] === CATHODE_TYPES.BOAT}
+                  {...getInputProps(gp(fieldNamesEQ.CATHODE_DIAMETER, parseFloat))}
+                />
+                {validationMessage}
+              </div>
+            )}
+          </NumericInputValidator>
+
+          <div className="mb-3 col-md-4">
+            <label htmlFor={`${fieldNamesEQ.MACHINE_RES}_input${suffix}`}>Machine Resistance (ohms)</label>
+            <input type="number" {...gp(fieldNamesEQ.MACHINE_RES, parseFloat)} />
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="mb-3 col-md-4">
+            <label htmlFor={`${fieldNamesEQ.WAVEFORM}_input${suffix}`}>Waveform</label>
+            <DomainDrivenDropdown
+              featureServiceUrl={equipmentServiceUrl}
+              fieldName={fieldNamesEQ.WAVEFORM}
+              {...gp(fieldNamesEQ.WAVEFORM)}
+            />
+          </div>
+
+          <NumericInputValidator>
+            {(getInputProps, validationMessage) => (
+              <div className="mb-3 col-md-4">
+                <label htmlFor={`${fieldNamesEQ.VOLTAGE}_input${suffix}`}>Voltage (volts)</label>
+                <input min="0" max="1000" step="0.01" {...getInputProps(gp(fieldNamesEQ.VOLTAGE, parseFloat))} />
+                {validationMessage}
+              </div>
+            )}
+          </NumericInputValidator>
+
+          <NumericInputValidator>
+            {(getInputProps, validationMessage) => (
+              <div className="mb-3 col-md-4">
+                <label htmlFor={`${fieldNamesEQ.DUTY_CYCLE}_input${suffix}`}>Duty Cycle (%)</label>
+                <input min="0" max="100" {...getInputProps(gp(fieldNamesEQ.DUTY_CYCLE, parseInt))} />
+                {validationMessage}
+              </div>
+            )}
+          </NumericInputValidator>
+        </div>
+
+        <div className="row">
+          <NumericInputValidator>
+            {(getInputProps, validationMessage) => (
+              <div className="mb-3 col-md-4">
+                <label htmlFor={`${fieldNamesEQ.FREQUENCY}_input${suffix}`}>Frequency (hertz)</label>
+                <input min="1" max="1000" {...getInputProps(gp(fieldNamesEQ.FREQUENCY, parseInt))} />
+                {validationMessage}
+              </div>
+            )}
+          </NumericInputValidator>
+
+          <NumericInputValidator>
+            {(getInputProps, validationMessage) => (
+              <div className="mb-3 col-md-4">
+                <label htmlFor={`${fieldNamesEQ.AMPS}_input${suffix}`}>Amps</label>
+                <input min="0" max="150" step="0.1" {...getInputProps(gp(fieldNamesEQ.AMPS, parseFloat))} />
+                {validationMessage}
+              </div>
+            )}
+          </NumericInputValidator>
+
+          <NumericInputValidator>
+            {(getInputProps, validationMessage) => (
+              <div className="mb-3 col-md-4">
+                <label htmlFor={`${fieldNamesEQ.DURATION}_input${suffix}`}>Duration/Pedal Time (seconds)</label>
+                <input min="1" max="7200" {...getInputProps(gp(fieldNamesEQ.DURATION, parseInt))} />
+                {validationMessage}
+              </div>
+            )}
+          </NumericInputValidator>
+        </div>
+      </>
+    );
   };
 
   return (
     <div className="equipment">
-      <ul className="nav nav-pills">
-        <li
-          className={state.equipment[fieldNamesEQ.TYPE] === EQUIPMENT_TYPES.BACKPACK ? ACTIVE : null}
-          onClick={() => onEquipmentChange(fieldNamesEQ.TYPE, EQUIPMENT_TYPES.BACKPACK)}
-        >
-          <a href="#" data-toggle="tab">
+      <ul className="nav nav-pills" ref={tabsRef}>
+        <li className="nav-item">
+          <a
+            className={'nav-link active'}
+            href={`#backpack${id}`}
+            data-bs-toggle="tab"
+            data-equipment-type={EQUIPMENT_TYPES.BACKPACK}
+          >
             Backpack
           </a>
         </li>
-        <li
-          className={state.equipment[fieldNamesEQ.TYPE] === EQUIPMENT_TYPES.CANOEBARGE ? ACTIVE : null}
-          onClick={() => onEquipmentChange(fieldNamesEQ.TYPE, EQUIPMENT_TYPES.CANOEBARGE)}
-        >
-          <a href="#" data-toggle="tab">
+        <li className="nav-item">
+          <a
+            className={'nav-link'}
+            href={`#canoe${id}`}
+            data-bs-toggle="tab"
+            data-equipment-type={EQUIPMENT_TYPES.CANOEBARGE}
+          >
             Canoe/Barge
           </a>
         </li>
-        <li
-          className={state.equipment[fieldNamesEQ.TYPE] === EQUIPMENT_TYPES.RAFTBOAT ? ACTIVE : null}
-          onClick={() => onEquipmentChange(fieldNamesEQ.TYPE, EQUIPMENT_TYPES.RAFTBOAT)}
-        >
-          <a href="#" data-toggle="tab">
+        <li className="nav-item">
+          <a
+            className={'nav-link'}
+            href={`#raft${id}`}
+            data-bs-toggle="tab"
+            data-equipment-type={EQUIPMENT_TYPES.RAFTBOAT}
+          >
             Raft/Boat
           </a>
         </li>
       </ul>
 
-      <div className="row">
-        <div className="form-group col-md-3">
-          <label>Model</label>
-          <DomainDrivenDropdown
-            featureServiceUrl={equipmentServiceUrl}
-            fieldName={fieldNamesEQ.MODEL}
-            {...getEquipmentInputProps(fieldNamesEQ.MODEL)}
-          />
+      <div className="tab-content">
+        <div className={'tab-pane fade show active'} id={`backpack${id}`}>
+          {renderFields(EQUIPMENT_TYPES.BACKPACK)}
         </div>
-
-        {state.equipment[fieldNamesEQ.TYPE] === EQUIPMENT_TYPES.RAFTBOAT ? (
-          <div className="form-group col-md-3">
-            <label>Array Type</label>
-            <DomainDrivenDropdown
-              featureServiceUrl={equipmentServiceUrl}
-              fieldName={fieldNamesEQ.ARRAY_TYPE}
-              {...getEquipmentInputProps(fieldNamesEQ.ARRAY_TYPE)}
-            />
-          </div>
-        ) : null}
-
-        <NumericInputValidator>
-          {(getInputProps, getGroupClassName, validationMessage) => (
-            <div className={getGroupClassName('form-group col-md-3')}>
-              <label># Netters</label>
-              <input min="1" max="30" {...getInputProps(getEquipmentInputProps(fieldNamesEQ.NUM_NETTERS, parseInt))} />
-              {validationMessage}
-            </div>
-          )}
-        </NumericInputValidator>
-
-        {state.equipment[fieldNamesEQ.TYPE] !== EQUIPMENT_TYPES.BACKPACK ? (
-          <div className="form-group col-md-3">
-            <label>Cathode Type</label>
-            <DomainDrivenDropdown
-              featureServiceUrl={equipmentServiceUrl}
-              fieldName={fieldNamesEQ.CATHODE_TYPE}
-              {...getEquipmentInputProps(fieldNamesEQ.CATHODE_TYPE)}
-            />
-          </div>
-        ) : null}
-      </div>
-
-      <div className="row">
-        <NumericInputValidator>
-          {(getInputProps, getGroupClassName, validationMessage) => (
-            <div className={getGroupClassName('form-group col-md-4')}>
-              <label className="control-label"># Anodes</label>
-              <input
-                value="1"
-                min="1"
-                max="5"
-                {...getInputProps(getEquipmentInputProps(fieldNamesEQ.NUM_ANODES, parseInt))}
-              />
-              {validationMessage}
-            </div>
-          )}
-        </NumericInputValidator>
-
-        <div className="col-md-8">
-          <DataGrid
-            data={state.anodes}
-            onChangeAll={onAnodeGridChange}
-            columns={columns}
-            hiddenColumns={[fieldNamesAN.EQUIPMENT_ID]}
-          />
+        <div className={'tab-pane fade'} id={`canoe${id}`}>
+          {renderFields(EQUIPMENT_TYPES.CANOEBARGE)}
         </div>
-      </div>
-
-      <div className="row">
-        <NumericInputValidator>
-          {(getInputProps, getGroupClassName, validationMessage) => (
-            <div className={getGroupClassName('form-group col-md-4')}>
-              <label className="control-label">Cathode Length (centimeters)</label>
-              <input
-                min="1"
-                max="305"
-                step="0.01"
-                {...getInputProps(getEquipmentInputProps(fieldNamesEQ.CATHODE_LEN, parseFloat))}
-              />
-              {validationMessage}
-            </div>
-          )}
-        </NumericInputValidator>
-
-        <NumericInputValidator>
-          {(getInputProps, getGroupClassName, validationMessage) => (
-            <div className={getGroupClassName('form-group col-md-4')}>
-              <label className="control-label">Cathode Diameter (centimeters)</label>
-              <input
-                min="0.1"
-                max="2.54"
-                step="0.01"
-                disabled={state.equipment[fieldNamesEQ.CATHODE_TYPE] === CATHODE_TYPES.BOAT}
-                {...getInputProps(getEquipmentInputProps(fieldNamesEQ.CATHODE_DIAMETER, parseFloat))}
-              />
-              {validationMessage}
-            </div>
-          )}
-        </NumericInputValidator>
-
-        <div className="form-group col-md-4">
-          <label className="control-label">Machine Resistance (ohms)</label>
-          <input type="number" {...getEquipmentInputProps(fieldNamesEQ.MACHINE_RES, parseFloat)} />
+        <div className={'tab-pane fade'} id={`raft${id}`}>
+          {renderFields(EQUIPMENT_TYPES.RAFTBOAT)}
         </div>
-      </div>
-
-      <div className="row">
-        <div className="form-group col-md-4">
-          <label className="control-label">Waveform</label>
-          <DomainDrivenDropdown
-            featureServiceUrl={equipmentServiceUrl}
-            fieldName={fieldNamesEQ.WAVEFORM}
-            {...getEquipmentInputProps(fieldNamesEQ.WAVEFORM)}
-          />
-        </div>
-
-        <NumericInputValidator>
-          {(getInputProps, getGroupClassName, validationMessage) => (
-            <div className={getGroupClassName('form-group col-md-4')}>
-              <label className="control-label">Voltage (volts)</label>
-              <input
-                min="0"
-                max="1000"
-                step="0.01"
-                {...getInputProps(getEquipmentInputProps(fieldNamesEQ.VOLTAGE, parseFloat))}
-              />
-              {validationMessage}
-            </div>
-          )}
-        </NumericInputValidator>
-
-        <NumericInputValidator>
-          {(getInputProps, getGroupClassName, validationMessage) => (
-            <div className={getGroupClassName('form-group col-md-4')}>
-              <label className="control-label">Duty Cycle (%)</label>
-              <input min="0" max="100" {...getInputProps(getEquipmentInputProps(fieldNamesEQ.DUTY_CYCLE, parseInt))} />
-              {validationMessage}
-            </div>
-          )}
-        </NumericInputValidator>
-      </div>
-
-      <div className="row">
-        <NumericInputValidator>
-          {(getInputProps, getGroupClassName, validationMessage) => (
-            <div className={getGroupClassName('form-group col-md-4')}>
-              <label className="control-label">Frequency (hertz)</label>
-              <input min="1" max="1000" {...getInputProps(getEquipmentInputProps(fieldNamesEQ.FREQUENCY, parseInt))} />
-              {validationMessage}
-            </div>
-          )}
-        </NumericInputValidator>
-
-        <NumericInputValidator>
-          {(getInputProps, getGroupClassName, validationMessage) => (
-            <div className={getGroupClassName('form-group col-md-4')}>
-              <label className="control-label">Amps</label>
-              <input
-                min="0"
-                max="150"
-                step="0.1"
-                {...getInputProps(getEquipmentInputProps(fieldNamesEQ.AMPS, parseFloat))}
-              />
-              {validationMessage}
-            </div>
-          )}
-        </NumericInputValidator>
-
-        <NumericInputValidator>
-          {(getInputProps, getGroupClassName, validationMessage) => (
-            <div className={getGroupClassName('form-group col-md-4')}>
-              <label className="control-label">Duration/Pedal Time (seconds)</label>
-              <input min="1" max="7200" {...getInputProps(getEquipmentInputProps(fieldNamesEQ.DURATION, parseInt))} />
-              {validationMessage}
-            </div>
-          )}
-        </NumericInputValidator>
       </div>
       <AddRemoveButtons addNew={addNew} remove={remove} isLast={isLast} isFirst={isFirst} />
     </div>
