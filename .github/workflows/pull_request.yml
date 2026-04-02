@@ -20,19 +20,19 @@ jobs:
 
     steps:
       - name: ⬇️ Set up code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           show-progress: false
 
       - name: 💾 Cache firebase emulators
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: /home/runner/.cache/firebase/emulators
           key: ${{ runner.os }}-firebase-emulators-${{ hashFiles('emulator-cache/**') }}
         continue-on-error: true
 
       - name: 📦 Setup PNPM
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v5
         with:
           version: latest
 
@@ -62,7 +62,7 @@ jobs:
         run: pnpm run e2e
 
       - name: ⬆️ Upload Artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: playwright-report
@@ -75,12 +75,12 @@ jobs:
 
     steps:
       - name: ⬇️ Set up code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           show-progress: false
 
       - name: 📦 Setup PNPM
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v5
         with:
           version: latest
 
@@ -101,12 +101,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           show-progress: false
 
       - name: 📦 Setup PNPM
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v5
         with:
           version: latest
 
@@ -136,7 +136,7 @@ jobs:
 
     steps:
       - name: 🚀 Deploy
-        uses: agrc/firebase-website-deploy-composite-action@v1
+        uses: agrc/firebase-website-deploy-composite-action@v2
         with:
           identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
           service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
